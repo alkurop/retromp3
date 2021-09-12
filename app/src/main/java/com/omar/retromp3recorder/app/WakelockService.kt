@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_MUTABLE
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -68,7 +69,7 @@ class WakelockService : Service() {
     private fun showPlayingNotification() {
         val pendingIntent: PendingIntent =
             Intent(this, MainActivity::class.java).let { notificationIntent ->
-                PendingIntent.getActivity(this, 0, notificationIntent, 0)
+                PendingIntent.getActivity(this, 0, notificationIntent, FLAG_MUTABLE)
             }
         val notification = NotificationCompat.Builder(this, WAKELOCK_SERVICE_CHANNEL)
             .setContentTitle(getText(R.string.app_name))
@@ -85,7 +86,7 @@ class WakelockService : Service() {
     private fun showRecordingNotification() {
         val pendingIntent: PendingIntent =
             Intent(this, MainActivity::class.java).let { notificationIntent ->
-                PendingIntent.getActivity(this, 0, notificationIntent, 0)
+                PendingIntent.getActivity(this, 0, notificationIntent, FLAG_MUTABLE)
             }
         val notification = NotificationCompat.Builder(this, WAKELOCK_SERVICE_CHANNEL)
             .setContentTitle(getText(R.string.app_name))

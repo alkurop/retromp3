@@ -89,7 +89,6 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
             .doFinally { state.onNext(Mp3VoiceRecorder.State.Idle) }
             .subscribe()
             .disposedBy(compositeDisposable)
-        error("test")
     }
 
     override fun isRecording(): Boolean =
