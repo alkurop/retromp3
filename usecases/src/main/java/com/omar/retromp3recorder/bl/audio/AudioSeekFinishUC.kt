@@ -20,7 +20,7 @@ class AudioSeekFinishUC @Inject constructor(
                 Completable.fromAction {
                     val position = progress.value!!.progress
 
-                    when (state!!) {
+                    when (state) {
                         AudioPlayer.State.Playing -> {
                             error("Should not be seeking during $state")
                         }

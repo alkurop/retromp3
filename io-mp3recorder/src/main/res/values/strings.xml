@@ -1,6 +1,6 @@
 <resources>
     <string name="rcdr_media_output">Media Output</string>
-    <string name="rcdr_call">Call</string>
+    <string name="rcdr_games">Games</string>
     <string name="rcdr_audio_length">audio length = %1$.1f seconds</string>
     <string name="rcdr_audio_record_bad_value">AudioRecord.ERROR_BAD_VALUE</string>
     <string name="rcdr_compression_rate">"%1$.1f kb per second"</string>
