@@ -32,10 +32,10 @@ class WakelockService : Service() {
         powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, WAKELOCK_ID)
     }
 
-    override fun onBind(intent: Intent?) = null
+    override fun onBind(intent: Intent): Nothing? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return START_NOT_STICKY
+        return START_STICKY
     }
 
     override fun onCreate() {
@@ -80,7 +80,7 @@ class WakelockService : Service() {
             .setTicker(getText(R.string.app_name))
             .setVisibility(VISIBILITY_PUBLIC)
             .build()
-        startForeground(NOTIFICATION_ID, notification)
+        startForeground(WAKELOCK_NOTIFICATION_ID, notification)
     }
 
     private fun showRecordingNotification() {
@@ -97,11 +97,11 @@ class WakelockService : Service() {
             .setTicker(getText(R.string.app_name))
             .setVisibility(VISIBILITY_PUBLIC)
             .build()
-        startForeground(NOTIFICATION_ID, notification)
+        startForeground(WAKELOCK_NOTIFICATION_ID, notification)
     }
 
     private fun hideNotification() {
-        notificationManager.cancel(NOTIFICATION_ID)
+        notificationManager.cancel(WAKELOCK_NOTIFICATION_ID)
     }
 
     private fun createNotificationChannel() {
@@ -127,8 +127,8 @@ class WakelockService : Service() {
     }
 
     companion object {
-        private const val WAKELOCK_SERVICE_CHANNEL = "WAKELOCK_SERVICE_CHANNEL"
         private const val WAKELOCK_ID = "RetroMp3Recorder:Wakywaky"
-        private const val NOTIFICATION_ID = 111
+        const val WAKELOCK_SERVICE_CHANNEL = "WAKELOCK_SERVICE_CHANNEL"
+        const val WAKELOCK_NOTIFICATION_ID = 111
     }
 }

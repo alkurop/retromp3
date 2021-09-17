@@ -10,8 +10,9 @@ class ConfigModule {
     @Provides
     fun provideRecorderDefaults(): RecorderDefaults {
         return RecorderDefaults(
-            Mp3VoiceRecorder.BitRate._320,
-            Mp3VoiceRecorder.SampleRate._44100
+            bitRate = Mp3VoiceRecorder.BitRate._320,
+            sampleRate = Mp3VoiceRecorder.SampleRate._44100,
+            audioSourcePref = Mp3VoiceRecorder.AudioSourcePref.Mic
         )
     }
 

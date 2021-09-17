@@ -2,16 +2,15 @@ package com.omar.retromp3recorder.bl.audio
 
 import android.Manifest
 import com.omar.retromp3recorder.bl.CheckPermissionsUC
+import com.omar.retromp3recorder.bl.RequestMediaProjectionUC
 import com.omar.retromp3recorder.bl.files.GenerateDirIfNotExistsUC
 import com.omar.retromp3recorder.bl.files.GetNewFileNameUC
 import com.omar.retromp3recorder.bl.files.IncrementFileNameUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.storage.repo.BitRateRepo
-import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
-import com.omar.retromp3recorder.storage.repo.RequestPermissionsRepo
-import com.omar.retromp3recorder.storage.repo.RequestPermissionsRepo.ShouldRequestPermissions
-import com.omar.retromp3recorder.storage.repo.SampleRateRepo
+import com.omar.retromp3recorder.storage.repo.*
+import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions
 import com.omar.retromp3recorder.utils.Optional
+import com.omar.retromp3recorder.utils.ServiceDealer
 import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -19,23 +18,65 @@ import io.reactivex.rxjava3.functions.Function3
 import javax.inject.Inject
 
 class StartRecordUC @Inject constructor(
-    private val bitRateRepo: BitRateRepo,
+    private val audioAudioSourceRepo: AudioSourceRepo,
     private val checkPermissionsUC: CheckPermissionsUC,
+    private val captureCompletableCreator: CaptureCompletableCreator,
+    private val permissionsRequestBus: PermissionsRequestBus,
+    private val projectionRepo: MediaProjectionRepo,
+    private val requestMediaProjectionUC: RequestMediaProjectionUC,
+    private val serviceDealer: ServiceDealer,
+) {
+    fun execute(): Completable {
+        val executeProjection = Completable
+            .fromAction { serviceDealer.startMediaProjectionService() }
+            .andThen(projectionRepo.observe().takeOne())
+            .flatMapCompletable {
+                val projection = it.value
+                if (projection != null) {
+                    captureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Output(projection))
+                } else {
+                    requestMediaProjectionUC.execute()
+                }
+            }
+
+        val executeMic = captureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Mic)
+
+        val abort = Completable.complete()
+        return checkPermissionsUC
+            .execute(voiceRecordPermissions)
+            .andThen(permissionsRequestBus.observe().takeOne())
+            .flatMapCompletable { shouldAskPermissions ->
+                if (shouldAskPermissions is ShouldRequestPermissions.Granted) {
+                    audioAudioSourceRepo.observe().takeOne().switchMapCompletable {
+                        @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
+                        when (it) {
+                            Mp3VoiceRecorder.AudioSourcePref.Mic -> executeMic
+                            Mp3VoiceRecorder.AudioSourcePref.Output -> executeProjection
+                        }
+                    }
+                } else {
+                    abort
+                }
+            }
+    }
+}
+
+class CaptureCompletableCreator @Inject constructor(
+    private val bitRateRepo: BitRateRepo,
     private val currentFileRepo: CurrentFileRepo,
-    private val getNewFileNameUC: GetNewFileNameUC,
-    private val generateDirIfNotExistsUC: GenerateDirIfNotExistsUC,
     private val incrementFileNameUC: IncrementFileNameUC,
-    private val requestPermissionsRepo: RequestPermissionsRepo,
+    private val generateDirIfNotExistsUC: GenerateDirIfNotExistsUC,
+    private val getNewFileNameUC: GetNewFileNameUC,
     private val sampleRateRepo: SampleRateRepo,
     private val voiceRecorder: Mp3VoiceRecorder
 ) {
-    fun execute(): Completable {
+    fun create(audioSource: Mp3VoiceRecorder.AudioSource): Completable {
         val propsZipper = Function3 { filepath: String,
                                       bitRate: Mp3VoiceRecorder.BitRate,
                                       sampleRate: Mp3VoiceRecorder.SampleRate ->
-            Mp3VoiceRecorder.RecorderProps(filepath, bitRate, sampleRate)
+            Mp3VoiceRecorder.RecorderProps(filepath, bitRate, sampleRate, audioSource)
         }
-        val execute = generateDirIfNotExistsUC.execute()
+        return generateDirIfNotExistsUC.execute()
             .andThen(
                 Observable.zip(
                     getNewFileNameUC.execute().toObservable(),
@@ -47,21 +88,14 @@ class StartRecordUC @Inject constructor(
             .flatMapCompletable { props: Mp3VoiceRecorder.RecorderProps ->
                 Completable.fromAction {
                     currentFileRepo.onNext(Optional(props.filepath))
-                    voiceRecorder.record(props)
+                    voiceRecorder.recordWithProps(props)
                 }
             }
             .andThen(incrementFileNameUC.execute())
-        val abort = Completable.complete()
-        return checkPermissionsUC
-            .execute(voiceRecordPermissions)
-            .andThen(requestPermissionsRepo.observe().takeOne())
-            .flatMapCompletable { shouldAskPermissions ->
-                if (shouldAskPermissions is ShouldRequestPermissions.Granted) execute else abort
-            }
     }
-
-    private val voiceRecordPermissions: Set<String> = setOf(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.RECORD_AUDIO
-    )
 }
+
+private val voiceRecordPermissions: Set<String> = setOf(
+    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    Manifest.permission.RECORD_AUDIO
+)

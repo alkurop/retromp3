@@ -1,0 +1,103 @@
+package com.omar.retromp3recorder.app
+
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
+import com.omar.retromp3recorder.app.WakelockService.Companion.WAKELOCK_SERVICE_CHANNEL
+import com.omar.retromp3recorder.app.ui.main.MainActivity
+import com.omar.retromp3recorder.storage.repo.MediaProjectionRepo
+import com.omar.retromp3recorder.storage.repo.MediaProjectionStopBus
+import com.omar.retromp3recorder.utils.disposedBy
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javax.inject.Inject
+
+class MediaProjectionService : Service() {
+    @Inject
+    lateinit var mediaProjectionRepo: MediaProjectionRepo
+
+    @Inject
+    lateinit var mediaProjectionStopBus: MediaProjectionStopBus
+    private val compositeDisposable = CompositeDisposable()
+    private val notificationManager: NotificationManager by lazy {
+        getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
+
+    override fun onBind(intent: Intent): Nothing? = null
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return START_STICKY
+    }
+
+    override fun onCreate() {
+        App.appComponent.inject(this)
+        createNotificationChannel()
+        showRecordingNotification()
+        observeStopBus()
+    }
+
+    override fun onDestroy() {
+        compositeDisposable.clear()
+    }
+
+    private fun observeStopBus() {
+        Completable
+            .merge(
+                listOf(
+                    mediaProjectionStopBus.observe()
+                        .flatMapCompletable {
+                            val shouldStop = it.ghost != null
+                            if (shouldStop) {
+                                Completable.fromAction { stopSelf(); hideNotification() }
+                            } else {
+                                Completable.complete()
+                            }
+                        },
+                )
+            )
+            .subscribe()
+            .disposedBy(compositeDisposable)
+    }
+
+    private fun showRecordingNotification() {
+        val pendingIntent: PendingIntent =
+            Intent(this, MainActivity::class.java).let { notificationIntent ->
+                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE)
+            }
+        val notification = NotificationCompat.Builder(this, WAKELOCK_SERVICE_CHANNEL)
+            .setContentTitle(getText(R.string.projection_notification_title))
+            .setContentText(getText(R.string.projection_notification_message))
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setTicker(getText(R.string.app_name))
+            .setVisibility(VISIBILITY_PUBLIC)
+            .build()
+        startForeground(MEDIA_PROJECTION_NOTIFICATION_ID, notification)
+    }
+
+    private fun hideNotification() {
+        notificationManager.cancel(MEDIA_PROJECTION_NOTIFICATION_ID)
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(WAKELOCK_SERVICE_CHANNEL, name, importance).apply {
+                description = descriptionText
+            }
+
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+}
+
+private const val MEDIA_PROJECTION_NOTIFICATION_ID = 222

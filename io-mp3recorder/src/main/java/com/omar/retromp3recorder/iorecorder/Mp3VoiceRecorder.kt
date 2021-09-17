@@ -1,12 +1,15 @@
 package com.omar.retromp3recorder.iorecorder
 
 import android.media.AudioFormat
+import android.media.projection.MediaProjection
+import androidx.annotation.StringRes
 import com.github.alkurop.stringerbell.Stringer
+import com.omar.retromp3recorder.app.iorecorder.R
 import io.reactivex.rxjava3.core.Observable
 
 interface Mp3VoiceRecorder {
     fun observeEvents(): Observable<Event>
-    fun record(props: RecorderProps)
+    fun recordWithProps(props: RecorderProps)
     fun stopRecord()
     fun isRecording(): Boolean
 
@@ -18,6 +21,18 @@ interface Mp3VoiceRecorder {
         _320(320), _192(192), _160(160), _128(128);
     }
 
+    enum class AudioSourcePref(
+        @StringRes val title: Int
+    ) {
+        Mic(title = R.string.rcdr_mic),
+        Output(title = R.string.rcdr_audio_output),
+    }
+
+    sealed class AudioSource {
+        object Mic : AudioSource()
+        class Output(val mediaProjection: MediaProjection) : AudioSource()
+    }
+
     sealed class Event {
         data class Message(val message: Stringer) : Event()
         data class Error(val error: Stringer) : Event()
@@ -27,6 +42,7 @@ interface Mp3VoiceRecorder {
         val filepath: String,
         val bitRate: BitRate,
         val sampleRate: SampleRate,
+        val audioSourcePref: AudioSource
     )
 
     companion object {

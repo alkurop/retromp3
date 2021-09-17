@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.di
 
 import android.app.Application
 import android.content.Context
-import com.omar.retromp3recorder.app.WakelockDealerImpl
+import com.omar.retromp3recorder.app.ServiceDealerImpl
 import com.omar.retromp3recorder.utils.*
 import com.omar.retromp3recorder.utils.Constants.MAIN_THREAD
 import dagger.Module
@@ -59,6 +59,6 @@ class UtilsModule(private val app: Application) {
         mp3TagsEditorImpl
 
     @Provides
-    fun provideWakelockDealer(wakelockDealerImpl: WakelockDealerImpl): WakeLockDealer =
-        wakelockDealerImpl
+    fun provideWakelockDealer(serviceDealerImpl: ServiceDealerImpl): ServiceDealer =
+        serviceDealerImpl
 }

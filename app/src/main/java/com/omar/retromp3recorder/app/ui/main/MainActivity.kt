@@ -1,11 +1,17 @@
 package com.omar.retromp3recorder.app.ui.main
 
 import android.Manifest
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.media.projection.MediaProjection
+import android.media.projection.MediaProjectionManager
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -22,6 +28,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val permissionsMap: Map<String, PermissionOptionalDetails> by lazy { createPermissionsMap() }
     private val viewModel by viewModels<MainViewModel>()
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
+    private val mediaProjectionManager by lazy { getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +37,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun renderView(state: MainView.State) {
-        renderPermissions(state.requestForPermissions.ghost)
+        state.apply {
+            requestForPermissions.ghost?.let { makePermissionsRequest(it) }
+            requestForScreenCapture.ghost?.let { makeScreenCaptureRequest() }
+        }
+    }
+
+    private fun makeScreenCaptureRequest() {
+        startActivityForResult(
+            mediaProjectionManager.createScreenCaptureIntent(),
+            MEDIA_PROJECTION_REQUEST_CODE
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -67,10 +84,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             )
         ).toMap()
 
-    private fun renderPermissions(requestForPermissions: Set<String>?) {
-        if (requestForPermissions == null) {
-            return
-        }
+    private fun makePermissionsRequest(requestForPermissions: Set<String>) {
         val permissionRequests = HashMap<String, PermissionOptionalDetails?>()
         for (permissionName in requestForPermissions) {
             permissionRequests[permissionName] = permissionsMap[permissionName]
@@ -78,4 +92,26 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         permissionsManager.addPermissions(permissionRequests)
         permissionsManager.makePermissionRequest(true)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == MEDIA_PROJECTION_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                val projection = mediaProjectionManager.getMediaProjection(resultCode, data)
+                viewModel.input.onNext(MainView.Input.MediaProjectionUpdated(projection))
+                Toast.makeText(this, getString(R.string.projection_acquired), Toast.LENGTH_LONG).show()
+                projection.registerCallback(object : MediaProjection.Callback() {
+                    override fun onStop() {
+                        viewModel.input.onNext(MainView.Input.MediaProjectionUpdated(null))
+                    }
+                }, Handler())
+            } else {
+                Toast.makeText(this, getString(R.string.projection_not_acquired), Toast.LENGTH_LONG).show()
+                viewModel.input.onNext(MainView.Input.MediaProjectionUpdated(null))
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
 }
+
+private const val MEDIA_PROJECTION_REQUEST_CODE = 22

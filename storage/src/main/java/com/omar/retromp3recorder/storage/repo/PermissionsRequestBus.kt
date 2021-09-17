@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RequestPermissionsRepo @Inject constructor() : BehaviorSubjectRepo<RequestPermissionsRepo.ShouldRequestPermissions>(){
+class PermissionsRequestBus @Inject constructor() : BehaviorSubjectRepo<PermissionsRequestBus.ShouldRequestPermissions>(){
     sealed class ShouldRequestPermissions {
         object Granted : ShouldRequestPermissions()
         data class Denied(val permissions: Shell<Set<String>>) : ShouldRequestPermissions()

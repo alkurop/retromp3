@@ -20,10 +20,15 @@ object MainViewOutputMapper {
                 is MainView.Output.RequestPermissionsOutput -> oldState.copy(
                     requestForPermissions = Shell(output.permissionsToRequest)
                 )
+                is MainView.Output.RequestScreenCapture ->
+                    oldState.copy(
+                        requestForScreenCapture = Shell(output.shouldRequest)
+                    )
             }
         }
 
     private fun getDefaultViewModel() = MainView.State(
-        requestForPermissions = Shell.empty()
+        requestForPermissions = Shell.empty(),
+        requestForScreenCapture = Shell.empty(),
     )
 }

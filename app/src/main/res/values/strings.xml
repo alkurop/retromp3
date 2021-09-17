@@ -1,4 +1,5 @@
 <resources>
+    <string name="audio_source">Audio Source (Available starting Android 10)</string>
     <string name="app_name_short">Recorder</string>
     <string name="app_name">Retro Mp3 Recorder</string>
     <string name="bit_rate">Bit Rate</string>
@@ -7,10 +8,15 @@
     <string name="channel_description">channel_description</string>
     <string name="current_file">Current file</string>
     <string name="delete_file">Delete file</string>
+    <string name="experimental_features">Experimental features:</string>
     <string name="error_string">Error: %1$s</string>
     <string name="no_file">Please record something</string>
     <string name="no">No</string>
     <string name="playing">Playing ...</string>
+    <string name="projection_acquired">Projection acquired</string>
+    <string name="projection_not_acquired">Projection not acquired</string>
+    <string name="projection_notification_message">Media Projection acquired</string>
+    <string name="projection_notification_title">Allowed to record output audio</string>
     <string name="record_permission_title">Record Audio</string>
     <string name="record_permission_message">This app is going to record audio files using your mic.</string>
     <string name="record_required_message">Recording audio is required. Go to settings let this app use Microphone</string>
@@ -24,4 +30,5 @@
     <string name="write_permission_message">This app is going to save mp3 files to your phone.</string>
     <string name="write_permission_title">Write Storage</string>
     <string name="yes">Yes</string>
+
 </resources>

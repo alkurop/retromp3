@@ -1,7 +1,9 @@
 package com.omar.retromp3recorder.app.ui.main
 
 import com.omar.retromp3recorder.app.ui.main.MainView.Output
-import com.omar.retromp3recorder.storage.repo.RequestPermissionsRepo
+import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
+import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
+import com.omar.retromp3recorder.storage.repo.MediaProjectionRequestBus
 import com.omar.retromp3recorder.utils.flatMapGhost
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
@@ -12,23 +14,39 @@ import javax.inject.Inject
 
 class MainViewInteractor @Inject constructor(
     private val scheduler: Scheduler,
-    private val requestPermissionsRepo: RequestPermissionsRepo,
+    private val permissionsRequestBus: PermissionsRequestBus,
+    private val mediaProjectionRequestBus: MediaProjectionRequestBus,
+    private val updateMediaProjectionUC: UpdateMediaProjectionUC
 ) {
 
     fun processIO(): ObservableTransformer<MainView.Input, Output> =
         scheduler.processIO(
-            inputMapper = { Completable.never() },
+            inputMapper = mapInputToUsecase,
             outputMapper = mapRepoToOutput
         )
 
     private val mapRepoToOutput: () -> (Observable<Output>) = {
-        Observable.merge(listOf(
-            requestPermissionsRepo.observe()
-                .ofType(RequestPermissionsRepo.ShouldRequestPermissions.Denied::class.java)
-                .map { it.permissions }
-                .flatMapGhost()
-                .map { denied -> Output.RequestPermissionsOutput(denied) },
-        )
+        Observable.merge(
+            listOf(
+                permissionsRequestBus.observe()
+                    .ofType(PermissionsRequestBus.ShouldRequestPermissions.Denied::class.java)
+                    .map { it.permissions }
+                    .flatMapGhost()
+                    .map { denied -> Output.RequestPermissionsOutput(denied) },
+                mediaProjectionRequestBus.observe()
+                    .flatMapGhost()
+                    .map { request -> Output.RequestScreenCapture(request) }
+            )
         )
     }
+
+    private val mapInputToUsecase: (Observable<MainView.Input>) -> Completable =
+        { input ->
+            Completable.merge(
+                listOf(
+                    input.ofType(MainView.Input.MediaProjectionUpdated::class.java)
+                        .flatMapCompletable { updateMediaProjectionUC.execute(it.mediaProjection) }
+                )
+            )
+        }
 }
