@@ -26,7 +26,7 @@ interface Mp3VoiceRecorder {
     ) {
         Mic(title = R.string.rcdr_mic),
         Media(title = R.string.rcdr_media_output),
-        Call(title = R.string.rcdr_call),
+        Games(title = R.string.rcdr_games),
     }
 
     sealed class AudioSource {

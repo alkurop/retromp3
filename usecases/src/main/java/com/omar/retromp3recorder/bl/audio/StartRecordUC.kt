@@ -1,8 +1,7 @@
 package com.omar.retromp3recorder.bl.audio
 
 import android.Manifest
-import android.media.AudioAttributes.USAGE_MEDIA
-import android.media.AudioAttributes.USAGE_VOICE_COMMUNICATION
+import android.media.AudioAttributes.*
 import com.omar.retromp3recorder.bl.CheckPermissionsUC
 import com.omar.retromp3recorder.bl.RequestMediaProjectionUC
 import com.omar.retromp3recorder.bl.files.GenerateDirIfNotExistsUC
@@ -55,8 +54,7 @@ class StartRecordUC @Inject constructor(
                         when (it) {
                             Mp3VoiceRecorder.AudioSourcePref.Mic -> executeMic()
                             Mp3VoiceRecorder.AudioSourcePref.Media -> executeMedia(USAGE_MEDIA)
-                            Mp3VoiceRecorder.AudioSourcePref.Call ->  executeMedia(
-                                USAGE_VOICE_COMMUNICATION)
+                            Mp3VoiceRecorder.AudioSourcePref.Games -> executeMedia(USAGE_GAME)
                         }
                     }
                 } else {
