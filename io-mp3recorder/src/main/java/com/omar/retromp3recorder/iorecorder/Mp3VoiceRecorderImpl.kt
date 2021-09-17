@@ -74,6 +74,7 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
             is Mp3VoiceRecorder.AudioSource.Output -> {
                 findAudioRecordForMediaProjection(
                     audioSource.mediaProjection,
+                    audioSource.source,
                     minBufferSize,
                     sampleRate = props.sampleRate.value
                 )
@@ -165,11 +166,12 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
     @SuppressLint("MissingPermission")
     private fun findAudioRecordForMediaProjection(
         mediaProjection: MediaProjection,
+        source: Int,
         minBufferSize: Int,
         sampleRate: Int,
     ): Single<AudioRecord> = Single.fromCallable {
         val config = AudioPlaybackCaptureConfiguration.Builder(mediaProjection)
-            .addMatchingUsage(AudioAttributes.USAGE_MEDIA)
+            .addMatchingUsage(source)
             .build()
 
         val audioFormat = AudioFormat.Builder()

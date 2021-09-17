@@ -4,7 +4,7 @@
     <string name="app_name">Retro Mp3 Recorder</string>
     <string name="bit_rate">Bit Rate</string>
     <string name="bit_rate_format">"%1$d kbps"</string>
-    <string name="channel_name">channel_name</string>
+    <string name="channel_name">Service notifications</string>
     <string name="channel_description">channel_description</string>
     <string name="current_file">Current file</string>
     <string name="delete_file">Delete file</string>

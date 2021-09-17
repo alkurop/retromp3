@@ -25,12 +25,13 @@ interface Mp3VoiceRecorder {
         @StringRes val title: Int
     ) {
         Mic(title = R.string.rcdr_mic),
-        Output(title = R.string.rcdr_audio_output),
+        Media(title = R.string.rcdr_media_output),
+        Call(title = R.string.rcdr_call),
     }
 
     sealed class AudioSource {
         object Mic : AudioSource()
-        class Output(val mediaProjection: MediaProjection) : AudioSource()
+        class Output(val mediaProjection: MediaProjection, val source: Int) : AudioSource()
     }
 
     sealed class Event {
