@@ -43,7 +43,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
                     android:text="@string/experimental_features" />
 
                 <androidx.fragment.app.FragmentContainerView

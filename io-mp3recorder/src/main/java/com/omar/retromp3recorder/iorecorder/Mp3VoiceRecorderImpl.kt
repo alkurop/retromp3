@@ -2,7 +2,10 @@ package com.omar.retromp3recorder.iorecorder
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.media.*
+import android.media.AudioFormat
+import android.media.AudioPlaybackCaptureConfiguration
+import android.media.AudioRecord
+import android.media.MediaRecorder
 import android.media.projection.MediaProjection
 import android.os.Build
 import android.os.Process
@@ -72,11 +75,19 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
                 )
             }
             is Mp3VoiceRecorder.AudioSource.Output -> {
-                findAudioRecordForMediaProjection(
-                    audioSource.mediaProjection,
-                    minBufferSize,
-                    sampleRate = props.sampleRate.value
-                )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    findAudioRecordForMediaProjection(
+                        audioSource.mediaProjection,
+                        audioSource.source,
+                        minBufferSize,
+                        sampleRate = props.sampleRate.value
+                    )
+                } else {
+                    findAudioRecordForMic(
+                        minBufferSize = minBufferSize,
+                        sampleRate = props.sampleRate.value
+                    )
+                }
             }
         }
 
@@ -165,11 +176,12 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
     @SuppressLint("MissingPermission")
     private fun findAudioRecordForMediaProjection(
         mediaProjection: MediaProjection,
+        source: Int,
         minBufferSize: Int,
         sampleRate: Int,
     ): Single<AudioRecord> = Single.fromCallable {
         val config = AudioPlaybackCaptureConfiguration.Builder(mediaProjection)
-            .addMatchingUsage(AudioAttributes.USAGE_MEDIA)
+            .addMatchingUsage(source)
             .build()
 
         val audioFormat = AudioFormat.Builder()

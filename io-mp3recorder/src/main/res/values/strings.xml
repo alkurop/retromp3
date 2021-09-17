@@ -1,5 +1,6 @@
 <resources>
-    <string name="rcdr_audio_output">Audio Output</string>
+    <string name="rcdr_media_output">Media Output</string>
+    <string name="rcdr_games">Games</string>
     <string name="rcdr_audio_length">audio length = %1$.1f seconds</string>
     <string name="rcdr_audio_record_bad_value">AudioRecord.ERROR_BAD_VALUE</string>
     <string name="rcdr_compression_rate">"%1$.1f kb per second"</string>
@@ -11,5 +12,4 @@
     <string name="rcdr_flush_error">Error flushing remaining bytes %1$s </string>
     <string name="rcdr_mic">Mic</string>
     <string name="rcdr_recording_mp3_at">"recording MP3 at %1$d kbps, %2$d hz"</string>
-
 </resources>

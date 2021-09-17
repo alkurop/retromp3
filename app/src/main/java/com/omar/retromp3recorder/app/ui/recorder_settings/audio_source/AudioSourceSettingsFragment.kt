@@ -37,7 +37,9 @@ class AudioSourceSettingsFragment : RecorderSettingsBaseFragment() {
             .observe(viewLifecycleOwner) { state ->
                 group.forEachIndexed { index, radioButton ->
                     radioButton.isChecked = state.ordinal == index
-                    radioButton.isClickable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                    val canSwitch = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                    radioButton.isClickable = canSwitch
+                    radioButton.alpha = if(canSwitch) 1f else 0.5f
                 }
             }
     }

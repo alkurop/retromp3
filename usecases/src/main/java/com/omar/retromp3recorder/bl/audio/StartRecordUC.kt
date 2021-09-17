@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.bl.audio
 
 import android.Manifest
+import android.media.AudioAttributes.*
 import com.omar.retromp3recorder.bl.CheckPermissionsUC
 import com.omar.retromp3recorder.bl.RequestMediaProjectionUC
 import com.omar.retromp3recorder.bl.files.GenerateDirIfNotExistsUC
@@ -27,19 +28,20 @@ class StartRecordUC @Inject constructor(
     private val serviceDealer: ServiceDealer,
 ) {
     fun execute(): Completable {
-        val executeProjection = Completable
+        fun executeMedia(source: Int) = Completable
             .fromAction { serviceDealer.startMediaProjectionService() }
             .andThen(projectionRepo.observe().takeOne())
             .flatMapCompletable {
                 val projection = it.value
                 if (projection != null) {
-                    captureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Output(projection))
+                    captureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Output(projection, source))
                 } else {
                     requestMediaProjectionUC.execute()
                 }
             }
 
-        val executeMic = captureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Mic)
+
+        fun executeMic() = captureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Mic)
 
         val abort = Completable.complete()
         return checkPermissionsUC
@@ -50,8 +52,9 @@ class StartRecordUC @Inject constructor(
                     audioAudioSourceRepo.observe().takeOne().switchMapCompletable {
                         @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
                         when (it) {
-                            Mp3VoiceRecorder.AudioSourcePref.Mic -> executeMic
-                            Mp3VoiceRecorder.AudioSourcePref.Output -> executeProjection
+                            Mp3VoiceRecorder.AudioSourcePref.Mic -> executeMic()
+                            Mp3VoiceRecorder.AudioSourcePref.Media -> executeMedia(USAGE_MEDIA)
+                            Mp3VoiceRecorder.AudioSourcePref.Games -> executeMedia(USAGE_GAME)
                         }
                     }
                 } else {
