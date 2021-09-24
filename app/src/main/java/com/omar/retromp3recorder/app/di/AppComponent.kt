@@ -23,6 +23,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
+        AndroidModule::class,
         ConfigModule::class,
         FunctionalityModule::class,
         RepoModule::class,
