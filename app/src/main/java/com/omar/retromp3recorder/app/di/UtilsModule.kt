@@ -1,8 +1,6 @@
 package com.omar.retromp3recorder.app.di
 
-import android.app.Application
-import android.content.Context
-import com.omar.retromp3recorder.app.ServiceDealerImpl
+import com.google.gson.Gson
 import com.omar.retromp3recorder.utils.*
 import com.omar.retromp3recorder.utils.Constants.MAIN_THREAD
 import dagger.Module
@@ -13,7 +11,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Named
 
 @Module
-class UtilsModule(private val app: Application) {
+class UtilsModule {
     @Provides
     fun provideScheduler(): Scheduler {
         return Schedulers.io()
@@ -23,11 +21,6 @@ class UtilsModule(private val app: Application) {
     @Named(MAIN_THREAD)
     fun provideMainThreadScheduler(): Scheduler {
         return AndroidSchedulers.mainThread()
-    }
-
-    @Provides
-    fun context(): Context {
-        return app
     }
 
     @Provides
@@ -59,6 +52,6 @@ class UtilsModule(private val app: Application) {
         mp3TagsEditorImpl
 
     @Provides
-    fun provideWakelockDealer(serviceDealerImpl: ServiceDealerImpl): ServiceDealer =
-        serviceDealerImpl
+    fun provideGson(): Gson = Gson()
+
 }

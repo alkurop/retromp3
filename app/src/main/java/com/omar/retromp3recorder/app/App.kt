@@ -2,9 +2,9 @@ package com.omar.retromp3recorder.app
 
 import android.app.Application
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.omar.retromp3recorder.app.di.AndroidModule
 import com.omar.retromp3recorder.app.di.AppComponent
 import com.omar.retromp3recorder.app.di.DaggerAppComponent
-import com.omar.retromp3recorder.app.di.UtilsModule
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.WakeLockUsecase
 import com.omar.retromp3recorder.bl.audio.PlayerProgressMapper
@@ -43,7 +43,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerAppComponent.builder().utilsModule(UtilsModule(this)).build()
+        appComponent = DaggerAppComponent.builder().androidModule(AndroidModule(this)).build()
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         } else {
