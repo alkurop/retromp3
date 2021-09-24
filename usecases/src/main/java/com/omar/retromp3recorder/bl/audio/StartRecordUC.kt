@@ -12,7 +12,7 @@ import com.omar.retromp3recorder.storage.repo.*
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions
 import com.omar.retromp3recorder.utils.Optional
 import com.omar.retromp3recorder.utils.ServiceDealer
-import com.omar.retromp3recorder.utils.takeOne
+import com.omar.retromp3recorder.utils.takeOneObservable
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Function3
@@ -30,7 +30,7 @@ class StartRecordUC @Inject constructor(
     fun execute(): Completable {
         fun executeMedia(source: Int) = Completable
             .fromAction { serviceDealer.startMediaProjectionService() }
-            .andThen(projectionRepo.observe().takeOne())
+            .andThen(projectionRepo.observe().takeOneObservable())
             .flatMapCompletable {
                 val projection = it.value
                 if (projection != null) {
@@ -46,10 +46,10 @@ class StartRecordUC @Inject constructor(
         val abort = Completable.complete()
         return checkPermissionsUC
             .execute(voiceRecordPermissions)
-            .andThen(permissionsRequestBus.observe().takeOne())
+            .andThen(permissionsRequestBus.observe().takeOneObservable())
             .flatMapCompletable { shouldAskPermissions ->
                 if (shouldAskPermissions is ShouldRequestPermissions.Granted) {
-                    audioAudioSourceRepo.observe().takeOne().switchMapCompletable {
+                    audioAudioSourceRepo.observe().takeOneObservable().switchMapCompletable {
                         @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
                         when (it) {
                             Mp3VoiceRecorder.AudioSourcePref.Mic -> executeMic()
@@ -83,8 +83,8 @@ class CaptureCompletableCreator @Inject constructor(
             .andThen(
                 Observable.zip(
                     getNewFileNameUC.execute().toObservable(),
-                    bitRateRepo.observe().takeOne(),
-                    sampleRateRepo.observe().takeOne(),
+                    bitRateRepo.observe().takeOneObservable(),
+                    sampleRateRepo.observe().takeOneObservable(),
                     propsZipper
                 )
             )

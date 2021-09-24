@@ -29,8 +29,8 @@ class FileListRepo @Inject constructor() :
     BehaviorSubjectRepo<List<ExistingFileWrapper>>(emptyList())
 
 @Singleton
-class FeatureMapRepo @Inject constructor() :
-    BehaviorSubjectRepo<FeatureMap>(FeatureMap())
+class FeatureFlagRepo @Inject constructor() :
+    BehaviorSubjectRepo<FeatureFlagsCollection>()
 
 @Singleton
 class JoinedProgressRepo @Inject constructor() :

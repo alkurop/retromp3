@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.bl
 
 import com.omar.retromp3recorder.share.Sharer
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
-import com.omar.retromp3recorder.utils.takeOne
+import com.omar.retromp3recorder.utils.takeOneObservable
 import io.reactivex.rxjava3.core.Completable
 import java.io.File
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class ShareUC @Inject constructor(
     fun execute(): Completable {
         return currentFileRepo
             .observe()
-            .takeOne()
+            .takeOneObservable()
             .flatMapCompletable { fileName ->
                 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
                 sharingModule.share(File(fileName.value))

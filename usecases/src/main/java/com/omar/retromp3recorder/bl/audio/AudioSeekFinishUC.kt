@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.bl.audio
 
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
-import com.omar.retromp3recorder.utils.takeOne
+import com.omar.retromp3recorder.utils.takeOneObservable
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
@@ -13,8 +13,8 @@ class AudioSeekFinishUC @Inject constructor(
 ) {
     fun execute(): Completable =
         Observable.combineLatest(
-            audioPlayer.observeState().takeOne(),
-            playerProgressRepo.observe().takeOne(),
+            audioPlayer.observeState().takeOneObservable(),
+            playerProgressRepo.observe().takeOneObservable(),
             { state, progress -> Pair(state, progress) })
             .flatMapCompletable { (state, progress) ->
                 Completable.fromAction {

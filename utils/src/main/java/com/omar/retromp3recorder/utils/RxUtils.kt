@@ -1,10 +1,7 @@
 package com.omar.retromp3recorder.utils
 
 import com.github.alkurop.ghostinshell.Shell
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 
@@ -27,7 +24,10 @@ fun <In, Out> Scheduler.processIO(
     )
 }
 
-fun <T> Observable<T>.takeOne() = this.take(1)
+@Deprecated("Use  takeOne", ReplaceWith("takeOne"))
+fun <T> Observable<T>.takeOneObservable():Observable<T> = this.take(1)
+
+fun <T> Observable<T>.takeOne():Single<T> = this.take(1).singleOrError()
 
 inline fun <reified T> Observable<out Any>.mapToUsecase(crossinline action: (T) -> Completable): Completable =
     this.filter { it is T }.map { it as T }.flatMapCompletable { action(it) }

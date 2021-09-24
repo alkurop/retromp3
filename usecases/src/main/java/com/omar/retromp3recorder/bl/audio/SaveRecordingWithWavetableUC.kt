@@ -7,7 +7,7 @@ import com.omar.retromp3recorder.storage.repo.WavetableRepo
 import com.omar.retromp3recorder.utils.FileLister
 import com.omar.retromp3recorder.utils.Mp3TagsEditor
 import com.omar.retromp3recorder.utils.RecordingTagsDefaultProvider
-import com.omar.retromp3recorder.utils.takeOne
+import com.omar.retromp3recorder.utils.takeOneObservable
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ class SaveRecordingWithWavetableUC @Inject constructor(
 ) {
     fun execute(): Completable =
         wavetableRepo.observe()
-            .takeOne()
+            .takeOneObservable()
             .flatMapCompletable { shell ->
                 val (path, wave) = shell
                 saveMp3TagsUC.execute(path).andThen(

@@ -32,6 +32,7 @@ dependencies {
     implementation project(':io-audioplayer')
     implementation project(':io-share')
     implementation project(':storage')
+
     implementation "com.google.dagger:dagger:$versions.dagger"
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"

@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    apply from: 'libs.gradle'
+    apply from: 'versions.gradle'
     ext.compileSdk = 31
     ext.minSdk = 21
     ext.targetSdk = 31
