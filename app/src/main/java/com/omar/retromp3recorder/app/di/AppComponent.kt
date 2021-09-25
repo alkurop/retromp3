@@ -17,6 +17,7 @@ import com.omar.retromp3recorder.app.ui.recorder_settings.audio_source.AudioSour
 import com.omar.retromp3recorder.app.ui.recorder_settings.sample_rate.SampleRateViewModel
 import com.omar.retromp3recorder.app.ui.visualizer.VisualizerViewModel
 import com.omar.retromp3recorder.storage.StorageModule
+import com.omar.retromp3recorder.utils.UtilsModule
 import dagger.Component
 import javax.inject.Singleton
 

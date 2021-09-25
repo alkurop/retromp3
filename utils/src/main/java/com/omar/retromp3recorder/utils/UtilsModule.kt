@@ -1,7 +1,5 @@
-package com.omar.retromp3recorder.app.di
+package com.omar.retromp3recorder.utils
 
-import com.google.gson.Gson
-import com.omar.retromp3recorder.utils.*
 import com.omar.retromp3recorder.utils.Constants.MAIN_THREAD
 import dagger.Module
 import dagger.Provides
@@ -50,8 +48,5 @@ class UtilsModule {
     @Provides
     fun provideMp3MetadataEditor(mp3TagsEditorImpl: Mp3TagsEditorImpl): Mp3TagsEditor =
         mp3TagsEditorImpl
-
-    @Provides
-    fun provideGson(): Gson = Gson()
 
 }
