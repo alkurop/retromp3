@@ -14,8 +14,8 @@ enum class FeatureLevel {
 }
 
 data class FeatureFlagSetting(
-    val isManuallySet: Boolean = false,
-    val isEnabled: Boolean = false
+    val isEnabled: Boolean = false,
+    val isManuallySet: Boolean = false
 ) {
 }
 
