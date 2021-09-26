@@ -1,9 +1,6 @@
-package com.omar.retromp3recorder.app.ui.joined_progress
+package com.omar.retromp3recorder.bl.audio
 
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.bl.audio.AudioState
-import com.omar.retromp3recorder.bl.audio.AudioStateMapper
-import com.omar.retromp3recorder.bl.audio.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.files.CurrentFileMapper
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
@@ -32,7 +29,7 @@ class JoinedProgressMapper @Inject constructor(
                     playerProgressRepo.observe(), { currentFile, playerProgress ->
                         val progress = playerProgress.value
                         if (progress != null && currentFile.value is ExistingFileWrapper) {
-                            val file = (currentFile!!.value as ExistingFileWrapper)
+                            val file = (currentFile.value as ExistingFileWrapper)
                             JoinedProgress.PlayerProgressShown(
                                 Shell(progress),
                                 Shell(file.wavetable!!)
@@ -48,7 +45,7 @@ class JoinedProgressMapper @Inject constructor(
                     playerProgressRepo.observe(), { currentFile, playerProgress ->
                         val progress = playerProgress.value
                         if (progress != null && currentFile.value is ExistingFileWrapper) {
-                            val file = (currentFile!!.value as ExistingFileWrapper)
+                            val file = (currentFile.value as ExistingFileWrapper)
                             JoinedProgress.PlayerProgressShown(
                                 Shell(progress),
                                 Shell(file.wavetable!!)
@@ -64,7 +61,7 @@ class JoinedProgressMapper @Inject constructor(
                     playerProgressRepo.observe(), { currentFile, playerProgress ->
                         val progress = playerProgress.value
                         if (progress != null && currentFile.value is ExistingFileWrapper) {
-                            val file = (currentFile!!.value as ExistingFileWrapper)
+                            val file = (currentFile.value as ExistingFileWrapper)
                             JoinedProgress.PlayerProgressShown(
                                 Shell(progress),
                                 Shell(file.wavetable!!)

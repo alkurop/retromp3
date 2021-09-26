@@ -1,7 +1,6 @@
-package com.omar.retromp3recorder.app
+package com.omar.retromp3recorder.bl
 
-import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressMapper
-import com.omar.retromp3recorder.bl.WakeLockUsecase
+import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.audio.PlayerProgressMapper
 import com.omar.retromp3recorder.bl.audio.RecordWavetableUC
 import com.omar.retromp3recorder.bl.files.NewFileUpdater

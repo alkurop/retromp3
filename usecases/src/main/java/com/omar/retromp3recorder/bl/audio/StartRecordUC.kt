@@ -1,7 +1,8 @@
 package com.omar.retromp3recorder.bl.audio
 
 import android.Manifest
-import android.media.AudioAttributes.*
+import android.media.AudioAttributes.USAGE_GAME
+import android.media.AudioAttributes.USAGE_MEDIA
 import com.omar.retromp3recorder.bl.CheckPermissionsUC
 import com.omar.retromp3recorder.bl.RequestMediaProjectionUC
 import com.omar.retromp3recorder.bl.files.GenerateDirIfNotExistsUC
