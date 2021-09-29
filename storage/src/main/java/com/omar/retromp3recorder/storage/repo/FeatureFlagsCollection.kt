@@ -12,10 +12,6 @@ enum class FeatureFlag(
         featureLevel = FeatureLevel.Debug,
         friendlyName = R.string.feature_name_debug_window
     ),
-    DebugWindow1(
-    featureLevel = FeatureLevel.Debug,
-    friendlyName = R.string.feature_name_debug_window
-    )
     ;
 
     val key: String = "FeatureFlag_${this.name}"

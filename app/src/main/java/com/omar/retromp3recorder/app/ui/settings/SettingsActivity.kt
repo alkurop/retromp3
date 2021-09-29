@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import com.omar.retromp3recorder.app.BuildConfig
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.uiutils.observe
+import com.omar.retromp3recorder.storage.repo.FeatureFlagSetting
 import com.omar.retromp3recorder.storage.repo.FeatureLevel
 
 class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
@@ -66,9 +67,15 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
                 view.isChecked = isEnabled
                 view.setText(flag.friendlyName)
                 val lp = view.layoutParams as LinearLayout.LayoutParams
-                lp.setMargins(margin,margin,margin,margin)
+                lp.setMargins(margin, margin, margin, margin)
                 view.layoutParams = lp
-                view.setOnCheckedChangeListener { _, state -> }
+                view.setOnCheckedChangeListener { _, state ->
+                    val newSetting = FeatureFlagSetting(
+                        isEnabledOverride = state,
+                        isManuallySet = true
+                    )
+                    viewModel.input.onNext(SettingsView.Input.FlagSettingChanged(flag, newSetting))
+                }
             }
             debugSection.isVisible = BuildConfig.DEBUG
         }
