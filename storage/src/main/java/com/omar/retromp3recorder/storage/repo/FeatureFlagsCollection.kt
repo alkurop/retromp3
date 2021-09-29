@@ -1,9 +1,19 @@
 package com.omar.retromp3recorder.storage.repo
 
+import androidx.annotation.StringRes
 import com.omar.retromp3recorder.storage.BuildConfig
+import com.omar.retromp3recorder.storage.R
 
-enum class FeatureFlag(val featureLevel: FeatureLevel) {
+enum class FeatureFlag(
+    val featureLevel: FeatureLevel = FeatureLevel.Debug,
+    val isSwitchable: Boolean = true,
+    @StringRes val friendlyName: Int
+) {
+    DebugWindow(
+        friendlyName = R.string.feature_name_debug_window
+    )
     ;
+
     val key: String = "FeatureFlag_${this.name}"
 }
 
