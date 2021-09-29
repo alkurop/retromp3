@@ -1,6 +1,8 @@
 package com.omar.retromp3recorder.app.ui.main
 
 import com.github.alkurop.ghostinshell.Shell
+import com.omar.retromp3recorder.storage.repo.FeatureFlag
+import com.omar.retromp3recorder.storage.repo.FeatureFlagSetting
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.functions.BiFunction
@@ -24,6 +26,13 @@ object MainViewOutputMapper {
                     oldState.copy(
                         requestForScreenCapture = Shell(output.shouldRequest)
                     )
+                is MainView.Output.SettingsUpdated -> {
+                    val flag = FeatureFlag.DebugWindow
+                    val setting =
+                        output.featureFlagsCollection.featuresMap[flag] ?: FeatureFlagSetting()
+                    val isEnabled = setting.isEnabled(flag)
+                    oldState.copy(isDebugViewVisible = isEnabled)
+                }
             }
         }
 

@@ -35,7 +35,7 @@
                 android:id="@+id/log_fragment"
                 android:name="com.omar.retromp3recorder.app.ui.log.LogFragment"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="90dp"
                 android:layout_margin="8dp"
                 android:background="@color/color_visualizer_bg" />
 
