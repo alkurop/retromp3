@@ -18,7 +18,7 @@ class FeatureMapLoadUC @Inject constructor(
                     val key = featureFlag.key
                     val isEnabled = sharedPreferences.getBoolean(
                         key,
-                        featureFlag.featureLevel == FeatureLevel.Production
+                        featureFlag.isDefaultEnabled
                     )
                     featureFlag to FeatureFlagSetting(isEnabledOverride = isEnabled)
                 }

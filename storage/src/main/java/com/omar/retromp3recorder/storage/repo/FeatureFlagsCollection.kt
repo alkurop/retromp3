@@ -8,9 +8,9 @@ enum class FeatureFlag(
     val isDefaultEnabled: Boolean = false,
     @StringRes val friendlyName: Int
 ) {
-    DebugWindow(
+    LogView(
         featureLevel = FeatureLevel.Debug,
-        friendlyName = R.string.feature_name_debug_window
+        friendlyName = R.string.feature_name_log_view
     ),
     ;
 
@@ -25,14 +25,14 @@ enum class FeatureLevel {
 
 data class FeatureFlagSetting(
     val isEnabledOverride: Boolean = false,
-    val isManuallySet: Boolean = false
+    val shouldSave: Boolean = false
 ) {
     @Suppress("UNUSED")
             /** Im not going to use this
              * This is more like a doc on how the Feature Settings are going to be used*/
     fun isEnabled(featureFlag: FeatureFlag): Boolean {
         return when {
-            this.isManuallySet -> this.isEnabledOverride
+            shouldSave || isEnabledOverride -> isEnabledOverride
             else -> featureFlag.isDefaultEnabled
         }
     }

@@ -72,7 +72,7 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
                 view.setOnCheckedChangeListener { _, state ->
                     val newSetting = FeatureFlagSetting(
                         isEnabledOverride = state,
-                        isManuallySet = true
+                        shouldSave = true
                     )
                     viewModel.input.onNext(SettingsView.Input.FlagSettingChanged(flag, newSetting))
                 }

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="feature_name_debug_window">Debug Window</string>
+    <string name="feature_name_log_view">Log View</string>
 </resources>
