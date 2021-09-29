@@ -8,4 +8,5 @@
     <dimen name="progress_width">60dp</dimen>
     <dimen name="file_controls_button_size">48dp</dimen>
     <dimen name="wavetable_height">40dp</dimen>
+    <dimen name="setting_checkbox_margin">4dp</dimen>
 </resources>

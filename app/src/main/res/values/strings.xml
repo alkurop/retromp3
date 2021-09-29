@@ -9,6 +9,7 @@
     <string name="current_file">Current file</string>
     <string name="delete_file">Delete file</string>
     <string name="experimental_features">Experimental features:</string>
+    <string name="debug_features">Debug features:</string>
     <string name="error_string">Error: %1$s</string>
     <string name="no_file">Please record something</string>
     <string name="no">No</string>

@@ -20,7 +20,7 @@ abstract class RecorderSettingsBaseFragment : Fragment(R.layout.fragment_recorde
 
     @SuppressLint("InflateParams")
     protected fun addCheckBox(title: String): RadioButton {
-        return (layoutInflater.inflate(R.layout.checkbox, null) as RadioButton).apply {
+        return (layoutInflater.inflate(R.layout.radio_button, null) as RadioButton).apply {
             this.text = title
             this.height = checkboxHeight
             container.addView(this)

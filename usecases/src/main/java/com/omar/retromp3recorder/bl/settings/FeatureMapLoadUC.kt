@@ -20,7 +20,7 @@ class FeatureMapLoadUC @Inject constructor(
                         key,
                         featureFlag.featureLevel == FeatureLevel.Production
                     )
-                    featureFlag to FeatureFlagSetting(isEnabled = isEnabled)
+                    featureFlag to FeatureFlagSetting(isEnabledOverride = isEnabled)
                 }
                 .toMap()
             featureFlagRepo.onNext(FeatureFlagsCollection(featuresMap))
