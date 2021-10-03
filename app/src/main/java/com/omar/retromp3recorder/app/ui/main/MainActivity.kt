@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val logFragment by lazy { findViewById<View>(R.id.log_fragment) }
     private val mediaProjectionManager by lazy { getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
+    private var isContentViewSet = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +48,15 @@ class MainActivity : AppCompatActivity() {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 })
             }
-            if (shouldSetUpNewLayout) {
-                setContentView(R.layout.activity_main)
-            }
-            if (shouldSetUpOldLayout) {
-                setContentView(R.layout.activity_main)
+            // needed in case activity is restarted outside of the render cycle
+            if (!isContentViewSet) {
+                isContentViewSet = true
+                if (shouldSetUpNewLayout) {
+                    setContentView(R.layout.activity_main_new)
+                }
+                if (shouldSetUpOldLayout) {
+                    setContentView(R.layout.activity_main)
+                }
             }
             if (actionBar == null) {
                 setSupportActionBar(toolbar)
