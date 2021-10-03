@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this@MainActivity, MainActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 })
+                Toast.makeText(this@MainActivity, R.string.rerendered, Toast.LENGTH_SHORT).show()
             }
             // needed in case activity is restarted outside of the render cycle
             if (!isContentViewSet) {
