@@ -25,7 +25,7 @@ import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
 import com.omar.retromp3recorder.app.uiutils.observe
 import java.util.*
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
     private val permissionsManager: PermissionsManager by lazy { PermissionsManager(this) }
     private val permissionsMap: Map<String, PermissionOptionalDetails> by lazy { createPermissionsMap() }
     private val viewModel by viewModels<MainViewModel>()
@@ -36,11 +36,26 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.observe(this, ::renderView)
-        setSupportActionBar(toolbar)
+
     }
 
     private fun renderView(state: MainView.State) {
         state.apply {
+            if (shouldRestart) {
+                finish()
+                startActivity(Intent(this@MainActivity, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                })
+            }
+            if (shouldSetUpNewLayout) {
+                setContentView(R.layout.activity_main)
+            }
+            if (shouldSetUpOldLayout) {
+                setContentView(R.layout.activity_main)
+            }
+            if (actionBar == null) {
+                setSupportActionBar(toolbar)
+            }
             requestForPermissions.ghost?.let { makePermissionsRequest(it) }
             requestForScreenCapture.ghost?.let { makeScreenCaptureRequest() }
             logFragment.isVisible = this.isLogViewEnabled
@@ -102,14 +117,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val projection = mediaProjectionManager.getMediaProjection(resultCode, data)
                 viewModel.input.onNext(MainView.Input.MediaProjectionUpdated(projection))
-                Toast.makeText(this, getString(R.string.projection_acquired), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.projection_acquired), Toast.LENGTH_LONG)
+                    .show()
                 projection.registerCallback(object : MediaProjection.Callback() {
                     override fun onStop() {
                         viewModel.input.onNext(MainView.Input.MediaProjectionUpdated(null))
                     }
                 }, Handler())
             } else {
-                Toast.makeText(this, getString(R.string.projection_not_acquired), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.projection_not_acquired), Toast.LENGTH_LONG)
+                    .show()
                 viewModel.input.onNext(MainView.Input.MediaProjectionUpdated(null))
             }
         } else {

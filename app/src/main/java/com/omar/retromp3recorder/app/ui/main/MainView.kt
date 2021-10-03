@@ -9,8 +9,10 @@ object MainView {
         val requestForPermissions: Shell<Set<String>>,
         val requestForScreenCapture: Shell<Any>,
         val isLogViewEnabled: Boolean = false,
-        val isNewEnabledLayout: Boolean = false,
-        val isNewLayoutVisible: Boolean = false
+        val shouldSetUpNewLayout: Boolean = false,
+        val shouldSetUpOldLayout: Boolean = false,
+        val shouldRestart: Boolean = false,
+        val isSetUpAlready: Boolean = false
     )
 
     sealed class Input {
