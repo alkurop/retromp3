@@ -8,7 +8,9 @@ object MainView {
     data class State(
         val requestForPermissions: Shell<Set<String>>,
         val requestForScreenCapture: Shell<Any>,
-        val isDebugViewVisible: Boolean = false
+        val isLogViewEnabled: Boolean = false,
+        val isNewEnabledLayout: Boolean = false,
+        val isNewLayoutVisible: Boolean = false
     )
 
     sealed class Input {

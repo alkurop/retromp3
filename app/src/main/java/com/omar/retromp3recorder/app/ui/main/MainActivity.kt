@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         state.apply {
             requestForPermissions.ghost?.let { makePermissionsRequest(it) }
             requestForScreenCapture.ghost?.let { makeScreenCaptureRequest() }
-            logFragment.isVisible = this.isDebugViewVisible
+            logFragment.isVisible = this.isLogViewEnabled
         }
     }
 

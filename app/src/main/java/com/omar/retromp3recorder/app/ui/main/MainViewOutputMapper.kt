@@ -27,11 +27,18 @@ object MainViewOutputMapper {
                         requestForScreenCapture = Shell(output.shouldRequest)
                     )
                 is MainView.Output.SettingsUpdated -> {
-                    val flag = FeatureFlag.LogView
-                    val setting =
-                        output.featureFlagsCollection.featuresMap[flag] ?: FeatureFlagSetting()
-                    val isEnabled = setting.isEnabled(flag)
-                    oldState.copy(isDebugViewVisible = isEnabled)
+                    val isEnabled: FeatureFlag.() -> Boolean = {
+                        val setting = output.featureFlagsCollection.featuresMap[this]
+                            ?: FeatureFlagSetting()
+                        setting.isEnabled(this)
+                    }
+
+                    val isLogViewEnabled = FeatureFlag.LogView.let(isEnabled)
+                    val isNewLayout = FeatureFlag.NewLayout.let(isEnabled)
+                    oldState.copy(
+                        isLogViewEnabled = isLogViewEnabled,
+                        isNewEnabledLayout = isNewLayout
+                    )
                 }
             }
         }
