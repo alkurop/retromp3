@@ -12,6 +12,8 @@ android {
 
     defaultConfig {
         applicationId "com.omar.retromp3recorder.app"
+        testApplicationId "com.omar.retromp3recorder.app.test"
+
         minSdk rootProject.ext.minSdk
         targetSdk rootProject.ext.targetSdk
         versionCode 341
