@@ -16,7 +16,7 @@ android {
         targetSdk rootProject.ext.targetSdk
         versionCode 341
         versionName "3.41"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         signingConfig signingConfigs.debug
     }
@@ -83,4 +83,9 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
+
+    androidTestImplementation "androidx.test.espresso:espresso-core:$testVersions.espressoCore"
+    androidTestImplementation "androidx.test:runner:$testVersions.espresso"
+    androidTestImplementation "androidx.test:rules:$testVersions.espresso"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$testVersions.junitKtx"
 }
