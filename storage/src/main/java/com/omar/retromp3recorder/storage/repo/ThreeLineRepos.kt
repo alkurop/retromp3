@@ -13,12 +13,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AudioSourceRepo @Inject constructor(defaults: RecorderDefaults) :
-    BehaviorSubjectRepo<Mp3VoiceRecorder.AudioSourcePref>(defaults.audioSourcePref)
+class AudioSourceRepo @Inject constructor() :
+    BehaviorSubjectRepo<Mp3VoiceRecorder.AudioSourcePref>(Mp3VoiceRecorder.AudioSourcePref.Mic)
 
 @Singleton
-class BitRateRepo @Inject constructor(defaults: RecorderDefaults) :
-    BehaviorSubjectRepo<Mp3VoiceRecorder.BitRate>(defaults.bitRate)
+class BitRateRepo @Inject constructor() :
+    BehaviorSubjectRepo<Mp3VoiceRecorder.BitRate>(Mp3VoiceRecorder.BitRate._320)
 
 @Singleton
 class CurrentFileRepo @Inject constructor() :
@@ -49,8 +49,8 @@ class MediaProjectionStopBus @Inject constructor() :
     BehaviorSubjectRepo<Shell<Any>>(Shell.empty())
 
 @Singleton
-class SampleRateRepo @Inject constructor(defaults: RecorderDefaults) :
-    BehaviorSubjectRepo<Mp3VoiceRecorder.SampleRate>(defaults.sampleRate)
+class SampleRateRepo @Inject constructor() :
+    BehaviorSubjectRepo<Mp3VoiceRecorder.SampleRate>(Mp3VoiceRecorder.SampleRate._44100)
 
 @Singleton
 class SeekRepo @Inject constructor() :

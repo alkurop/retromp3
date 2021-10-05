@@ -12,8 +12,8 @@ import com.omar.retromp3recorder.app.ui.files.selector.SelectorViewModel
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressViewModel
 import com.omar.retromp3recorder.app.ui.log.LogViewModel
 import com.omar.retromp3recorder.app.ui.main.MainViewModel
-import com.omar.retromp3recorder.app.ui.recorder_settings.beat_rate.BitRateSettingsViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.audio_source.AudioSourceViewModel
+import com.omar.retromp3recorder.app.ui.recorder_settings.beat_rate.BitRateSettingsViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.sample_rate.SampleRateViewModel
 import com.omar.retromp3recorder.app.ui.settings.SettingsViewModel
 import com.omar.retromp3recorder.app.ui.visualizer.VisualizerViewModel
@@ -26,7 +26,6 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidModule::class,
-        ConfigModule::class,
         FunctionalityModule::class,
         RepoModule::class,
         UtilsModule::class,

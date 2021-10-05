@@ -1,8 +1,10 @@
 package com.omar.retromp3recorder.storage.repo
 
+import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import com.omar.retromp3recorder.storage.R
 
+@Keep
 enum class FeatureFlag(
     val featureLevel: FeatureLevel,
     val isDefaultEnabled: Boolean = false,
@@ -21,6 +23,7 @@ enum class FeatureFlag(
     val key: String = "FeatureFlag_${this.name}"
 }
 
+@Keep
 enum class FeatureLevel {
     Debug,
     Experimental,
