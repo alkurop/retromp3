@@ -24,7 +24,7 @@ fun <In, Out> Scheduler.processIO(
     )
 }
 
-@Deprecated("Use  takeOne", ReplaceWith("takeOne"))
+@Deprecated("Use  takeOne:Single<T>", ReplaceWith("takeOne"))
 fun <T> Observable<T>.takeOneObservable():Observable<T> = this.take(1)
 
 fun <T> Observable<T>.takeOne():Single<T> = this.take(1).singleOrError()
