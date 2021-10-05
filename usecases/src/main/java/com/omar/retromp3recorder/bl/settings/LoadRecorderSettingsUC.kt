@@ -17,7 +17,7 @@ class LoadRecorderSettingsUC @Inject constructor(
     private val scheduler: Scheduler,
     private val sharedPreferences: SharedPreferences
 ) {
-    fun execute() = Completable
+    fun execute(): Completable = Completable
         .fromAction {
             val noSetting = -1
             sharedPreferences.getInt(SharedPrefsKeys.SAMPLE_RATE, noSetting)

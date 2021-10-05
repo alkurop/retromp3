@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.PowerManager
+import androidx.annotation.Keep
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import com.omar.retromp3recorder.app.ui.main.MainActivity
@@ -126,6 +127,7 @@ class WakelockService : Service() {
         wakeLock.release()
     }
 
+    @Keep
     companion object {
         private const val WAKELOCK_ID = "RetroMp3Recorder:Wakywaky"
         const val WAKELOCK_SERVICE_CHANNEL = "WAKELOCK_SERVICE_CHANNEL"

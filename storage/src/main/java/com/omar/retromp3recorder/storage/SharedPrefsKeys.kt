@@ -1,5 +1,8 @@
 package com.omar.retromp3recorder.storage
 
+import androidx.annotation.Keep
+
+@Keep
 object SharedPrefsKeys {
     const val AUDIO_SOURCE = "AUDIO_SOURCE"
     const val BIT_RATE = "BIT_RATE"
