@@ -15,7 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 
 
-class HelloWorldEspressoTest {
+class RecordTest {
 
     @get:Rule
     val permissionsRule: GrantPermissionRule = GrantPermissionRule.grant(
@@ -30,7 +30,6 @@ class HelloWorldEspressoTest {
     fun recordSmokeTest() {
         onView(withId(R.id.acf_stop)).check(matches(isNotEnabled()))
         onView(withId(R.id.acf_record)).perform(ViewActions.click())
-        onView(withId(R.id.acf_stop)).check(matches(isEnabled()))
         onView(withId(R.id.acf_stop)).perform(ViewActions.click())
         onView(withId(R.id.current_file_text)).check(matches(not(withText(R.string.no_file))))
     }
