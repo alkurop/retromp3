@@ -18,6 +18,10 @@ enum class FeatureFlag(
         featureLevel = FeatureLevel.Production,
         friendlyName = R.string.feature_name_new_layout
     ),
+    KeepScreenOn(
+        featureLevel = FeatureLevel.Debug,
+        friendlyName = R.string.feature_name_keep_screen_on
+    )
     ;
 
     val key: String = "FeatureFlag_${this.name}"

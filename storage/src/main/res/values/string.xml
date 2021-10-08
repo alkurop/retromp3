@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feature_name_log_view">Log View</string>
-    <string name="feature_name_new_layout">New layput</string>
+    <string name="feature_name_new_layout">New layout</string>
+    <string name="feature_name_keep_screen_on">Keep screen on</string>
 </resources>
