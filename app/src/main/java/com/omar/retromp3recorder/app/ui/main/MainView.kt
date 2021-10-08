@@ -11,8 +11,9 @@ object MainView {
         val isLogViewEnabled: Boolean = false,
         val shouldSetUpNewLayout: Boolean = false,
         val shouldSetUpOldLayout: Boolean = false,
+        val shouldKeepScreenOn: Boolean = false,
         val shouldRestart: Boolean = false,
-        val isSetUpAlready: Boolean = false
+        val isSetUpAlready: Boolean = false,
     )
 
     sealed class Input {
