@@ -19,7 +19,7 @@ enum class FeatureFlag(
         friendlyName = R.string.feature_name_new_layout
     ),
     KeepScreenOn(
-        featureLevel = FeatureLevel.Debug,
+        featureLevel = FeatureLevel.Production,
         friendlyName = R.string.feature_name_keep_screen_on
     )
     ;
