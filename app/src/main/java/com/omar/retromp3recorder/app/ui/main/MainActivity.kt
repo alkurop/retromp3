@@ -49,10 +49,9 @@ class MainActivity : AppCompatActivity() {
             // needed in case activity is restarted outside of the render cycle
             if (!isContentViewSet) {
                 isContentViewSet = true
-                if (shouldSetUpNewLayout) {
+                if (isNewLayout) {
                     setContentView(R.layout.activity_main_new)
-                }
-                if (shouldSetUpOldLayout) {
+                } else {
                     setContentView(R.layout.activity_main)
                 }
             }
