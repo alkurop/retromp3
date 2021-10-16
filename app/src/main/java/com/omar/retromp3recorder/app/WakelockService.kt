@@ -59,8 +59,6 @@ class WakelockService : Service() {
                         .flatMapCompletable { Completable.fromAction { stopSelf(); hideNotification() } },
                     audioStateMapper.observe().ofType(AudioState.Recording::class.java)
                         .flatMapCompletable { Completable.fromAction { showRecordingNotification() } },
-                    audioStateMapper.observe().ofType(AudioState.Playing::class.java)
-                        .flatMapCompletable { Completable.fromAction { showPlayingNotification() } },
                 )
             )
             .subscribe()

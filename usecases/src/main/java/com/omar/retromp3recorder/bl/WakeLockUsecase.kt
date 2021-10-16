@@ -13,12 +13,6 @@ class WakeLockUsecase @Inject constructor(
     fun execute(): Completable =
         Completable.merge(
             listOf(
-                audioStateMapper.observe().ofType(AudioState.Playing::class.java)
-                    .flatMapCompletable {
-                        Completable.fromAction {
-                            serviceDealer.startWakelockService()
-                        }
-                    },
                 audioStateMapper.observe().ofType(AudioState.Recording::class.java)
                     .flatMapCompletable {
                         Completable.fromAction {
