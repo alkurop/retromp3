@@ -24,7 +24,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val permissionsManager: PermissionsManager by lazy { PermissionsManager(this) }
-    private val permissionsMap: Map<String, PermissionOptionalDetails> by lazy { createPermissionsMap() }
+    private val permissionsMap = createPermissionsMap()
     private val viewModel by viewModels<MainViewModel>()
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val logFragment by lazy { findViewById<View>(R.id.log_fragment) }
@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.observe(this, ::renderView)
-
     }
 
     private fun renderView(state: MainView.State) {
@@ -71,6 +70,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeScreenCaptureRequest() {
+        @Suppress("DEPRECATED_METHOD")
         startActivityForResult(
             mediaProjectionManager.createScreenCaptureIntent(),
             MEDIA_PROJECTION_REQUEST_CODE
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun createPermissionsMap(): Map<String, PermissionOptionalDetails> =
+    private fun createPermissionsMap(): () -> Map<String, PermissionOptionalDetails> = {
         listOf(
             Pair(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -110,11 +110,12 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         ).toMap()
+    }
 
     private fun makePermissionsRequest(requestForPermissions: Set<String>) {
         val permissionRequests = HashMap<String, PermissionOptionalDetails?>()
         for (permissionName in requestForPermissions) {
-            permissionRequests[permissionName] = permissionsMap[permissionName]
+            permissionRequests[permissionName] = permissionsMap()[permissionName]
         }
         permissionsManager.addPermissions(permissionRequests)
         permissionsManager.makePermissionRequest(true)
