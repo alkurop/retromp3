@@ -1,34 +1,79 @@
 package com.omar.retromp3recorder.utils
 
+import android.content.Context
+import android.os.Build
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.TextAppearanceSpan
+import android.webkit.WebSettings
+import androidx.annotation.DimenRes
+import androidx.annotation.RequiresApi
+import androidx.annotation.StyleRes
 import com.omar.retromp3recorder.utils.Constants.PLAYER_TO_RECORDER_CONVERSION_MILLIS
-import java.util.*
+import java.time.*
 
 typealias SeekbarTime = Int
 typealias PlayerTime = Long
 
+data class TimeDisplay(
+    val time: String,
+    val millis: String
+)
+
 fun SeekbarTime.toPlayerTime(): PlayerTime = this.toLong() * PLAYER_TO_RECORDER_CONVERSION_MILLIS
 fun PlayerTime.toSeekbarTime(): SeekbarTime = (this / PLAYER_TO_RECORDER_CONVERSION_MILLIS).toInt()
 
-fun PlayerTime.toDisplay(): String {
-    val calendar = Calendar.getInstance()
-    calendar.timeInMillis = this
-    val hours = calendar.get(Calendar.HOUR) - 1
-    val minutes = calendar.get(Calendar.MINUTE)
-    val seconds = calendar.get(Calendar.SECOND)
-    val millis = calendar.get(Calendar.MILLISECOND) / 100
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun PlayerTime.toDisplay(): TimeDisplay {
+    var duration = Duration.ofMillis(this)
+    val hours = duration.toHours()
+    duration = duration.minusHours(hours)
+    val minutes = duration.toMinutes()
+    duration = duration.minusMinutes(minutes)
+    val seconds = duration.seconds
+    duration = duration.minusSeconds(seconds)
+
+    val millis = duration.toMillis() / 100
     val hasHours = hours > 0
     val hasMinutes = hasHours || minutes > 0
     val hoursString = hours.toFormat(false)
     val hoursSeparator = if (hasHours) ":" else ""
     val minutesString = minutes.toFormat(hasHours)
     val minutesSeparator = if (hasMinutes) ":" else ""
-    val secondsString = seconds.toFormat(hasMinutes)
-    val millisString = ".$millis"
+    val secondsString = "${seconds.toFormat(true)}."
+    val millisString = "$millis"
 
-    return hoursString + hoursSeparator + minutesString + minutesSeparator + secondsString + millisString
+    return TimeDisplay(
+        hoursString + hoursSeparator + minutesString + minutesSeparator + secondsString,
+        millisString
+    )
 }
 
-private fun Int.toFormat(showFullTime: Boolean): String =
-    if (showFullTime) String.format(TIME_FORMAT, this) else if (this > 0) "$this" else ""
+private fun Long.toFormat(showFullTime: Boolean): String =
+    if (showFullTime && this >= 10) {
+        String.format(TIME_FORMAT, this)
+    } else if (showFullTime || this > 0) {
+        "$this"
+    } else {
+        ""
+    }
 
 private const val TIME_FORMAT = "%02d"
+
+fun TimeDisplay.toSpannableStringWithSmallMillis(
+    context: Context,
+    @StyleRes textAppearance: Int
+): SpannableString {
+    val endString = this.time + this.millis
+    val start = this.time.length
+    val end = endString.length
+    val spannable = SpannableString(endString)
+    spannable.setSpan(
+        TextAppearanceSpan(context, textAppearance),
+        start,
+        end,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    return spannable
+}

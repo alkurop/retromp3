@@ -14,6 +14,7 @@ import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
 import com.omar.retromp3recorder.ui.wavetable.WavetableSeekbarPreview
 import com.omar.retromp3recorder.utils.toDisplay
 import com.omar.retromp3recorder.utils.toSeekbarTime
+import com.omar.retromp3recorder.utils.toSpannableStringWithSmallMillis
 
 class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
     private val viewModel by viewModels<JoinedProgressViewModel>()
@@ -47,6 +48,7 @@ class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
         when (joinedProgress) {
             is JoinedProgress.RecorderProgressShown -> {
                 recorderProgress.text = joinedProgress.progress.toDisplay()
+                    .toSpannableStringWithSmallMillis(requireContext(), R.style.Control_Normal_Millis)
                 recorderWavetable.update(joinedProgress.wavetable.data)
             }
             is JoinedProgress.PlayerProgressShown -> {

@@ -13,6 +13,7 @@ import com.omar.retromp3recorder.app.uiutils.observe
 import com.omar.retromp3recorder.ui.state_button.InteractiveButton
 import com.omar.retromp3recorder.ui.state_button.InteractiveButtonBlinking
 import com.omar.retromp3recorder.utils.toDisplay
+import com.omar.retromp3recorder.utils.toSpannableStringWithSmallMillis
 import io.reactivex.rxjava3.core.Observable.merge
 
 class AudioControlsFragment : Fragment(R.layout.fragment_audio_controls) {
@@ -46,7 +47,9 @@ class AudioControlsFragment : Fragment(R.layout.fragment_audio_controls) {
         durationView.isGone = state.playerProgressState == null
         state.playerProgressState?.apply {
             progressView.text = progress.toDisplay()
+                .toSpannableStringWithSmallMillis(requireContext(), R.style.Control_Normal_Millis)
             durationView.text = duration.toDisplay()
+                .toSpannableStringWithSmallMillis(requireContext(), R.style.Control_Normal_Millis)
         }
     }
 }

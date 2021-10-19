@@ -1,8 +1,23 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar" />
+
+    <style name="Control" parent="TextAppearance.AppCompat" />
+
+    <style name="Control.Normal" parent="Control">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Control.Small" parent="Control">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Control.Normal.Millis" parent="Control">
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

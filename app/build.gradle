@@ -24,6 +24,8 @@ android {
     }
 
     compileOptions {
+        coreLibraryDesugaringEnabled = true
+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -85,6 +87,7 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
     androidTestImplementation "androidx.test.espresso:espresso-core:$testVersions.espressoCore"
     androidTestImplementation "androidx.test:runner:$testVersions.espresso"
