@@ -72,6 +72,7 @@ class MediaProjectionService : Service() {
             }
         val notification = NotificationCompat.Builder(this, WAKELOCK_SERVICE_CHANNEL)
             .setContentTitle(getText(R.string.projection_notification_title))
+            .setSilent(true)
             .setContentText(getText(R.string.projection_notification_message))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)

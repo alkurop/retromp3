@@ -65,22 +65,6 @@ class WakelockService : Service() {
             .disposedBy(compositeDisposable)
     }
 
-    private fun showPlayingNotification() {
-        val pendingIntent: PendingIntent =
-            Intent(this, MainActivity::class.java).let { notificationIntent ->
-                PendingIntent.getActivity(this, 0, notificationIntent, FLAG_MUTABLE)
-            }
-        val notification = NotificationCompat.Builder(this, WAKELOCK_SERVICE_CHANNEL)
-            .setContentTitle(getText(R.string.app_name))
-            .setContentText(getText(R.string.playing))
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .setTicker(getText(R.string.app_name))
-            .setVisibility(VISIBILITY_PUBLIC)
-            .build()
-        startForeground(WAKELOCK_NOTIFICATION_ID, notification)
-    }
 
     private fun showRecordingNotification() {
         val pendingIntent: PendingIntent =
@@ -88,11 +72,12 @@ class WakelockService : Service() {
                 PendingIntent.getActivity(this, 0, notificationIntent, FLAG_MUTABLE)
             }
         val notification = NotificationCompat.Builder(this, WAKELOCK_SERVICE_CHANNEL)
+            .setSilent(true)
             .setContentTitle(getText(R.string.app_name))
             .setContentText(getText(R.string.recording))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setPriority(NotificationCompat.PRIORITY_MIN)
             .setTicker(getText(R.string.app_name))
             .setVisibility(VISIBILITY_PUBLIC)
             .build()
