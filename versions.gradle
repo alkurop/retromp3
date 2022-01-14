@@ -9,14 +9,14 @@ ext.versions = [
         'lifecycle'             :'2.3.1',
         'permission'            :'0.14.13',
         'picasso'               :'2.5.2',
-        'recyclerView'          :'1.2.0',
+        'recyclerView'          :'1.2.1',
         'room'                  :'2.4.0-alpha04',
         'rxView'                :'4.0.0',
         'rxAndroid'             :'3.0.0',
         'rxJava'                :'3.0.12',
         'rxKotlin'              :'3.0.1',
         'stringerbell'          :'0.4',
-        'support'               :'1.3.0',
+        'support'               :'1.4.1',
         'timber'                :'4.7.1'
 ]
 ext.testVersions = [
