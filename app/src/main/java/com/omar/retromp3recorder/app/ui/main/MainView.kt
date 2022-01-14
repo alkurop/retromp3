@@ -8,8 +8,8 @@ object MainView {
     data class State(
         val requestForPermissions: Shell<Set<String>>,
         val requestForScreenCapture: Shell<Any>,
-        val isLogViewEnabled: Boolean = false,
         val isNewLayout: Boolean = false,
+        val isLogViewEnabled: Boolean = false,
         val shouldKeepScreenOn: Boolean = false,
         val shouldRestart: Boolean = false,
     )

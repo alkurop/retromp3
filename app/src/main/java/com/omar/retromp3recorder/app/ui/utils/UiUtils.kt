@@ -13,6 +13,9 @@ fun <T : View> Fragment.findViewById(@IdRes id: Int): T = this.requireView().fin
 fun <T : View> RecyclerView.ViewHolder.findViewById(@IdRes id: Int): T =
     this.itemView.findViewById(id)
 
+/**
+ * It releases the view when called Fragment.onDestroyView
+ */
 fun <View : android.view.View> Fragment.lazyView(@IdRes id: Int): Lazy<View> {
     return object : Lazy<View> {
         override val value: View

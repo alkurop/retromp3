@@ -29,6 +29,18 @@ class RangeBarStateMapper @Inject constructor(
 //                        toMillis = toMillis
 //                    )
 //                }
+//
+//                    val isFlag = FeatureFlag.RangeControl.isEnabled(features)
+//                when {
+//                    isFlag.not() ||
+//                            progress is JoinedProgress.Hidden ||
+//                            progress is JoinedProgress.RecorderProgressShown -> RangeBarView.State.Hidden
+//                    progress is JoinedProgress.PlayerProgressShown -> {
+//                        RangeBarView.State.Hidden
+//                    }
+//                    else -> RangeBarView.State.Hidden
+//                }
+//            })
                 else -> RangeBarView.State.Hidden
             }
         }

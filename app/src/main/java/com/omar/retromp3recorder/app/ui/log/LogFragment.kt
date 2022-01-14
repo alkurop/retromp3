@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,12 +23,15 @@ class LogFragment : Fragment(R.layout.fragment_log) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
-        viewModel.state.observe(viewLifecycleOwner) { state -> renderMessages(state.messages) }
+        viewModel.state.observe(viewLifecycleOwner, ::renderState)
     }
 
-    private fun renderMessages(messages: List<LogView.Output>) {
-        adapter.items = messages
-        recyclerView.smoothScrollToPosition(messages.size)
+    private fun renderState(state: LogView.State) {
+        state.apply {
+            adapter.items = messages
+            recyclerView.smoothScrollToPosition(messages.size)
+            view?.isVisible = isVisible
+        }
     }
 
     override fun onDestroyView() {

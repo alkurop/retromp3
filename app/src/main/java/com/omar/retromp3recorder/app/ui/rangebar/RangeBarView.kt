@@ -6,12 +6,13 @@ object RangeBarView {
     sealed class Input {
         data class RangeSet(val range: PlayerRange) : Input()
     }
+
     sealed class State {
         object Hidden : State()
         data class Visible(
             val range: PlayerRange,
-            val fromMillis: Long,
-            val toMillis: Long
+            val fromTimer: Long,
+            val toTimer: Long
         ) : State()
     }
 }

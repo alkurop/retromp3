@@ -20,7 +20,9 @@ class RangeBarInteractor @Inject constructor(
         )
 
     private val mapRepoToOutput: () -> Observable<RangeBarView.State> = {
-        rangeStateMapper.observe()
+        Observable.merge(
+            listOf(rangeStateMapper.observe())
+        )
     }
     private val mapInputToUsecase: (Observable<RangeBarView.Input>) -> Completable = { input ->
         Completable.merge(

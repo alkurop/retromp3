@@ -43,8 +43,8 @@ class RangeBarFragment : Fragment(R.layout.fragment_rangebar) {
             }
             is RangeBarView.State.Visible -> {
                 view?.isVisible = true
-                startView.text = state.fromMillis.toDisplay(requireContext())
-                endView.text = state.toMillis.toDisplay(requireContext())
+                startView.text = state.fromTimer.toDisplay(requireContext())
+                endView.text = state.toTimer.toDisplay(requireContext())
             }
         }
     }

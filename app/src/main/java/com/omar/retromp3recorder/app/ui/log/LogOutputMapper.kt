@@ -15,9 +15,9 @@ object LogOutputMapper {
 
     private fun getMapper(): BiFunction<LogView.State, LogView.Output, LogView.State> =
         BiFunction { oldState: LogView.State, output: LogView.Output ->
-                oldState.copy(
-                    messages = oldState.messages.takeLast(LOG_MEMORY_SIZE) + output,
-                )
+            oldState.copy(
+                messages = oldState.messages.takeLast(LOG_MEMORY_SIZE) + output,
+            )
         }
 
     private fun getDefaultViewModel() = LogView.State(
