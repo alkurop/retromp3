@@ -5,12 +5,10 @@ import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TextAppearanceSpan
-import android.webkit.WebSettings
-import androidx.annotation.DimenRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
-import com.omar.retromp3recorder.utils.Constants.PLAYER_TO_RECORDER_CONVERSION_MILLIS
-import java.time.*
+import com.omar.retromp3recorder.utils.Constants.PRECISION_PLAYER_TO_RECORDER_CONVERSION_MILLIS
+import java.time.Duration
 
 typealias SeekbarTime = Int
 typealias PlayerTime = Long
@@ -20,8 +18,8 @@ data class TimeDisplay(
     val millis: String
 )
 
-fun SeekbarTime.toPlayerTime(): PlayerTime = this.toLong() * PLAYER_TO_RECORDER_CONVERSION_MILLIS
-fun PlayerTime.toSeekbarTime(): SeekbarTime = (this / PLAYER_TO_RECORDER_CONVERSION_MILLIS).toInt()
+fun SeekbarTime.toPlayerTime(): PlayerTime = this.toLong() * PRECISION_PLAYER_TO_RECORDER_CONVERSION_MILLIS
+fun PlayerTime.toSeekbarTime(): SeekbarTime = (this / PRECISION_PLAYER_TO_RECORDER_CONVERSION_MILLIS).toInt()
 
 
 @RequiresApi(Build.VERSION_CODES.O)
