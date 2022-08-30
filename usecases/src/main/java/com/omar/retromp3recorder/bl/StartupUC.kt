@@ -3,6 +3,7 @@ package com.omar.retromp3recorder.bl
 import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.audio.PlayerProgressMapper
 import com.omar.retromp3recorder.bl.audio.RecordWavetableUC
+import com.omar.retromp3recorder.bl.audio.StopRecordAfterTooLongUC
 import com.omar.retromp3recorder.bl.files.NewFileUpdater
 import com.omar.retromp3recorder.bl.files.ScanDirFilesUC
 import com.omar.retromp3recorder.bl.files.TakeLastFileDirScanUC
@@ -18,6 +19,7 @@ class StartupUC @Inject constructor(
     private val loadRecorderSettingsUC: LoadRecorderSettingsUC,
     private val playerProgressMapper: PlayerProgressMapper,
     private val scanDirFilesUC: ScanDirFilesUC,
+    private val stopRecordAfterTooLongUC: StopRecordAfterTooLongUC,
     private val takeLastFileWithScanDirScanUC: TakeLastFileDirScanUC,
     private val wakelockUsecase: WakeLockUsecase,
     private val wavetableUC: RecordWavetableUC
@@ -30,6 +32,7 @@ class StartupUC @Inject constructor(
             loadRecorderSettingsUC.execute(),
             playerProgressMapper.execute(),
             scanDirFilesUC.execute(),
+            stopRecordAfterTooLongUC.execute(),
             takeLastFileWithScanDirScanUC.execute(),
             wakelockUsecase.execute(),
             wavetableUC.execute(),
