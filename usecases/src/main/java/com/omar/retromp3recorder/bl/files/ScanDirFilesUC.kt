@@ -1,11 +1,14 @@
 package com.omar.retromp3recorder.bl.files
 
+import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.db.toFileWrapper
 import com.omar.retromp3recorder.storage.repo.FileListRepo
-import com.omar.retromp3recorder.storage.repo.WavetableSampleRateRepo
-import com.omar.retromp3recorder.utils.*
+import com.omar.retromp3recorder.utils.EmptyWavetableGenerator
+import com.omar.retromp3recorder.utils.FileEmptyChecker
+import com.omar.retromp3recorder.utils.FileLister
+import com.omar.retromp3recorder.utils.FilePathGenerator
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import java.io.File
@@ -28,15 +31,11 @@ class ScanDirFilesUC @Inject constructor(
     private val filePathGenerator: FilePathGenerator,
     private val fileEmptyChecker: FileEmptyChecker,
     private val fileLister: FileLister,
-    private val wavetableSampleRateRepo: WavetableSampleRateRepo,
     private val scheduler: Scheduler
 ) {
     fun execute(
         shouldCheckEmptyFiles: Boolean = false
-    ): Completable = wavetableSampleRateRepo
-        .observe()
-        .takeOne()
-        .flatMapCompletable { wavetableSampleRate ->
+    ): Completable =
             Completable.fromAction {
                 val foundFiles = fileLister.listFiles(filePathGenerator.fileDirs)
                     .filter { it.path.split(".").last() == "mp3" }
@@ -66,7 +65,7 @@ class ScanDirFilesUC @Inject constructor(
                                 it.copy(
                                     wavetable = emptyWavetableGenerator.generateWavetable(
                                         it.path,
-                                        wavetableSampleRate.value
+                                        Mp3VoiceRecorder.WaveTableSampleRate._250.value
                                     )
                                 )
                             }
@@ -78,7 +77,7 @@ class ScanDirFilesUC @Inject constructor(
                             it.copy(
                                 wavetable = emptyWavetableGenerator.generateWavetable(
                                     it.path,
-                                    wavetableSampleRate.value
+                                    Mp3VoiceRecorder.WaveTableSampleRate._250.value
                                 )
                             )
                         }
@@ -88,11 +87,10 @@ class ScanDirFilesUC @Inject constructor(
                     delete(recordsToRemoveFromDatabase.map {
                         it.toDatabaseEntity()
                     })
-
                     getAll()
                 }
                 fileListRepo.onNext(updatedList.map { it.toFileWrapper() })
             }
-        }
+
         .subscribeOn(scheduler)
 }
