@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.bl
+package com.omar.retromp3recorder.bl.system
 
 import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.audio.PlayerProgressMapper

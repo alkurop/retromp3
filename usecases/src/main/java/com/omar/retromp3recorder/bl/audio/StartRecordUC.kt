@@ -3,8 +3,8 @@ package com.omar.retromp3recorder.bl.audio
 import android.Manifest
 import android.media.AudioAttributes.USAGE_GAME
 import android.media.AudioAttributes.USAGE_MEDIA
-import com.omar.retromp3recorder.bl.CheckPermissionsUC
-import com.omar.retromp3recorder.bl.RequestMediaProjectionUC
+import com.omar.retromp3recorder.bl.system.CheckPermissionsUC
+import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUC
 import com.omar.retromp3recorder.bl.files.GenerateDirIfNotExistsUC
 import com.omar.retromp3recorder.bl.files.GetNewFileNameUC
 import com.omar.retromp3recorder.bl.files.IncrementFileNameUC

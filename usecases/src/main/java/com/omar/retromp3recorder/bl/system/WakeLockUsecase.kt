@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.bl
+package com.omar.retromp3recorder.bl.system
 
 import com.omar.retromp3recorder.bl.audio.AudioState
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper

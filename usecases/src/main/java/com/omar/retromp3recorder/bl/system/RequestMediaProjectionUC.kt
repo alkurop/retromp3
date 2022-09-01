@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.bl
+package com.omar.retromp3recorder.bl.system
 
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.storage.repo.MediaProjectionRequestBus

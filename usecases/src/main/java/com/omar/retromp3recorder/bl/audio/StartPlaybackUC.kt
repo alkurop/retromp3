@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.bl.audio
 import android.Manifest
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.audioplayer.PlayerStartOptions
-import com.omar.retromp3recorder.bl.CheckPermissionsUC
+import com.omar.retromp3recorder.bl.system.CheckPermissionsUC
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions

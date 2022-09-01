@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.app.ui.audio_controls.buttonsstate.PlayButtonSt
 import com.omar.retromp3recorder.app.ui.audio_controls.buttonsstate.RecordButtonStateMapper
 import com.omar.retromp3recorder.app.ui.audio_controls.buttonsstate.ShareButtonStateMapper
 import com.omar.retromp3recorder.app.ui.audio_controls.buttonsstate.StopButtonStateMapper
-import com.omar.retromp3recorder.bl.ShareUC
+import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.bl.audio.StartPlaybackUC
 import com.omar.retromp3recorder.bl.audio.StartRecordUC
 import com.omar.retromp3recorder.bl.audio.StopPlaybackAndRecordUC

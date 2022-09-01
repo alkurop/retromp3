@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.app.ui.log
 
-import com.omar.retromp3recorder.bl.LogMapper
+import com.omar.retromp3recorder.bl.system.LogMapper
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
