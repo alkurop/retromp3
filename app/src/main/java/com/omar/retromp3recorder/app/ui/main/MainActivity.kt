@@ -20,7 +20,6 @@ import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
 import com.omar.retromp3recorder.app.uiutils.observe
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val permissionsManager: PermissionsManager by lazy { PermissionsManager(this) }
@@ -29,34 +28,17 @@ class MainActivity : AppCompatActivity() {
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val logFragment by lazy { findViewById<View>(R.id.log_fragment) }
     private val mediaProjectionManager by lazy { getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
-    private var isContentViewSet = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main_new)
+        setSupportActionBar(toolbar)
         viewModel.state.observe(this, ::renderView)
     }
 
     private fun renderView(state: MainView.State) {
         state.apply {
-            if (shouldRestart) {
-                finish()
-                startActivity(Intent(this@MainActivity, MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                })
-                Toast.makeText(this@MainActivity, R.string.rerendered, Toast.LENGTH_SHORT).show()
-            }
-            // needed in case activity is restarted outside of the render cycle
-            if (!isContentViewSet) {
-                isContentViewSet = true
-                if (isNewLayout) {
-                    setContentView(R.layout.activity_main_new)
-                } else {
-                    setContentView(R.layout.activity_main)
-                }
-            }
-            if (actionBar == null) {
-                setSupportActionBar(toolbar)
-            }
+
 
             if (shouldKeepScreenOn) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)

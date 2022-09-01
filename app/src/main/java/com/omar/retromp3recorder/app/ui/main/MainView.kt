@@ -12,7 +12,6 @@ object MainView {
         val isNewLayout: Boolean = false,
         val shouldKeepScreenOn: Boolean = false,
         val shouldRestart: Boolean = false,
-        val isSetUpAlready: Boolean = false,
     )
 
     sealed class Input {

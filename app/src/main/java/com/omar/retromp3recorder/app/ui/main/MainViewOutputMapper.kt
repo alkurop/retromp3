@@ -34,17 +34,9 @@ object MainViewOutputMapper {
                     }
 
                     val isLogViewEnabled = FeatureFlag.LogView.let(isEnabled)
-                    val isNewLayout = FeatureFlag.NewLayout.let(isEnabled)
-
-                    val shouldRestart =
-                        oldState.isSetUpAlready && (isNewLayout != oldState.isNewLayout)
-
                     val shouldKeepScreenOn = FeatureFlag.KeepScreenOn.let(isEnabled)
                     oldState.copy(
                         isLogViewEnabled = isLogViewEnabled,
-                        isNewLayout = isNewLayout,
-                        isSetUpAlready = true,
-                        shouldRestart = shouldRestart,
                         shouldKeepScreenOn = shouldKeepScreenOn
                     )
                 }
