@@ -94,3 +94,12 @@ class ScanDirFilesUC @Inject constructor(
 
         .subscribeOn(scheduler)
 }
+
+ // during rename look up wavetable also
+ // delete wavetable file if not in db
+ // delete wave table file on file delete
+ // delete wavetable if file not found
+
+ // rename wavetable file
+ // remove underscore in filenames
+ // never forget about users who have wavetable in db
