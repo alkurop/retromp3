@@ -37,11 +37,11 @@ class WavetablePreview @JvmOverloads constructor(
         for (i in 0 until length) {
             val relativeLoudness = max(((mBytes[i]) * (height / 2) / Byte.MAX_VALUE), 1)
             val start = width * (i - 1) / length
-            val end = width * (i + 1) / length
+            val end = width * (i) / length
             val rect = RectF(
                 start.toFloat(),
-                (height / 2 - relativeLoudness).toFloat().coerceAtLeast(1f),
-                end.toFloat() + 100,
+                (height / 2 - relativeLoudness).toFloat().coerceAtLeast(0f),
+                end.toFloat(),
                 (height / 2 + relativeLoudness).toFloat(),
             )
             path.addRect(rect, Path.Direction.CCW)
