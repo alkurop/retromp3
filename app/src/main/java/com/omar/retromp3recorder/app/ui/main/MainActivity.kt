@@ -26,12 +26,11 @@ class MainActivity : AppCompatActivity() {
     private val permissionsMap = createPermissionsMap()
     private val viewModel by viewModels<MainViewModel>()
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
-    private val logFragment by lazy { findViewById<View>(R.id.log_fragment) }
     private val mediaProjectionManager by lazy { getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_new)
+        setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         viewModel.state.observe(this, ::renderView)
     }
@@ -47,7 +46,6 @@ class MainActivity : AppCompatActivity() {
             }
             requestForPermissions.ghost?.let { makePermissionsRequest(it) }
             requestForScreenCapture.ghost?.let { makeScreenCaptureRequest() }
-            logFragment.isVisible = this.isLogViewEnabled
         }
     }
 

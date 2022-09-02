@@ -1,0 +1,63 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/main_activity"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+        app:title="@string/app_name" />
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_visualizer"
+        android:name="com.omar.retromp3recorder.app.ui.visualizer.VisualizerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/current_file"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/current_file"
+        android:name="com.omar.retromp3recorder.app.ui.files.preview.CurrentFileFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/progress"
+        app:layout_constraintTop_toBottomOf="@id/fragment_visualizer" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/progress"
+        android:name="com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/audio_controls"
+        app:layout_constraintTop_toBottomOf="@id/current_file" />
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/audio_controls"
+        android:name="com.omar.retromp3recorder.app.ui.audio_controls.AudioControlsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
