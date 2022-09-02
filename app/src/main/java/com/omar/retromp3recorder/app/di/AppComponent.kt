@@ -15,7 +15,6 @@ import com.omar.retromp3recorder.app.ui.main.MainViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.audio_source.AudioSourceViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.beat_rate.BitRateSettingsViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.sample_rate.SampleRateViewModel
-import com.omar.retromp3recorder.app.ui.recorder_settings.waverate.WaveSampleRateSettingsViewModel
 import com.omar.retromp3recorder.app.ui.settings.SettingsViewModel
 import com.omar.retromp3recorder.app.ui.visualizer.VisualizerViewModel
 import com.omar.retromp3recorder.storage.StorageModule
@@ -51,5 +50,4 @@ interface AppComponent {
     fun inject(wakelockService: WakelockService)
     fun inject(mediaProjectionService: MediaProjectionService)
     fun inject(settingsViewModel: SettingsViewModel)
-    fun inject(waveRateRateViewModel: WaveSampleRateSettingsViewModel)
 }

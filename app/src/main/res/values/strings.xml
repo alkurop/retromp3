@@ -25,9 +25,7 @@
     <string name="rerendered">Rerendered</string>
     <string name="rename_file">Rename file</string>
     <string name="sample_rate">Sample Rate</string>
-    <string name="wavetable_sample_rate">Wavetable Sample Rate</string>
     <string name="sample_rate_format">"%1$d kb"</string>
-    <string name="wavetable_sample_rate_format">"%1$d sps, max length %2$d minutes"</string>
     <string name="settings">Settings</string>
     <string name="timer_no_text"><![CDATA[<< : >>]]></string>
     <string name="write_required_message">Saving mp3 is required. Go to settings and let this app Write Internal Storage</string>
