@@ -6,7 +6,6 @@ import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.dto.Wavetable
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.iorecorder.RecorderDefaults
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
 import com.omar.retromp3recorder.utils.Optional
 import javax.inject.Inject
@@ -62,4 +61,4 @@ class WavetableRepo @Inject constructor() :
 
 @Singleton
 class WavetableSampleRateRepo @Inject constructor() :
-    BehaviorSubjectRepo<Mp3VoiceRecorder.WaveTableSampleRate>()
+    BehaviorSubjectRepo<Mp3VoiceRecorder.WaveTableSampleRate>(Mp3VoiceRecorder.WaveTableSampleRate._50)

@@ -45,14 +45,6 @@ class LoadRecorderSettingsUC @Inject constructor(
                             ?.let { Mp3VoiceRecorder.AudioSourcePref.values()[it] }
                             ?: Mp3VoiceRecorder.AudioSourcePref.Mic
                     audioSourceRepo.onNext(audioSource)
-                },
-                Completable.fromAction {
-                    val waveTableSampleRate =
-                        sharedPreferences.getInt(SharedPrefsKeys.WAVETABLE_SAMPLE_RATE, NO_SETTING)
-                            .takeIf { it != NO_SETTING }
-                            ?.let { Mp3VoiceRecorder.WaveTableSampleRate.values()[it] }
-                            ?: Mp3VoiceRecorder.WaveTableSampleRate._100
-                    wavetableSampleRateRepo.onNext(waveTableSampleRate)
                 })
         )
         .subscribeOn(scheduler)

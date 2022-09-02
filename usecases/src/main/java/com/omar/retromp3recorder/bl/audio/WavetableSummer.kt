@@ -33,7 +33,7 @@ data class WavetableSummer(
     }
 
     companion object {
-        private const val MAX_SIZE = 1024
+        private const val MAX_SIZE = 1024 * 2
 
         val collectFunction: (WavetableSummer, Byte) -> Unit = { summer, byte ->
             summer.add(byte)
