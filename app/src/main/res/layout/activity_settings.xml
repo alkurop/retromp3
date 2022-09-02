@@ -39,12 +39,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/WaveSampleRateSettingsFragment"
-                    android:name="com.omar.retromp3recorder.app.ui.recorder_settings.waverate.WaveSampleRateSettingsFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
                 <LinearLayout
                     android:id="@+id/prod_container"
                     android:layout_width="match_parent"
