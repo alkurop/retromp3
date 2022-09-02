@@ -11,7 +11,7 @@ enum class FeatureFlag(
     @StringRes val friendlyName: Int
 ) {
     LogView(
-        featureLevel = FeatureLevel.Debug,
+        featureLevel = FeatureLevel.Production,
         friendlyName = R.string.feature_name_log_view
     ),
     KeepScreenOn(

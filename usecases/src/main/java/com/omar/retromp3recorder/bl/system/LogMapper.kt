@@ -9,12 +9,10 @@ import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class LogMapper @Inject constructor(
-    audioPlayer: AudioPlayer,
     recorder: Mp3VoiceRecorder,
     sharer: Sharer
 ) {
     private val observable: Observable<Event> = Observable.merge(
-        audioPlayer.createLogs(),
         recorder.createLogs(),
         sharer.createLogs()
     ).share()
@@ -39,6 +37,7 @@ private fun Mp3VoiceRecorder.createLogs(): Observable<LogMapper.Event> {
     return Observable.merge(message, error)
 }
 
+@Suppress("UNUSED")
 private fun AudioPlayer.createLogs(): Observable<LogMapper.Event> {
     val message: Observable<LogMapper.Event> = this
         .observeEvents()
