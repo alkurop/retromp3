@@ -50,7 +50,7 @@
                 android:id="@+id/progress"
                 android:name="com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressFragment"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/wavetable_height"
+                android:layout_height="240dp"
                 android:layout_margin="8dp" />
 
 
