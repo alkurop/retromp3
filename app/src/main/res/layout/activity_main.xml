@@ -56,7 +56,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toTopOf="@id/audio_log" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/audio_log"
+        android:alpha="0.5"
+        android:name="com.omar.retromp3recorder.app.ui.log.LogFragment"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
