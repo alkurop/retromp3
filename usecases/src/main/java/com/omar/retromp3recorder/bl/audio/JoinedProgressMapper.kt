@@ -75,15 +75,12 @@ class JoinedProgressMapper @Inject constructor(
             audioStateMapper.observe().ofType(AudioState.Recording::class.java).switchMap {
                 recorderWavetableMapper.observe()
                     .takeUntil(audioStateMapper.observe().ofType(AudioState.Idle::class.java))
-                    .scan(emptyList<Byte>()) { list, newItem ->
-                        list + newItem
-                    }
+                    .scan(WavetableSummer(), WavetableSummer.scanFunction)
+                    .map { it.toWaveTable(wavetableSampleRateRepo.observe().blockingFirst()) }
                     .map {
-                        val waveTableSampleRate =
-                            wavetableSampleRateRepo.observe().blockingFirst().value
                         JoinedProgress.RecorderProgressShown(
-                            it.size * waveTableSampleRate.toLong(),
-                            Wavetable(it.toByteArray(), waveTableSampleRate)
+                            it.data.size.toLong() * it.stepMillis,
+                            it
                         )
                     }
             }

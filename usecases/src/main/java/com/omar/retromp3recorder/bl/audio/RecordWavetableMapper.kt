@@ -21,7 +21,6 @@ class RecordWavetableMapper @Inject constructor(
                 .buffer(rate.value.toLong(), TimeUnit.MILLISECONDS)
                 .map { it.average() }
                 .map { it.toInt().toByte() }
-
         }
     }
 }
