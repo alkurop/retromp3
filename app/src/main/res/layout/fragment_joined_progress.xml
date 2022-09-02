@@ -7,23 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/fjp_recorder_progress"
-            android:layout_width="@dimen/progress_width"
-            android:layout_height="@dimen/control_buttons_dimen"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@color/color_visualizer_bg"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
-
-
         <com.omar.retromp3recorder.ui.wavetable.WavetablePreview
             android:id="@+id/fjp_recorder_wavetable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toStartOf="@id/fjp_recorder_progress"
             android:background="@color/color_visualizer_bg" />
     </RelativeLayout>
 
