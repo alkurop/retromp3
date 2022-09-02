@@ -22,7 +22,7 @@ class RecordWavetableUC @Inject constructor(
         .flatMapCompletable {
             recorderMapper.observe()
                 .takeUntil(audioStateMapper.observe().ofType(AudioState.Idle::class.java))
-                .collectInto(WavetableSummer(), WavetableSummer.collectFunction)
+                .collectInto(WavetableSummer(), WavetableSummer.recordCollectFunction)
                 .map { it.toWaveTable(wavetableSampleRateRepo.observe().blockingFirst()) }
                 .flatMapCompletable { wavetable ->
                     Completable.fromAction {

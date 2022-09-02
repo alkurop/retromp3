@@ -4,7 +4,6 @@ import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.bl.files.CurrentFileMapper
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
-import com.omar.retromp3recorder.dto.Wavetable
 import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
 import com.omar.retromp3recorder.storage.repo.WavetableSampleRateRepo
 import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
@@ -73,14 +72,15 @@ class JoinedProgressMapper @Inject constructor(
                 }
             },
             audioStateMapper.observe().ofType(AudioState.Recording::class.java).switchMap {
+                val rate = wavetableSampleRateRepo.observe().blockingFirst()
                 recorderWavetableMapper.observe()
                     .takeUntil(audioStateMapper.observe().ofType(AudioState.Idle::class.java))
-                    .scan(WavetableSummer(), WavetableSummer.scanFunction)
-                    .map { it.toWaveTable(wavetableSampleRateRepo.observe().blockingFirst()) }
+                    .scan(WavetableSummer(), WavetableSummer.displayScanFunction)
                     .map {
+                        val wavetable = it.toWaveTable(rate, false)
                         JoinedProgress.RecorderProgressShown(
-                            it.data.size.toLong() * it.stepMillis,
-                            it
+                            it.getProgress() * rate.value,
+                            wavetable
                         )
                     }
             }
