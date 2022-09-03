@@ -19,7 +19,7 @@
         android:textColor="@color/white"
         android:textSize="12sp" />
 
-    <com.omar.retromp3recorder.ui.state_button.InteractiveButtonBlinking
+    <com.omar.retromp3recorder.ui.state_button.InteractiveButton
         android:id="@+id/acf_play"
         android:layout_width="@dimen/control_buttons_dimen"
         android:layout_height="@dimen/control_buttons_dimen"

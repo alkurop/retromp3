@@ -11,13 +11,12 @@ import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.utils.lazyView
 import com.omar.retromp3recorder.app.uiutils.observe
 import com.omar.retromp3recorder.ui.state_button.InteractiveButton
-import com.omar.retromp3recorder.ui.state_button.InteractiveButtonBlinking
 import com.omar.retromp3recorder.utils.toDisplay
 import com.omar.retromp3recorder.utils.toSpannableStringWithSmallMillis
 import io.reactivex.rxjava3.core.Observable.merge
 
 class AudioControlsFragment : Fragment(R.layout.fragment_audio_controls) {
-    private val playButton: InteractiveButtonBlinking by lazyView(R.id.acf_play)
+    private val playButton by lazyView<InteractiveButton>(R.id.acf_play)
     private val recordButton by lazyView<InteractiveButton>(R.id.acf_record)
     private val shareButton by lazyView<InteractiveButton>(R.id.acf_share)
     private val stopButton by lazyView<InteractiveButton>(R.id.acf_stop)
@@ -44,7 +43,8 @@ class AudioControlsFragment : Fragment(R.layout.fragment_audio_controls) {
         shareButton.onState(state.shareButtonState)
         stopButton.onState(state.stopButtonState)
         progressView.isInvisible = state.playerProgressState == null
-        durationView.isInvisible = state.playerProgressState == null && state.recordingDuration == null
+        durationView.isInvisible =
+            state.playerProgressState == null && state.recordingDuration == null
         state.playerProgressState?.apply {
             progressView.text = progress.toDisplay()
                 .toSpannableStringWithSmallMillis(requireContext(), R.style.Control_Normal_Millis)

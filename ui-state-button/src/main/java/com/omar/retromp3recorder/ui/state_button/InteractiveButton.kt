@@ -15,6 +15,8 @@ open class InteractiveButton @JvmOverloads constructor(
     private val imageView: ImageView
         get() = findViewById(R.id.vsb_image_view)
 
+    private var currentState: State? = null
+
     protected val compositeDisposable = CompositeDisposable()
 
     init {
@@ -35,12 +37,15 @@ open class InteractiveButton @JvmOverloads constructor(
         isFocusable
     }
 
-    fun onState(state: State) =
+    fun onState(state: State) {
+        if (currentState == state) return
+        currentState = state
         when (state) {
             State.ENABLED -> onEnabled()
             State.DISABLED -> onDisabled()
             State.RUNNING -> onRunning()
         }
+    }
 
     private fun onEnabled() {
         compositeDisposable.clear()

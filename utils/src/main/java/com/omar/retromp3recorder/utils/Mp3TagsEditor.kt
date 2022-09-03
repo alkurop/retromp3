@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.utils
 
 import android.content.Context
 import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 import com.mpatric.mp3agic.ID3v1Tag
 import com.mpatric.mp3agic.Mp3File
 import com.omar.retromp3recorder.dto.RecordingTags
@@ -41,7 +42,7 @@ class Mp3TagsEditorImpl @Inject constructor(
                 }
                 val newFile = Mp3File(filepath)
                 val id3v1Tag = newFile.id3v1Tag
-                Timber.d("Tag $id3v1Tag")
+                Timber.d("Tag $id3v1Tag,")
             }
         } catch (e: Exception) {
             Timber.e(e)
@@ -69,4 +70,5 @@ class Mp3TagsEditorImpl @Inject constructor(
 }
 
 private const val VERSION_TAGS_WORK = Build.VERSION_CODES.O_MR1
+@ChecksSdkIntAtLeast(api = VERSION_TAGS_WORK)
 private fun isTagsWork() = Build.VERSION.SDK_INT >= VERSION_TAGS_WORK

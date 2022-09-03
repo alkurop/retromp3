@@ -17,18 +17,16 @@ class AudioStateMapperImpl @Inject constructor(
     override fun observe(): Observable<AudioState> = Observable
         .combineLatest(
             player.observeState(),
-            recorder.observeState(),
-            { playerState, recorderState ->
-                when {
-                    playerState == AudioPlayer.State.Playing -> AudioState.Playing
-                    playerState == AudioPlayer.State.Seek_Paused -> AudioState.Seek_Paused
-                    recorderState == Mp3VoiceRecorder.State.Recording -> AudioState.Recording
-                    else -> AudioState.Idle
-                }
+            recorder.observeState()
+        ) { playerState, recorderState ->
+            when {
+                playerState == AudioPlayer.State.Playing -> AudioState.Playing
+                playerState == AudioPlayer.State.Seek_Paused -> AudioState.Seek_Paused
+                recorderState == Mp3VoiceRecorder.State.Recording -> AudioState.Recording
+                else -> AudioState.Idle
             }
-        )
+        }
         .distinctUntilChanged()
-        .doOnNext { Timber.d("$it") }
 }
 
 sealed class AudioState {

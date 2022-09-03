@@ -14,12 +14,19 @@ class InteractiveButtonBlinking @JvmOverloads constructor(
     override fun onRunning() {
         super.onRunning()
         Observable
-            .interval(500, TimeUnit.MILLISECONDS)
+            .interval(3500, TimeUnit.MILLISECONDS)
+            .switchMap {
+                Observable.merge(
+                    listOf(
+                        Observable.just(it),
+                        Observable.timer(250, TimeUnit.MILLISECONDS)
+                    )
+                )
+            }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 isActivated = !isActivated
             }
-
             .disposedBy(compositeDisposable)
     }
 }
