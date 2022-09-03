@@ -30,7 +30,7 @@ class GetNewFileNameUC @Inject constructor(
                 SharedPrefsKeys.FILE_NAME,
                 1
             )
-            "${filePathGenerator.generateFilePath()}/${dateFormat}_($int).mp3"
+            "${filePathGenerator.generateFilePath()}/${dateFormat}($int).mp3"
         }
     }
 }
