@@ -13,22 +13,12 @@ object AudioControlsOutputMapper {
     private val mapper: BiFunction<AudioControlsView.State, AudioControlsView.Output, AudioControlsView.State> =
         BiFunction { oldState: AudioControlsView.State, output: AudioControlsView.Output ->
             when (output) {
-                is AudioControlsView.Output.PlayButtonState -> oldState.copy(
-                    playButtonState = output.state
-                )
-                is AudioControlsView.Output.RecordButtonState -> oldState.copy(
-                    recordButtonState = output.state
-                )
-                is AudioControlsView.Output.ShareButtonState -> oldState.copy(
-                    shareButtonState = output.state
-                )
-                is AudioControlsView.Output.StopButtonState -> oldState.copy(
-                    stopButtonState = output.state
-                )
-                is AudioControlsView.Output.PlayerProgressState -> oldState.copy(
-                    playerProgressState = output.state
-                )
+                is AudioControlsView.Output.PlayButtonState -> oldState.copy(playButtonState = output.state)
+                is AudioControlsView.Output.RecordButtonState -> oldState.copy(recordButtonState = output.state)
+                is AudioControlsView.Output.ShareButtonState -> oldState.copy(shareButtonState = output.state)
+                is AudioControlsView.Output.StopButtonState -> oldState.copy(stopButtonState = output.state)
+                is AudioControlsView.Output.PlayerProgressState -> oldState.copy(playerProgressState = output.state)
+                is AudioControlsView.Output.RecorderDurationState -> oldState.copy(recordingDuration = output.duration)
             }
         }
-
 }

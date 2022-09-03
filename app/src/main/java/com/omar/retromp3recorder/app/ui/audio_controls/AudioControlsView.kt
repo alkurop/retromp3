@@ -17,11 +17,13 @@ object AudioControlsView {
         data class ShareButtonState(val state: InteractiveButton.State) : Output()
         data class StopButtonState(val state: InteractiveButton.State) : Output()
         data class PlayerProgressState(val state: PlayerProgress?) : Output()
+        data class RecorderDurationState(val duration: Long?) : Output()
     }
 
     data class State(
         val playButtonState: InteractiveButton.State = InteractiveButton.State.DISABLED,
         val playerProgressState: PlayerProgress? = null,
+        val recordingDuration: Long? = null,
         val recordButtonState: InteractiveButton.State = InteractiveButton.State.DISABLED,
         val stopButtonState: InteractiveButton.State = InteractiveButton.State.DISABLED,
         val shareButtonState: InteractiveButton.State = InteractiveButton.State.DISABLED,

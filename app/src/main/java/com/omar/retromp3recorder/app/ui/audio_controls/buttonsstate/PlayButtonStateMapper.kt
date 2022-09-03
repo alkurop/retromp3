@@ -14,15 +14,13 @@ class PlayButtonStateMapper @Inject constructor(
     fun observe(): Observable<InteractiveButton.State> =
         Observable.combineLatest(
             hasPlayableFileMapper.observe(),
-            audioStateMapper.observe(), { hasFile, audioState ->
-                when (audioState) {
-                    is AudioState.Recording -> InteractiveButton.State.DISABLED
-                    is AudioState.Seek_Paused -> InteractiveButton.State.ENABLED
-                    is AudioState.Playing -> InteractiveButton.State.RUNNING
-                    is AudioState.Idle -> {
-                        if (hasFile) InteractiveButton.State.ENABLED else InteractiveButton.State.DISABLED
-                    }
-                }
+            audioStateMapper.observe()
+        ) { hasFile, audioState ->
+            when (audioState) {
+                is AudioState.Recording -> InteractiveButton.State.DISABLED
+                is AudioState.Seek_Paused -> InteractiveButton.State.ENABLED
+                is AudioState.Playing -> InteractiveButton.State.RUNNING
+                is AudioState.Idle -> if (hasFile) InteractiveButton.State.ENABLED else InteractiveButton.State.DISABLED
             }
-        )
+        }
 }

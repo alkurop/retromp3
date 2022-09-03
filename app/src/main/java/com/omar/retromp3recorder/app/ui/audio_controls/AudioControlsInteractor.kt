@@ -8,6 +8,7 @@ import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.bl.audio.StartPlaybackUC
 import com.omar.retromp3recorder.bl.audio.StartRecordUC
 import com.omar.retromp3recorder.bl.audio.StopPlaybackAndRecordUC
+import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
 import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
 import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO
@@ -21,6 +22,7 @@ class AudioControlsInteractor @Inject constructor(
     private val playButtonStateMapper: PlayButtonStateMapper,
     private val playerProgressRepo: PlayerProgressRepo,
     private val recordButtonStateMapper: RecordButtonStateMapper,
+    private val recorderDurationStateMapper: RecorderDurationStateMapper,
     private val shareButtonStateMapper: ShareButtonStateMapper,
     private val stopButtonStateMapper: StopButtonStateMapper,
     private val startRecordUC: StartRecordUC,
@@ -44,6 +46,7 @@ class AudioControlsInteractor @Inject constructor(
                     .map { AudioControlsView.Output.PlayerProgressState(it.value) },
                 recordButtonStateMapper.observe()
                     .map { AudioControlsView.Output.RecordButtonState(it) },
+                recorderDurationStateMapper.observe(),
                 shareButtonStateMapper.observe()
                     .map { AudioControlsView.Output.ShareButtonState(it) },
                 stopButtonStateMapper.observe()

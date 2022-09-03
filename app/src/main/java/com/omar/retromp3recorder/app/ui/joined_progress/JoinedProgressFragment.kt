@@ -52,9 +52,7 @@ class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
                     playerProgress.updateWavetable(wavetable.data)
                 }
             }
-            else -> {
-                //nothing
-            }
+            else -> {}
         }
     }
 }

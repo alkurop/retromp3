@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.ui.audio_controls
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.jakewharton.rxbinding4.view.clicks
@@ -43,13 +43,18 @@ class AudioControlsFragment : Fragment(R.layout.fragment_audio_controls) {
         recordButton.onState(state.recordButtonState)
         shareButton.onState(state.shareButtonState)
         stopButton.onState(state.stopButtonState)
-        progressView.isGone = state.playerProgressState == null
-        durationView.isGone = state.playerProgressState == null
+        progressView.isInvisible = state.playerProgressState == null
+        durationView.isInvisible = state.playerProgressState == null && state.recordingDuration == null
         state.playerProgressState?.apply {
             progressView.text = progress.toDisplay()
                 .toSpannableStringWithSmallMillis(requireContext(), R.style.Control_Normal_Millis)
             durationView.text = duration.toDisplay()
                 .toSpannableStringWithSmallMillis(requireContext(), R.style.Control_Normal_Millis)
         }
+        state.recordingDuration?.let {
+            durationView.text = it.toDisplay()
+                .toSpannableStringWithSmallMillis(requireContext(), R.style.Control_Normal_Millis)
+        }
+
     }
 }
