@@ -16,6 +16,7 @@ import com.omar.retromp3recorder.app.recorder.LameModule
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.AUDIO_FORMAT_PRESETS
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.CHANNEL_PRESETS
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.QUALITY_PRESETS
+import com.omar.retromp3recorder.iorecorder.RecorderObserver.sendFinishLog
 import com.omar.retromp3recorder.utils.disposedBy
 import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -42,24 +43,8 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
     private val state = BehaviorSubject.createDefault(Mp3VoiceRecorder.State.Idle)
 
     override fun observeState(): Observable<Mp3VoiceRecorder.State> = state
-    override fun observeRecorder(): Observable<ByteArray> {
-        return recorderBus
-            .map { bytes ->
-                val target = 1024
-                val f = bytes.toList()
-                    .filter { it != ZERO_SHORT }
-                val bytesInTarget = f.size / target + 1
-                val b = f.windowed(bytesInTarget, bytesInTarget, false)
-                    .map {
-                        (it.average() / (Short.MAX_VALUE / (4 * Byte.MAX_VALUE))).toInt().toShort()
-                    }
-                b.map { i -> i.toByte() }.toByteArray()
-            }
-    }
-
-    override fun observeEvents(): Observable<Mp3VoiceRecorder.Event> {
-        return events
-    }
+    override fun observeRecorder(): Observable<ByteArray> = RecorderObserver.map(recorderBus)
+    override fun observeEvents(): Observable<Mp3VoiceRecorder.Event> = events
 
     override fun recordWithProps(props: Mp3VoiceRecorder.RecorderProps) {
         val minBufferSize = AudioRecord.getMinBufferSize(
@@ -68,35 +53,29 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
             encoding
         )
         val findAudioRecord = when (val audioSource = props.audioSourcePref) {
-            Mp3VoiceRecorder.AudioSource.Mic -> {
-                findAudioRecordForMic(
-                    minBufferSize = minBufferSize,
+            Mp3VoiceRecorder.AudioSource.Mic -> findAudioRecordForMic(
+                minBufferSize = minBufferSize,
+                sampleRate = props.sampleRate.value
+            )
+            is Mp3VoiceRecorder.AudioSource.Output -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                findAudioRecordForMediaProjection(
+                    audioSource.mediaProjection,
+                    audioSource.source,
+                    minBufferSize,
                     sampleRate = props.sampleRate.value
                 )
-            }
-            is Mp3VoiceRecorder.AudioSource.Output -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    findAudioRecordForMediaProjection(
-                        audioSource.mediaProjection,
-                        audioSource.source,
-                        minBufferSize,
-                        sampleRate = props.sampleRate.value
-                    )
-                } else {
-                    findAudioRecordForMic(
-                        minBufferSize = minBufferSize,
-                        sampleRate = props.sampleRate.value
-                    )
-                }
-            }
+            else findAudioRecordForMic(
+                minBufferSize = minBufferSize,
+                sampleRate = props.sampleRate.value
+            )
         }
-
 
         Single
             .zip(
                 createOutputFile(props.filepath),
-                findAudioRecord, { file, audioRecord -> Pair(file, audioRecord) }
-            )
+                findAudioRecord
+            ) { file, audioRecord -> Pair(file, audioRecord) }
+
             .flatMap { (file, audioRecord) ->
                 createRecorder(
                     audioRecord = audioRecord,
@@ -142,14 +121,8 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
         audioRecord: AudioRecord,
         sampleRate: Int,
         bitRate: Int
-    ): Single<AudioRecord> {
-        return Single.fromCallable {
-            initRecorder(
-                sampleRate = sampleRate,
-                bitRate = bitRate,
-                audioRecord = audioRecord
-            )
-        }
+    ): Single<AudioRecord> = Single.fromCallable {
+        initRecorder(sampleRate = sampleRate, bitRate = bitRate, audioRecord = audioRecord)
     }
 
     @SuppressLint("MissingPermission")
@@ -206,10 +179,7 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
             val fileWasCreated = outFile.createNewFile()
             if (!fileWasCreated) {
                 throw IOException(
-                    context.getString(
-                        R.string.rcdr_file_was_not_created,
-                        filePath
-                    )
+                    context.getString(R.string.rcdr_file_was_not_created, filePath)
                 )
             }
             outFile
@@ -224,10 +194,10 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
                 val output = FileOutputStream(outputFile)
                 emitter.setCancellable {
                     recorder.stop()
-                    recorder.release()
                     LameModule.close()
+                    recorder.release()
                     output.close()
-                    sendFinishLog(outputFile)
+                    events.sendFinishLog(outputFile, elapsed.get())
                 }
                 val buffer = ShortArray(sampleRate)
                 val mp3Buffer = createMp3Buffer(buffer)
@@ -248,34 +218,13 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
         }
     }
 
-    private fun sendFinishLog(outFile: File?) {
-        val counter = System.currentTimeMillis() - elapsed.get()
-        val absolutePath = outFile!!.absolutePath
-        if (outFile.exists()) {
-            val messages = arrayOf(
-                Stringer(R.string.rcdr_file_saved_to, absolutePath),
-                Stringer(R.string.rcdr_audio_length, counter.toFloat() / 1000),
-                Stringer(R.string.rcdr_file_size, outFile.length().toFloat() / 1000),
-                Stringer(R.string.rcdr_compression_rate, outFile.length().toFloat() / counter)
-            )
-            for (message in messages) {
-                events.onNext(Mp3VoiceRecorder.Event.Message(message))
-            }
-        } else events.onNext(
-            Mp3VoiceRecorder.Event.Error(
-                Stringer(R.string.rcdr_error_saving_file_to, absolutePath)
-            )
-        )
-    }
-
-
     private fun initRecorder(
         sampleRate: Int,
         bitRate: Int,
         audioRecord: AudioRecord
     ): AudioRecord {
         try {
-            LameModule.init(sampleRate, 1, sampleRate, bitRate, quality)
+            LameModule.init(sampleRate, 2, sampleRate, bitRate, quality)
         } catch (e: Exception) {
             throw Exception(context.getString(R.string.rcdr_error_init_recorder))
         }
@@ -289,13 +238,9 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
         } else throw Exception(context.getString(R.string.rcdr_error_init_recorder))
         return audioRecord
     }
-
-    companion object {
-        private const val ZERO = 0
-        private const val ZERO_SHORT = ZERO.toShort()
-        private const val MIN_BUFFER_SIZE_INDEX = 10
-        private val channelConfig: Int = CHANNEL_PRESETS[0]
-        private val quality: Int = QUALITY_PRESETS[1]
-        private val encoding: Int = AUDIO_FORMAT_PRESETS[1]
-    }
 }
+
+private const val MIN_BUFFER_SIZE_INDEX = 10
+private val channelConfig: Int = CHANNEL_PRESETS[0]
+private val quality: Int = QUALITY_PRESETS[1]
+private val encoding: Int = AUDIO_FORMAT_PRESETS[1]
