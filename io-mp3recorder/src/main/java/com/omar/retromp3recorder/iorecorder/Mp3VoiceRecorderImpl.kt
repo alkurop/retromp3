@@ -114,7 +114,8 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
     }
 
     private fun createMp3Buffer(buffer: ShortArray): ByteArray {
-        return ByteArray((7200 + buffer.size * 2 * 1.25).toInt())
+        val mp3BufferSize = 7200 + buffer.size * 1.25
+        return ByteArray(mp3BufferSize.toInt())
     }
 
     private fun createRecorder(
