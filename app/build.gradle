@@ -67,6 +67,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$versions.ktxFragment"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
+    implementation "com.github.alkurop:RangeBar:$versions.rangeBar"
 
     implementation "com.google.dagger:dagger:$versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"

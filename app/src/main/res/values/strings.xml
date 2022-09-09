@@ -33,5 +33,6 @@
     <string name="write_permission_message">This app is going to save mp3 files to your phone.</string>
     <string name="write_permission_title">Write Storage</string>
     <string name="yes">Yes</string>
+    <string name="range_control">Range control</string>
 
 </resources>

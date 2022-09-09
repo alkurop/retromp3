@@ -17,10 +17,20 @@ enum class FeatureFlag(
     KeepScreenOn(
         featureLevel = FeatureLevel.Production,
         friendlyName = R.string.feature_name_keep_screen_on
-    )
+    ),
+    RangeControl(
+        featureLevel = FeatureLevel.Debug,
+        friendlyName = R.string.feature_name_range_control
+    ),
     ;
 
     val key: String = "FeatureFlag_${this.name}"
+
+    val isEnabled: (FeatureFlagsCollection) -> Boolean = {
+        val setting = it.featuresMap[this]
+            ?: FeatureFlagSetting()
+        setting.isEnabled(this)
+    }
 }
 
 @Keep
