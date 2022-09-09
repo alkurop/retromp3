@@ -17,8 +17,8 @@ object RangeBarView {
         object Hidden : State()
         data class Visible(
             val range: PlayerRange,
-            val fromTimer: Long,
-            val toTimer: Long
+            val fromMillis: Long,
+            val toMillis: Long
         ) : State()
     }
 }
