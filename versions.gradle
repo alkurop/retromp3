@@ -1,10 +1,10 @@
 ext.versions = [
         'constraintLayout'      :'2.0.4',
-        'dagger'                :'2.40.5',
+        'dagger'                :'2.43.2',
         'exo'                   :'2.14.0',
         'firebase'              :'28.4.0',
         'ghostinshell'          :'0.1',
-        'kotlin'                :'1.6.21',
+        'kotlin'                :'1.7.10',
         'ktxFragment'           :'1.5.2',
         'lifecycle'             :'2.5.1',
         'permission'            :'0.14.13',
@@ -16,7 +16,7 @@ ext.versions = [
         'rxJava'                :'3.0.12',
         'rxKotlin'              :'3.0.1',
         'stringerbell'          :'0.4',
-        'support'               :'1.4.1',
+        'support'               :'1.5.1',
         'timber'                :'4.7.1'
 ]
 ext.testVersions = [
