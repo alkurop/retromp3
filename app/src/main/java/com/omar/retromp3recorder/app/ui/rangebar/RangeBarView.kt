@@ -6,13 +6,6 @@ object RangeBarView {
     sealed class Input {
         data class RangeSet(val range: PlayerRange) : Input()
     }
-
-    sealed class Output {
-        data class Visibility(
-            val isVisible: Boolean
-        ) : Output()
-    }
-
     sealed class State {
         object Hidden : State()
         data class Visible(

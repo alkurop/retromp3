@@ -3,12 +3,14 @@ package com.omar.retromp3recorder.app.ui.rangebar
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.alkurop.rangebar.RangeBar
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.utils.lazyView
+import com.omar.retromp3recorder.app.uiutils.TimeDisplay.toDisplay
 import com.omar.retromp3recorder.app.uiutils.observe
 import com.omar.retromp3recorder.dto.PlayerRange
 
@@ -34,8 +36,15 @@ class RangeBarFragment : Fragment(R.layout.fragment_rangebar) {
     }
 
     private fun renderState(state: RangeBarView.State) {
-        state.apply {
-            view?.isVisible = isVisible
+        when (state) {
+            RangeBarView.State.Hidden -> {
+                view?.isGone = true
+            }
+            is RangeBarView.State.Visible -> {
+                view?.isVisible = true
+                startView.text = state.fromMillis.toDisplay(requireContext())
+                endView.text = state.toMillis.toDisplay(requireContext())
+            }
         }
     }
 }

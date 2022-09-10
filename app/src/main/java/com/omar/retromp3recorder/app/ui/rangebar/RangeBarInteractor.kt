@@ -9,28 +9,18 @@ import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject
 
 class RangeBarInteractor @Inject constructor(
-    private val isStateMapper: RangeBarStateMapper,
+    private val rangeStateMapper: RangeBarStateMapper,
     private val updatePlayerRangeUC: UpdatePlayerRangeUC,
     private val workScheduler: Scheduler
 ) {
-    fun processIO(): ObservableTransformer<RangeBarView.Input, RangeBarView.Output> =
+    fun processIO(): ObservableTransformer<RangeBarView.Input, RangeBarView.State> =
         workScheduler.processIO(
             inputMapper = mapInputToUsecase,
             outputMapper = mapRepoToOutput
         )
 
-    private val mapRepoToOutput: () -> Observable<RangeBarView.Output> = {
-        Observable.merge(
-            listOf(
-                isStateMapper.observe().map {
-                    val isVisible = when (it) {
-                        is RangeBarView.State.Hidden -> false
-                        is RangeBarView.State.Visible -> true
-                    }
-                    RangeBarView.Output.Visibility(isVisible)
-                },
-            )
-        )
+    private val mapRepoToOutput: () -> Observable<RangeBarView.State> = {
+        rangeStateMapper.observe()
     }
     private val mapInputToUsecase: (Observable<RangeBarView.Input>) -> Completable = { input ->
         Completable.merge(
