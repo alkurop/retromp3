@@ -2,12 +2,19 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "e5249b1ca3702393387ba2e61e25b91a",
+    "identityHash": "1b82b4b976ea9ed6a10f39c6e7097c98",
     "entities": [
       {
         "tableName": "FileDbEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`created` INTEGER NOT NULL, `lastModified` INTEGER NOT NULL, `filepath` TEXT NOT NULL, `length` INTEGER, `waveform` BLOB, `stepMillis` INTEGER, PRIMARY KEY(`created`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT 0, `created` INTEGER NOT NULL, `lastModified` INTEGER NOT NULL, `filepath` TEXT NOT NULL, `length` INTEGER, `waveform` BLOB, `stepMillis` INTEGER)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
           {
             "fieldPath": "created",
             "columnName": "created",
@@ -47,9 +54,9 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "created"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -58,7 +65,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e5249b1ca3702393387ba2e61e25b91a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1b82b4b976ea9ed6a10f39c6e7097c98')"
     ]
   }
 }

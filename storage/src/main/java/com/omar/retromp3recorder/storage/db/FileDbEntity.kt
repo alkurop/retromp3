@@ -6,7 +6,10 @@ import com.omar.retromp3recorder.dto.Wavetable
 
 @Entity
 data class FileDbEntity(
-    @PrimaryKey val created: Long,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(defaultValue = "0")
+    val id: Long,
+    val created: Long = 0,
     val lastModified: Long,
     val filepath: String,
     @Embedded
@@ -73,6 +76,7 @@ fun FileDbEntity.toFileWrapper(): ExistingFileWrapper =
     )
 
 fun ExistingFileWrapper.toDatabaseEntity(): FileDbEntity = FileDbEntity(
+    0,
     this.createTimedStamp,
     this.modifiedTimestamp,
     this.path,
