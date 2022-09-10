@@ -4,10 +4,7 @@ import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.FileListRepo
 import com.omar.retromp3recorder.storage.repo.WavetableRepo
-import com.omar.retromp3recorder.utils.FileLister
-import com.omar.retromp3recorder.utils.Mp3TagsEditor
-import com.omar.retromp3recorder.utils.RecordingTagsDefaultProvider
-import com.omar.retromp3recorder.utils.takeOneObservable
+import com.omar.retromp3recorder.utils.*
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
@@ -20,14 +17,14 @@ class SaveRecordingWithWavetableUC @Inject constructor(
 ) {
     fun execute(): Completable =
         wavetableRepo.observe()
-            .takeOneObservable()
+            .takeOne()
             .flatMapCompletable { shell ->
                 val (path, wave) = shell
                 saveMp3TagsUC.execute(path).andThen(
                     Completable
                         .fromAction {
                             val fileEntityDao = appDatabase.fileEntityDao()
-                            val newItem = fileLister.discoverFile(path).copy(wavetable = wave)
+                            val newItem = fileLister.discoverFile(path).copy(wavetable = wave, length = fileLister.discoverLength(path))
 
                             fileEntityDao.insert(listOf(newItem.toDatabaseEntity()))
                             val fileList = fileListRepo.observe().blockingFirst()
