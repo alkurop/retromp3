@@ -2,7 +2,6 @@ package com.omar.retromp3recorder.bl.audio
 
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.WavetableRepo
-import com.omar.retromp3recorder.storage.repo.WavetableSampleRateRepo
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import timber.log.Timber
@@ -13,7 +12,6 @@ class RecordWavetableUC @Inject constructor(
     private val recorderMapper: RecordWavetableMapper,
     private val audioStateMapper: AudioStateMapper,
     private val wavetableRepo: WavetableRepo,
-    private val wavetableSampleRateRepo: WavetableSampleRateRepo,
     private val currentFileRepo: CurrentFileRepo,
     private val scheduler: Scheduler
 ) {
@@ -23,7 +21,7 @@ class RecordWavetableUC @Inject constructor(
             recorderMapper.observe()
                 .takeUntil(audioStateMapper.observe().ofType(AudioState.Idle::class.java))
                 .collectInto(WavetableSummer(), WavetableSummer.recordCollectFunction)
-                .map { it.toWaveTable(wavetableSampleRateRepo.observe().blockingFirst()) }
+                .map { it.toWaveTable() }
                 .flatMapCompletable { wavetable ->
                     Completable.fromAction {
                         val currentFilePath = currentFileRepo.observe().blockingFirst().value!!

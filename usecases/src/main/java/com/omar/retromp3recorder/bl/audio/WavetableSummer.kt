@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.bl.audio
 
 import com.omar.retromp3recorder.dto.Wavetable
-import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 
 data class WavetableSummer(
     var list: MutableList<Byte> = mutableListOf(),
@@ -15,7 +14,7 @@ data class WavetableSummer(
             denomitator *= 2
             list = list.windowed(2, 2, false) { it.maxOrNull() ?: 0 }.toMutableList()
         }
-        if (buffer.size <= denomitator) {
+        if (buffer.size < denomitator) {
             buffer.add(item)
         } else {
             val element = buffer.maxOrNull() ?: 0
@@ -23,7 +22,6 @@ data class WavetableSummer(
             buffer.clear()
             buffer.add(item)
         }
-
     }
 
     fun getProgress(): Long {
@@ -32,16 +30,15 @@ data class WavetableSummer(
 
     //append buffer only for final waveform
     fun toWaveTable(
-        sampleRate: Mp3VoiceRecorder.WaveTableSampleRate,
         appendBuffer: Boolean = true
     ): Wavetable {
         if (appendBuffer) list.add(buffer.average().toInt().toByte())
         val byteArray = list.toByteArray()
-        return Wavetable(byteArray, sampleRate.value * denomitator)
+        return Wavetable(byteArray, byteArray.size * denomitator)
     }
 
     companion object {
-        private const val MAX_SIZE = 1024
+        private const val MAX_SIZE = 1000
 
         val recordCollectFunction: (WavetableSummer, Byte) -> Unit = { summer, byte ->
             summer.add(byte)

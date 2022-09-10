@@ -22,7 +22,7 @@ interface Mp3VoiceRecorder {
     }
 
     enum class WaveTableSampleRate(val value: Int) {
-        _50(50), _250(250)
+        _100(100), _250(250)
     }
 
     enum class AudioSourcePref(

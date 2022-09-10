@@ -61,4 +61,4 @@ class WavetableRepo @Inject constructor() :
 
 @Singleton
 class WavetableSampleRateRepo @Inject constructor() :
-    BehaviorSubjectRepo<Mp3VoiceRecorder.WaveTableSampleRate>(Mp3VoiceRecorder.WaveTableSampleRate._50)
+    BehaviorSubjectRepo<Mp3VoiceRecorder.WaveTableSampleRate>(Mp3VoiceRecorder.WaveTableSampleRate._100)

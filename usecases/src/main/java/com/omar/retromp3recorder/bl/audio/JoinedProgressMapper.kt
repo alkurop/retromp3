@@ -77,7 +77,7 @@ class JoinedProgressMapper @Inject constructor(
                     .takeUntil(audioStateMapper.observe().ofType(AudioState.Idle::class.java))
                     .scan(WavetableSummer(), WavetableSummer.displayScanFunction)
                     .map {
-                        val wavetable = it.toWaveTable(rate, false)
+                        val wavetable = it.toWaveTable(false)
                         JoinedProgress.RecorderProgressShown(
                             it.getProgress() * rate.value,
                             wavetable
