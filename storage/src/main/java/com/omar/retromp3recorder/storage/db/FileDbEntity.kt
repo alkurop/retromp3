@@ -10,7 +10,8 @@ data class FileDbEntity(
     val lastModified: Long,
     val filepath: String,
     @Embedded
-    val waveform: WaveformDbEntity?
+    val waveform: WaveformDbEntity?,
+    val length: Long?
 )
 
 @Entity
@@ -74,7 +75,8 @@ fun ExistingFileWrapper.toDatabaseEntity(): FileDbEntity = FileDbEntity(
     this.createTimedStamp,
     this.modifiedTimestamp,
     this.path,
-    waveform = this.wavetable?.toDatabaseEntity()
+    waveform = this.wavetable?.toDatabaseEntity(),
+    null
 )
 
 fun Wavetable.toDatabaseEntity() = WaveformDbEntity(this.data, stepMillis)
