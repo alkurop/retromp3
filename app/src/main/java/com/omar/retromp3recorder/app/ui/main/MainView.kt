@@ -15,6 +15,8 @@ object MainView {
     )
 
     sealed class Input {
+        object CheckAllPermisionsOnStartup:Input()
+        object WritePermissionsGranted : Input()
         data class MediaProjectionUpdated(val mediaProjection: MediaProjection?) : Input()
     }
 

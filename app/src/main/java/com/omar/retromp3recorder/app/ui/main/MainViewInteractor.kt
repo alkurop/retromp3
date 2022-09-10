@@ -1,7 +1,9 @@
 package com.omar.retromp3recorder.app.ui.main
 
 import com.omar.retromp3recorder.app.ui.main.MainView.Output
+import com.omar.retromp3recorder.bl.audio.CheckAllPermissionsUC
 import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
+import com.omar.retromp3recorder.bl.files.TakeLastFileDirScanUC
 import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.MediaProjectionRequestBus
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
@@ -16,9 +18,11 @@ import javax.inject.Inject
 class MainViewInteractor @Inject constructor(
     private val scheduler: Scheduler,
     private val permissionsRequestBus: PermissionsRequestBus,
+    private val checkAllPermissionsUC: CheckAllPermissionsUC,
     private val mediaProjectionRequestBus: MediaProjectionRequestBus,
     private val updateMediaProjectionUC: UpdateMediaProjectionUC,
     private val featureFlagRepo: FeatureFlagRepo,
+    private val takeLastFileWithScanDirScanUC: TakeLastFileDirScanUC
 ) {
 
     fun processIO(): ObservableTransformer<MainView.Input, Output> =
@@ -49,7 +53,13 @@ class MainViewInteractor @Inject constructor(
             Completable.merge(
                 listOf(
                     input.ofType(MainView.Input.MediaProjectionUpdated::class.java)
-                        .flatMapCompletable { updateMediaProjectionUC.execute(it.mediaProjection) }
+                        .flatMapCompletable { updateMediaProjectionUC.execute(it.mediaProjection) },
+                    input.ofType(MainView.Input.CheckAllPermisionsOnStartup::class.java)
+                        .flatMapCompletable { checkAllPermissionsUC.execute() },
+                    input.ofType(MainView.Input.WritePermissionsGranted::class.java)
+                        .flatMapCompletable {
+                            takeLastFileWithScanDirScanUC.execute()
+                        }
                 )
             )
         }

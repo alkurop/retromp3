@@ -34,12 +34,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         viewModel.state.observe(this, ::renderView)
+        permissionsManager.addPermissionsListener {
+            if (it[Manifest.permission.WRITE_EXTERNAL_STORAGE] != false) {
+                viewModel.input.onNext(MainView.Input.WritePermissionsGranted)
+            }
+        }
+        viewModel.input.onNext(MainView.Input.CheckAllPermisionsOnStartup)
     }
 
     private fun renderView(state: MainView.State) {
         state.apply {
-
-
             if (shouldKeepScreenOn) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             } else {
@@ -101,6 +105,15 @@ class MainActivity : AppCompatActivity() {
         }
         permissionsManager.addPermissions(permissionRequests)
         permissionsManager.makePermissionRequest(true)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -4,7 +4,6 @@ import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.audio.PlayerProgressMapper
 import com.omar.retromp3recorder.bl.audio.RecordWavetableUC
 import com.omar.retromp3recorder.bl.files.NewFileUpdater
-import com.omar.retromp3recorder.bl.files.ScanDirFilesUC
 import com.omar.retromp3recorder.bl.files.TakeLastFileDirScanUC
 import com.omar.retromp3recorder.bl.settings.FeatureMapLoadUC
 import com.omar.retromp3recorder.bl.settings.LoadRecorderSettingsUC
@@ -17,7 +16,6 @@ class StartupUC @Inject constructor(
     private val joinPlayerProgressMapper: JoinedProgressMapper,
     private val loadRecorderSettingsUC: LoadRecorderSettingsUC,
     private val playerProgressMapper: PlayerProgressMapper,
-    private val scanDirFilesUC: ScanDirFilesUC,
     private val takeLastFileWithScanDirScanUC: TakeLastFileDirScanUC,
     private val wakelockUsecase: WakeLockUsecase,
     private val wavetableUC: RecordWavetableUC
@@ -29,7 +27,6 @@ class StartupUC @Inject constructor(
             joinPlayerProgressMapper.observe(),
             loadRecorderSettingsUC.execute(),
             playerProgressMapper.execute(),
-            scanDirFilesUC.execute(),
             takeLastFileWithScanDirScanUC.execute(),
             wakelockUsecase.execute(),
             wavetableUC.execute(),
