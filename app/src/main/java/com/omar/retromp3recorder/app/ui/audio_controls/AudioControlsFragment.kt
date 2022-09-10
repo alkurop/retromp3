@@ -9,10 +9,9 @@ import androidx.fragment.app.viewModels
 import com.jakewharton.rxbinding4.view.clicks
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.utils.lazyView
+import com.omar.retromp3recorder.app.uiutils.TimeDisplay.toDisplay
 import com.omar.retromp3recorder.app.uiutils.observe
 import com.omar.retromp3recorder.ui.state_button.InteractiveButton
-import com.omar.retromp3recorder.utils.toDisplay
-import com.omar.retromp3recorder.utils.toSpannableStringWithSmallMillis
 import io.reactivex.rxjava3.core.Observable.merge
 
 class AudioControlsFragment : Fragment(R.layout.fragment_audio_controls) {
@@ -46,14 +45,11 @@ class AudioControlsFragment : Fragment(R.layout.fragment_audio_controls) {
         durationView.isInvisible =
             state.playerProgressState == null && state.recordingDuration == null
         state.playerProgressState?.apply {
-            progressView.text = progress.toDisplay()
-                .toSpannableStringWithSmallMillis(requireContext(), R.style.Control_Normal_Millis)
-            durationView.text = duration.toDisplay()
-                .toSpannableStringWithSmallMillis(requireContext(), R.style.Control_Normal_Millis)
+            progressView.text = progress.toDisplay(requireContext())
+            durationView.text = duration.toDisplay(requireContext())
         }
         state.recordingDuration?.let {
-            durationView.text = it.toDisplay()
-                .toSpannableStringWithSmallMillis(requireContext(), R.style.Control_Normal_Millis)
+            durationView.text = it.toDisplay(requireContext())
         }
 
     }

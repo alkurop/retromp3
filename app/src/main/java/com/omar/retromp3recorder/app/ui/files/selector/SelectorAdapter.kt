@@ -10,9 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.utils.findViewById
 import com.omar.retromp3recorder.app.ui.utils.toFileName
+import com.omar.retromp3recorder.app.uiutils.TimeDisplay.toDisplay
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
-import com.omar.retromp3recorder.utils.toDisplay
-import com.omar.retromp3recorder.utils.toSpannableStringWithSmallMillis
 
 class SelectorAdapter(
     val onItemSelectedListener: (SelectorView.Item) -> Unit
@@ -63,8 +62,7 @@ class SelectorAdapter(
                 wavetablePreview.isVisible = true
                 wavetablePreview.update(wavetable.data)
                 val millisLength = wavetable.data.size * wavetable.stepMillis.toLong()
-                timeView.text = millisLength.toDisplay()
-                    .toSpannableStringWithSmallMillis(itemView.context, R.style.Control_Normal_Millis)
+                timeView.text = millisLength.toDisplay(itemView.context)
             } else {
                 wavetablePreview.isVisible = false
                 timeView.text = null

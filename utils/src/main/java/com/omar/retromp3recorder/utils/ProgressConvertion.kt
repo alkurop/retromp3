@@ -2,11 +2,9 @@ package com.omar.retromp3recorder.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TextAppearanceSpan
-import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
 import com.omar.retromp3recorder.utils.Constants.PRECISION_PLAYER_TO_RECORDER_CONVERSION_MILLIS
 import java.time.Duration
@@ -24,7 +22,7 @@ fun PlayerTime.toSeekbarTime(): SeekbarTime = (this / PRECISION_PLAYER_TO_RECORD
 
 
 @SuppressLint("NewApi")
-fun PlayerTime.toDisplay(): TimeDisplay {
+fun PlayerTime.toTimeDisplay(): TimeDisplay {
     var duration = Duration.ofMillis(this)
     val hours = duration.toHours()
     duration = duration.minusHours(hours)
