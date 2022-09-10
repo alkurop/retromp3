@@ -28,7 +28,8 @@ class RangeBarFragment : Fragment(R.layout.fragment_rangebar) {
                 RangeBarView.Input.RangeSet(
                     PlayerRange(
                         tick.start,
-                        tick.end
+                        tick.end,
+                        tick.range
                     )
                 )
             )

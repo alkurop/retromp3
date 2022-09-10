@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.app.ui.rangebar
 
 import com.omar.retromp3recorder.dto.JoinedProgress
-import com.omar.retromp3recorder.dto.PlayerRange.Companion.MAX_RANGE
 import com.omar.retromp3recorder.storage.repo.FeatureFlag
 import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
@@ -24,8 +23,9 @@ class RangeBarStateMapper @Inject constructor(
             when {
                 isFlag && progress is JoinedProgress.PlayerProgressShown -> {
                     val duration = progress.progress.duration
-                    val fromMillis = if (range.from == 0) 0 else duration * MAX_RANGE / range.from
-                    val toMillis = duration * MAX_RANGE / range.to
+                    val rangeMultiplier = if (range.max == 0) 1 else duration / range.max
+                    val fromMillis = if (range.from == 0) 0 else range.from * rangeMultiplier
+                    val toMillis = if (range.to == 0) 0 else range.to * rangeMultiplier
                     RangeBarView.State.Visible(
                         range = range,
                         fromMillis = fromMillis,
