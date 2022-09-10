@@ -1,0 +1,64 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "e5249b1ca3702393387ba2e61e25b91a",
+    "entities": [
+      {
+        "tableName": "FileDbEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`created` INTEGER NOT NULL, `lastModified` INTEGER NOT NULL, `filepath` TEXT NOT NULL, `length` INTEGER, `waveform` BLOB, `stepMillis` INTEGER, PRIMARY KEY(`created`))",
+        "fields": [
+          {
+            "fieldPath": "created",
+            "columnName": "created",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "filepath",
+            "columnName": "filepath",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "length",
+            "columnName": "length",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "waveform.waveform",
+            "columnName": "waveform",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "waveform.stepMillis",
+            "columnName": "stepMillis",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "created"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e5249b1ca3702393387ba2e61e25b91a')"
+    ]
+  }
+}

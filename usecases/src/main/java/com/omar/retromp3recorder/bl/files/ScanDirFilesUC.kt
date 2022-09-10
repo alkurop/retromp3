@@ -34,72 +34,79 @@ class ScanDirFilesUC @Inject constructor(
     private val scheduler: Scheduler
 ) {
     fun execute(
-        shouldCheckEmptyFiles: Boolean = false
-    ): Completable =
-            Completable.fromAction {
-                val foundFiles = fileLister.listFiles(filePathGenerator.fileDirs)
-                    .filter { it.path.split(".").last() == "mp3" }
-                val nonEmptyFiles =
-                    if (shouldCheckEmptyFiles) {
-                        foundFiles.filter { fileEmptyChecker.isFileEmpty(it.path).not() }
-                            .also { nonEmptyFiles ->
-                                foundFiles.filter { it !in nonEmptyFiles }
-                                    .forEach { File(it.path).delete() }
-                            }
-                    } else {
-                        foundFiles
+        shouldCheckEmptyFiles: Boolean = true
+    ): Completable = Completable.fromAction {
+        val foundFiles = fileLister.listFiles(filePathGenerator.fileDirs)
+            .filter { it.path.split(".").last() == "mp3" }
+        val nonEmptyFiles =
+            if (shouldCheckEmptyFiles) {
+                foundFiles.filter { fileEmptyChecker.isFileEmpty(it.path).not() }
+                    .also { nonEmptyFiles ->
+                        foundFiles.filter { it !in nonEmptyFiles }
+                            .forEach { File(it.path).delete() }
                     }
-                val dirFiles = nonEmptyFiles.sortedBy { it.createTimedStamp }
-                val updatedList = appDatabase.fileEntityDao().run {
-                    val dbFiles = getAll().map { it.toFileWrapper() }
-                    val recordsToRemoveFromDatabase = dbFiles.filter { dbFile ->
-                        dirFiles.map { it.path }.contains(dbFile.path).not()
+            } else {
+                foundFiles
+            }
+        val dirFiles = nonEmptyFiles.sortedBy { it.createTimedStamp }
+        val updatedList = appDatabase.fileEntityDao().run {
+            val dbFiles = getAll().map { it.toFileWrapper() }
+            val recordsToRemoveFromDatabase = dbFiles.filter { dbFile ->
+                dirFiles.map { it.path }.contains(dbFile.path).not()
+            }
+
+            insert(
+                dirFiles
+                    .filter { dirFile ->
+                        dbFiles.map { dbFile -> dbFile.path }.contains(dirFile.path).not()
                     }
-
-                    insert(
-                        dirFiles
-                            .filter { dirFile ->
-                                dbFiles.map { dbFile -> dbFile.path }.contains(dirFile.path).not()
-                            }
-                            .map {
-                                it.copy(
-                                    wavetable = emptyWavetableGenerator.generateWavetable(
-                                        it.path,
-                                        Mp3VoiceRecorder.WaveTableSampleRate._250.value
-                                    )
-                                )
-                            }
-                            .map { it.toDatabaseEntity() })
-
-                    update(dbFiles.filter { it !in recordsToRemoveFromDatabase }
-                        .filter { it.wavetable == null }
-                        .map {
-                            it.copy(
-                                wavetable = emptyWavetableGenerator.generateWavetable(
-                                    it.path,
-                                    Mp3VoiceRecorder.WaveTableSampleRate._250.value
-                                )
-                            )
-                        }
-                        .map { it.toDatabaseEntity() }
-                    )
-
-                    delete(recordsToRemoveFromDatabase.map {
+                    .map {
+                        it.copy(
+                            wavetable = emptyWavetableGenerator.generateWavetable(
+                                it.path,
+                                Mp3VoiceRecorder.WaveTableSampleRate._250.value,
+                            ), length = fileLister.discoverLength(it.path)
+                        )
+                    }
+                    .map {
                         it.toDatabaseEntity()
                     })
-                    getAll()
+
+            update(dbFiles.filter { it !in recordsToRemoveFromDatabase }
+                .filter { it.wavetable == null || it.length == null }
+                .map {
+                    val wavetable =
+                        if (it.wavetable == null) emptyWavetableGenerator.generateWavetable(
+                            it.path,
+                            Mp3VoiceRecorder.WaveTableSampleRate._250.value
+                        ) else it.wavetable
+
+                    val length =
+                        if (it.length == null) fileLister.discoverLength(it.path) else it.length
+                    it.copy(
+                        wavetable = wavetable,
+                        length = length
+                    )
                 }
-                fileListRepo.onNext(updatedList.map { it.toFileWrapper() })
-            }
+                .map { it.toDatabaseEntity() }
+            )
+
+            delete(recordsToRemoveFromDatabase.map {
+                it.toDatabaseEntity()
+            })
+            getAll()
+        }
+        fileListRepo.onNext(updatedList.map { it.toFileWrapper() })
+    }
 
         .subscribeOn(scheduler)
 }
 
- // during rename look up wavetable also
- // delete wavetable file if not in db
- // delete wave table file on file delete
- // delete wavetable if file not found
+// during rename look up wavetable also
+// delete wavetable file if not in db
+// delete wave table file on file delete
+// delete wavetable if file not found
 
- // rename wavetable file
- // remove underscore in filenames
- // never forget about users who have wavetable in db
+// rename wavetable file
+// remove underscore in filenames
+// never forget about users who have wavetable in db

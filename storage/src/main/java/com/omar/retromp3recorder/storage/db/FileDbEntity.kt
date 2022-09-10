@@ -68,7 +68,8 @@ fun FileDbEntity.toFileWrapper(): ExistingFileWrapper =
         this.filepath,
         this.created,
         this.lastModified,
-        this.waveform?.toWavetable()
+        this.waveform?.toWavetable(),
+        this.length
     )
 
 fun ExistingFileWrapper.toDatabaseEntity(): FileDbEntity = FileDbEntity(
@@ -76,7 +77,7 @@ fun ExistingFileWrapper.toDatabaseEntity(): FileDbEntity = FileDbEntity(
     this.modifiedTimestamp,
     this.path,
     waveform = this.wavetable?.toDatabaseEntity(),
-    null
+    length
 )
 
 fun Wavetable.toDatabaseEntity() = WaveformDbEntity(this.data, stepMillis)

@@ -11,7 +11,8 @@ data class ExistingFileWrapper(
     override val path: String,
     val createTimedStamp: Long,
     val modifiedTimestamp: Long = 0L,
-    val wavetable: Wavetable?
+    val wavetable: Wavetable?,
+    val length: Long?
 ) : FileWrapper(path)
 
 fun String.toFutureFileWrapper(): FutureFileWrapper =
@@ -22,6 +23,7 @@ fun File.toFileWrapper(): ExistingFileWrapper =
         this.path,
         this.lastModified(),
         this.lastModified(),
-        null
+        null,
+        0
     )
 
