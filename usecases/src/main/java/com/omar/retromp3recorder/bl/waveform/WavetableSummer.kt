@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.bl.audio
+package com.omar.retromp3recorder.bl.waveform
 
 import com.omar.retromp3recorder.dto.Wavetable
 

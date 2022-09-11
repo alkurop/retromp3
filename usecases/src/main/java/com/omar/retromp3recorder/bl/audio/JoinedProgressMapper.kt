@@ -2,6 +2,8 @@ package com.omar.retromp3recorder.bl.audio
 
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.bl.files.CurrentFileMapper
+import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
+import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo

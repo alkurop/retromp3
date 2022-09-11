@@ -1,5 +1,7 @@
 package com.omar.retromp3recorder.bl.audio
 
+import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
+import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.WavetableRepo
 import io.reactivex.rxjava3.core.Completable

@@ -1,7 +1,9 @@
 package com.omar.retromp3recorder.bl.audio
 
+import com.omar.retromp3recorder.bl.waveform.SaveRecordingWithWavetableUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
+import com.omar.retromp3recorder.utils.takeOne
 import com.omar.retromp3recorder.utils.takeOneObservable
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
@@ -18,7 +20,7 @@ class StopRecordUC @Inject constructor(
             voiceRecorder.stopRecord()
         }
         .andThen(saveRecordingWithWavetableUC.execute())
-        .andThen(currentFileRepo.observe().takeOneObservable().flatMapCompletable { currentFileWrapper ->
+        .andThen(currentFileRepo.observe().takeOne().flatMapCompletable { currentFileWrapper ->
             //silly way to update current file preview and show wavetable of recently
             //recorded file
             Completable.fromAction {

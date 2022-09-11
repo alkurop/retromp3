@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.bl.audio
+package com.omar.retromp3recorder.bl.waveform
 
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.WavetableSampleRateRepo
