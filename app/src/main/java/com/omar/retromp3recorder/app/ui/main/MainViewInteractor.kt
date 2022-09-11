@@ -1,9 +1,9 @@
 package com.omar.retromp3recorder.app.ui.main
 
 import com.omar.retromp3recorder.app.ui.main.MainView.Output
-import com.omar.retromp3recorder.bl.audio.CheckAllPermissionsUC
 import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
 import com.omar.retromp3recorder.bl.files.TakeLastFileDirScanUC
+import com.omar.retromp3recorder.bl.system.CheckAllPermissionsUC
 import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.MediaProjectionRequestBus
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus

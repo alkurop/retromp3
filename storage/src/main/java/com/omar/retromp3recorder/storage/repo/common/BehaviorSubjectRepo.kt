@@ -13,4 +13,6 @@ open class BehaviorSubjectRepo<T : Any>(default: T? = null) {
     }
 
     fun observe(): Observable<T> = behaviorSubject
+
+    fun hasNext(): Boolean = behaviorSubject.hasValue()
 }

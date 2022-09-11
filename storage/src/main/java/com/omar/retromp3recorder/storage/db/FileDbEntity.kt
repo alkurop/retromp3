@@ -68,6 +68,7 @@ interface FileDbEntityDao {
 
 fun FileDbEntity.toFileWrapper(): ExistingFileWrapper =
     ExistingFileWrapper(
+        this.id,
         this.filepath,
         this.created,
         this.lastModified,

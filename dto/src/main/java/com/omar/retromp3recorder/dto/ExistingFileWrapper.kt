@@ -8,6 +8,7 @@ data class FutureFileWrapper(
 ) : FileWrapper(path)
 
 data class ExistingFileWrapper(
+    val id:Long,
     override val path: String,
     val createTimedStamp: Long,
     val modifiedTimestamp: Long = 0L,
@@ -20,6 +21,7 @@ fun String.toFutureFileWrapper(): FutureFileWrapper =
 
 fun File.toFileWrapper(): ExistingFileWrapper =
     ExistingFileWrapper(
+        0,
         this.path,
         this.lastModified(),
         this.lastModified(),
@@ -27,6 +29,6 @@ fun File.toFileWrapper(): ExistingFileWrapper =
         0
     )
 
-fun Wavetable.ofZeros(): Boolean {
-    return this.data.sum() == 0
+fun Wavetable?.isEmpty(): Boolean {
+    return this == null || this.data.sum() == 0
 }
