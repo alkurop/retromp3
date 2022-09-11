@@ -27,3 +27,6 @@ fun File.toFileWrapper(): ExistingFileWrapper =
         0
     )
 
+fun Wavetable.ofZeros(): Boolean {
+    return this.data.sum() == 0
+}

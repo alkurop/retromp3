@@ -33,6 +33,7 @@ dependencies {
 
     api "com.jakewharton.timber:timber:$versions.timber"
     api project(":dto")
+    api "com.github.lincollincol:amplituda:$versions.amplituda"
 
     implementation "com.google.dagger:dagger:$versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"

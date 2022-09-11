@@ -62,3 +62,11 @@ class WavetableRepo @Inject constructor() :
 @Singleton
 class WavetableSampleRateRepo @Inject constructor() :
     BehaviorSubjectRepo<Mp3VoiceRecorder.WaveTableSampleRate>(Mp3VoiceRecorder.WaveTableSampleRate._100)
+
+@Singleton
+class LoadingRepo @Inject constructor() : BehaviorSubjectRepo<Loading>(Loading.Not)
+
+sealed class Loading {
+    object Not : Loading()
+    data class Is(val percent: Int) : Loading()
+}
