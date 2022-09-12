@@ -54,3 +54,4 @@ class WaveformScanner @Inject constructor() {
         }
     }
 }
+//todo add logs

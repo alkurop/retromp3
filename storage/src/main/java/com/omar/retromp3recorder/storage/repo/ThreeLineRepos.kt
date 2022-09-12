@@ -21,7 +21,11 @@ class BitRateRepo @Inject constructor() :
 
 @Singleton
 class CurrentFileRepo @Inject constructor() :
-    BehaviorSubjectRepo<Optional<String>>(Optional.empty())
+    BehaviorSubjectRepo<Optional<String>>(Optional.empty()){
+    override fun onNext(next: Optional<String>) {
+        super.onNext(next)
+    }
+    }
 
 @Singleton
 class FileListRepo @Inject constructor() :

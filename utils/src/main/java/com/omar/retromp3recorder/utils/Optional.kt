@@ -7,3 +7,5 @@ data class Optional<T>(
         fun <T> empty(): Optional<T> = Optional(null)
     }
 }
+
+fun <T> T?.toOptional(): Optional<T> = Optional(this)

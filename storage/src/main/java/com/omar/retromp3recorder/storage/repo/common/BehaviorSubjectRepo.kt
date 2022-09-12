@@ -8,7 +8,7 @@ open class BehaviorSubjectRepo<T : Any>(default: T? = null) {
         if (default == null) BehaviorSubject.create()
         else BehaviorSubject.createDefault(default)
 
-    fun onNext(next: T) {
+    open fun onNext(next: T) {
         behaviorSubject.onNext(next)
     }
 

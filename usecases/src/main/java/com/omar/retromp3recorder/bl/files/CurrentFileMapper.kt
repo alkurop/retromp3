@@ -21,7 +21,7 @@ class CurrentFileMapper @Inject constructor(
     fun observe(): Observable<Optional<FileWrapper>> {
         return currentFileRepo
             .observe()
-            .flatMap {
+            .switchMap {
                 val currentFilePath = it.value
                 val currentFile = currentFilePath?.let {
                     database.fileEntityDao()

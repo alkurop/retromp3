@@ -1,11 +1,10 @@
 package com.omar.retromp3recorder.bl.files
 
-import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
-import com.omar.retromp3recorder.storage.repo.FileListRepo
-import com.omar.retromp3recorder.utils.FileEmptyChecker
-import com.omar.retromp3recorder.utils.Optional
+import com.omar.retromp3recorder.bl.system.WaveformScanUpdaterUC
+import com.omar.retromp3recorder.dto.isEmpty
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 /**
@@ -18,22 +17,24 @@ import javax.inject.Inject
  * use TakeLastFileNoScanUC. this version is very slow when user has a lot of files
  */
 class TakeLastFileDirScanUC @Inject constructor(
-    private val fileListRepo: FileListRepo,
-    private val fileEmptyChecker: FileEmptyChecker,
+    private val fileRepoUpdaterUC: FileRepoUpdaterUC,
     private val findFilesUC: ScanDirFilesUC,
-    private val currentFileRepo: CurrentFileRepo,
-    private val scheduler: Scheduler
+    private val scheduler: Scheduler,
+    private val waveformScan: WaveformScanUpdaterUC
 ) {
     fun execute(): Completable {
         return findFilesUC.execute()
-            .andThen(Completable.fromAction {
-                val lastFile = fileListRepo.observe().blockingFirst().lastOrNull()
-                if (lastFile == null || fileEmptyChecker.isFileEmpty(lastFile.path)) {
-                    currentFileRepo.onNext(Optional.empty())
-                } else {
-                    currentFileRepo.onNext(Optional(lastFile.path))
-                }
-            })
+            .flatMapCompletable { updatedList ->
+                Completable.concat(
+                    listOf(
+                        fileRepoUpdaterUC.execute(updatedList),
+                        Single.fromCallable { updatedList.filter { it.wavetable.isEmpty() } }
+                            .flatMapCompletable { listForWaveform ->
+                                waveformScan.execute(listForWaveform)
+                            }
+                    ))
+            }
             .subscribeOn(scheduler)
     }
 }
+

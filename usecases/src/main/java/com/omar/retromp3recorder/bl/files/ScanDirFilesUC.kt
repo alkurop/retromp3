@@ -1,16 +1,12 @@
 package com.omar.retromp3recorder.bl.files
 
-import com.omar.retromp3recorder.bl.waveform.WaveformScanBatchUC
-import com.omar.retromp3recorder.dto.isEmpty
+import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.db.toFileWrapper
-import com.omar.retromp3recorder.storage.repo.FileListRepo
 import com.omar.retromp3recorder.utils.FileEmptyChecker
 import com.omar.retromp3recorder.utils.FileLister
 import com.omar.retromp3recorder.utils.FilePathGenerator
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
 import java.io.File
 import javax.inject.Inject
@@ -27,16 +23,13 @@ import javax.inject.Inject
  */
 class ScanDirFilesUC @Inject constructor(
     private val appDatabase: AppDatabase,
-    private val fileListRepo: FileListRepo,
     private val filePathGenerator: FilePathGenerator,
     private val fileEmptyChecker: FileEmptyChecker,
     private val fileLister: FileLister,
-    private val waveformScan: WaveformScanBatchUC,
-    private val scheduler: Scheduler
 ) {
     fun execute(
         shouldCheckEmptyFiles: Boolean = true
-    ): Completable = Single
+    ): Single<List<ExistingFileWrapper>> = Single
         .fromCallable {
             val foundFiles = fileLister.listFiles(filePathGenerator.fileDirs)
                 .filter { it.path.split(".").last() == "mp3" }
@@ -85,25 +78,4 @@ class ScanDirFilesUC @Inject constructor(
             }
             updatedList.map { it.toFileWrapper() }
         }
-        .flatMapCompletable { updatedList ->
-            Completable.concat(listOf(
-                Completable.fromAction {
-                    fileListRepo.onNext(updatedList)
-                },
-                Completable.fromAction {
-                    val listForWaveform = updatedList.filter { it.wavetable.isEmpty() }
-                    waveformScan.execute(listForWaveform)
-                }
-            ))
-        }
-        .subscribeOn(scheduler)
 }
-
-// during rename look up wavetable also
-// delete wavetable file if not in db
-// delete wave table file on file delete
-// delete wavetable if file not found
-
-// rename wavetable file
-// remove underscore in filenames
-// never forget about users who have wavetable in db
