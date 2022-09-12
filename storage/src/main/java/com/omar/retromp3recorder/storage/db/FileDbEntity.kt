@@ -77,7 +77,7 @@ fun FileDbEntity.toFileWrapper(): ExistingFileWrapper =
     )
 
 fun ExistingFileWrapper.toDatabaseEntity(): FileDbEntity = FileDbEntity(
-    0,
+    this.id,
     this.createTimedStamp,
     this.modifiedTimestamp,
     this.path,
