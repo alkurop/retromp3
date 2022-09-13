@@ -30,7 +30,7 @@ class RecordWavetableUC @Inject constructor(
                         Pair(currentFile.path, wavetable)
 
                     }.flatMapCompletable {
-                        Completable.fromAction { saveRecordingWithWavetableUC.execute(it) }
+                        saveRecordingWithWavetableUC.execute(it)
                     }
                 }
         }

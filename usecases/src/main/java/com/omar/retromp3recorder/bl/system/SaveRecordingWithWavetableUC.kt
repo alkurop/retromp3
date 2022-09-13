@@ -18,19 +18,17 @@ class SaveRecordingWithWavetableUC @Inject constructor(
     private val currentFileRepo: CurrentFileRepo
 ) {
     fun execute(data: Pair<String, Wavetable>): Completable =
-        Completable.fromAction {
-            val (path, wave) = data
-            saveMp3TagsUC.execute(path).andThen(
-                Completable
-                    .fromAction {
-                        val fileEntityDao = appDatabase.fileEntityDao()
-                        val newItem = fileLister.discoverFile(path)
-                            .copy(wavetable = wave, length = fileLister.discoverLength(path))
-                        fileEntityDao.insert(listOf(newItem.toDatabaseEntity()))
-                        currentFileRepo.onNext(newItem.toOptional())
-                    })
-        }
+        saveMp3TagsUC.execute(data.first).andThen(
+            Completable
+                .fromAction {
+                    val fileEntityDao = appDatabase.fileEntityDao()
+                    val newItem = fileLister.discoverFile(data.first)
+                        .copy(wavetable = data.second, length = fileLister.discoverLength(data.first))
+                    fileEntityDao.insert(listOf(newItem.toDatabaseEntity()))
+                    currentFileRepo.onNext(newItem.toOptional())
+                })
 }
+
 
 class SaveMp3TagsUC @Inject constructor(
     private val mp3TagsEditor: Mp3TagsEditor,
