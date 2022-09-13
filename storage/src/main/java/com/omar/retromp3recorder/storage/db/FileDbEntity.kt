@@ -48,7 +48,7 @@ interface FileDbEntityDao {
     @Query("SELECT * FROM FileDbEntity")
     fun getAll(): List<FileDbEntity>
 
-    @Query("SELECT * FROM FileDbEntity")
+    @Query("SELECT * FROM FileDbEntity ORDER BY id DESC")
     fun getAllPaging():  DataSource.Factory<Int, FileDbEntity>
 
     @Query("SELECT * from FileDbEntity WHERE filepath = :filepath")

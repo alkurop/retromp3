@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,11 +34,9 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
     }
 
     private fun renderState(state: SelectorView.State) {
-        adapter.items = state.items
-        state.items
-            .indexOfFirst { it.isCurrentItem }
-            .takeIf { it != -1 }?.let {
-                recyclerView.smoothScrollToPosition(it)
-            }
+        state.items?.observe(this) {
+            adapter.submitList(it)
+        }
+        state.selectedFile?.let { adapter.currentFile = it }
     }
 }

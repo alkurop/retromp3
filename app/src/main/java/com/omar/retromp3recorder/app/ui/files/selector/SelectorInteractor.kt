@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.app.ui.files.selector
 
 import com.omar.retromp3recorder.bl.files.SetCurrentFileUC
+import com.omar.retromp3recorder.storage.db.DatabasePagingProvider
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
-import com.omar.retromp3recorder.storage.repo.FileListRepo
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class SelectorInteractor @Inject constructor(
     private val scheduler: Scheduler,
     private val currentFileRepo: CurrentFileRepo,
-    private val fileListRepo: FileListRepo,
+    private val pagingProvider: DatabasePagingProvider,
     private val setCurrentFileUC: SetCurrentFileUC
 ) {
     fun processIO(): ObservableTransformer<SelectorView.Input, SelectorView.Output> =
@@ -28,7 +28,7 @@ class SelectorInteractor @Inject constructor(
                 currentFileRepo.observe().map {
                     SelectorView.Output.CurrentFile(it.value!!.path)
                 },
-                fileListRepo.observe().map {
+                Observable.just(pagingProvider.providePagingFiles()).map {
                     SelectorView.Output.FileList(it)
                 }
             )
@@ -39,7 +39,7 @@ class SelectorInteractor @Inject constructor(
             Completable.merge(listOf(
                 input.ofType(SelectorView.Input.ItemSelected::class.java)
                     .flatMapCompletable {
-                        setCurrentFileUC.execute(it.item.fileWrapper)
+                        setCurrentFileUC.execute(it.item)
                     }
             ))
         }
