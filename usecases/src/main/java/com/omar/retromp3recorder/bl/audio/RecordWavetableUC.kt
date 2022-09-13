@@ -26,8 +26,9 @@ class RecordWavetableUC @Inject constructor(
                 .map { it.toWaveTable() }
                 .flatMapCompletable { wavetable ->
                     Completable.fromAction {
-                        val currentFilePath = currentFileRepo.observe().blockingFirst().value!!
-                        val pair = Pair(currentFilePath, wavetable)
+                        val currentFile = currentFileRepo.observe().blockingFirst().value!!
+
+                        val pair = Pair(currentFile.path, wavetable)
                         wavetableRepo.onNext(pair)
                         Timber.d("wavetableRepo.onNext(pair) $pair")
                     }

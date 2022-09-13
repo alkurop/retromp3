@@ -15,15 +15,15 @@ class FilePropertiesMapper @Inject constructor(
     fun observe(): Observable<PropertiesView.Output.CurrentFileProperties> {
         return currentFileRepo.observe()
             .flatMap { currentFile ->
-                val filepath = currentFile.value
-                if (filepath == null) Observable.just(
+                val file = currentFile.value
+                if (file == null) Observable.just(
                     PropertiesView.Output.CurrentFileProperties(
                         null
                     )
                 )
                 else Observable.fromCallable {
                     PropertiesView.Output.CurrentFileProperties(
-                        appDatabase.fileEntityDao().getByFilepath(filepath).firstOrNull()?.toFileWrapper()
+                        appDatabase.fileEntityDao().getByFilepath(file.path).firstOrNull()?.toFileWrapper()
                     )
                 }
             }

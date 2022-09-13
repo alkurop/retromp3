@@ -33,10 +33,10 @@ class FileRepoUpdaterUC @Inject constructor(
                 }.andThen(Completable.fromAction {
                     val currentFile = currentFileRepo.observe().blockingFirst()
                     if (currentFile.value == null) {
-                        currentFileRepo.onNext(update.last().path.toOptional())
+                        currentFileRepo.onNext(update.last().toOptional())
                     }
-                    update.firstOrNull { it.path == currentFile.value }?.let {
-                        currentFileRepo.onNext(Optional(it.path))
+                    update.firstOrNull { it.path == currentFile.value?.path }?.let {
+                        currentFileRepo.onNext(Optional(it))
                     }
                 }).andThen(Completable.complete())
             }

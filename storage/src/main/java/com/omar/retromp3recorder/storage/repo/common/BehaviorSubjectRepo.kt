@@ -1,6 +1,8 @@
 package com.omar.retromp3recorder.storage.repo.common
 
+import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 open class BehaviorSubjectRepo<T : Any>(default: T? = null) {
@@ -15,4 +17,6 @@ open class BehaviorSubjectRepo<T : Any>(default: T? = null) {
     fun observe(): Observable<T> = behaviorSubject
 
     fun hasNext(): Boolean = behaviorSubject.hasValue()
+
+    fun takeOne():Single<T> = behaviorSubject.takeOne()
 }

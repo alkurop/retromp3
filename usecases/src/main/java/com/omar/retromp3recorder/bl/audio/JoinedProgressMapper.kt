@@ -1,11 +1,11 @@
 package com.omar.retromp3recorder.bl.audio
 
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.bl.files.CurrentFileMapper
 import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
 import com.omar.retromp3recorder.storage.repo.WavetableSampleRateRepo
 import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class JoinedProgressMapper @Inject constructor(
     private val audioStateMapper: AudioStateMapper,
-    private val currentFileMapper: CurrentFileMapper,
+    private val currentFileRepo: CurrentFileRepo,
     private val joinedProgressRepo: JoinedProgressRepo,
     private val playerProgressRepo: PlayerProgressRepo,
     private val recorderWavetableMapper: RecordWavetableMapper,
@@ -27,7 +27,7 @@ class JoinedProgressMapper @Inject constructor(
         .merge(
             audioStateMapper.observe().ofType(AudioState.Seek_Paused::class.java).switchMap {
                 Observable.combineLatest(
-                    currentFileMapper.observe(),
+                    currentFileRepo.observe(),
                     playerProgressRepo.observe()
                 ) { currentFile, playerProgress ->
                     val progress = playerProgress.value
@@ -43,7 +43,7 @@ class JoinedProgressMapper @Inject constructor(
             },
             audioStateMapper.observe().ofType(AudioState.Playing::class.java).switchMap {
                 Observable.combineLatest(
-                    currentFileMapper.observe(),
+                    currentFileRepo.observe(),
                     playerProgressRepo.observe()
                 ) { currentFile, playerProgress ->
                     val progress = playerProgress.value
@@ -59,7 +59,7 @@ class JoinedProgressMapper @Inject constructor(
             },
             audioStateMapper.observe().ofType(AudioState.Idle::class.java).switchMap {
                 Observable.combineLatest(
-                    currentFileMapper.observe(),
+                    currentFileRepo.observe(),
                     playerProgressRepo.observe()
                 ) { currentFile, playerProgress ->
                     val progress = playerProgress.value

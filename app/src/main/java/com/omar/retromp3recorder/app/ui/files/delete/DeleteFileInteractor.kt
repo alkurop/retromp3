@@ -1,7 +1,8 @@
 package com.omar.retromp3recorder.app.ui.files.delete
 
 import com.omar.retromp3recorder.bl.files.DeleteCurrentFileUC
-import com.omar.retromp3recorder.bl.files.ExistingFileMapper
+import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class DeleteFileInteractor @Inject constructor(
     private val deleteCurrentFileUC: DeleteCurrentFileUC,
-    private val currentFileMapper: ExistingFileMapper,
+    private val currentFileMapper: CurrentFileRepo,
     private val scheduler: Scheduler
 ) {
     private val dismissSubject = BehaviorSubject.createDefault(false)
@@ -29,7 +30,7 @@ class DeleteFileInteractor @Inject constructor(
             listOf(
                 currentFileMapper.observe().map {
                     DeleteFileView.Output.CurrentFile(
-                        it.value
+                        it.value as ExistingFileWrapper
                     )
                 },
                 dismissSubject.map { DeleteFileView.Output.ShouldDismiss(it) },

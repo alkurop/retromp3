@@ -8,7 +8,7 @@ import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions
 import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
-import com.omar.retromp3recorder.utils.takeOneObservable
+import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
@@ -25,14 +25,15 @@ class StartPlaybackUC @Inject constructor(
         val execute =
             Observable.combineLatest(
                 currentFileRepo.observe(),
-                playerProgressRepo.observe(), { p1, p2 -> Pair(p1, p2) })
-                .takeOneObservable()
-                .flatMapCompletable { (fileName, progressState) ->
+                playerProgressRepo.observe()
+            ) { p1, p2 -> Pair(p1, p2) }
+                .takeOne()
+                .flatMapCompletable { (file, progressState) ->
                     Completable.fromAction {
                         audioPlayer.onInput(
                             AudioPlayer.Input.Start(
                                 PlayerStartOptions(
-                                    filePath = fileName.value!!,
+                                    filePath = file.value!!.path,
                                     seekPosition = progressState.value?.progress
                                 )
                             )
@@ -40,7 +41,7 @@ class StartPlaybackUC @Inject constructor(
                     }
                 }
         return checkPermissionsUC.execute(playbackPermissions)
-            .andThen(permissionsRequestBus.observe().takeOneObservable())
+            .andThen(permissionsRequestBus.observe().takeOne())
             .flatMapCompletable { shouldAskPermissions ->
                 if (shouldAskPermissions is ShouldRequestPermissions.Granted) execute
                 else abort

@@ -17,6 +17,8 @@ import javax.inject.Inject
  *
  * and puts it into the CurrentFileRepo
  */
+
+//todo remove call to db
 class TakeLastFileFastUC @Inject constructor(
     private val appDatabase: AppDatabase,
     private val fileEmptyChecker: FileEmptyChecker,
@@ -27,8 +29,8 @@ class TakeLastFileFastUC @Inject constructor(
         .fromAction {
             val fileList =
                 appDatabase.fileEntityDao().getAll().map { it.toFileWrapper() }.asReversed()
-            val path = fileList.find { fileEmptyChecker.isFileEmpty(it.path).not() }?.path
-            currentFileRepo.onNext(Optional(path))
+            val file = fileList.find { fileEmptyChecker.isFileEmpty(it.path).not() }
+            currentFileRepo.onNext(Optional(file))
         }
         .subscribeOn(scheduler)
 }

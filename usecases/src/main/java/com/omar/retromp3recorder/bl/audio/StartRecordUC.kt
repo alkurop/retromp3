@@ -3,17 +3,18 @@ package com.omar.retromp3recorder.bl.audio
 import android.Manifest
 import android.media.AudioAttributes.USAGE_GAME
 import android.media.AudioAttributes.USAGE_MEDIA
-import com.omar.retromp3recorder.bl.system.CheckPermissionsUC
-import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUC
 import com.omar.retromp3recorder.bl.files.GenerateDirIfNotExistsUC
 import com.omar.retromp3recorder.bl.files.GetNewFileNameUC
 import com.omar.retromp3recorder.bl.files.IncrementFileNameUC
+import com.omar.retromp3recorder.bl.system.CheckPermissionsUC
+import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUC
+import com.omar.retromp3recorder.dto.toFutureFileWrapper
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.*
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions
 import com.omar.retromp3recorder.utils.Optional
 import com.omar.retromp3recorder.utils.ServiceDealer
-import com.omar.retromp3recorder.utils.takeOneObservable
+import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Function3
@@ -31,7 +32,7 @@ class StartRecordUC @Inject constructor(
     fun execute(): Completable {
         fun executeMedia(source: Int) = Completable
             .fromAction { serviceDealer.startMediaProjectionService() }
-            .andThen(projectionRepo.observe().takeOneObservable())
+            .andThen(projectionRepo.observe().takeOne())
             .flatMapCompletable {
                 val projection = it.value
                 if (projection != null) {
@@ -47,10 +48,10 @@ class StartRecordUC @Inject constructor(
         val abort = Completable.complete()
         return checkPermissionsUC
             .execute(voiceRecordPermissions)
-            .andThen(permissionsRequestBus.observe().takeOneObservable())
+            .andThen(permissionsRequestBus.observe().takeOne())
             .flatMapCompletable { shouldAskPermissions ->
                 if (shouldAskPermissions is ShouldRequestPermissions.Granted) {
-                    audioAudioSourceRepo.observe().takeOneObservable().switchMapCompletable {
+                    audioAudioSourceRepo.observe().takeOne().flatMapCompletable {
                         @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
                         when (it) {
                             Mp3VoiceRecorder.AudioSourcePref.Mic -> executeMic()
@@ -84,14 +85,14 @@ class CaptureCompletableCreator @Inject constructor(
             .andThen(
                 Observable.zip(
                     getNewFileNameUC.execute().toObservable(),
-                    bitRateRepo.observe().takeOneObservable(),
-                    sampleRateRepo.observe().takeOneObservable(),
+                    bitRateRepo.observe().takeOne().toObservable(),
+                    sampleRateRepo.observe().takeOne().toObservable(),
                     propsZipper
                 )
             )
             .flatMapCompletable { props: Mp3VoiceRecorder.RecorderProps ->
                 Completable.fromAction {
-                    currentFileRepo.onNext(Optional(props.filepath))
+                    currentFileRepo.onNext(Optional(props.filepath.toFutureFileWrapper()))
                     voiceRecorder.recordWithProps(props)
                 }
             }

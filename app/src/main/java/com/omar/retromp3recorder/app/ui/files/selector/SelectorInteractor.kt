@@ -26,7 +26,7 @@ class SelectorInteractor @Inject constructor(
         Observable.merge(
             listOf(
                 currentFileRepo.observe().map {
-                    SelectorView.Output.CurrentFile(it.value)
+                    SelectorView.Output.CurrentFile(it.value!!.path)
                 },
                 fileListRepo.observe().map {
                     SelectorView.Output.FileList(it)
@@ -39,7 +39,7 @@ class SelectorInteractor @Inject constructor(
             Completable.merge(listOf(
                 input.ofType(SelectorView.Input.ItemSelected::class.java)
                     .flatMapCompletable {
-                        setCurrentFileUC.execute(it.item.fileWrapper.path)
+                        setCurrentFileUC.execute(it.item.fileWrapper)
                     }
             ))
         }

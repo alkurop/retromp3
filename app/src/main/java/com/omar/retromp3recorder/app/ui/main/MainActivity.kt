@@ -8,6 +8,7 @@ import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.*
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -127,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                     override fun onStop() {
                         viewModel.input.onNext(MainView.Input.MediaProjectionUpdated(null))
                     }
-                }, Handler())
+                }, Handler(Looper.myLooper()!!))
             } else {
                 Toast.makeText(this, getString(R.string.projection_not_acquired), Toast.LENGTH_LONG)
                     .show()

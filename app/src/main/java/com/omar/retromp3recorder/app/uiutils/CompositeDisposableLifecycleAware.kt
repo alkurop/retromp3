@@ -6,33 +6,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
 
-fun compositeDisposableLifecycleAware(initialise: () -> LifecycleOwner): ReadOnlyProperty<Any, CompositeDisposable> =
-    object : ReadOnlyProperty<Any, CompositeDisposable>, LifecycleObserver {
-        private val compositeDisposable = CompositeDisposable()
-        private var lifecycle: Lifecycle? = null
 
-        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        fun onDestroy() {
-            compositeDisposable.clear()
-            lifecycle?.removeObserver(this)
-        }
-
-        override fun getValue(
-            thisRef: Any,
-            property: KProperty<*>
-        ): CompositeDisposable {
-            lifecycle = initialise().lifecycle.also {
-                it.addObserver(this)
-            }
-            return compositeDisposable
-        }
-    }
-
-fun <T> Observable<T>.subscribe(
+fun <T : Any> Observable<T>.subscribe(
     lifecycleOwner: LifecycleOwner,
     onNext: (T) -> Unit,
     onError: ((Throwable) -> Unit)? = null
@@ -52,13 +28,13 @@ fun <T> Observable<T>.subscribe(
     lifecycle.addObserver(observer)
 }
 
-fun <T> Observable<T>.observe(
+fun <T : Any> Observable<T>.observe(
     lifecycleOwner: LifecycleOwner,
     onNext: (T) -> Unit,
     onError: ((Throwable) -> Unit)
 ) = this.subscribe(lifecycleOwner, onNext, onError)
 
-fun <T> Observable<T>.observe(
+fun <T : Any> Observable<T>.observe(
     lifecycleOwner: LifecycleOwner,
     onNext: (T) -> Unit
 ) = this.subscribe(lifecycleOwner, onNext)

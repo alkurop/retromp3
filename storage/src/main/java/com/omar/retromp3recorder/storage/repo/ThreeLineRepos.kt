@@ -3,6 +3,7 @@ package com.omar.retromp3recorder.storage.repo
 import android.media.projection.MediaProjection
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.dto.FileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.dto.Wavetable
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
@@ -21,8 +22,8 @@ class BitRateRepo @Inject constructor() :
 
 @Singleton
 class CurrentFileRepo @Inject constructor() :
-    BehaviorSubjectRepo<Optional<String>>(Optional.empty()){
-    override fun onNext(next: Optional<String>) {
+    BehaviorSubjectRepo<Optional<FileWrapper>>(Optional.empty()){
+    override fun onNext(next: Optional<FileWrapper>) {
         super.onNext(next)
     }
     }

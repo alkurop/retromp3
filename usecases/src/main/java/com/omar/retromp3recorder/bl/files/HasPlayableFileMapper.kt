@@ -11,7 +11,7 @@ class HasPlayableFileMapper @Inject constructor(
 ) {
     fun observe(): Observable<Boolean> {
         return currentFileRepo.observe().map { currentFile ->
-            val path = currentFile.value
+            val path = currentFile.value?.path
             path != null && fileEmptyChecker.isFileEmpty(path).not()
         }
     }

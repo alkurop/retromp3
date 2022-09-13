@@ -22,13 +22,14 @@ class NewFileUpdater @Inject constructor(
     fun execute(): Completable =
         Observable.zip(
             hasPlayableFileMapper.observe(),
-            currentFileRepo.observe(), { hasPlayableFile, currentFile ->
-                if (hasPlayableFile) {
-                    val durationMillis =
-                        audioDurationRetriever.getAudioDurationForExistingFile(currentFile.value!!)
-                    PlayerProgressRepo.In.Progress(PlayerProgress(0, durationMillis))
-                } else PlayerProgressRepo.In.Hidden
-            })
+            currentFileRepo.observe()
+        ) { hasPlayableFile, currentFile ->
+            if (hasPlayableFile) {
+                val durationMillis =
+                    audioDurationRetriever.getAudioDurationForExistingFile(currentFile.value!!.path)
+                PlayerProgressRepo.In.Progress(PlayerProgress(0, durationMillis))
+            } else PlayerProgressRepo.In.Hidden
+        }
             .flatMapCompletable { progress ->
                 Completable.fromAction {
                     playerProgressRepo.onNext(progress)

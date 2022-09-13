@@ -1,8 +1,9 @@
 package com.omar.retromp3recorder.app.ui.files.rename
 
 import com.omar.retromp3recorder.bl.files.CanRenameFileUC
-import com.omar.retromp3recorder.bl.files.ExistingFileMapper
 import com.omar.retromp3recorder.bl.files.RenameFileUC
+import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
 import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 class RenameFileInteractor @Inject constructor(
     private val canRenameFileUC: CanRenameFileUC,
-    private val currentFileRepo: ExistingFileMapper,
+    private val currentFileRepo: CurrentFileRepo,
     private val renameFileUC: RenameFileUC,
     private val scheduler: Scheduler
 ) {
@@ -30,7 +31,7 @@ class RenameFileInteractor @Inject constructor(
     private val mapRepoToOutput: () -> Observable<RenameFileView.Output> = {
         Observable.merge(
             listOf(
-                currentFileRepo.observe().map { RenameFileView.Output.CurrentFile(it.value) },
+                currentFileRepo.observe().map { RenameFileView.Output.CurrentFile(it.value as ExistingFileWrapper) },
                 canRenameFileRepo.observe().map { RenameFileView.Output.OkButtonState(it) },
                 finishedRenameCallback.observe().map { RenameFileView.Output.CanDismiss(it) }
             )
