@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.bl.files
+package com.omar.retromp3recorder.bl.database
 
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.AppDatabase

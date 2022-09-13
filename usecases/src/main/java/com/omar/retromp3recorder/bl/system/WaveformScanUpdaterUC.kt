@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.system
 
-import com.omar.retromp3recorder.bl.files.DbUpdaterUC
+import com.omar.retromp3recorder.bl.database.DbUpdaterUC
 import com.omar.retromp3recorder.bl.files.FileRepoUpdaterUC
 import com.omar.retromp3recorder.bl.waveform.WaveformScanner
 import com.omar.retromp3recorder.dto.ExistingFileWrapper

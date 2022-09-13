@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.storage.db
 
+import androidx.paging.DataSource
 import androidx.room.*
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.Wavetable
@@ -46,6 +47,9 @@ data class WaveformDbEntity(
 interface FileDbEntityDao {
     @Query("SELECT * FROM FileDbEntity")
     fun getAll(): List<FileDbEntity>
+
+    @Query("SELECT * FROM FileDbEntity")
+    fun getAllPaging():  DataSource.Factory<Int, FileDbEntity>
 
     @Query("SELECT * from FileDbEntity WHERE filepath = :filepath")
     fun getByFilepath(filepath: String): List<FileDbEntity>
