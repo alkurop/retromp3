@@ -31,6 +31,7 @@ class RenameFileUC @Inject constructor(
                             path = newPath,
                             modifiedTimestamp = System.currentTimeMillis()
                         )
+
                         appDatabase.fileEntityDao().updateItem(copy.toDatabaseEntity())
                         currentFileRepo.onNext(Optional(copy))
                     }
