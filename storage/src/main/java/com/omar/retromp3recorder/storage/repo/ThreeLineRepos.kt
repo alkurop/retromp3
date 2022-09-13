@@ -2,7 +2,6 @@ package com.omar.retromp3recorder.storage.repo
 
 import android.media.projection.MediaProjection
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.FileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.dto.Wavetable
@@ -22,15 +21,11 @@ class BitRateRepo @Inject constructor() :
 
 @Singleton
 class CurrentFileRepo @Inject constructor() :
-    BehaviorSubjectRepo<Optional<FileWrapper>>(Optional.empty()){
+    BehaviorSubjectRepo<Optional<FileWrapper>>(Optional.empty()) {
     override fun onNext(next: Optional<FileWrapper>) {
         super.onNext(next)
     }
-    }
-
-@Singleton
-class FileListRepo @Inject constructor() :
-    BehaviorSubjectRepo<List<ExistingFileWrapper>>(emptyList())
+}
 
 @Singleton
 class FeatureFlagRepo @Inject constructor() :
@@ -69,7 +64,7 @@ class WavetableSampleRateRepo @Inject constructor() :
     BehaviorSubjectRepo<Mp3VoiceRecorder.WaveTableSampleRate>(Mp3VoiceRecorder.WaveTableSampleRate._100)
 
 @Singleton
-class LoadingRepo @Inject constructor() : BehaviorSubjectRepo<Loading>(Loading.Not)
+class LoadingStateRepo @Inject constructor() : BehaviorSubjectRepo<Loading>(Loading.Not)
 
 sealed class Loading {
     object Not : Loading()

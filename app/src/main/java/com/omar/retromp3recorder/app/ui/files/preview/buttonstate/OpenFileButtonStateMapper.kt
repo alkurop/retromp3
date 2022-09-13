@@ -2,24 +2,23 @@ package com.omar.retromp3recorder.app.ui.files.preview.buttonstate
 
 import com.omar.retromp3recorder.bl.audio.AudioState
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper
-import com.omar.retromp3recorder.storage.repo.FileListRepo
+import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class OpenFileButtonStateMapper @Inject constructor(
     private val audioStateMapper: AudioStateMapper,
-    private val fileListRepo: FileListRepo
+    private val currentFileRepo: CurrentFileRepo
 ) {
     fun observe(): Observable<Boolean> {
         return Observable.combineLatest(
-            fileListRepo.observe(),
-            audioStateMapper.observe(),
-            { fileList, audioState ->
-                when (audioState) {
-                    is AudioState.Idle -> fileList.isNotEmpty()
-                    else -> false
-                }
+            currentFileRepo.observe(),
+            audioStateMapper.observe()
+        ) { currentFile, audioState ->
+            when (audioState) {
+                is AudioState.Idle -> currentFile.value != null
+                else -> false
             }
-        )
+        }
     }
 }
