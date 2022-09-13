@@ -15,11 +15,13 @@ class FileRepoUpdaterUC @Inject constructor(
             Completable.complete()
         } else Completable.fromAction {
             val currentFile = currentFileRepo.observe().blockingFirst()
-            if (currentFile.value == null) {
+            val value = currentFile.value
+            if (value == null) {
                 currentFileRepo.onNext(update.last().toOptional())
-            }
-            update.firstOrNull { it.path == currentFile.value?.path }?.let {
-                currentFileRepo.onNext(Optional(it))
+            } else {
+                update.firstOrNull { it.path ==  value.path }?.let {
+                    currentFileRepo.onNext(Optional(it))
+                }
             }
         }
     }
