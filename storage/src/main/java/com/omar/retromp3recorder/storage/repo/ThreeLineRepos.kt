@@ -4,7 +4,6 @@ import android.media.projection.MediaProjection
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.dto.FileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
-import com.omar.retromp3recorder.dto.Wavetable
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
 import com.omar.retromp3recorder.utils.Optional
@@ -54,14 +53,6 @@ class SampleRateRepo @Inject constructor() :
 @Singleton
 class SeekRepo @Inject constructor() :
     BehaviorSubjectRepo<Optional<Int>>(Optional.empty())
-
-@Singleton
-class WavetableRepo @Inject constructor() :
-    BehaviorSubjectRepo<Pair<String, Wavetable>>()
-
-@Singleton
-class WavetableSampleRateRepo @Inject constructor() :
-    BehaviorSubjectRepo<Mp3VoiceRecorder.WaveTableSampleRate>(Mp3VoiceRecorder.WaveTableSampleRate._100)
 
 @Singleton
 class LoadingStateRepo @Inject constructor() : BehaviorSubjectRepo<Loading>(Loading.Not)

@@ -5,9 +5,9 @@ import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
-import com.omar.retromp3recorder.storage.repo.WavetableSampleRateRepo
 import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -20,7 +20,6 @@ class JoinedProgressMapper @Inject constructor(
     private val joinedProgressRepo: JoinedProgressRepo,
     private val playerProgressRepo: PlayerProgressRepo,
     private val recorderWavetableMapper: RecordWavetableMapper,
-    private val wavetableSampleRateRepo: WavetableSampleRateRepo,
     private val scheduler: Scheduler
 ) {
     fun observe(): Completable = Observable
@@ -74,7 +73,7 @@ class JoinedProgressMapper @Inject constructor(
                 }
             },
             audioStateMapper.observe().ofType(AudioState.Recording::class.java).switchMap {
-                val rate = wavetableSampleRateRepo.observe().blockingFirst()
+                val rate = Mp3VoiceRecorder.WaveTableSampleRate._100
                 recorderWavetableMapper.observe()
                     .takeUntil(audioStateMapper.observe().ofType(AudioState.Idle::class.java))
                     .scan(WavetableSummer(), WavetableSummer.displayScanFunction)

@@ -6,7 +6,6 @@ import com.omar.retromp3recorder.storage.SharedPrefsKeys
 import com.omar.retromp3recorder.storage.repo.AudioSourceRepo
 import com.omar.retromp3recorder.storage.repo.BitRateRepo
 import com.omar.retromp3recorder.storage.repo.SampleRateRepo
-import com.omar.retromp3recorder.storage.repo.WavetableSampleRateRepo
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject
@@ -17,7 +16,6 @@ class LoadRecorderSettingsUC @Inject constructor(
     private val audioSourceRepo: AudioSourceRepo,
     private val bitRateRepo: BitRateRepo,
     private val sampleRateRepo: SampleRateRepo,
-    private val wavetableSampleRateRepo: WavetableSampleRateRepo,
     private val scheduler: Scheduler,
     private val sharedPreferences: SharedPreferences,
 ) {

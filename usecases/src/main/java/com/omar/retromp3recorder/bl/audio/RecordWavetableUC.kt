@@ -1,19 +1,19 @@
 package com.omar.retromp3recorder.bl.audio
 
+import com.omar.retromp3recorder.bl.system.SaveRecordingWithWavetableUC
 import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
-import com.omar.retromp3recorder.storage.repo.WavetableRepo
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
-import timber.log.Timber
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 @Suppress("SameParameterValue")
 class RecordWavetableUC @Inject constructor(
     private val recorderMapper: RecordWavetableMapper,
     private val audioStateMapper: AudioStateMapper,
-    private val wavetableRepo: WavetableRepo,
+    private val saveRecordingWithWavetableUC: SaveRecordingWithWavetableUC,
     private val currentFileRepo: CurrentFileRepo,
     private val scheduler: Scheduler
 ) {
@@ -25,12 +25,12 @@ class RecordWavetableUC @Inject constructor(
                 .collectInto(WavetableSummer(), WavetableSummer.recordCollectFunction)
                 .map { it.toWaveTable() }
                 .flatMapCompletable { wavetable ->
-                    Completable.fromAction {
+                    Single.fromCallable {
                         val currentFile = currentFileRepo.observe().blockingFirst().value!!
+                        Pair(currentFile.path, wavetable)
 
-                        val pair = Pair(currentFile.path, wavetable)
-                        wavetableRepo.onNext(pair)
-                        Timber.d("wavetableRepo.onNext(pair) $pair")
+                    }.flatMapCompletable {
+                        Completable.fromAction { saveRecordingWithWavetableUC.execute(it) }
                     }
                 }
         }
