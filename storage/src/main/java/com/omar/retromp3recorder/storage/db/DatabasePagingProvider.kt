@@ -8,7 +8,7 @@ import javax.inject.Inject
 class DatabasePagingProvider @Inject constructor(private val database: AppDatabase) {
     fun providePagingFiles(): LiveData<PagedList<FileDbEntity>>{
         return LivePagedListBuilder(
-            database.fileEntityDao().getAllPaging(),
+            database.fileEntityDao().getAllPagingData(),
             PagedList
                 .Config
                 .Builder()

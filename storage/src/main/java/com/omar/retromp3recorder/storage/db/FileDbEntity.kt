@@ -52,7 +52,10 @@ interface FileDbEntityDao {
     fun takeLast(): FileDbEntity?
 
     @Query("SELECT * FROM FileDbEntity ORDER BY id DESC")
-    fun getAllPaging(): DataSource.Factory<Int, FileDbEntity>
+    fun getAllPagingData(): DataSource.Factory<Int, FileDbEntity>
+
+    @Query("SELECT * FROM FileDbEntity ORDER BY id DESC limit = :pageSize offset = :offsetItems")
+    fun getAllPaging(pageSize: Int, offsetItems: Int): List<FileDbEntity>
 
     @Query("SELECT * from FileDbEntity WHERE filepath = :filepath")
     fun getByFilepath(filepath: String): List<FileDbEntity>
