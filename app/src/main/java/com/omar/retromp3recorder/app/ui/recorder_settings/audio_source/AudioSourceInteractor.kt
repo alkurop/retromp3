@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.ui.recorder_settings.audio_source
 
 import com.omar.retromp3recorder.bl.settings.ChangeAudioSourceUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.storage.repo.AudioSourceRepo
+import com.omar.retromp3recorder.storage.repo.RecorderPrefsRepo
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject
 
 class AudioSourceInteractor @Inject constructor(
-    private val audioSourceRepo: AudioSourceRepo,
+    private val repo: RecorderPrefsRepo,
     private val changeAudioSourceUC: ChangeAudioSourceUC,
     private val scheduler: Scheduler
 ) {
@@ -24,7 +24,7 @@ class AudioSourceInteractor @Inject constructor(
     private val mapRepoToOutput: () -> Observable<Mp3VoiceRecorder.AudioSourcePref> = {
         Observable.merge(
             listOf(
-                audioSourceRepo.observe()
+                repo.observe().map { it.audioSourcePref }
             )
         )
     }

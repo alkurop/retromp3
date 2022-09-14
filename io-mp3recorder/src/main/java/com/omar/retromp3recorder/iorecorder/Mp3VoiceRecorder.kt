@@ -38,6 +38,12 @@ interface Mp3VoiceRecorder {
         class Output(val mediaProjection: MediaProjection, val source: Int) : AudioSource()
     }
 
+    data class RecorderPrefs(
+        val sampleRate: SampleRate,
+        val bitRate: BitRate,
+        val audioSourcePref: AudioSourcePref
+    )
+
     sealed class Event {
         data class Message(val message: Stringer) : Event()
         data class Error(val error: Stringer) : Event()
@@ -45,8 +51,7 @@ interface Mp3VoiceRecorder {
 
     data class RecorderProps(
         val filepath: String,
-        val bitRate: BitRate,
-        val sampleRate: SampleRate,
+        val prefs: RecorderPrefs,
         val audioSourcePref: AudioSource
     )
 

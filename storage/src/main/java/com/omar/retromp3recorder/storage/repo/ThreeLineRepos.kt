@@ -11,16 +11,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AudioSourceRepo @Inject constructor() :
-    BehaviorSubjectRepo<Mp3VoiceRecorder.AudioSourcePref>()
-
-@Singleton
-class BitRateRepo @Inject constructor() :
-    BehaviorSubjectRepo<Mp3VoiceRecorder.BitRate>()
-
-@Singleton
-class SampleRateRepo @Inject constructor() :
-    BehaviorSubjectRepo<Mp3VoiceRecorder.SampleRate>()
+class RecorderPrefsRepo @Inject constructor() :
+    BehaviorSubjectRepo<Mp3VoiceRecorder.RecorderPrefs>()
 
 @Singleton
 class CurrentFileRepo @Inject constructor() :

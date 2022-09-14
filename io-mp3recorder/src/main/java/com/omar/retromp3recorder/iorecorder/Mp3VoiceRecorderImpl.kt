@@ -47,26 +47,28 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
     override fun observeEvents(): Observable<Mp3VoiceRecorder.Event> = events
 
     override fun recordWithProps(props: Mp3VoiceRecorder.RecorderProps) {
+        val sampleRate = props.prefs.sampleRate.value
+        val bitRate = props.prefs.bitRate.value
         val minBufferSize = AudioRecord.getMinBufferSize(
-            props.sampleRate.value,
+            sampleRate,
             channelConfig,
             encoding
         )
         val findAudioRecord = when (val audioSource = props.audioSourcePref) {
             Mp3VoiceRecorder.AudioSource.Mic -> findAudioRecordForMic(
                 minBufferSize = minBufferSize,
-                sampleRate = props.sampleRate.value
+                sampleRate = sampleRate
             )
             is Mp3VoiceRecorder.AudioSource.Output -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
                 findAudioRecordForMediaProjection(
                     audioSource.mediaProjection,
                     audioSource.source,
                     minBufferSize,
-                    sampleRate = props.sampleRate.value
+                    sampleRate = sampleRate
                 )
             else findAudioRecordForMic(
                 minBufferSize = minBufferSize,
-                sampleRate = props.sampleRate.value
+                sampleRate = sampleRate
             )
         }
 
@@ -79,15 +81,15 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
             .flatMap { (file, audioRecord) ->
                 createRecorder(
                     audioRecord = audioRecord,
-                    sampleRate = props.sampleRate.value,
-                    bitRate = props.bitRate.value
+                    sampleRate = sampleRate,
+                    bitRate = bitRate
                 ).map { processedAudioRecord -> Pair(file, processedAudioRecord) }
             }
             .flatMapCompletable { fileAudioRecordPair ->
                 record(
                     outputFile = fileAudioRecordPair.first,
                     recorder = fileAudioRecordPair.second,
-                    sampleRate = props.sampleRate.value
+                    sampleRate = sampleRate
                 )
             }
             .onErrorResumeNext { throwable ->
