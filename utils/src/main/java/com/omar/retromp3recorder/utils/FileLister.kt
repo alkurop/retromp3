@@ -22,7 +22,7 @@ class FileListerImpl @Inject constructor() : FileLister {
 
     override fun discoverFile(path: String): ExistingFileWrapper {
         val file = File(path)
-        return file.toFileWrapper()
+        return file.toFileWrapper().copy(length = discoverLength(path))
     }
 
     override fun discoverLength(path: String): Long {

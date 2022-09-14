@@ -12,10 +12,10 @@ import javax.inject.Inject
 
 class WaveformScanUpdaterUC @Inject constructor(
     private val amplitudaDealer: AmplitudaDealer,
-    private val waveformScanner: WaveformScanner,
-    private val scheduler: Scheduler,
     private val dbUpdaterUC: DbUpdaterUC,
-    private val fileRepoUpdaterUC: FileRepoUpdaterUC
+    private val fileRepoUpdaterUC: FileRepoUpdaterUC,
+    private val waveformScanner: WaveformScanner,
+    private val scheduler: Scheduler
 ) {
     fun execute(input: List<ExistingFileWrapper>): Completable {
         val batch = input.filter { it.wavetable.isEmpty() }
