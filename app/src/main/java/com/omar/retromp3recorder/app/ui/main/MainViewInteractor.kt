@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
 import com.omar.retromp3recorder.bl.files.TakeLastFileDirScanUC
 import com.omar.retromp3recorder.bl.system.CheckAllPermissionsUC
 import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
-import com.omar.retromp3recorder.storage.repo.MediaProjectionRequestBus
+import com.omar.retromp3recorder.storage.repo.MediaProjectionStateRepo
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
 import com.omar.retromp3recorder.utils.flatMapGhost
 import com.omar.retromp3recorder.utils.processIO
@@ -19,7 +19,7 @@ class MainViewInteractor @Inject constructor(
     private val scheduler: Scheduler,
     private val permissionsRequestBus: PermissionsRequestBus,
     private val checkAllPermissionsUC: CheckAllPermissionsUC,
-    private val mediaProjectionRequestBus: MediaProjectionRequestBus,
+    private val mediaProjectionRequestBus: MediaProjectionStateRepo,
     private val updateMediaProjectionUC: UpdateMediaProjectionUC,
     private val featureFlagRepo: FeatureFlagRepo,
     private val takeLastFileWithScanDirScanUC: TakeLastFileDirScanUC
@@ -40,6 +40,7 @@ class MainViewInteractor @Inject constructor(
                     .flatMapGhost()
                     .map { denied -> Output.RequestPermissionsOutput(denied) },
                 mediaProjectionRequestBus.observe()
+                    .map { it.request }
                     .flatMapGhost()
                     .map { request -> Output.RequestScreenCapture(request) },
                 featureFlagRepo.observe()

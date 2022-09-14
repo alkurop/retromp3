@@ -6,7 +6,7 @@ import android.media.AudioAttributes.USAGE_MEDIA
 import com.omar.retromp3recorder.bl.system.CheckPermissionsUC
 import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.storage.repo.MediaProjectionRepo
+import com.omar.retromp3recorder.storage.repo.MediaProjectionStateRepo
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions
 import com.omar.retromp3recorder.storage.repo.RecorderPrefsRepo
@@ -20,7 +20,7 @@ class StartRecordUC @Inject constructor(
     private val checkPermissionsUC: CheckPermissionsUC,
     private val captureCompletableCreator: CaptureCompletableCreator,
     private val permissionsRequestBus: PermissionsRequestBus,
-    private val projectionRepo: MediaProjectionRepo,
+    private val projectionRepo: MediaProjectionStateRepo,
     private val requestMediaProjectionUC: RequestMediaProjectionUC,
     private val serviceDealer: ServiceDealer,
 ) {
@@ -29,7 +29,7 @@ class StartRecordUC @Inject constructor(
             .fromAction { serviceDealer.startMediaProjectionService() }
             .andThen(projectionRepo.observe().takeOne())
             .flatMapCompletable {
-                val projection = it.value
+                val projection = it.mediaProjection.value
                 if (projection != null) {
                     captureCompletableCreator.create(
                         Mp3VoiceRecorder.AudioSource.Output(

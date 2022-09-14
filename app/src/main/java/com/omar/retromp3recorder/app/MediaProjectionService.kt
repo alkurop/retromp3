@@ -11,8 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import com.omar.retromp3recorder.app.WakelockService.Companion.WAKELOCK_SERVICE_CHANNEL
 import com.omar.retromp3recorder.app.ui.main.MainActivity
-import com.omar.retromp3recorder.storage.repo.MediaProjectionRepo
-import com.omar.retromp3recorder.storage.repo.MediaProjectionStopBus
+import com.omar.retromp3recorder.storage.repo.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.disposedBy
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -20,10 +19,8 @@ import javax.inject.Inject
 
 class MediaProjectionService : Service() {
     @Inject
-    lateinit var mediaProjectionRepo: MediaProjectionRepo
+    lateinit var mediaProjectionRepo: MediaProjectionStateRepo
 
-    @Inject
-    lateinit var mediaProjectionStopBus: MediaProjectionStopBus
     private val compositeDisposable = CompositeDisposable()
     private val notificationManager: NotificationManager by lazy {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -50,9 +47,9 @@ class MediaProjectionService : Service() {
         Completable
             .merge(
                 listOf(
-                    mediaProjectionStopBus.observe()
+                    mediaProjectionRepo.observe()
                         .flatMapCompletable {
-                            val shouldStop = it.ghost != null
+                            val shouldStop = it.stop.ghost != null
                             if (shouldStop) {
                                 Completable.fromAction { stopSelf(); hideNotification() }
                             } else {

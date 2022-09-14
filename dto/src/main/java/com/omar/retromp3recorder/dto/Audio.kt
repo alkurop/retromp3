@@ -24,4 +24,3 @@ data class PlayerProgress(
     val progress: Long,
     val duration: Long
 )
-

@@ -31,13 +31,5 @@ class SeekRepo @Inject constructor() :
     BehaviorSubjectRepo<Optional<Int>>(Optional.empty())
 
 @Singleton
-class MediaProjectionRepo @Inject constructor() :
-    BehaviorSubjectRepo<Optional<MediaProjection>>(Optional.empty())
-
-@Singleton
-class MediaProjectionRequestBus @Inject constructor() :
-    BehaviorSubjectRepo<Shell<Any>>(Shell.empty())
-
-@Singleton
-class MediaProjectionStopBus @Inject constructor() :
-    BehaviorSubjectRepo<Shell<Any>>(Shell.empty())
+class MediaProjectionStateRepo @Inject constructor() :
+    BehaviorSubjectRepo<MediaProjectionState>(MediaProjectionState())
