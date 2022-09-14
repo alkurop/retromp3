@@ -1,7 +1,5 @@
 package com.omar.retromp3recorder.storage.repo
 
-import android.media.projection.MediaProjection
-import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.dto.FileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
@@ -25,10 +23,6 @@ class FeatureFlagRepo @Inject constructor() :
 @Singleton
 class JoinedProgressRepo @Inject constructor() :
     BehaviorSubjectRepo<JoinedProgress>(JoinedProgress.Hidden)
-
-@Singleton
-class SeekRepo @Inject constructor() :
-    BehaviorSubjectRepo<Optional<Int>>(Optional.empty())
 
 @Singleton
 class MediaProjectionStateRepo @Inject constructor() :
