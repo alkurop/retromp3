@@ -19,12 +19,12 @@ class BitRateRepo @Inject constructor() :
     BehaviorSubjectRepo<Mp3VoiceRecorder.BitRate>()
 
 @Singleton
+class SampleRateRepo @Inject constructor() :
+    BehaviorSubjectRepo<Mp3VoiceRecorder.SampleRate>()
+
+@Singleton
 class CurrentFileRepo @Inject constructor() :
-    BehaviorSubjectRepo<Optional<FileWrapper>>(Optional.empty()) {
-    override fun onNext(next: Optional<FileWrapper>) {
-        super.onNext(next)
-    }
-}
+    BehaviorSubjectRepo<Optional<FileWrapper>>(Optional.empty())
 
 @Singleton
 class FeatureFlagRepo @Inject constructor() :
@@ -33,6 +33,10 @@ class FeatureFlagRepo @Inject constructor() :
 @Singleton
 class JoinedProgressRepo @Inject constructor() :
     BehaviorSubjectRepo<JoinedProgress>(JoinedProgress.Hidden)
+
+@Singleton
+class SeekRepo @Inject constructor() :
+    BehaviorSubjectRepo<Optional<Int>>(Optional.empty())
 
 @Singleton
 class MediaProjectionRepo @Inject constructor() :
@@ -45,19 +49,3 @@ class MediaProjectionRequestBus @Inject constructor() :
 @Singleton
 class MediaProjectionStopBus @Inject constructor() :
     BehaviorSubjectRepo<Shell<Any>>(Shell.empty())
-
-@Singleton
-class SampleRateRepo @Inject constructor() :
-    BehaviorSubjectRepo<Mp3VoiceRecorder.SampleRate>()
-
-@Singleton
-class SeekRepo @Inject constructor() :
-    BehaviorSubjectRepo<Optional<Int>>(Optional.empty())
-
-@Singleton
-class LoadingStateRepo @Inject constructor() : BehaviorSubjectRepo<Loading>(Loading.Not)
-
-sealed class Loading {
-    object Not : Loading()
-    data class Is(val percent: Int) : Loading()
-}
