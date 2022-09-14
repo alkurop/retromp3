@@ -34,7 +34,7 @@ class JoinedProgressMapper @Inject constructor(
                         val file = (currentFile.value as ExistingFileWrapper)
                         JoinedProgress.PlayerProgressShown(
                             Shell(progress),
-                            Shell(file.wavetable!!)
+                            file.wavetable!!
                         )
                     } else
                         JoinedProgress.Hidden
@@ -50,7 +50,7 @@ class JoinedProgressMapper @Inject constructor(
                         val file = (currentFile.value as ExistingFileWrapper)
                         JoinedProgress.PlayerProgressShown(
                             Shell(progress),
-                            Shell(file.wavetable!!)
+                            file.wavetable
                         )
                     } else
                         JoinedProgress.Hidden
@@ -66,7 +66,7 @@ class JoinedProgressMapper @Inject constructor(
                         val file = (currentFile.value as ExistingFileWrapper)
                         JoinedProgress.PlayerProgressShown(
                             Shell(progress),
-                            Shell(file.wavetable)
+                            file.wavetable
                         )
                     } else
                         JoinedProgress.Hidden

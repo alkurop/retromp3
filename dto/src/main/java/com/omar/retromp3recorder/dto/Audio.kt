@@ -11,7 +11,7 @@ sealed class JoinedProgress {
 
     data class PlayerProgressShown(
         val progress: Shell<PlayerProgress>,
-        val wavetable: Shell<Wavetable>
+        val wavetable: Wavetable?
     ) : JoinedProgress()
 }
 
