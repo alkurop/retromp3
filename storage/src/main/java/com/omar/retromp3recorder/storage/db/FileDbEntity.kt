@@ -54,14 +54,14 @@ interface FileDbEntityDao {
     @Query("SELECT * FROM FileDbEntity ORDER BY id DESC")
     fun getAllPagingData(): DataSource.Factory<Int, FileDbEntity>
 
-    @Query("SELECT * FROM FileDbEntity ORDER BY id DESC limit = :pageSize offset = :offsetItems")
+    @Query("SELECT * FROM FileDbEntity ORDER BY id DESC limit :pageSize offset :offsetItems")
     fun getAllPaging(pageSize: Int, offsetItems: Int): List<FileDbEntity>
 
     @Query("SELECT * from FileDbEntity WHERE filepath = :filepath")
     fun getByFilepath(filepath: String): List<FileDbEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(items: List<FileDbEntity>)
+    fun insert(items: List<FileDbEntity>): List<Long>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateItem(item: FileDbEntity)

@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface FileLister {
-    fun listFiles(dirPathList: List<String>): List<ExistingFileWrapper>
+    fun listFiles(dirPathList: List<String>, extensions: List<String>): List<ExistingFileWrapper>
     fun discoverFile(path: String): ExistingFileWrapper
     fun discoverLength(path: String): Long
 }
@@ -16,8 +16,11 @@ interface FileLister {
 @Singleton
 class FileListerImpl @Inject constructor() : FileLister {
     val lister by lazy { MediaMetadataRetriever() }
-    override fun listFiles(dirPathList: List<String>): List<ExistingFileWrapper> {
-        return dirPathList.map { listFiles(it) }.flatten()
+    override fun listFiles(
+        dirPathList: List<String>,
+        extensions: List<String>
+    ): List<ExistingFileWrapper> {
+        return dirPathList.map { listFiles(it, extensions) }.flatten()
     }
 
     override fun discoverFile(path: String): ExistingFileWrapper {
@@ -26,13 +29,19 @@ class FileListerImpl @Inject constructor() : FileLister {
     }
 
     override fun discoverLength(path: String): Long {
-        lister.setDataSource(path)
-        return lister.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0
+        return try {
+            lister.setDataSource(path)
+            lister.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0
+        } catch (e: Exception) {
+            return 0
+        }
     }
 
-    private fun listFiles(dirPath: String): List<ExistingFileWrapper> {
+    private fun listFiles(dirPath: String, extensions: List<String>): List<ExistingFileWrapper> {
         val file = File(dirPath)
-        return file.listFiles()?.map { it.toFileWrapper() }
-            ?: emptyList()
+        return file.listFiles()?.filter { it.path.split(".").last() in extensions }?.map {
+            val path = it.absolutePath
+            it.toFileWrapper().copy(length = discoverLength(path))
+        } ?: emptyList()
     }
 }

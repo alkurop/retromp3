@@ -1,5 +1,4 @@
 include ':app'
-include ':dto'
 include ':io-audioplayer'
 include ':io-mp3recorder'
 include ':io-share'

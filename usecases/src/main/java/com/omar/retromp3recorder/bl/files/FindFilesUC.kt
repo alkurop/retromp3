@@ -17,8 +17,8 @@ class FindFilesUC @Inject constructor(
         extensions: List<String>,
         shouldCheckEmptyFiles: Boolean = true
     ): Single<List<ExistingFileWrapper>> = Single.fromCallable {
-        val foundFiles = fileLister.listFiles(filePathGenerator.fileDirs)
-            .filter { it.path.split(".").last() in extensions }
+        val foundFiles = fileLister.listFiles(filePathGenerator.fileDirs, extensions)
+
         val nonEmptyFiles =
             if (shouldCheckEmptyFiles) {
                 foundFiles.filter { fileEmptyChecker.isFileEmpty(it.path).not() }

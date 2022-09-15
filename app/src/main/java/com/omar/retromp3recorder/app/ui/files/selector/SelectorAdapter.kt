@@ -70,7 +70,7 @@ class SelectorAdapter(
 
 private class Diff : DiffUtil.ItemCallback<FileDbEntity>() {
     override fun areItemsTheSame(oldItem: FileDbEntity, newItem: FileDbEntity): Boolean {
-        return oldItem.filepath == newItem.filepath
+        return oldItem.toFileWrapper() == newItem.toFileWrapper()
     }
 
     override fun areContentsTheSame(oldItem: FileDbEntity, newItem: FileDbEntity): Boolean {
