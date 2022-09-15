@@ -8,13 +8,13 @@ interface FileEmptyChecker {
 }
 
 class FileEmptyCheckerImpl @Inject constructor(
-    private val audioDurationRetriever: AudioDurationRetriever
+    private val fileLister: FileLister
 ) :
     FileEmptyChecker {
     override fun isFileEmpty(filePath: String): Boolean {
         val file = File(filePath)
         val audioDurationForExistingFile =
-            audioDurationRetriever.getAudioDurationForExistingFile(filePath)
+            fileLister.discoverLength(filePath)
         return (file.exists()
                 && file.length() > 0).not()
                 || audioDurationForExistingFile < 10L
