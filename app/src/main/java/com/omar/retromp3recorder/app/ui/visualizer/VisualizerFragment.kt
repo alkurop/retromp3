@@ -57,7 +57,6 @@ class VisualizerFragment : Fragment(R.layout.fragment_visualizer) {
 
     private fun stopVisualizer() {
         visualizer?.enabled = false
-        visualizer?.setDataCaptureListener(null, Visualizer.getMaxCaptureRate() / 2, true, false)
         visualizer?.release()
         visualizer = null
     }
@@ -66,8 +65,8 @@ class VisualizerFragment : Fragment(R.layout.fragment_visualizer) {
         if (playerId == null || visualizer?.enabled == true) {
             return
         }
-        visualizer = Visualizer(playerId).apply {
-            try {
+        try {
+            visualizer = Visualizer(playerId).apply {
                 captureSize = Visualizer.getCaptureSizeRange()[1]
 
                 setDataCaptureListener(
@@ -77,14 +76,15 @@ class VisualizerFragment : Fragment(R.layout.fragment_visualizer) {
                     false
                 )
                 enabled = true
-            } catch (exception: Exception) {
-                Timber.e(exception)
+
             }
+        } catch (exception: Exception) {
+            Timber.e(exception)
         }
     }
 
     override fun onDestroyView() {
-        stopVisualizer()
         super.onDestroyView()
+        stopVisualizer()
     }
 }
