@@ -20,7 +20,7 @@ class ShareButtonStateMapper @Inject constructor(
                 is AudioState.Recording -> InteractiveButton.State.DISABLED
                 is AudioState.Playing -> InteractiveButton.State.DISABLED
                 is AudioState.Seek_Paused -> InteractiveButton.State.DISABLED
-                is AudioState.Idle -> if (hasFile) InteractiveButton.State.ENABLED else InteractiveButton.State.DISABLED
+                is AudioState.Idle -> if (hasFile.hasValue()) InteractiveButton.State.ENABLED else InteractiveButton.State.DISABLED
             }
         }
 }
