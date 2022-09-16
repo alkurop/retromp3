@@ -1,64 +1,61 @@
 package com.omar.retromp3recorder.bl.system
 
-import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.audioplayer.observeEvents
+import com.omar.retromp3recorder.dto.LogEvent
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.share.Sharer
+import com.omar.retromp3recorder.storage.repo.LogsRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class LogMapper @Inject constructor(
-    recorder: Mp3VoiceRecorder,
-    sharer: Sharer
+    private val recorder: Mp3VoiceRecorder,
+    private val sharer: Sharer,
+    private val logsRepo: LogsRepo
 ) {
-    private val observable: Observable<Event> = Observable.merge(
+
+    fun observe(): Observable<LogEvent> = Observable.merge(
         recorder.createLogs(),
-        sharer.createLogs()
-    ).share()
-
-    fun observe(): Observable<Event> = observable
-
-    sealed class Event {
-        data class Message(val message: Stringer) : Event()
-        data class Error(val error: Stringer) : Event()
-    }
+        sharer.createLogs(),
+        logsRepo.observe()
+    )
 }
 
-private fun Mp3VoiceRecorder.createLogs(): Observable<LogMapper.Event> {
+private fun Mp3VoiceRecorder.createLogs(): Observable<LogEvent> {
     val message = this
         .observeEvents()
         .ofType(Mp3VoiceRecorder.Event.Message::class.java)
-        .map { answer -> LogMapper.Event.Message(answer.message) }
+        .map { answer -> LogEvent.Message(answer.message) }
     val error = this
         .observeEvents()
         .ofType(Mp3VoiceRecorder.Event.Error::class.java)
-        .map { answer -> LogMapper.Event.Error(answer.error) }
+        .map { answer -> LogEvent.Error(answer.error) }
     return Observable.merge(message, error)
 }
 
 @Suppress("UNUSED")
-private fun AudioPlayer.createLogs(): Observable<LogMapper.Event> {
-    val message: Observable<LogMapper.Event> = this
+private fun AudioPlayer.createLogs(): Observable<LogEvent> {
+    val message: Observable<LogEvent> = this
         .observeEvents()
         .ofType(AudioPlayer.Output.Event.Message::class.java)
-        .map { answer -> LogMapper.Event.Message(answer.message) }
-    val error: Observable<LogMapper.Event> = this
+        .map { answer -> LogEvent.Message(answer.message) }
+    val error: Observable<LogEvent> = this
         .observeEvents()
         .ofType(AudioPlayer.Output.Event.Error::class.java)
-        .map { answer -> LogMapper.Event.Error(answer.error) }
+        .map { answer -> LogEvent.Error(answer.error) }
 
     return Observable.merge(message, error)
 }
 
-private fun Sharer.createLogs(): Observable<LogMapper.Event> {
+private fun Sharer.createLogs(): Observable<LogEvent> {
     val message = this
         .observeEvents()
         .ofType(Sharer.Event.SharingOk::class.java)
-        .map { answer -> LogMapper.Event.Message(answer.message) }
+        .map { answer -> LogEvent.Message(answer.message) }
     val error = this
         .observeEvents()
         .ofType(Sharer.Event.Error::class.java)
-        .map { answer -> LogMapper.Event.Error(answer.error) }
+        .map { answer -> LogEvent.Error(answer.error) }
     return Observable.merge(message, error)
 }

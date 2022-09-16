@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.app.ui.log
 
 import com.omar.retromp3recorder.bl.system.LogMapper
+import com.omar.retromp3recorder.dto.LogEvent
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -22,10 +23,10 @@ class LogInteractor @Inject constructor(
         Observable.merge(
             listOf(
                 logMapper.observe()
-                    .ofType(LogMapper.Event.Message::class.java)
+                    .ofType(LogEvent.Message::class.java)
                     .map { message -> LogView.Output.MessageLogOutput(message.message) },
                 logMapper.observe()
-                    .ofType(LogMapper.Event.Error::class.java)
+                    .ofType(LogEvent.Error::class.java)
                     .map { message -> LogView.Output.ErrorLogOutput(message.error) },
             )
         )
