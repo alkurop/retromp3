@@ -41,7 +41,7 @@ class CurrentFileFragment : Fragment(R.layout.fragment_current_file) {
     }
 
     private fun renderState(state: CurrentFileView.State) {
-        textView.text = state.filePath?.toFileName() ?: getString(R.string.no_file)
+        textView.text = state.filePath?.toFileName() ?: getString(R.string.please_record_something)
         textView.isClickable = state.isRenameButtonActive
         buttonOpen.setIsButtonActive(state.isOpenFileActive)
         buttonDelete.setIsButtonActive(state.isDeleteFileActive)

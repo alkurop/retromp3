@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <com.omar.retromp3recorder.ui.wavetable.WavetablePreview
+        android:id="@+id/fjp_recorder_wavetable"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.omar.retromp3recorder.ui.wavetable.WavetablePreview
-            android:id="@+id/fjp_recorder_wavetable"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/color_visualizer_bg" />
-    </RelativeLayout>
-
+        android:layout_height="match_parent"
+        android:background="@color/color_visualizer_bg" />
 
     <com.omar.retromp3recorder.ui.wavetable.WavetableSeekbarPreview
         android:id="@+id/fjp_player_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_visualizer_bg" />
+
+    <TextView
+        android:id="@+id/no_file"
+        android:text="@string/no_file"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>

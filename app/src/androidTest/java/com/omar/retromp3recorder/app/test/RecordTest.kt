@@ -31,6 +31,6 @@ class RecordTest {
         onView(withId(R.id.acf_stop)).check(matches(isNotEnabled()))
         onView(withId(R.id.acf_record)).perform(ViewActions.click())
         onView(withId(R.id.acf_stop)).perform(ViewActions.click())
-        onView(withId(R.id.current_file_text)).check(matches(not(withText(R.string.no_file))))
+        onView(withId(R.id.current_file_text)).check(matches(not(withText(R.string.please_record_something))))
     }
 }

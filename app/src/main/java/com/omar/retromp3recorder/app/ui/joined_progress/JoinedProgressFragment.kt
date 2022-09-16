@@ -16,6 +16,7 @@ import com.omar.retromp3recorder.utils.toSeekbarTime
 class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
     private val viewModel by viewModels<JoinedProgressViewModel>()
     private val recorderWavetable by lazyView<WavetablePreview>(R.id.fjp_recorder_wavetable)
+    private val noFileMessage by lazyView<View>(R.id.no_file)
     private val playerProgress by lazyView<WavetableSeekbarPreview>(R.id.fjp_player_progress)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,6 +40,7 @@ class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
     private fun renderView(joinedProgress: JoinedProgress) {
         playerProgress.isGone = joinedProgress !is JoinedProgress.PlayerProgressShown
         recorderWavetable.isGone = joinedProgress !is JoinedProgress.RecorderProgressShown
+        noFileMessage.isGone = joinedProgress !is JoinedProgress.Hidden
 
         when (joinedProgress) {
             is JoinedProgress.RecorderProgressShown -> recorderWavetable.update(joinedProgress.wavetable.data)

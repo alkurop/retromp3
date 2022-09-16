@@ -4,6 +4,7 @@ import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.dto.FutureFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
@@ -68,8 +69,12 @@ class JoinedProgressMapper @Inject constructor(
                             Shell(progress),
                             file.wavetable
                         )
-                    } else
-                        JoinedProgress.Hidden
+                    } else if (currentFile.value is FutureFileWrapper) {
+                        JoinedProgress.PlayerProgressShown(
+                            Shell(progress),
+                            null
+                        )
+                    } else JoinedProgress.Hidden
                 }
             },
             audioStateMapper.observe().ofType(AudioState.Recording::class.java).switchMap {
