@@ -23,9 +23,12 @@ class SaveRecordingWithWavetableUC @Inject constructor(
                 .fromAction {
                     val fileEntityDao = appDatabase.fileEntityDao()
                     val newItem = fileLister.discoverFile(data.first)
-                        .copy(wavetable = data.second, length = fileLister.discoverLength(data.first))
-                    fileEntityDao.insert(listOf(newItem.toDatabaseEntity()))
-                    currentFileRepo.onNext(newItem.toOptional())
+                        .copy(
+                            wavetable = data.second,
+                            length = fileLister.discoverLength(data.first)
+                        )
+                    val id = fileEntityDao.insert(listOf(newItem.toDatabaseEntity()))[0]
+                    currentFileRepo.onNext(newItem.copy(id).toOptional())
                 })
 }
 

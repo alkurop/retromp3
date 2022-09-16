@@ -45,13 +45,11 @@ data class WaveformDbEntity(
 
 @Dao
 interface FileDbEntityDao {
-    @Query("SELECT * FROM FileDbEntity")
-    fun getAll(): List<FileDbEntity>
 
     @Query("SELECT * FROM FileDbEntity ORDER BY id DESC limit 1")
     fun takeLast(): FileDbEntity?
 
-    @Query("SELECT * FROM FileDbEntity ORDER BY id DESC")
+    @Query("SELECT * FROM FileDbEntity ORDER BY lastModified DESC")
     fun getAllPagingData(): DataSource.Factory<Int, FileDbEntity>
 
     @Query("SELECT * FROM FileDbEntity ORDER BY id DESC limit :pageSize offset :offsetItems")

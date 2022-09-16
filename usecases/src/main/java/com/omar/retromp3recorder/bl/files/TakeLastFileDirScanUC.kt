@@ -1,11 +1,7 @@
 package com.omar.retromp3recorder.bl.files
 
-import com.omar.retromp3recorder.storage.db.AppDatabase
-import com.omar.retromp3recorder.storage.db.toFileWrapper
-import com.omar.retromp3recorder.utils.Optional
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 /**
@@ -20,17 +16,17 @@ import javax.inject.Inject
 class TakeLastFileDirScanUC @Inject constructor(
     private val fileRepoUpdaterUC: FileRepoUpdaterUC,
     private val scanDirFilesPartialUC: ScanDirFilesPartialUC,
+    private val takeLastFileFastUC: TakeLastFileDbItemUC,
     private val scheduler: Scheduler,
-    private val appDatabase: AppDatabase,
 ) {
     fun execute(): Completable {
-        return Single.fromCallable { Optional(appDatabase.fileEntityDao().takeLast()) }
+        return takeLastFileFastUC.get()
             .flatMapCompletable { item ->
                 val value = item.value
                 if (value == null) {
                     scanDirFilesPartialUC.execute()
                 } else fileRepoUpdaterUC
-                    .execute(listOf(value.toFileWrapper()))
+                    .execute(listOf(value))
                     .andThen(scanDirFilesPartialUC.execute())
             }.subscribeOn(scheduler)
     }

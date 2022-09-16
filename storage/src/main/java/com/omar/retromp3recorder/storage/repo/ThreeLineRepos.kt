@@ -14,7 +14,7 @@ class RecorderPrefsRepo @Inject constructor() :
 
 @Singleton
 class CurrentFileRepo @Inject constructor() :
-    BehaviorSubjectRepo<Optional<FileWrapper>>(Optional.empty())
+    BehaviorSubjectRepo<Optional<out FileWrapper>>(Optional.empty())
 
 @Singleton
 class FeatureFlagRepo @Inject constructor() :

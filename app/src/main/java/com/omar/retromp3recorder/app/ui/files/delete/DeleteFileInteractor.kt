@@ -30,7 +30,7 @@ class DeleteFileInteractor @Inject constructor(
             listOf(
                 currentFileMapper.observe().map {
                     DeleteFileView.Output.CurrentFile(
-                        it.value as ExistingFileWrapper
+                        it.value as? ExistingFileWrapper
                     )
                 },
                 dismissSubject.map { DeleteFileView.Output.ShouldDismiss(it) },

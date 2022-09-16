@@ -12,24 +12,23 @@ class DeleteCurrentFileUC @Inject constructor(
     private val appDatabase: AppDatabase,
     private val currentFileRepo: CurrentFileRepo,
     private val fileDeleter: FileDeleter,
-    private val takeLastFileUC: TakeLastFileFastUC
+    private val takeLastFileUC: TakeLastFileDbItemUC
 ) {
-    fun execute(): Completable {
-        return currentFileRepo
-            .takeOne()
-            .flatMapCompletable { optional ->
-                val file = (optional.value as? ExistingFileWrapper)
+    fun execute(): Completable = currentFileRepo
+        .takeOne()
+        .flatMapCompletable { optional ->
+            val file = (optional.value as? ExistingFileWrapper)
 
-                Completable.fromAction {
-                    file?.let {
-                        fileDeleter.deleteFile(it.path)
-                        appDatabase.fileEntityDao().delete(listOf(file.toDatabaseEntity()))
-                    }
-
+            Completable.fromAction {
+                file?.let {
+                    fileDeleter.deleteFile(it.path)
+                    appDatabase.fileEntityDao().delete(listOf(file.toDatabaseEntity()))
                 }
             }
-            .andThen(takeLastFileUC.execute())
-    }
+        }
+        .andThen(
+            takeLastFileUC.get()
+                .flatMapCompletable {
+                    Completable.fromAction { currentFileRepo.onNext(it) }
+                })
 }
-
-//todo fix take last file usecase
