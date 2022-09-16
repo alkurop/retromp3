@@ -7,8 +7,3 @@ Retro MP3 Recorder:
  - outputs in MP3 format
  - user may then share audio file
 
-
-//todo
- - optimize resolving files
- - settings activity
- - experimental feature flags
