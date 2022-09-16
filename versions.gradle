@@ -16,7 +16,7 @@ ext.versions = [
         'room'                  :'2.5.0-alpha03',
         'rxView'                :'4.0.0',
         'rxAndroid'             :'3.0.0',
-        'rxJava'                :'3.0.12',
+        'rxJava'                :'3.1.3',
         'rxKotlin'              :'3.0.1',
         'stringerbell'          :'0.4',
         'support'               :'1.5.1',
