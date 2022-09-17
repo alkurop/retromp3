@@ -11,11 +11,10 @@ sealed class JoinedProgress {
 
     data class PlayerProgressShown(
         val progress: Shell<PlayerProgress>,
-        val wavetable: Wavetable?
+        val wavetable: Wavetable?,
+        val range: PlayerRange = PlayerRange()
     ) : JoinedProgress()
 }
-
-
 
 data class PlayerProgress(
     val progress: Long,
