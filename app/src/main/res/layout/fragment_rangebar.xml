@@ -22,10 +22,9 @@
 
     <TextView
         android:id="@+id/range_start"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:minWidth="100dp"
         android:textAppearance="@style/Control.Small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,12 +32,27 @@
         tools:text="start" />
 
     <TextView
-        android:id="@+id/range_end"
+        android:id="@+id/range_state"
+        style="@style/Control.Normal"
         android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/range_end"
+        app:layout_constraintStart_toEndOf="@id/range_start"
+        app:layout_constraintTop_toBottomOf="@id/range_bar"
+        tools:text="Range" />
+
+    <TextView
+        android:id="@+id/range_end"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:gravity="end"
-        android:minWidth="100dp"
+        android:minWidth="120dp"
         android:textAppearance="@style/Control.Small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
