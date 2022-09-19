@@ -21,6 +21,8 @@ class PlayerProgressRepo @Inject constructor() :
         data class Progress(val progress: PlayerProgress) : In()
         data class Range(val range: PlayerRange) : In()
         data class NewCurrentFile(val progress: PlayerProgress) : In()
+        data class RangeEnabled(val isEnabled: Boolean) : In()
+
         object Hidden : In()
     }
 }
@@ -39,6 +41,10 @@ private val FUNCTION: Optional<PlayerProgress>.(PlayerProgressRepo.In) -> Option
             }
             is PlayerProgressRepo.In.NewCurrentFile -> Optional(input.progress)
             is PlayerProgressRepo.In.Range -> Optional(this.value?.copy(range = input.range))
+            is PlayerProgressRepo.In.RangeEnabled -> {
+                val range = (this.value?.range ?: PlayerRange()).copy(isActive = input.isEnabled)
+                Optional(value?.copy(range = range))
+            }
             else -> Optional.empty()
         }
     }

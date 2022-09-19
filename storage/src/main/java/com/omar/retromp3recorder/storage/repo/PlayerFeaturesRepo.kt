@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class PlayerFeaturesRepo @Inject constructor(
     private val featureFlagRepo: FeatureFlagRepo
-) : BehaviorSubjectRepo<PlayerFeatures>() {
+) : BehaviorSubjectRepo<PlayerFeatures>(PlayerFeatures()) {
     override fun observe(): Observable<PlayerFeatures> {
         return Observable.zip(
             featureFlagRepo.observe(),

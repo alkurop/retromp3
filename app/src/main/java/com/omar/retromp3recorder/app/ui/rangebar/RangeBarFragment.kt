@@ -45,6 +45,8 @@ class RangeBarFragment : Fragment(R.layout.fragment_rangebar) {
                 view?.isVisible = true
                 startView.text = state.fromMillis.toDisplay(requireContext())
                 endView.text = state.toMillis.toDisplay(requireContext())
+                val active = state.range.isActive
+                rangeBar.isActivated = active
             }
         }
     }
