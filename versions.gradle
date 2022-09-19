@@ -12,7 +12,7 @@ ext.versions = [
         'paging'                :'3.1.1',
         'permission'            :'0.14.13',
         'picasso'               :'2.8',
-        'rangeBar'              :'2.0.6',
+        'rangeBar'              :'2.0.8',
         'recyclerView'          :'1.2.1',
         'room'                  :'2.5.0-alpha03',
         'rxView'                :'4.0.0',
