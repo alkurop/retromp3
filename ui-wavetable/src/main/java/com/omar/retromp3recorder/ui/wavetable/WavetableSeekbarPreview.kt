@@ -60,8 +60,6 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
         if (bytesWithRange == update) return
         bytesWithRange = update
         wavetablePreview.update(update)
-        val progress = Pair(0, update.bytes.size)
-        updateProgress(progress)
     }
 
     fun updateProgress(progress: Pair<Int, Int>) {

@@ -53,9 +53,10 @@ class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
                     progress.progress.toSeekbarTime() to progress.duration.toSeekbarTime()
                 )
 
-                joinedProgress.wavetable?.let { wavetable ->
+                val wavetable = joinedProgress.wavetable
+                if (wavetable != null) {
                     playerProgress.updateWavetable(
-                        BytesWithRange(wavetable.data, joinedProgress.range)
+                        BytesWithRange(wavetable.data, joinedProgress.progress.range)
                     )
                 }
             }

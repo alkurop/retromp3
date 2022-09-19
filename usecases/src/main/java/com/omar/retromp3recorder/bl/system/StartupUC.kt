@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.bl.system
 import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.audio.PlayerProgressMapper
 import com.omar.retromp3recorder.bl.audio.RecordWavetableUC
-import com.omar.retromp3recorder.bl.files.NewFileUpdater
+import com.omar.retromp3recorder.bl.files.NewCurrentFileUpdater
 import com.omar.retromp3recorder.bl.files.TakeLastFileDirScanUC
 import com.omar.retromp3recorder.bl.settings.FeatureMapLoadUC
 import com.omar.retromp3recorder.bl.settings.LoadRecorderSettingsUC
@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
 class StartupUC @Inject constructor(
-    private val cleanUpSeekRepoUsecase: NewFileUpdater,
+    private val cleanUpSeekRepoUsecase: NewCurrentFileUpdater,
     private val featureMapLoadUC: FeatureMapLoadUC,
     private val joinPlayerProgressMapper: JoinedProgressMapper,
     private val loadRecorderSettingsUC: LoadRecorderSettingsUC,

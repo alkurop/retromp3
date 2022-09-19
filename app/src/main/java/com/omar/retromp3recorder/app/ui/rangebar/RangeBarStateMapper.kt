@@ -18,9 +18,9 @@ class RangeBarStateMapper @Inject constructor(
         ) { progress, features ->
             val isFlag = FeatureFlag.RangeControl.isEnabled(features)
             when {
-                isFlag && progress is JoinedProgress.PlayerProgressShown && progress.range.isEnabled -> {
+                isFlag && progress is JoinedProgress.PlayerProgressShown && progress.progress.range.isEnabled -> {
                     val duration = progress.progress.duration
-                    val range = progress.range
+                    val range = progress.progress.range
                     val rangeMultiplier = if (range.max == 0) 1 else duration / range.max
                     val fromMillis = if (range.from == 0) 0 else range.from * rangeMultiplier
                     val toMillis = if (range.to == 0) 0 else range.to * rangeMultiplier

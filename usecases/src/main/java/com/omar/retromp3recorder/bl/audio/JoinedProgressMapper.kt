@@ -4,7 +4,6 @@ import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
-import com.omar.retromp3recorder.dto.PlayerRange
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
@@ -23,10 +22,6 @@ class JoinedProgressMapper @Inject constructor(
     private val scheduler: Scheduler
 ) {
 
-    private fun range() =
-        (joinedProgressRepo.observe().blockingFirst() as? JoinedProgress.PlayerProgressShown)?.range
-            ?: PlayerRange()
-
     fun observe(): Completable = Observable
         .merge(
             audioStateMapper.observe().ofType(AudioState.Seek_Paused::class.java).switchMap {
@@ -40,7 +35,6 @@ class JoinedProgressMapper @Inject constructor(
                         JoinedProgress.PlayerProgressShown(
                             progress,
                             file.wavetable!!,
-                            range()
                         )
                     } else
                         JoinedProgress.Hidden
@@ -57,8 +51,8 @@ class JoinedProgressMapper @Inject constructor(
                         JoinedProgress.PlayerProgressShown(
                             progress,
                             file.wavetable,
-                            range()
-                        )
+
+                            )
                     } else
                         JoinedProgress.Hidden
                 }
@@ -76,7 +70,6 @@ class JoinedProgressMapper @Inject constructor(
                         JoinedProgress.PlayerProgressShown(
                             progress,
                             file.wavetable,
-                            range()
                         )
                     } else JoinedProgress.Hidden
                 }
