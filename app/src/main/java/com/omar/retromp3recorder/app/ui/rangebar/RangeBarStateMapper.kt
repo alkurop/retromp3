@@ -16,7 +16,8 @@ class RangeBarStateMapper @Inject constructor(
             joinedProgressRepo.observe(),
             featureFlagRepo.observe(),
         ) { progress, features ->
-            val isFlag = FeatureFlag.RangeControl.isEnabled(features)
+            //todo add player feature repo
+            val isFlag = features.isEnabled(FeatureFlag.RangeControl)
             when {
                 isFlag && progress is JoinedProgress.PlayerProgressShown && progress.progress.range.isEnabled -> {
                     val duration = progress.progress.duration

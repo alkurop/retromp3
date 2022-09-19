@@ -53,8 +53,8 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
             debugContainer.removeAllViews()
             expContainer.removeAllViews()
             prodContainer.removeAllViews()
-            featureFlagsCollection.featuresMap.forEach { (flag, setting) ->
-                val isEnabled = setting.isEnabled(flag)
+            featureFlagsCollection.featuresMap.forEach { (flag, _) ->
+                val isEnabled = featureFlagsCollection.isEnabled(flag)
                 val container = when (flag.featureLevel) {
                     FeatureLevel.Debug -> debugContainer
                     FeatureLevel.Experimental -> expContainer
@@ -71,8 +71,7 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
                 view.layoutParams = lp
                 view.setOnCheckedChangeListener { _, state ->
                     val newSetting = FeatureFlagSetting(
-                        isEnabledOverride = state,
-                        shouldSave = true
+                        isEnabled = state,
                     )
                     viewModel.input.onNext(SettingsView.Input.FlagSettingChanged(flag, newSetting))
                 }

@@ -3,6 +3,7 @@ package com.omar.retromp3recorder.storage.repo
 import com.omar.retromp3recorder.dto.FileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.dto.LogEvent
+import com.omar.retromp3recorder.dto.PlayerFeatures
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
 import com.omar.retromp3recorder.storage.repo.common.PublishSubjectRepo
@@ -13,10 +14,6 @@ import javax.inject.Singleton
 @Singleton
 class RecorderPrefsRepo @Inject constructor() :
     BehaviorSubjectRepo<Mp3VoiceRecorder.RecorderPrefs>()
-
-@Singleton
-class CurrentFileRepo @Inject constructor() :
-    BehaviorSubjectRepo<Optional<out FileWrapper>>(Optional.empty())
 
 @Singleton
 class FeatureFlagRepo @Inject constructor() :
@@ -32,3 +29,12 @@ class MediaProjectionStateRepo @Inject constructor() :
 
 @Singleton
 class LogsRepo @Inject constructor() : PublishSubjectRepo<LogEvent>()
+
+
+//todo should move to local
+
+@Singleton
+class CurrentFileRepo @Inject constructor() :
+    BehaviorSubjectRepo<Optional<out FileWrapper>>(Optional.empty())
+
+

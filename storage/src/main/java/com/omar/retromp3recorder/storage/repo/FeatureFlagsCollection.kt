@@ -7,32 +7,33 @@ import com.omar.retromp3recorder.storage.R
 @Keep
 enum class FeatureFlag(
     val featureLevel: FeatureLevel,
-    val isDefaultEnabled: Boolean = false,
-    @StringRes val friendlyName: Int
+    @StringRes val friendlyName: Int,
+    val isEnabledByDefault: Boolean
 ) {
+
     LogView(
         featureLevel = FeatureLevel.Production,
-        friendlyName = R.string.feature_name_log_view
+        friendlyName = R.string.feature_name_log_view,
+        isEnabledByDefault = false
     ),
     KeepScreenOn(
         featureLevel = FeatureLevel.Production,
-        friendlyName = R.string.feature_name_keep_screen_on
+        friendlyName = R.string.feature_name_keep_screen_on,
+        isEnabledByDefault = false
+
     ),
     RangeControl(
         featureLevel = FeatureLevel.Debug,
-        friendlyName = R.string.feature_name_range_control
+        friendlyName = R.string.feature_name_range_control,
+        isEnabledByDefault = false
     ),
     ;
 
     val key: String = "FeatureFlag_${this.name}"
 
-    val isEnabled: (FeatureFlagsCollection) -> Boolean = {
-        val setting = it.featuresMap[this]
-            ?: FeatureFlagSetting()
-        setting.isEnabled(this)
-    }
 }
 
+// Changes display container
 @Keep
 enum class FeatureLevel {
     Debug,
@@ -41,23 +42,13 @@ enum class FeatureLevel {
 }
 
 data class FeatureFlagSetting(
-    val isEnabledOverride: Boolean = false,
-    val shouldSave: Boolean = false
-) {
-    @Suppress("UNUSED")
-            /** Im not going to use this
-             * This is more like a doc on how the Feature Settings are going to be used*/
-    fun isEnabled(featureFlag: FeatureFlag): Boolean {
-        return when {
-            shouldSave || isEnabledOverride -> isEnabledOverride
-            else -> featureFlag.isDefaultEnabled
-        }
-    }
-}
+    val isEnabled: Boolean,
+)
 
 data class FeatureFlagsCollection(
-    val featuresMap: Map<FeatureFlag, FeatureFlagSetting> = FeatureFlag
-        .values()
-        .map { it to FeatureFlagSetting() }
-        .toMap()
-)
+    val featuresMap: Map<FeatureFlag, FeatureFlagSetting>
+) {
+    fun isEnabled(featureFlag: FeatureFlag): Boolean {
+        return featuresMap[featureFlag]?.isEnabled ?: false
+    }
+}

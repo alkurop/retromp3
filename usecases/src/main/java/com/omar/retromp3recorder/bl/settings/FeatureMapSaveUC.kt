@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.omar.retromp3recorder.storage.repo.FeatureFlag
 import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.FeatureFlagSetting
+import com.omar.retromp3recorder.storage.repo.FeatureFlagsCollection
 import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
@@ -18,13 +19,12 @@ class FeatureMapSaveUC @Inject constructor(
         featureFlagRepo.observe().takeOne().flatMapCompletable { features ->
             Completable.fromAction {
                 val intermediate = features.featuresMap.toMutableMap()
-                intermediate[featureFlag] = featureFlagSetting.copy(shouldSave = false)
-                val newMap = features.copy(featuresMap = intermediate.toMap())
-                featureFlagRepo.onNext(newMap)
-                if (featureFlagSetting.shouldSave) {
-                    sharedPreferences.edit().putBoolean(featureFlag.key, featureFlagSetting.isEnabledOverride)
-                        .commit()
-                }
+                intermediate[featureFlag] = featureFlagSetting
+
+                featureFlagRepo.onNext(FeatureFlagsCollection(intermediate.toMap()))
+                sharedPreferences.edit()
+                    .putBoolean(featureFlag.key, featureFlagSetting.isEnabled)
+                    .commit()
             }
         }
 }

@@ -2,7 +2,6 @@ package com.omar.retromp3recorder.app.ui.main
 
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.storage.repo.FeatureFlag
-import com.omar.retromp3recorder.storage.repo.FeatureFlagSetting
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.functions.BiFunction
@@ -27,14 +26,10 @@ object MainViewOutputMapper {
                         requestForScreenCapture = Shell(output.shouldRequest)
                     )
                 is MainView.Output.SettingsUpdated -> {
-                    val isEnabled: FeatureFlag.() -> Boolean = {
-                        val setting = output.featureFlagsCollection.featuresMap[this]
-                            ?: FeatureFlagSetting()
-                        setting.isEnabled(this)
-                    }
-
-                    val isLogViewEnabled = FeatureFlag.LogView.let(isEnabled)
-                    val shouldKeepScreenOn = FeatureFlag.KeepScreenOn.let(isEnabled)
+                    val isLogViewEnabled =
+                        output.featureFlagsCollection.isEnabled(FeatureFlag.LogView)
+                    val shouldKeepScreenOn =
+                        output.featureFlagsCollection.isEnabled(FeatureFlag.KeepScreenOn)
                     oldState.copy(
                         isLogViewEnabled = isLogViewEnabled,
                         shouldKeepScreenOn = shouldKeepScreenOn
