@@ -1,10 +1,8 @@
 package com.omar.retromp3recorder.bl.audio
 
-import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
-import com.omar.retromp3recorder.dto.FutureFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
@@ -34,7 +32,7 @@ class JoinedProgressMapper @Inject constructor(
                     if (progress != null && currentFile.value is ExistingFileWrapper) {
                         val file = (currentFile.value as ExistingFileWrapper)
                         JoinedProgress.PlayerProgressShown(
-                            Shell(progress),
+                            progress,
                             file.wavetable!!
                         )
                     } else
@@ -50,7 +48,7 @@ class JoinedProgressMapper @Inject constructor(
                     if (progress != null && currentFile.value is ExistingFileWrapper) {
                         val file = (currentFile.value as ExistingFileWrapper)
                         JoinedProgress.PlayerProgressShown(
-                            Shell(progress),
+                            progress,
                             file.wavetable
                         )
                     } else
@@ -66,13 +64,8 @@ class JoinedProgressMapper @Inject constructor(
                     if (progress != null && currentFile.value is ExistingFileWrapper) {
                         val file = (currentFile.value as ExistingFileWrapper)
                         JoinedProgress.PlayerProgressShown(
-                            Shell(progress),
+                            progress,
                             file.wavetable
-                        )
-                    } else if (currentFile.value is FutureFileWrapper) {
-                        JoinedProgress.PlayerProgressShown(
-                            Shell(progress),
-                            null
                         )
                     } else JoinedProgress.Hidden
                 }

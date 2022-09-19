@@ -46,11 +46,10 @@ class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
             is JoinedProgress.RecorderProgressShown -> recorderWavetable.update(joinedProgress.wavetable.data)
             is JoinedProgress.PlayerProgressShown -> {
                 val progress = joinedProgress.progress
-                progress.ghost?.let { p ->
-                    playerProgress.updateProgress(
-                        p.progress.toSeekbarTime() to p.duration.toSeekbarTime()
-                    )
-                }
+                playerProgress.updateProgress(
+                    progress.progress.toSeekbarTime() to progress.duration.toSeekbarTime()
+                )
+
                 joinedProgress.wavetable?.let { wavetable ->
                     playerProgress.updateWavetable(
                         wavetable.data
