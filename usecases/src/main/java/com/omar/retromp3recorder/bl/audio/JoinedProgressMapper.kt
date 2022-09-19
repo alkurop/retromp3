@@ -4,6 +4,7 @@ import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.dto.PlayerRange
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
@@ -21,6 +22,11 @@ class JoinedProgressMapper @Inject constructor(
     private val recorderWavetableMapper: RecordWavetableMapper,
     private val scheduler: Scheduler
 ) {
+
+    private fun range() =
+        (joinedProgressRepo.observe().blockingFirst() as? JoinedProgress.PlayerProgressShown)?.range
+            ?: PlayerRange()
+
     fun observe(): Completable = Observable
         .merge(
             audioStateMapper.observe().ofType(AudioState.Seek_Paused::class.java).switchMap {
@@ -33,7 +39,8 @@ class JoinedProgressMapper @Inject constructor(
                         val file = (currentFile.value as ExistingFileWrapper)
                         JoinedProgress.PlayerProgressShown(
                             progress,
-                            file.wavetable!!
+                            file.wavetable!!,
+                            range()
                         )
                     } else
                         JoinedProgress.Hidden
@@ -49,7 +56,8 @@ class JoinedProgressMapper @Inject constructor(
                         val file = (currentFile.value as ExistingFileWrapper)
                         JoinedProgress.PlayerProgressShown(
                             progress,
-                            file.wavetable
+                            file.wavetable,
+                            range()
                         )
                     } else
                         JoinedProgress.Hidden
@@ -60,12 +68,15 @@ class JoinedProgressMapper @Inject constructor(
                     currentFileRepo.observe(),
                     playerProgressRepo.observe()
                 ) { currentFile, playerProgress ->
+
+
                     val progress = playerProgress.value
                     if (progress != null && currentFile.value is ExistingFileWrapper) {
                         val file = (currentFile.value as ExistingFileWrapper)
                         JoinedProgress.PlayerProgressShown(
                             progress,
-                            file.wavetable
+                            file.wavetable,
+                            range()
                         )
                     } else JoinedProgress.Hidden
                 }
@@ -79,7 +90,7 @@ class JoinedProgressMapper @Inject constructor(
                         val wavetable = it.toWaveTable(false)
                         JoinedProgress.RecorderProgressShown(
                             it.getProgress() * rate.value,
-                            wavetable
+                            wavetable,
                         )
                     }
             }

@@ -21,7 +21,6 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
     private val shouldUpdateProgressBar =
         isSeekingBus.hasValue().not() || isSeekingBus.blockingFirst() is SeekState.SeekFinished
 
-    fun observeIsSeeking(): Observable<SeekState> = isSeekingBus
     private var bytesWithRange: BytesWithRange? = null
 
     init {
@@ -54,6 +53,8 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
         })
         seekbar.setPadding(0, 0, 0, 0)
     }
+
+    fun observeIsSeeking(): Observable<SeekState> = isSeekingBus
 
     fun updateWavetable(update: BytesWithRange) {
         if (bytesWithRange == update) return
