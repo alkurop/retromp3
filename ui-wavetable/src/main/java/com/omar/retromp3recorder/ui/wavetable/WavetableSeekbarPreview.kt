@@ -22,7 +22,7 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
         isSeekingBus.hasValue().not() || isSeekingBus.blockingFirst() is SeekState.SeekFinished
 
     fun observeIsSeeking(): Observable<SeekState> = isSeekingBus
-    private var wavetable: ByteArray? = null
+    private var bytesWithRange: BytesWithRange? = null
 
     init {
         View.inflate(context, R.layout.view_wavetable_seekbar, this)
@@ -55,12 +55,12 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
         seekbar.setPadding(0, 0, 0, 0)
     }
 
-    fun updateWavetable(bytes: ByteArray) {
-        if (wavetable.contentEquals(bytes)) return
-        wavetable = bytes
-        wavetablePreview.update(bytes)
-        val update = Pair(0, bytes.size)
-        updateProgress(update)
+    fun updateWavetable(update: BytesWithRange) {
+        if (bytesWithRange == update) return
+        bytesWithRange = update
+        wavetablePreview.update(update)
+        val progress = Pair(0, update.bytes.size)
+        updateProgress(progress)
     }
 
     fun updateProgress(progress: Pair<Int, Int>) {

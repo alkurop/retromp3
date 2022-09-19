@@ -9,6 +9,7 @@ import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.utils.lazyView
 import com.omar.retromp3recorder.app.uiutils.observe
 import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
 import com.omar.retromp3recorder.ui.wavetable.WavetableSeekbarPreview
 import com.omar.retromp3recorder.utils.toSeekbarTime
@@ -43,7 +44,9 @@ class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
         noFileMessage.isGone = joinedProgress !is JoinedProgress.Hidden
 
         when (joinedProgress) {
-            is JoinedProgress.RecorderProgressShown -> recorderWavetable.update(joinedProgress.wavetable.data)
+            is JoinedProgress.RecorderProgressShown -> recorderWavetable.update(
+                BytesWithRange(joinedProgress.wavetable.data, null)
+            )
             is JoinedProgress.PlayerProgressShown -> {
                 val progress = joinedProgress.progress
                 playerProgress.updateProgress(
@@ -52,7 +55,7 @@ class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
 
                 joinedProgress.wavetable?.let { wavetable ->
                     playerProgress.updateWavetable(
-                        wavetable.data
+                        BytesWithRange(wavetable.data, joinedProgress.range)
                     )
                 }
             }
