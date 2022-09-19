@@ -15,6 +15,7 @@ import com.omar.retromp3recorder.app.uiutils.TimeDisplay.toDisplay
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.FileDbEntity
 import com.omar.retromp3recorder.storage.db.toFileWrapper
+import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
 
 class SelectorAdapter(
@@ -59,7 +60,7 @@ class SelectorAdapter(
             wavetablePreview.isVisible = wavetable != null
             if (wavetable != null) {
                 wavetablePreview.isVisible = true
-                wavetablePreview.update(wavetable.data)
+                wavetablePreview.update(BytesWithRange(wavetable.data, null))
             } else {
                 wavetablePreview.isVisible = false
             }
