@@ -26,10 +26,6 @@ class RangeBarViewModel : ViewModel() {
             .disposedBy(compositeDisposable)
     }
 
-    fun onInput(action: RangeBarView.Input) {
-        input.onNext(action)
-    }
-
     override fun onCleared() {
         compositeDisposable.clear()
     }

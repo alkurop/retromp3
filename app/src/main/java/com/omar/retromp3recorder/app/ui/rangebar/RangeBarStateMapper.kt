@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.app.ui.rangebar
 
+import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.FeatureFlag
 import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
@@ -17,30 +18,18 @@ class RangeBarStateMapper @Inject constructor(
         ) { progress, features ->
             val isFlag = FeatureFlag.RangeControl.isEnabled(features)
             when {
-                //todo update here
-//                isFlag && progress is JoinedProgress.PlayerProgressShown -> {
-//                    val duration = progress.progress.duration
-//                    val rangeMultiplier = if (range.max == 0) 1 else duration / range.max
-//                    val fromMillis = if (range.from == 0) 0 else range.from * rangeMultiplier
-//                    val toMillis = if (range.to == 0) 0 else range.to * rangeMultiplier
-//                    RangeBarView.State.Visible(
-//                        range = range,
-//                        fromMillis = fromMillis,
-//                        toMillis = toMillis
-//                    )
-//                }
-//
-//                    val isFlag = FeatureFlag.RangeControl.isEnabled(features)
-//                when {
-//                    isFlag.not() ||
-//                            progress is JoinedProgress.Hidden ||
-//                            progress is JoinedProgress.RecorderProgressShown -> RangeBarView.State.Hidden
-//                    progress is JoinedProgress.PlayerProgressShown -> {
-//                        RangeBarView.State.Hidden
-//                    }
-//                    else -> RangeBarView.State.Hidden
-//                }
-//            })
+                isFlag && progress is JoinedProgress.PlayerProgressShown && progress.range.isEnabled -> {
+                    val duration = progress.progress.duration
+                    val range = progress.range
+                    val rangeMultiplier = if (range.max == 0) 1 else duration / range.max
+                    val fromMillis = if (range.from == 0) 0 else range.from * rangeMultiplier
+                    val toMillis = if (range.to == 0) 0 else range.to * rangeMultiplier
+                    RangeBarView.State.Visible(
+                        range = range,
+                        fromMillis = fromMillis,
+                        toMillis = toMillis
+                    )
+                }
                 else -> RangeBarView.State.Hidden
             }
         }
