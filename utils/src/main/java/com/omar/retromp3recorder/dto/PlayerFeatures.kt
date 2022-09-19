@@ -1,10 +1,10 @@
 package com.omar.retromp3recorder.dto
 
 data class PlayerFeatures(
-    val range: PlayerRange
+    val range: RangeFeature
 )
 
-data class Range(
+data class RangeFeature(
     val isEnabled: Boolean,
     val isActive: Boolean
 )

@@ -15,7 +15,8 @@ class PlayerFeaturesRepo @Inject constructor(
             featureFlagRepo.observe(),
             super.observe()
         ) { flags, features ->
-            features
+            val isRangeEnabled = flags.isEnabled(FeatureFlag.RangeControl)
+            features.copy(range = features.range.copy(isEnabled = isRangeEnabled))
         }
     }
 }

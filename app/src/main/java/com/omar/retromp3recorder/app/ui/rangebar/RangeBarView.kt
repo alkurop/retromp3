@@ -5,6 +5,7 @@ import com.omar.retromp3recorder.dto.PlayerRange
 object RangeBarView {
     sealed class Input {
         data class RangeSet(val range: PlayerRange) : Input()
+        object Enable : Input()
     }
 
     sealed class State {
