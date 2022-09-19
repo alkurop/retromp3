@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.dto
 
 sealed class JoinedProgress {
     object Hidden : JoinedProgress()
+    object Intermediate : JoinedProgress()
     data class RecorderProgressShown(
         val progress: Long,
         val wavetable: Wavetable

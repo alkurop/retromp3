@@ -15,9 +15,8 @@ class NewCurrentFileUpdater @Inject constructor(
     private val playerProgressRepo: PlayerProgressRepo,
     private val scheduler: Scheduler
 ) {
-    fun execute(): Completable =
-
-        hasPlayableFileMapper.observe().map { currentFile ->
+    fun execute(): Completable = hasPlayableFileMapper.observe()
+        .map { currentFile ->
             val unwrappedFile = currentFile.value
             if (unwrappedFile != null) {
                 PlayerProgressRepo.In.NewCurrentFile(
@@ -29,10 +28,10 @@ class NewCurrentFileUpdater @Inject constructor(
                 )
             } else PlayerProgressRepo.In.Hidden
         }
-            .flatMapCompletable { progress ->
-                Completable.fromAction {
-                    playerProgressRepo.onNext(progress)
-                }
+        .flatMapCompletable { progress ->
+            Completable.fromAction {
+                playerProgressRepo.onNext(progress)
             }
-            .subscribeOn(scheduler)
+        }
+        .subscribeOn(scheduler)
 }

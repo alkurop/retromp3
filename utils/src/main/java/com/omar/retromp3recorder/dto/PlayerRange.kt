@@ -4,5 +4,5 @@ data class PlayerRange(
     val from: Int = 0,
     val to: Int = 100,
     val max: Int = 100,
-    val isEnabled: Boolean = true
+    val isActive: Boolean = false
 )

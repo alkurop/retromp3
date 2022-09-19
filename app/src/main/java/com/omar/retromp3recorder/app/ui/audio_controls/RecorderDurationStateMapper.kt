@@ -12,8 +12,13 @@ class RecorderDurationStateMapper @Inject constructor(
         joinedProgressRepo.observe().map { joinedProgressState ->
             when (joinedProgressState) {
                 JoinedProgress.Hidden,
-                is JoinedProgress.PlayerProgressShown -> AudioControlsView.Output.RecorderDurationState(null)
-                is JoinedProgress.RecorderProgressShown ->AudioControlsView.Output.RecorderDurationState(joinedProgressState.progress)
+                JoinedProgress.Intermediate,
+                is JoinedProgress.PlayerProgressShown -> AudioControlsView.Output.RecorderDurationState(
+                    null
+                )
+                is JoinedProgress.RecorderProgressShown -> AudioControlsView.Output.RecorderDurationState(
+                    joinedProgressState.progress
+                )
             }
         }
 }

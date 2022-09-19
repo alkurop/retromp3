@@ -1,25 +1,22 @@
 package com.omar.retromp3recorder.app.ui.rangebar
 
 import com.omar.retromp3recorder.dto.JoinedProgress
-import com.omar.retromp3recorder.storage.repo.FeatureFlag
-import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
+import com.omar.retromp3recorder.storage.repo.PlayerFeaturesRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class RangeBarStateMapper @Inject constructor(
     private val joinedProgressRepo: JoinedProgressRepo,
-    private val featureFlagRepo: FeatureFlagRepo,
+    private val playerFeaturesRepo: PlayerFeaturesRepo
 ) {
     fun observe(): Observable<RangeBarView.State> {
         return Observable.combineLatest(
             joinedProgressRepo.observe(),
-            featureFlagRepo.observe(),
+            playerFeaturesRepo.observe(),
         ) { progress, features ->
-            //todo add player feature repo
-            val isFlag = features.isEnabled(FeatureFlag.RangeControl)
             when {
-                isFlag && progress is JoinedProgress.PlayerProgressShown && progress.progress.range.isEnabled -> {
+                progress is JoinedProgress.PlayerProgressShown && features.range.isEnabled -> {
                     val duration = progress.progress.duration
                     val range = progress.progress.range
                     val rangeMultiplier = if (range.max == 0) 1 else duration / range.max
@@ -28,7 +25,7 @@ class RangeBarStateMapper @Inject constructor(
                     RangeBarView.State.Visible(
                         range = range,
                         fromMillis = fromMillis,
-                        toMillis = toMillis
+                        toMillis = toMillis,
                     )
                 }
                 else -> RangeBarView.State.Hidden
