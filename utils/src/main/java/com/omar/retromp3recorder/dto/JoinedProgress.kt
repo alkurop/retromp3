@@ -24,3 +24,9 @@ data class FromToMillis(
     val from: Long,
     val to: Long
 )
+
+data class FromToMicro(
+    val from: Long, val to: Long
+)
+
+

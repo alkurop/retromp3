@@ -10,6 +10,7 @@ import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions
 import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
+import com.omar.retromp3recorder.utils.toFromToMillis
 import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -34,15 +35,23 @@ class StartPlaybackUC @Inject constructor(
                     Completable.fromAction {
                         val existingFile = file.value as ExistingFileWrapper
                         val progress = progressState.value!!
+                        val fromToMillis = if (progress.range.isActive) {
+                            progress.range.toFromToMillis(
+                                existingFile.length!!
+                            )
+                        } else {
+                            FromToMillis(
+                                from = progress.progress,
+                                to = existingFile.length!!
+                            )
+                        }
+                        val options = PlayerStartOptions(
+                            filePath = existingFile.path,
+                            fromToMillis = fromToMillis
+                        )
                         audioPlayer.onInput(
                             AudioPlayer.Input.Start(
-                                PlayerStartOptions(
-                                    filePath = existingFile.path,
-                                    fromToMillis = FromToMillis(
-                                        from = progress.progress,
-                                        to = existingFile.length!!
-                                    )
-                                )
+                                options
                             )
                         )
                     }
