@@ -38,8 +38,7 @@ data class PlayerStartOptions(
     val length: Long,
     val relativeSeekPosition: Long,
     val filePath: String
-) {
-}
+)
 
 fun AudioPlayer.observeEvents(): Observable<AudioPlayer.Output.Event> =
     this.observe().ofType(AudioPlayer.Output.Event::class.java)
