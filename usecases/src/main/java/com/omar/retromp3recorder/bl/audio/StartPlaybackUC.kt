@@ -51,7 +51,7 @@ class StartPlaybackUC @Inject constructor(
                             )
                         val options = PlayerStartOptions(
                             filePath = existingFile.path,
-                            fromToMillis = fromToMillis,
+                            rangeMillis = fromToMillis,
                             length = existingFile.length!!,
                             relativeSeekPosition = relativeSeekPosition
                         )

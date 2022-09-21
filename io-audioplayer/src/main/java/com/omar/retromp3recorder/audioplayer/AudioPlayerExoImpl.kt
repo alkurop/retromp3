@@ -10,7 +10,6 @@ import com.google.android.exoplayer2.Player.STATE_ENDED
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -28,12 +27,20 @@ class AudioPlayerExoImpl @Inject constructor(
     private val progress = BehaviorSubject.create<AudioPlayer.Output.Progress>()
     private val mediaPlayer: ExoPlayer = SimpleExoPlayer.Builder(context).build()
     private val handler = Handler(Looper.getMainLooper())
-    private var progressDisposable = CompositeDisposable()
+    private val progressDisposable = CompositeDisposable()
+    private lateinit var options: PlayerStartOptions
+
     override fun observe(): Observable<AudioPlayer.Output> =
         Observable.merge(
-            progress.distinctUntilChanged().doOnNext {
-                println(it)
-            },
+            progress.distinctUntilChanged()
+                .map {
+                    val range = options.rangeMillis
+                    if (it.end) {
+                        it.copy(position = options.length, duration = options.length)
+                    } else {
+                        it.copy(position = it.position + range.from, duration = options.length)
+                    }
+                },
             events
         )
 
@@ -43,18 +50,18 @@ class AudioPlayerExoImpl @Inject constructor(
         handler.post {
             when (input) {
                 is AudioPlayer.Input.Resume -> {
-                    mediaPlayer?.play()
+                    mediaPlayer.play()
                     events.onNext(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_resume)))
                     state.onNext(AudioPlayer.State.Playing)
                 }
                 is AudioPlayer.Input.SeekPause -> {
-                    mediaPlayer?.pause()
+                    mediaPlayer.pause()
                     events.onNext(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_seek_pause)))
                     state.onNext(AudioPlayer.State.Seek_Paused)
                 }
                 is AudioPlayer.Input.Seek -> {
                     events.onNext(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_seek)))
-                    mediaPlayer?.seekTo(input.position)
+                    mediaPlayer.seekTo(input.position)
                 }
                 is AudioPlayer.Input.Stop -> {
                     stopMedia()
@@ -66,7 +73,8 @@ class AudioPlayerExoImpl @Inject constructor(
         }
     }
 
-    private fun setupMediaPlayer(options: PlayerStartOptions) {
+    private fun setupMediaPlayer(_options: PlayerStartOptions) {
+        this.options = _options
         if (!File(options.filePath).exists()) {
             events.onNext(AudioPlayer.Output.Event.Error(Stringer(R.string.aplr_player_cannot_find_file)))
             return
@@ -74,7 +82,7 @@ class AudioPlayerExoImpl @Inject constructor(
         mediaPlayer
             .apply {
 
-                val (from, to) = options.fromToMillis
+                val (from, to) = options.rangeMillis
                 val uri: Uri = Uri.fromFile(File(options.filePath))
 
                 val mediaItem: MediaItem = MediaItem.Builder()
@@ -92,14 +100,20 @@ class AudioPlayerExoImpl @Inject constructor(
                     private val simpleExoPlayer = this@apply
 
                     private fun sendProgressUpdate() {
-                        val position = (simpleExoPlayer.currentPosition + from)
-                        val duration = (options.length)
-                        progress.onNext(AudioPlayer.Output.Progress(position, duration))
+                        val position = (simpleExoPlayer.currentPosition)
+                        val duration = (options.rangeMillis.length())
+                        progress.onNext(AudioPlayer.Output.Progress(position, duration, false))
                     }
 
                     override fun onPlaybackStateChanged(state: Int) {
                         if (state == STATE_ENDED) {
-                            progress.onNext(AudioPlayer.Output.Progress(to, to))
+                            progress.onNext(
+                                AudioPlayer.Output.Progress(
+                                    options.rangeMillis.length(),
+                                    options.rangeMillis.length(),
+                                    true
+                                )
+                            )
                             stopMedia()
                         }
                     }

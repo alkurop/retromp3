@@ -19,7 +19,7 @@ interface AudioPlayer {
     }
 
     sealed class Output {
-        data class Progress(val position: Long, val duration: Long) : Output()
+        data class Progress(val position: Long, val duration: Long, val end: Boolean) : Output()
 
         sealed class Event : Output() {
             data class Message(val message: Stringer) : Event()
@@ -36,11 +36,12 @@ interface AudioPlayer {
 }
 
 data class PlayerStartOptions(
-    val fromToMillis: FromToMillis,
+    val rangeMillis: FromToMillis,
     val length: Long,
     val relativeSeekPosition: Long,
     val filePath: String
-)
+) {
+}
 
 fun AudioPlayer.observeEvents(): Observable<AudioPlayer.Output.Event> =
     this.observe().ofType(AudioPlayer.Output.Event::class.java)
