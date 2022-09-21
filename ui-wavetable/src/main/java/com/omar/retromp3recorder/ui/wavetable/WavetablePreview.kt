@@ -65,14 +65,14 @@ class WavetablePreview @JvmOverloads constructor(
         canvas.drawPath(path, paint)
 
         val range = data.range
-        if (range == null) {
+        if (range == null || range.settings.isVisible.not()) {
             return
-        } else if (range.isActive) {
+        } else if (range.settings.isActive) {
             val max = range.max
             val rangeStart = RectF(
                 0f,
                 0f,
-                (width * (range.from) / max -1).toFloat(),
+                (width * (range.from) / max - 1).toFloat(),
                 height.toFloat(),
             )
             val rangeEnd = RectF(

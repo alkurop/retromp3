@@ -105,7 +105,7 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
     private fun getRange(): FromToMillis? {
         val progress = currentState?.progress
         val range = progress?.range ?: return null
-        return if (range.isActive) {
+        return if (range.settings.isActive) {
             range.toFromToMillis(progress.duration)
         } else null
     }

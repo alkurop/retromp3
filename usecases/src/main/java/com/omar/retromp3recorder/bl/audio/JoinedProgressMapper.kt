@@ -14,6 +14,8 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject
 
+
+//todo refactor
 class JoinedProgressMapper @Inject constructor(
     private val audioStateMapper: AudioStateMapper,
     private val currentFileRepo: CurrentFileRepo,

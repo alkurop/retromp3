@@ -33,8 +33,13 @@ class PlayerProgressRepo @Inject constructor(
             super.observe(),
             audioFeaturesRepo.observe()
         ) { progress, features ->
-            val rangeEnabled = features.range.isActive
-            Optional(progress.value?.let { it.copy(range = it.range.copy(isActive = rangeEnabled)) })
+            Optional(progress.value?.let {
+                it.copy(
+                    range = it.range.copy(
+                        settings = features.range
+                    )
+                )
+            })
         }
     }
 }

@@ -35,7 +35,7 @@ class StartPlaybackUC @Inject constructor(
                     Completable.fromAction {
                         val existingFile = file.value as ExistingFileWrapper
                         val progress = progressState.value!!
-                        val fromToMillis = if (progress.range.isActive) {
+                        val fromToMillis = if (progress.range.settings.isActive) {
                             progress.range.toFromToMillis(
                                 existingFile.length!!
                             )
