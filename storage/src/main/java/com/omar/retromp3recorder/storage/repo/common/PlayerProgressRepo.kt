@@ -4,7 +4,6 @@ import com.omar.retromp3recorder.dto.PlayerProgress
 import com.omar.retromp3recorder.dto.PlayerRange
 import com.omar.retromp3recorder.storage.repo.PlayerFeaturesRepo
 import com.omar.retromp3recorder.utils.Optional
-import com.omar.retromp3recorder.utils.toPlayerTime
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,7 +18,7 @@ class PlayerProgressRepo @Inject constructor(
     ) {
     sealed class In {
         data class Seek(
-            val progress: Int,
+            val progress: Long,
         ) : In()
 
         data class Progress(val progress: PlayerProgress) : In()
@@ -45,7 +44,7 @@ private val FUNCTION: Optional<PlayerProgress>.(PlayerProgressRepo.In) -> Option
         when (input) {
             is PlayerProgressRepo.In.Seek -> Optional(
                 this.value!!.copy(
-                    progress = input.progress.toPlayerTime(),
+                    progress = input.progress,
                 )
             )
             is PlayerProgressRepo.In.Progress -> {

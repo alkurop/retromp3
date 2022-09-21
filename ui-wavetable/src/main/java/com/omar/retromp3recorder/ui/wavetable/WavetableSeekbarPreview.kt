@@ -5,6 +5,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.utils.toPlayerTime
+import com.omar.retromp3recorder.utils.toSeekbarTime
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
@@ -21,23 +24,20 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
     private val shouldUpdateProgressBar =
         isSeekingBus.hasValue().not() || isSeekingBus.blockingFirst() is SeekState.SeekFinished
 
-    private var bytesWithRange: BytesWithRange? = null
+    private var currentState: JoinedProgress.PlayerProgressShown? = null
 
     init {
         View.inflate(context, R.layout.view_wavetable_seekbar, this)
 
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            var userChangedProgress: Pair<Int, Int> = Pair(0, 0)
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    userChangedProgress = Pair(progress, seekbar.max)
-                    wavetableProgressBar.update(userChangedProgress)
-                    isSeekingBus.onNext(
-                        SeekState.Seeking(
-                            userChangedProgress.first,
-                            userChangedProgress.second
-                        )
-                    )
+                    val seeking = SeekBarResult(
+                        progress
+                    ).convertToRealNumbers(currentState!!)
+                    isSeekingBus.onNext(seeking)
+                    val (p, d) = seeking
+                    wavetableProgressBar.update(p to d)
                 }
             }
 
@@ -56,23 +56,46 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
 
     fun observeIsSeeking(): Observable<SeekState> = isSeekingBus
 
-    fun updateWavetable(update: BytesWithRange) {
-        if (bytesWithRange == update) return
-        bytesWithRange = update
-        wavetablePreview.update(update)
-    }
+    fun update(joinedProgress: JoinedProgress.PlayerProgressShown) {
+        if (currentState == joinedProgress) return
+        currentState = joinedProgress
 
-    fun updateProgress(progress: Pair<Int, Int>) {
-        if (shouldUpdateProgressBar) {
-            wavetableProgressBar.update(progress)
-            seekbar.max = (progress.second)
-            seekbar.progress = (progress.first)
+        fun updateProgress(progress: Pair<Long, Long>) {
+            if (shouldUpdateProgressBar) {
+                wavetableProgressBar.update(progress)
+                seekbar.max = (progress.second.toSeekbarTime())
+                seekbar.progress = (progress.first.toSeekbarTime())
+            }
+        }
+
+        val progress = joinedProgress.progress
+        updateProgress(
+            progress.progress  to progress.duration
+        )
+
+        val wavetable = joinedProgress.wavetable
+        if (wavetable != null) {
+            wavetablePreview.update(
+                BytesWithRange(wavetable.data, joinedProgress.progress.range)
+            )
         }
     }
 
     sealed class SeekState {
         object SeekStarted : SeekState()
-        data class Seeking(val progress: Int, val max: Int) : SeekState()
+        data class Seeking(val progress: Long, val max: Long) : SeekState()
         object SeekFinished : SeekState()
+    }
+
+    data class SeekBarResult(
+        val progress: Int,
+    )
+
+
+    private fun SeekBarResult.convertToRealNumbers(joinedProgress: JoinedProgress.PlayerProgressShown): SeekState.Seeking {
+        return SeekState.Seeking(
+            this.progress.toPlayerTime(),
+            joinedProgress.progress.duration
+        )
     }
 }

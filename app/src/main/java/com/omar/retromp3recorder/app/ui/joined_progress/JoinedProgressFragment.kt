@@ -12,7 +12,6 @@ import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
 import com.omar.retromp3recorder.ui.wavetable.WavetableSeekbarPreview
-import com.omar.retromp3recorder.utils.toSeekbarTime
 
 class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
     private val viewModel by viewModels<JoinedProgressViewModel>()
@@ -50,17 +49,7 @@ class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
                 BytesWithRange(joinedProgress.wavetable.data, null)
             )
             is JoinedProgress.PlayerProgressShown -> {
-                val progress = joinedProgress.progress
-                playerProgress.updateProgress(
-                    progress.progress.toSeekbarTime() to progress.duration.toSeekbarTime()
-                )
-
-                val wavetable = joinedProgress.wavetable
-                if (wavetable != null) {
-                    playerProgress.updateWavetable(
-                        BytesWithRange(wavetable.data, joinedProgress.progress.range)
-                    )
-                }
+                playerProgress.update(joinedProgress)
             }
             else -> {}
         }

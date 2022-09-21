@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.dto.Wavetable
 
 object JoinedProgressView {
     sealed class In {
-        data class SeekToPosition(val position: Int) : In()
+        data class SeekToPosition(val position: Long) : In()
         object SeekingStarted : In()
         object SeekingFinished : In()
     }

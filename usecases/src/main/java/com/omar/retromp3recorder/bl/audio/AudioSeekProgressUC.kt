@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AudioSeekProgressUC @Inject constructor(
     private val playerProgressRepo: PlayerProgressRepo
 ) {
-    fun execute(position: Int): Completable =
+    fun execute(position: Long): Completable =
         Completable.fromAction {
             playerProgressRepo.onNext(PlayerProgressRepo.In.Seek(position))
         }

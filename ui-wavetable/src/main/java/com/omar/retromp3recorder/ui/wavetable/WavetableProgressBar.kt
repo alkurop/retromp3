@@ -19,9 +19,9 @@ class WavetableProgressBar @JvmOverloads constructor(
         style = Paint.Style.FILL
         color = ContextCompat.getColor(context, android.R.color.holo_blue_dark)
     }
-    private val bytesBus = BehaviorSubject.create<Pair<Int, Int>>()
+    private val bytesBus = BehaviorSubject.create<Pair<Long, Long>>()
 
-    fun update(update: Pair<Int, Int>) {
+    fun update(update: Pair<Long, Long>) {
         bytesBus.onNext(update)
         invalidate()
     }
@@ -34,7 +34,7 @@ class WavetableProgressBar @JvmOverloads constructor(
             return
         }
         val (progress, length) = bytesBus.blockingFirst()
-        if (length == 0) return
+        if (length == 0L) return
         val path = Path()
         val start = 0
         val end = width * progress / length
