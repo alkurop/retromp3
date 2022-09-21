@@ -45,10 +45,15 @@ class StartPlaybackUC @Inject constructor(
                                 to = existingFile.length!!
                             )
                         }
+                        val relativeSeekPosition =
+                            (progress.progress - fromToMillis.from).coerceAtLeast(
+                                0L
+                            )
                         val options = PlayerStartOptions(
                             filePath = existingFile.path,
                             fromToMillis = fromToMillis,
-                            length = existingFile.length!!
+                            length = existingFile.length!!,
+                            relativeSeekPosition = relativeSeekPosition
                         )
                         audioPlayer.onInput(
                             AudioPlayer.Input.Start(

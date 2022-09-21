@@ -23,7 +23,7 @@ class AudioSeekFinishUC @Inject constructor(
                     val position = if (playerProgress.range.isActive) {
                         val toFromToMillis =
                             playerProgress.range.toFromToMillis(playerProgress.duration)
-                        playerProgress.progress - toFromToMillis.from
+                        0L.coerceAtLeast(playerProgress.progress - toFromToMillis.from)
                     } else playerProgress.progress
                     @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
                     when (state) {
