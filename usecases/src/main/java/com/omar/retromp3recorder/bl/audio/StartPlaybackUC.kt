@@ -47,7 +47,8 @@ class StartPlaybackUC @Inject constructor(
                         }
                         val options = PlayerStartOptions(
                             filePath = existingFile.path,
-                            fromToMillis = fromToMillis
+                            fromToMillis = fromToMillis,
+                            length = existingFile.length!!
                         )
                         audioPlayer.onInput(
                             AudioPlayer.Input.Start(

@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.audioplayer
 
 import android.content.Context
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import com.github.alkurop.stringerbell.Stringer
@@ -18,7 +19,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AudioPlayerExoImpl @Inject constructor(
-    context: Context
+    val context: Context
 ) : AudioPlayer {
     private val events = PublishSubject.create<AudioPlayer.Output.Event>()
     private val state = BehaviorSubject.createDefault(AudioPlayer.State.Idle)
@@ -67,8 +68,18 @@ class AudioPlayerExoImpl @Inject constructor(
             return
         }
         mediaPlayer.apply {
-            //setMediaItem(ClippingMediaSource)
-            setMediaItem(MediaItem.fromUri(options.filePath), options.fromToMillis.from)
+
+            val (from, to) = options.fromToMillis
+            val uri: Uri = Uri.fromFile(File(options.filePath))
+
+            val mediaItem: MediaItem = MediaItem.Builder()
+                .setUri(uri)
+                .setClipStartPositionMs(from)
+                .setClipEndPositionMs(to)
+                .build()
+
+            setMediaItem(mediaItem)
+
             playWhenReady = true
             state.onNext(AudioPlayer.State.Playing)
             addListener(object : Player.Listener {
@@ -76,15 +87,15 @@ class AudioPlayerExoImpl @Inject constructor(
                 private val simpleExoPlayer = this@apply
 
                 private fun sendProgressUpdate() {
-                    val position = (simpleExoPlayer.currentPosition)
-                    val duration = (simpleExoPlayer.duration)
+                    val position = (simpleExoPlayer.currentPosition + from)
+                    val duration = (options.length)
                     progress.onNext(AudioPlayer.Output.Progress(position, duration))
                 }
 
                 override fun onPlaybackStateChanged(state: Int) {
                     if (state == STATE_ENDED) {
-                        val position = (mediaPlayer.duration)
-                        val duration = (mediaPlayer.duration)
+                        val position = (options.length)
+                        val duration = (options.length)
                         progress.onNext(AudioPlayer.Output.Progress(position, duration))
                         stopMedia()
                     }

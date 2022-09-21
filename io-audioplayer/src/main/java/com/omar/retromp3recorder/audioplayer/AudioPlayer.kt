@@ -37,6 +37,7 @@ interface AudioPlayer {
 
 data class PlayerStartOptions(
     val fromToMillis: FromToMillis,
+    val length: Long,
     val filePath: String
 )
 
