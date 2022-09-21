@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.storage.repo
 
+import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.dto.FileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.dto.LogEvent
@@ -37,4 +38,6 @@ class LogsRepo @Inject constructor() : PublishSubjectRepo<LogEvent>()
 class CurrentFileRepo @Inject constructor() :
     BehaviorSubjectRepo<Optional<out FileWrapper>>(Optional.empty())
 
-
+@Singleton
+class RangeBarResetBus @Inject constructor() :
+    BehaviorSubjectRepo<Shell<Any>>(Shell.empty())

@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.app.ui.rangebar
 
 import com.omar.retromp3recorder.bl.audio.UpdatePlayerRangeUC
 import com.omar.retromp3recorder.bl.settings.ActivateRangeUC
+import com.omar.retromp3recorder.storage.repo.RangeBarResetBus
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -23,7 +24,9 @@ class RangeBarInteractor @Inject constructor(
 
     private val mapRepoToOutput: () -> Observable<RangeBarView.State> = {
         Observable.merge(
-            listOf(rangeStateMapper.observe())
+            listOf(
+                rangeStateMapper.observe()
+            )
         )
     }
     private val mapInputToUsecase: (Observable<RangeBarView.Input>) -> Completable = { input ->

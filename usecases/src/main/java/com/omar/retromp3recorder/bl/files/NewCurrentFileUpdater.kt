@@ -1,7 +1,9 @@
 package com.omar.retromp3recorder.bl.files
 
+import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.dto.PlayerProgress
 import com.omar.retromp3recorder.dto.PlayerRange
+import com.omar.retromp3recorder.storage.repo.RangeBarResetBus
 import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
@@ -13,6 +15,7 @@ import javax.inject.Inject
 class NewCurrentFileUpdater @Inject constructor(
     private val hasPlayableFileMapper: HasPlayableFileMapper,
     private val playerProgressRepo: PlayerProgressRepo,
+    private val rangeBarResetBus: RangeBarResetBus,
     private val scheduler: Scheduler
 ) {
     fun execute(): Completable = hasPlayableFileMapper.observe()
@@ -31,6 +34,7 @@ class NewCurrentFileUpdater @Inject constructor(
         .flatMapCompletable { progress ->
             Completable.fromAction {
                 playerProgressRepo.onNext(progress)
+                rangeBarResetBus.onNext(Shell(0))
             }
         }
         .subscribeOn(scheduler)

@@ -54,6 +54,9 @@ class RangeBarFragment : Fragment(R.layout.fragment_rangebar) {
                 rangeBar.isActivated = active
                 val rangeState = getString(if (active) R.string.on else R.string.off)
                 rangeBarStateText.text = getString(R.string.range_enabled, rangeState)
+                state.reset.ghost?.let {
+                    rangeBar.setThumbIndices(0, state.range.max - 1)
+                }
             }
         }
     }
