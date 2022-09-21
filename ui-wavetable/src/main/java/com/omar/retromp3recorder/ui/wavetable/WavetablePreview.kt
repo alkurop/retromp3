@@ -18,10 +18,16 @@ class WavetablePreview @JvmOverloads constructor(
         color = Color.rgb(0, 255, 0)
     }
 
-    private val paintRange: Paint = Paint().apply {
-        strokeWidth = 1f
+    private val paintRangeActive: Paint = Paint().apply {
+        style = Paint.Style.FILL
+        color = Color.rgb(255, 255, 255)
+        alpha = 30
+    }
+
+    private val paintRangeInActive: Paint = Paint().apply {
         style = Paint.Style.STROKE
-        color = Color.rgb(255, 191, 0)
+        color = Color.rgb(255, 255, 255)
+        alpha = 155
     }
 
     private val bytesWithRangeBus = BehaviorSubject.create<BytesWithRange>()
@@ -59,7 +65,26 @@ class WavetablePreview @JvmOverloads constructor(
         canvas.drawPath(path, paint)
 
         val range = data.range
-        if (range != null && range.isActive) {
+        if (range == null) {
+            return
+        } else if (range.isActive) {
+            val max = range.max
+            val rangeStart = RectF(
+                0f,
+                0f,
+                (width * (range.from) / max -1).toFloat(),
+                height.toFloat(),
+            )
+            val rangeEnd = RectF(
+                (width * (range.to) / max).toFloat(),
+                0f,
+                width.toFloat(),
+                height.toFloat(),
+            )
+            rangePath.addRect(rangeStart, Path.Direction.CCW)
+            rangePath.addRect(rangeEnd, Path.Direction.CCW)
+            canvas.drawPath(rangePath, paintRangeActive)
+        } else {
             val max = range.max
             val rangeStart = RectF(
                 (width * (range.from) / max).toFloat(),
@@ -75,7 +100,7 @@ class WavetablePreview @JvmOverloads constructor(
             )
             rangePath.addRect(rangeStart, Path.Direction.CCW)
             rangePath.addRect(rangeEnd, Path.Direction.CCW)
-            canvas.drawPath(rangePath, paintRange)
+            canvas.drawPath(rangePath, paintRangeInActive)
         }
     }
 }

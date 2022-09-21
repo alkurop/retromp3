@@ -51,7 +51,6 @@ class RangeBarFragment : Fragment(R.layout.fragment_rangebar) {
                 startView.text = state.fromToMillis.from.toDisplay(requireContext())
                 endView.text = state.fromToMillis.to.toDisplay(requireContext())
                 val active = state.isActive
-                rangeBar.isActivated = active
                 val rangeState = getString(if (active) R.string.on else R.string.off)
                 rangeBarStateText.text = getString(R.string.range_enabled, rangeState)
                 state.reset.ghost?.let {
