@@ -40,8 +40,9 @@ class JoinedProgressFragment : Fragment(R.layout.fragment_joined_progress) {
 
     private fun renderView(joinedProgress: JoinedProgress) {
         playerProgress.isGone =
-            joinedProgress !is JoinedProgress.PlayerProgressShown && joinedProgress !is JoinedProgress.Intermediate
+            joinedProgress !is JoinedProgress.PlayerProgressShown
         recorderWavetable.isGone = joinedProgress !is JoinedProgress.RecorderProgressShown
+                && joinedProgress !is JoinedProgress.Intermediate
         noFileMessage.isGone = joinedProgress !is JoinedProgress.Hidden
 
         when (joinedProgress) {
