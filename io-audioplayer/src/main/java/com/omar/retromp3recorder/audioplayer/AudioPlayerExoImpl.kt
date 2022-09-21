@@ -53,7 +53,7 @@ class AudioPlayerExoImpl @Inject constructor(
                 is AudioPlayer.Input.SeekPause -> {
                     mediaPlayer.stop()
                     events.onNext(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_seek_pause)))
-                    state.onNext(AudioPlayer.State.Seek_Paused)
+                    state.onNext(AudioPlayer.State.PausedToSeek)
                 }
 
                 is AudioPlayer.Input.Stop -> {

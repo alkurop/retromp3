@@ -3,7 +3,6 @@ package com.omar.retromp3recorder.bl.audio
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import io.reactivex.rxjava3.core.Observable
-import timber.log.Timber
 import javax.inject.Inject
 
 interface AudioStateMapper {
@@ -21,7 +20,7 @@ class AudioStateMapperImpl @Inject constructor(
         ) { playerState, recorderState ->
             when {
                 playerState == AudioPlayer.State.Playing -> AudioState.Playing
-                playerState == AudioPlayer.State.Seek_Paused -> AudioState.Seek_Paused
+                playerState == AudioPlayer.State.PausedToSeek -> AudioState.Seek_Paused
                 recorderState == Mp3VoiceRecorder.State.Recording -> AudioState.Recording
                 else -> AudioState.Idle
             }

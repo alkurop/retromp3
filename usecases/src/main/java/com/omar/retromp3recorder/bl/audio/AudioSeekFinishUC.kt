@@ -15,7 +15,7 @@ class AudioSeekFinishUC @Inject constructor(
         audioPlayer.observeState().takeOne().flatMapCompletable { state ->
             when (state) {
                 AudioPlayer.State.Playing,
-                AudioPlayer.State.Seek_Paused -> startPlaybackUC.execute()
+                AudioPlayer.State.PausedToSeek -> startPlaybackUC.execute()
                 AudioPlayer.State.Idle -> Completable.complete()
             }
         }

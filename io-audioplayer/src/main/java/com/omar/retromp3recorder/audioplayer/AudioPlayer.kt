@@ -29,7 +29,7 @@ interface AudioPlayer {
     enum class State {
         Idle,
         Playing,
-        Seek_Paused
+        PausedToSeek
     }
 }
 
