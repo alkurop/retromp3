@@ -37,8 +37,13 @@ class WavetableProgressBar @JvmOverloads constructor(
         val (progress, range) = bytesBus.blockingFirst()
         if (progress.to == 0L) return
         val path = Path()
-        val start = 0
-        val end = width * progress.from / progress.to
+        val normalEnd = width * progress.from / progress.to
+
+        val (start, end) = range
+            ?.let {
+                width * it.from / progress.to to if (it.to >= progress.from) normalEnd else 0L
+            } ?: Pair(0, normalEnd)
+
         val rect = RectF(
             start.toFloat(),
             1f,

@@ -39,7 +39,7 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
                     ).convertToRealNumbers(currentState!!)
                     isSeekingBus.onNext(seeking)
                     val (p, d) = seeking
-                    wavetableProgressBar.update(WaveTableProgress(FromToMillis(p, d), null))
+                    wavetableProgressBar.update(WaveTableProgress(FromToMillis(p, d), getRange()))
                 }
             }
 
@@ -73,9 +73,7 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
         val progress = joinedProgress.progress
         updateProgress(
             FromToMillis(progress.progress, progress.duration),
-            (if (progress.range.isActive) {
-                progress.range.toFromToMillis(progress.duration)
-            } else null)
+            getRange()
         )
 
         val wavetable = joinedProgress.wavetable
@@ -102,5 +100,13 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
             this.progress.toPlayerTime(),
             joinedProgress.progress.duration
         )
+    }
+
+    private fun getRange(): FromToMillis? {
+        val progress = currentState?.progress
+        val range = progress?.range ?: return null
+        return if (range.isActive) {
+            range.toFromToMillis(progress.duration)
+        } else null
     }
 }
