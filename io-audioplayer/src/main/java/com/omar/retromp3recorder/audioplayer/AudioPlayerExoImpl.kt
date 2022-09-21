@@ -55,23 +55,20 @@ class AudioPlayerExoImpl @Inject constructor(
                     stopMedia()
                 }
                 is AudioPlayer.Input.Start -> {
-                    setupMediaPlayer(input.options.filePath, input.options.seekPosition)
+                    setupMediaPlayer(input.options)
                 }
             }
         }
     }
 
-    private fun setupMediaPlayer(voiceURL: String, seekPosition: Long?) {
-        if (!File(voiceURL).exists()) {
+    private fun setupMediaPlayer(options: PlayerStartOptions) {
+        if (!File(options.filePath).exists()) {
             events.onNext(AudioPlayer.Output.Event.Error(Stringer(R.string.aplr_player_cannot_find_file)))
             return
         }
         mediaPlayer.apply {
-            if (seekPosition != null) {
-                setMediaItem(MediaItem.fromUri(voiceURL), seekPosition)
-            } else {
-                setMediaItem(MediaItem.fromUri(voiceURL))
-            }
+            //setMediaItem(ClippingMediaSource)
+            setMediaItem(MediaItem.fromUri(options.filePath), options.seekPosition)
             playWhenReady = true
             state.onNext(AudioPlayer.State.Playing)
             addListener(object : Player.Listener {

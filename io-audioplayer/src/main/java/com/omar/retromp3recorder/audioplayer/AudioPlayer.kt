@@ -35,7 +35,7 @@ interface AudioPlayer {
 }
 
 data class PlayerStartOptions(
-    val seekPosition: Long? = null,
+    val seekPosition: Long,
     val filePath: String
 )
 

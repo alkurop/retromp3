@@ -34,7 +34,7 @@ class StartPlaybackUC @Inject constructor(
                             AudioPlayer.Input.Start(
                                 PlayerStartOptions(
                                     filePath = file.value!!.path,
-                                    seekPosition = progressState.value?.progress
+                                    seekPosition = progressState.value?.progress ?: 0L
                                 )
                             )
                         )
