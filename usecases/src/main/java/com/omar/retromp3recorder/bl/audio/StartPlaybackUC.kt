@@ -10,8 +10,8 @@ import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions
 import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
-import com.omar.retromp3recorder.utils.toFromToMillis
 import com.omar.retromp3recorder.utils.takeOne
+import com.omar.retromp3recorder.utils.toFromToMillis
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
@@ -49,11 +49,14 @@ class StartPlaybackUC @Inject constructor(
                             (progress.progress - fromToMillis.from).coerceAtLeast(
                                 0L
                             )
+                        val seekPosition =
+                            if (progress.progress > fromToMillis.to) 0 else relativeSeekPosition
+
                         val options = PlayerStartOptions(
                             filePath = existingFile.path,
                             rangeMillis = fromToMillis,
                             length = existingFile.length!!,
-                            relativeSeekPosition = relativeSeekPosition
+                            relativeSeekPosition = seekPosition
                         )
                         audioPlayer.onInput(
                             AudioPlayer.Input.Start(

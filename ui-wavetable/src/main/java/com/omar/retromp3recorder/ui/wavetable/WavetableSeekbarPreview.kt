@@ -5,7 +5,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.omar.retromp3recorder.dto.FromToMillis
 import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.utils.toFromToMillis
 import com.omar.retromp3recorder.utils.toPlayerTime
 import com.omar.retromp3recorder.utils.toSeekbarTime
 import io.reactivex.rxjava3.core.Observable
@@ -37,7 +39,7 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
                     ).convertToRealNumbers(currentState!!)
                     isSeekingBus.onNext(seeking)
                     val (p, d) = seeking
-                    wavetableProgressBar.update(p to d)
+                    wavetableProgressBar.update(WaveTableProgress(FromToMillis(p, d), null))
                 }
             }
 
@@ -60,17 +62,20 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
         if (currentState == joinedProgress) return
         currentState = joinedProgress
 
-        fun updateProgress(progress: Pair<Long, Long>) {
+        fun updateProgress(progress: FromToMillis, range: FromToMillis?) {
             if (shouldUpdateProgressBar) {
-                wavetableProgressBar.update(progress)
-                seekbar.max = (progress.second.toSeekbarTime())
-                seekbar.progress = (progress.first.toSeekbarTime())
+                wavetableProgressBar.update(WaveTableProgress(progress, range))
+                seekbar.max = (progress.to.toSeekbarTime())
+                seekbar.progress = (progress.from.toSeekbarTime())
             }
         }
 
         val progress = joinedProgress.progress
         updateProgress(
-            progress.progress  to progress.duration
+            FromToMillis(progress.progress, progress.duration),
+            (if (progress.range.isActive) {
+                progress.range.toFromToMillis(progress.duration)
+            } else null)
         )
 
         val wavetable = joinedProgress.wavetable

@@ -9,6 +9,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.omar.retromp3recorder.dto.FromToMillis
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 class WavetableProgressBar @JvmOverloads constructor(
@@ -19,9 +20,9 @@ class WavetableProgressBar @JvmOverloads constructor(
         style = Paint.Style.FILL
         color = ContextCompat.getColor(context, android.R.color.holo_blue_dark)
     }
-    private val bytesBus = BehaviorSubject.create<Pair<Long, Long>>()
+    private val bytesBus = BehaviorSubject.create<WaveTableProgress>()
 
-    fun update(update: Pair<Long, Long>) {
+    fun update(update: WaveTableProgress) {
         bytesBus.onNext(update)
         invalidate()
     }
@@ -33,11 +34,11 @@ class WavetableProgressBar @JvmOverloads constructor(
         if (bytesBus.hasValue().not()) {
             return
         }
-        val (progress, length) = bytesBus.blockingFirst()
-        if (length == 0L) return
+        val (progress, range) = bytesBus.blockingFirst()
+        if (progress.to == 0L) return
         val path = Path()
         val start = 0
-        val end = width * progress / length
+        val end = width * progress.from / progress.to
         val rect = RectF(
             start.toFloat(),
             1f,
@@ -48,3 +49,7 @@ class WavetableProgressBar @JvmOverloads constructor(
         canvas.drawPath(path, paint)
     }
 }
+
+data class WaveTableProgress(
+    val progress: FromToMillis, val range: FromToMillis?
+)
