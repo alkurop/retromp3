@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.app.ui.rangebar
 
+import com.omar.retromp3recorder.dto.FromToMillis
 import com.omar.retromp3recorder.dto.PlayerRange
 
 object RangeBarView {
@@ -12,8 +13,7 @@ object RangeBarView {
         object Hidden : State()
         data class Visible(
             val range: PlayerRange,
-            val fromMillis: Long,
-            val toMillis: Long,
+            val fromToMillis: FromToMillis,
             val isActive: Boolean
         ) : State()
     }

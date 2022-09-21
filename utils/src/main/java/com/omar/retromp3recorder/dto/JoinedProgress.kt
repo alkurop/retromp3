@@ -19,3 +19,8 @@ data class PlayerProgress(
     val duration: Long,
     val range: PlayerRange
 )
+
+data class FromToMillis(
+    val from: Long,
+    val to: Long
+)
