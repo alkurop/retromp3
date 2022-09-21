@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.audioplayer
 
 import com.github.alkurop.stringerbell.Stringer
+import com.omar.retromp3recorder.dto.FromToMillis
 import io.reactivex.rxjava3.core.Observable
 
 interface AudioPlayer {
@@ -35,7 +36,7 @@ interface AudioPlayer {
 }
 
 data class PlayerStartOptions(
-    val seekPosition: Long,
+    val fromToMillis: FromToMillis,
     val filePath: String
 )
 

@@ -68,7 +68,7 @@ class AudioPlayerExoImpl @Inject constructor(
         }
         mediaPlayer.apply {
             //setMediaItem(ClippingMediaSource)
-            setMediaItem(MediaItem.fromUri(options.filePath), options.seekPosition)
+            setMediaItem(MediaItem.fromUri(options.filePath), options.fromToMillis.from)
             playWhenReady = true
             state.onNext(AudioPlayer.State.Playing)
             addListener(object : Player.Listener {

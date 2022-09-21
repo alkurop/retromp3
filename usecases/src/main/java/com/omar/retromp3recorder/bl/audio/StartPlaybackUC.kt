@@ -4,6 +4,8 @@ import android.Manifest
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.audioplayer.PlayerStartOptions
 import com.omar.retromp3recorder.bl.system.CheckPermissionsUC
+import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.dto.FromToMillis
 import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
 import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions
@@ -30,11 +32,16 @@ class StartPlaybackUC @Inject constructor(
                 .takeOne()
                 .flatMapCompletable { (file, progressState) ->
                     Completable.fromAction {
+                        val existingFile = file.value as ExistingFileWrapper
+                        val progress = progressState.value!!
                         audioPlayer.onInput(
                             AudioPlayer.Input.Start(
                                 PlayerStartOptions(
-                                    filePath = file.value!!.path,
-                                    seekPosition = progressState.value?.progress ?: 0L
+                                    filePath = existingFile.path,
+                                    fromToMillis = FromToMillis(
+                                        from = progress.progress,
+                                        to = existingFile.length!!
+                                    )
                                 )
                             )
                         )
