@@ -11,7 +11,7 @@ class PlayerFeaturesRepo @Inject constructor(
     private val featureFlagRepo: FeatureFlagRepo
 ) : BehaviorSubjectRepo<PlayerFeatures>(PlayerFeatures()) {
     override fun observe(): Observable<PlayerFeatures> {
-        return Observable.zip(
+        return Observable.combineLatest(
             featureFlagRepo.observe(),
             super.observe()
         ) { flags, features ->
