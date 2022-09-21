@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.storage.repo
 
 import com.omar.retromp3recorder.dto.PlayerFeatures
+import com.omar.retromp3recorder.dto.RangeFeature
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
@@ -15,8 +16,12 @@ class PlayerFeaturesRepo @Inject constructor(
             featureFlagRepo.observe(),
             super.observe()
         ) { flags, features ->
-            val isRangeEnabled = flags.isEnabled(FeatureFlag.RangeControl)
-            features.copy(range = features.range.copy(isEnabled = isRangeEnabled))
+            val isRangeAllowed = flags.isEnabled(FeatureFlag.RangeControl)
+            val range = RangeFeature(
+                isVisible = isRangeAllowed,
+                isActive = if (isRangeAllowed) features.range.isActive else false
+            )
+            features.copy(range = range)
         }
     }
 }

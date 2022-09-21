@@ -62,9 +62,9 @@ class WavetablePreview @JvmOverloads constructor(
         if (range != null && range.isActive) {
             val max = range.max
             val rangeStart = RectF(
-                (width * (range.from) / max).toFloat() - 1,
-                0f,
                 (width * (range.from) / max).toFloat(),
+                0f,
+                (width * (range.from) / max).toFloat() + 1,
                 height.toFloat(),
             )
             val rangeEnd = RectF(

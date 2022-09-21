@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class RangeBarStateMapper @Inject constructor(
     private val joinedProgressRepo: JoinedProgressRepo,
-    private val playerFeaturesRepo: PlayerFeaturesRepo
+    private val playerFeaturesRepo: PlayerFeaturesRepo,
 ) {
     fun observe(): Observable<RangeBarView.State> {
         return Observable.combineLatest(
@@ -16,7 +16,7 @@ class RangeBarStateMapper @Inject constructor(
             playerFeaturesRepo.observe(),
         ) { progress, features ->
             when {
-                progress is JoinedProgress.PlayerProgressShown && features.range.isEnabled -> {
+                progress is JoinedProgress.PlayerProgressShown && features.range.isVisible -> {
                     val duration = progress.progress.duration
                     val range = progress.progress.range
                     val rangeMultiplier = if (range.max == 0) 1 else duration / range.max
@@ -26,6 +26,7 @@ class RangeBarStateMapper @Inject constructor(
                         range = range,
                         fromMillis = fromMillis,
                         toMillis = toMillis,
+                        features.range.isActive
                     )
                 }
                 else -> RangeBarView.State.Hidden

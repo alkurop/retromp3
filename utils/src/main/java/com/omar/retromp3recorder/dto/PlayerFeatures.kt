@@ -5,7 +5,7 @@ data class PlayerFeatures(
 )
 
 data class RangeFeature(
-    val isEnabled: Boolean = false,
+    val isVisible: Boolean = false,
     val isActive: Boolean = false
 )
 

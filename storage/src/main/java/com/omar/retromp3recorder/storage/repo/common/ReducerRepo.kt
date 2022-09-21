@@ -16,5 +16,5 @@ open class ReducerRepo<In : Any, State : Any>(
         stateKeeper.onNext(next)
     }
 
-    fun observe(): Observable<State> = stateKeeper
+    open fun observe(): Observable<State> = stateKeeper
 }

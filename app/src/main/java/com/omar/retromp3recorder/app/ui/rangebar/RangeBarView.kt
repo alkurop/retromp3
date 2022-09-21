@@ -13,7 +13,8 @@ object RangeBarView {
         data class Visible(
             val range: PlayerRange,
             val fromMillis: Long,
-            val toMillis: Long
+            val toMillis: Long,
+            val isActive: Boolean
         ) : State()
     }
 }

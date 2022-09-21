@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.ui.rangebar
 
 import com.omar.retromp3recorder.bl.audio.UpdatePlayerRangeUC
-import com.omar.retromp3recorder.bl.settings.EnableRangeUC
+import com.omar.retromp3recorder.bl.settings.ActivateRangeUC
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class RangeBarInteractor @Inject constructor(
     private val rangeStateMapper: RangeBarStateMapper,
     private val updatePlayerRangeUC: UpdatePlayerRangeUC,
-    private val rangeEnableRangeUC: EnableRangeUC,
+    private val rangeEnableRangeUC: ActivateRangeUC,
     private val workScheduler: Scheduler
 ) {
     fun processIO(): ObservableTransformer<RangeBarView.Input, RangeBarView.State> =

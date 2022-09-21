@@ -2,13 +2,17 @@ package com.omar.retromp3recorder.storage.repo.common
 
 import com.omar.retromp3recorder.dto.PlayerProgress
 import com.omar.retromp3recorder.dto.PlayerRange
+import com.omar.retromp3recorder.storage.repo.PlayerFeaturesRepo
 import com.omar.retromp3recorder.utils.Optional
 import com.omar.retromp3recorder.utils.toPlayerTime
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PlayerProgressRepo @Inject constructor() :
+class PlayerProgressRepo @Inject constructor(
+    private val audioFeaturesRepo: PlayerFeaturesRepo
+) :
     ReducerRepo<PlayerProgressRepo.In, Optional<PlayerProgress>>(
         init = Optional.empty(),
         function = FUNCTION
@@ -21,9 +25,18 @@ class PlayerProgressRepo @Inject constructor() :
         data class Progress(val progress: PlayerProgress) : In()
         data class Range(val range: PlayerRange) : In()
         data class NewCurrentFile(val progress: PlayerProgress) : In()
-        data class RangeEnabled(val isEnabled: Boolean) : In()
 
         object Hidden : In()
+    }
+
+    override fun observe(): Observable<Optional<PlayerProgress>> {
+        return Observable.combineLatest(
+            super.observe(),
+            audioFeaturesRepo.observe()
+        ) { progress, features ->
+            val rangeEnabled = features.range.isActive
+            Optional(progress.value?.let { it.copy(range = it.range.copy(isActive = rangeEnabled)) })
+        }
     }
 }
 
@@ -41,10 +54,7 @@ private val FUNCTION: Optional<PlayerProgress>.(PlayerProgressRepo.In) -> Option
             }
             is PlayerProgressRepo.In.NewCurrentFile -> Optional(input.progress)
             is PlayerProgressRepo.In.Range -> Optional(this.value?.copy(range = input.range))
-            is PlayerProgressRepo.In.RangeEnabled -> {
-                val range = (this.value?.range ?: PlayerRange()).copy(isActive = input.isEnabled)
-                Optional(value?.copy(range = range))
-            }
+
             else -> Optional.empty()
         }
     }
