@@ -50,21 +50,12 @@ class AudioPlayerExoImpl @Inject constructor(
         compositeDisposable.clear()
         handler.post {
             when (input) {
-                is AudioPlayer.Input.Resume -> {
-                    mediaPlayer.play()
-                    events.onNext(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_resume)))
-                    state.onNext(AudioPlayer.State.Playing)
-                    initProgressUpdate()
-                }
                 is AudioPlayer.Input.SeekPause -> {
-                    mediaPlayer.pause()
+                    mediaPlayer.stop()
                     events.onNext(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_seek_pause)))
                     state.onNext(AudioPlayer.State.Seek_Paused)
                 }
-                is AudioPlayer.Input.Seek -> {
-                    events.onNext(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_seek)))
-                    mediaPlayer.seekTo(input.position)
-                }
+
                 is AudioPlayer.Input.Stop -> {
                     stopMedia()
                 }

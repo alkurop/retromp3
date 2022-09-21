@@ -14,8 +14,6 @@ interface AudioPlayer {
         data class Start(val options: PlayerStartOptions) : Input()
         object Stop : Input()
         object SeekPause : Input()
-        object Resume : Input()
-        data class Seek(val position: Long) : Input()
     }
 
     sealed class Output {
