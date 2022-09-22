@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.storage.repo
+package com.omar.retromp3recorder.storage.repo.global
 
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo

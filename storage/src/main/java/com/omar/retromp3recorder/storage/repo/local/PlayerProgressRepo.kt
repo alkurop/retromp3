@@ -1,8 +1,8 @@
-package com.omar.retromp3recorder.storage.repo.common
+package com.omar.retromp3recorder.storage.repo.local
 
 import com.omar.retromp3recorder.dto.PlayerProgress
 import com.omar.retromp3recorder.dto.PlayerRange
-import com.omar.retromp3recorder.storage.repo.PlayerFeaturesRepo
+import com.omar.retromp3recorder.storage.repo.common.ReducerRepo
 import com.omar.retromp3recorder.utils.Optional
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject

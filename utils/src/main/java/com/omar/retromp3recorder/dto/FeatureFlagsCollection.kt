@@ -1,8 +1,8 @@
-package com.omar.retromp3recorder.storage.repo
+package com.omar.retromp3recorder.dto
 
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
-import com.omar.retromp3recorder.storage.R
+import com.omar.retromp3recorder.app.utils.R
 
 @Keep
 enum class FeatureFlag(

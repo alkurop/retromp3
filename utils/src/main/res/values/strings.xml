@@ -1,4 +1,8 @@
 <resources>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="waveform_acquired">Waveform acquired for file %1$s</string>
+    <string name="feature_name_log_view">Log View</string>
+    <string name="feature_name_keep_screen_on">Keep screen on</string>
+    <string name="feature_name_new_layout">New layout</string>
+    <string name="feature_name_range_control">Range control</string>
 </resources>

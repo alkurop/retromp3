@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.bl.system
 
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
-import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions.Denied
+import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus
+import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus.ShouldRequestPermissions.Denied
 import com.omar.retromp3recorder.utils.PermissionChecker
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable

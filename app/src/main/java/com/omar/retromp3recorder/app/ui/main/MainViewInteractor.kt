@@ -3,9 +3,9 @@ package com.omar.retromp3recorder.app.ui.main
 import com.omar.retromp3recorder.app.ui.main.MainView.Output
 import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
 import com.omar.retromp3recorder.bl.system.CheckAllPermissionsUC
-import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
-import com.omar.retromp3recorder.storage.repo.MediaProjectionStateRepo
-import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
+import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
+import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
+import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus
 import com.omar.retromp3recorder.utils.flatMapGhost
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable

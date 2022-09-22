@@ -2,8 +2,8 @@ package com.omar.retromp3recorder.bl.audio
 
 import android.media.projection.MediaProjection
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.storage.repo.MediaProjectionState
-import com.omar.retromp3recorder.storage.repo.MediaProjectionStateRepo
+import com.omar.retromp3recorder.dto.MediaProjectionState
+import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.toOptional
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject

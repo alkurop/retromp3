@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.audioplayer.observeEvents
 import com.omar.retromp3recorder.dto.LogEvent
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.share.Sharer
-import com.omar.retromp3recorder.storage.repo.LogsRepo
+import com.omar.retromp3recorder.storage.repo.global.LogsRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 

@@ -5,8 +5,8 @@ import com.omar.retromp3recorder.bl.files.GetNewFileNameUC
 import com.omar.retromp3recorder.bl.files.IncrementFileNameUC
 import com.omar.retromp3recorder.dto.toFutureFileWrapper
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
-import com.omar.retromp3recorder.storage.repo.RecorderPrefsRepo
+import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.Optional
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single

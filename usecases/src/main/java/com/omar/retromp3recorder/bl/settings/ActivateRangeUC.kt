@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.settings
 
-import com.omar.retromp3recorder.storage.repo.PlayerFeaturesRepo
+import com.omar.retromp3recorder.storage.repo.local.PlayerFeaturesRepo
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

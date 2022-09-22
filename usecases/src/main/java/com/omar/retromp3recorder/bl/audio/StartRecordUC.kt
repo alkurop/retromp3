@@ -6,10 +6,10 @@ import android.media.AudioAttributes.USAGE_MEDIA
 import com.omar.retromp3recorder.bl.system.CheckPermissionsUC
 import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.storage.repo.MediaProjectionStateRepo
-import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
-import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions
-import com.omar.retromp3recorder.storage.repo.RecorderPrefsRepo
+import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
+import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus
+import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus.ShouldRequestPermissions
+import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import com.omar.retromp3recorder.utils.ServiceDealer
 import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Completable

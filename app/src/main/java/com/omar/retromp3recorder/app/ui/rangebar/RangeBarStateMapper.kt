@@ -1,9 +1,9 @@
 package com.omar.retromp3recorder.app.ui.rangebar
 
 import com.omar.retromp3recorder.dto.JoinedProgress
-import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
-import com.omar.retromp3recorder.storage.repo.PlayerFeaturesRepo
-import com.omar.retromp3recorder.storage.repo.RangeBarResetBus
+import com.omar.retromp3recorder.storage.repo.local.JoinedProgressRepo
+import com.omar.retromp3recorder.storage.repo.local.PlayerFeaturesRepo
+import com.omar.retromp3recorder.storage.repo.local.RangeBarResetBus
 import com.omar.retromp3recorder.utils.toFromToMillis
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject

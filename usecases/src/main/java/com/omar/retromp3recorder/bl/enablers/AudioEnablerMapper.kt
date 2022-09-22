@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
 class AudioEnablerMapper @Inject constructor(
-    private val reverseEnablerUC: ReverseEnablerUC,
+    private val reverseEnablerUC: ReversePlaybackEnablerUC,
     private val loopEnablerUC: LoopEnablerUC
 ) {
     fun execute(isEnabled: Boolean, enabler: AudioEnabler): Completable =
