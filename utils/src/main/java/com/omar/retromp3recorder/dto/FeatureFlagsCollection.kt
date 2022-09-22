@@ -22,6 +22,11 @@ enum class FeatureFlag(
         isEnabledByDefault = false
 
     ),
+    MenuView(
+        featureLevel = FeatureLevel.Debug,
+        friendlyName = R.string.feature_menu_view,
+        isEnabledByDefault = false
+    ),
     ;
 
     val key: String = "FeatureFlag_${this.name}"
