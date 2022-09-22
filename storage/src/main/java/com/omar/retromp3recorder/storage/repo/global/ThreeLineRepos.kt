@@ -24,5 +24,3 @@ class MediaProjectionStateRepo @Inject constructor() :
 
 @Singleton
 class LogsRepo @Inject constructor() : PublishSubjectRepo<LogEvent>()
-
-

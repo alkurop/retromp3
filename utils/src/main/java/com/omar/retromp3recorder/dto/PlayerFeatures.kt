@@ -8,5 +8,6 @@ data class PlayerFeatures(
         val isVisible: Boolean = false,
         val isActive: Boolean = false
     )
+
 }
 

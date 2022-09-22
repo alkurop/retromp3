@@ -22,11 +22,6 @@ enum class FeatureFlag(
         isEnabledByDefault = false
 
     ),
-    RangeControl(
-        featureLevel = FeatureLevel.Debug,
-        friendlyName = R.string.feature_name_range_control,
-        isEnabledByDefault = false
-    ),
     ;
 
     val key: String = "FeatureFlag_${this.name}"
