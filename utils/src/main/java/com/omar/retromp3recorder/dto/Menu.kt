@@ -10,8 +10,6 @@ interface MenuExecutable
 
 enum class AudioExecutable : MenuExecutable {
     Crop,
-    Reverse,
-    Loop
 }
 
 sealed interface MenuEnabler
