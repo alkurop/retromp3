@@ -38,6 +38,15 @@
         app:layout_constraintTop_toBottomOf="@id/fragment_visualizer" />
 
     <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/range"
+        android:name="com.omar.retromp3recorder.app.ui.rangebar.RangeBarFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/progress" />
+
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/progress"
         android:name="com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressFragment"
         android:layout_width="match_parent"
@@ -48,14 +57,6 @@
         app:layout_constraintBottom_toTopOf="@id/audio_controls"
         app:layout_constraintTop_toBottomOf="@id/current_file" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/range"
-        android:name="com.omar.retromp3recorder.app.ui.rangebar.RangeBarFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/progress" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/audio_controls"
