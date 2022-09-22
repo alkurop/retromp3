@@ -26,9 +26,3 @@ data class FromToMillis(
 ) {
     fun length(): Long = to - from
 }
-
-data class FromToMicro(
-    val from: Long, val to: Long
-)
-
-

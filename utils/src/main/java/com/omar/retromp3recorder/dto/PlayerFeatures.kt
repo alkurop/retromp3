@@ -1,7 +1,9 @@
 package com.omar.retromp3recorder.dto
 
 data class PlayerFeatures(
-    val range: Range = Range()
+    val range: Range = Range(),
+    val loop: Loop = Loop(),
+    val reverse: Reverse = Reverse()
 ) {
 
     data class Range(
@@ -9,5 +11,6 @@ data class PlayerFeatures(
         val isActive: Boolean = false
     )
 
+    data class Loop(val isEnabled: Boolean = false)
+    data class Reverse(val isEnabled: Boolean = false)
 }
-
