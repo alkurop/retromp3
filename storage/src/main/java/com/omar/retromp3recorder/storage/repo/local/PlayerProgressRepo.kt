@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class PlayerProgressRepo @Inject constructor(
-    private val audioFeaturesRepo: PlayerFeaturesRepo
+    private val audioFeaturesRepo: PlayerControlsRepo
 ) :
     ReducerRepo<PlayerProgressRepo.In, Optional<PlayerProgress>>(
         init = Optional.empty(),

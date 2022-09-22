@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.ui.rangebar
 
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.local.JoinedProgressRepo
-import com.omar.retromp3recorder.storage.repo.local.PlayerFeaturesRepo
+import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
 import com.omar.retromp3recorder.storage.repo.local.RangeBarResetBus
 import com.omar.retromp3recorder.utils.toFromToMillis
 import io.reactivex.rxjava3.core.Observable
@@ -10,14 +10,14 @@ import javax.inject.Inject
 
 class RangeBarStateMapper @Inject constructor(
     private val joinedProgressRepo: JoinedProgressRepo,
-    private val playerFeaturesRepo: PlayerFeaturesRepo,
+    private val playerControlsRepo: PlayerControlsRepo,
     private val rangeBarResetBus: RangeBarResetBus,
 
     ) {
     fun observe(): Observable<RangeBarView.State> {
         return Observable.combineLatest(
             joinedProgressRepo.observe(),
-            playerFeaturesRepo.observe(),
+            playerControlsRepo.observe(),
             rangeBarResetBus.observe(),
         ) { progress, features, reset ->
             when {

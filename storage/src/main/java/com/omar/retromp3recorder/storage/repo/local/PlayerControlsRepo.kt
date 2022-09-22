@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PlayerFeaturesRepo @Inject constructor(
+class PlayerControlsRepo @Inject constructor(
     private val featureFlagRepo: FeatureFlagRepo
 ) : BehaviorSubjectRepo<PlayerFeatures>(PlayerFeatures()) {
     override fun observe(): Observable<PlayerFeatures> {
