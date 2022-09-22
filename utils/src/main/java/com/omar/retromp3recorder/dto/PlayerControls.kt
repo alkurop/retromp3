@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.dto
 
-data class PlayerFeatures(
+data class PlayerControls(
     val range: Range = Range(),
     val loop: Loop = Loop(),
     val reverse: Reverse = Reverse()

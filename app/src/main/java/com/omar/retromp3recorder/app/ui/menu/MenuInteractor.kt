@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 class MenuInteractor @Inject constructor(
     private val actionsMapper: ActionsMapper,
-    private val reverseMapper: EnablersReverseMapper,
-    private val workScheduler: Scheduler,
-    private val playerControlsRepo: PlayerControlsRepo
 
-    ) {
+    private val reverseEnablersMapper: EnablersReverseMapper,
+    private val scheduler: Scheduler
+
+) {
 //    fun processIO():Observable<>
 }
