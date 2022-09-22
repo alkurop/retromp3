@@ -9,8 +9,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 
 @Preview
 @Composable
-fun MenuBarkComposable(@PreviewParameter(PreviewMenuProvider::class) item: MenuItem) {
-    Text(text = item.text)
+fun MenuBarkComposable() {
+    Text(text = "item.text")
 }
 
 
