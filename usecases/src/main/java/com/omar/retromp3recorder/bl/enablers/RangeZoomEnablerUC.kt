@@ -4,5 +4,5 @@ import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
 class RangeZoomEnablerUC @Inject constructor() {
-    fun execute(): Completable = Completable.complete()
+    fun execute(isEnabled: Boolean): Completable = Completable.complete()
 }
