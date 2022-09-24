@@ -1,12 +1,15 @@
 package com.omar.retromp3recorder.app.ui.menu
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rxjava3.subscribeAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.dto.AudioEnabler
 import com.omar.retromp3recorder.dto.MenuAction
@@ -24,26 +27,22 @@ fun MenuViewComposable(viewModel: MenuViewModel = viewModel()) {
 @Composable
 private fun DrawMenu(
     @PreviewParameter(
-        PreviewMenuStateProvider::class
-    ) state: MenuView.State, onAction: (MenuAction) -> Unit = {
-        println()
-    }
+        MenuPreviewStateProvider::class
+    ) state: MenuView.State, onAction: (MenuAction) -> Unit = {}
 ) {
+    AnimatedVisibility(visible = state.isVisible) {
+        Row() {
+            state.items.map { DrawMenuItem(action = it, onAction = onAction) }
+        }
+    }
 }
 
-private class PreviewMenuStateProvider : PreviewParameterProvider<MenuView.State> {
-    override val values = sequenceOf(
-        MenuView.State(
-            isVisible = true,
-            items = listOf()
-        )
-    )
-}
+
 
 @Composable
 private fun DrawMenuItem(action: MenuAction, onAction: (MenuAction) -> Unit) = when (action) {
     is MenuAction.Execute -> DrawMenuExecutableItem(action, onAction)
-    is MenuAction.Enable -> DrawAudioEnablerItem(action, onAction)
+    is MenuAction.Enable -> DrawEnablerItem(action, onAction)
 }
 
 @Composable
@@ -56,18 +55,17 @@ private fun DrawEnablerItem(action: MenuAction.Enable, onAction: (MenuAction) ->
 
 @Composable
 private fun DrawAudioEnablerItem(action: MenuAction.Enable, onAction: (MenuAction) -> Unit) {
-    Text(text = "$action")
-
+    Text(text = "$action", modifier = Modifier.clickable { onAction(action) })
 }
 
 @Composable
 private fun DrawVisibilityEnablerItem(action: MenuAction.Enable, onAction: (MenuAction) -> Unit) {
-    Text(text = "$action")
+    Text(text = "$action", modifier = Modifier.clickable { onAction(action) })
 }
 
 @Composable
 private fun DrawMenuExecutableItem(action: MenuAction.Execute, onAction: (MenuAction) -> Unit) {
-    Text(text = "$action")
+    Text(text = "text", Modifier.clickable { onAction(action) })
 }
 
 
