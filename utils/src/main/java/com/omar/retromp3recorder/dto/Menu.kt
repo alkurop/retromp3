@@ -9,9 +9,8 @@ sealed class MenuAction {
 // todo   object Navigate : com.omar.retromp3recorder.dto.MenuAction()
 }
 
-interface MenuExecutable
 
-enum class AudioExecutable : MenuExecutable {
+enum class MenuExecutable {
     Crop,
 }
 
@@ -24,6 +23,7 @@ enum class AudioEnabler : MenuEnabler {
 
 enum class VisibilityEnabler : MenuEnabler {
     RangeBar,
+
     //todo RangeBarZoom,
     PlaybackSpeed
 }
