@@ -2,7 +2,10 @@ package com.omar.retromp3recorder.dto
 
 sealed class MenuAction {
     data class Execute(val menuExecutable: MenuExecutable) : MenuAction()
-    data class Enable(val isEnabled: Boolean, val enabler: MenuEnabler) : MenuAction()
+    data class Enable(
+        val enabler: MenuEnabler,
+        val isEnabled: Boolean
+    ) : MenuAction()
 // todo   object Navigate : com.omar.retromp3recorder.dto.MenuAction()
 }
 
@@ -21,6 +24,6 @@ enum class AudioEnabler : MenuEnabler {
 
 enum class VisibilityEnabler : MenuEnabler {
     RangeBar,
-    RangeBarZoom,
+    //todo RangeBarZoom,
     PlaybackSpeed
 }
