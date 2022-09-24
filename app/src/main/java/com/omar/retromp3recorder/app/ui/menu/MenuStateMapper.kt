@@ -15,7 +15,7 @@ class MenuStateMapper @Inject constructor(
             .observe(
             ).map { (loop, range, reverse, speed) ->
                 MenuView.State(
-                    actions = listOf(
+                    items = listOf(
                         MenuAction.Execute(
                             MenuExecutable.Crop
                         ),

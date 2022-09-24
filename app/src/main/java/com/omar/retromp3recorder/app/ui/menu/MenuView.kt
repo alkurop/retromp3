@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.dto.MenuAction
 
 interface MenuView {
     data class State(
-        val actions: List<MenuAction>,
+        val items: List<MenuAction> = emptyList(),
         val isVisible: Boolean = true
     )
 }
