@@ -12,7 +12,7 @@
     <string name="debug_features">Debug features:</string>
     <string name="error_string">Error: %1$s</string>
     <string name="please_record_something">Please record something</string>
-    <string name="no_file">No file</string>
+    <string name="no_file">Click record button</string>
     <string name="no">No</string>
     <string name="playing">Playing ...</string>
     <string name="projection_acquired">Projection acquired</string>

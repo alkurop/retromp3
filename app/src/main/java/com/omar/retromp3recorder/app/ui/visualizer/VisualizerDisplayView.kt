@@ -13,8 +13,8 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 class VisualizerDisplayView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-    private var mPoints: FloatArray = FloatArray(0)
-    private val mRect = Rect()
+    private var points: FloatArray = FloatArray(0)
+    private val rect = Rect()
     private val mForePaint = Paint()
     private val bytesBus = BehaviorSubject.create<ByteArray>()
 
@@ -33,27 +33,37 @@ class VisualizerDisplayView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        if (bytesBus.hasValue().not()) {
-            return
+        val mBytes = if (bytesBus.hasValue().not()) {
+            fillByteArray()
+        } else {
+            bytesBus.blockingFirst()
         }
-        val mBytes = bytesBus.blockingFirst()
-        if (mPoints.size != mBytes.size * 4) {
-            mPoints = FloatArray(mBytes.size * 4)
+        if (points.size != mBytes.size * 4) {
+            points = FloatArray(mBytes.size * 4)
         }
-        mRect[0, 0, width] = height
+        rect.set(0, 0, width, height)
         val length = mBytes.size - 1
-        val height = mRect.height()
+        val height = rect.height()
 
 
         for (i in 0 until length) {
             val index = i * 4
-            mPoints[index] = (mRect.width() * i / length).toFloat()
-            mPoints[index + 2] = (mRect.width() * (i + 1) / length).toFloat()
-            mPoints[index + 1] =
+            points[index] = (rect.width() * i / length).toFloat()
+            points[index + 2] = (rect.width() * (i + 1) / length).toFloat()
+            points[index + 1] =
                 height / 2 + ((mBytes[i]) * (height / 2) / Byte.MAX_VALUE).toFloat()
-            mPoints[index + 3] =
+            points[index + 3] =
                 height / 2 + (mBytes[i + 1] * (height / 2) / Byte.MAX_VALUE).toFloat()
         }
-        canvas.drawLines(mPoints, mForePaint)
+        canvas.drawLines(points, mForePaint)
     }
+}
+
+fun fillByteArray(): ByteArray {
+    val bytes = mutableListOf<Byte>()
+    val r = 0
+    for (i in 1..1024) {
+        bytes.add(r.toByte())
+    }
+    return bytes.toByteArray()
 }
