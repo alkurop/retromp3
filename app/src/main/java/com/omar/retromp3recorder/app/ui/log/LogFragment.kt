@@ -30,7 +30,6 @@ class LogFragment : Fragment(R.layout.fragment_log) {
         state.apply {
             adapter.items = messages
             recyclerView.smoothScrollToPosition(messages.size)
-            view?.isVisible = isVisible
         }
     }
 
