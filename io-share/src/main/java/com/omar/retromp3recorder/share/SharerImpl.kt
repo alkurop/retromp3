@@ -17,7 +17,9 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Named
+import javax.inject.Singleton
 
+@Singleton
 class SharerImpl @Inject internal constructor(
     private val fileUriCreator: FileUriCreator,
     private val context: Context,
@@ -27,7 +29,7 @@ class SharerImpl @Inject internal constructor(
     override fun share(file: File): Completable {
         return if (!file.exists()) {
             Completable.fromAction {
-                events.onNext(Error(Stringer(R.string.sh_trying_to_share)))
+                events.onNext(Error(Stringer(R.string.file_not_exists)))
             }
         } else Completable
             .fromAction {
@@ -39,7 +41,6 @@ class SharerImpl @Inject internal constructor(
                         context.getString(R.string.sh_select)
                     ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 )
-                events.onNext(SharingOk(Stringer(R.string.sh_trying_to_share)))
             }
             .onErrorComplete {
                 val cause = it.message
