@@ -32,9 +32,6 @@
     <string name="sample_rate_format">"%1$d kb"</string>
     <string name="settings">Settings</string>
     <string name="timer_no_text"><![CDATA[<< : >>]]></string>
-    <string name="write_required_message">Saving mp3 is required. Go to settings and let this app Write Internal Storage</string>
-    <string name="write_permission_message">This app is going to save mp3 files to your phone.</string>
-    <string name="write_permission_title">Write Storage</string>
     <string name="yes">Yes</string>
     <string name="range_control">Range control</string>
 

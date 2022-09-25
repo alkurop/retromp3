@@ -35,11 +35,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         viewModel.state.observe(this, ::renderView)
-        permissionsManager.addPermissionsListener {
-            if (it[Manifest.permission.WRITE_EXTERNAL_STORAGE] != false) {
-                viewModel.input.onNext(MainView.Input.WritePermissionsGranted)
-            }
-        }
         viewModel.input.onNext(MainView.Input.CheckAllPermisionsOnStartup)
     }
 
@@ -80,14 +75,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun createPermissionsMap(): () -> Map<String, PermissionOptionalDetails> = {
         listOf(
-            Pair(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                PermissionRequiredDetails(
-                    getString(R.string.write_permission_title),
-                    getString(R.string.write_permission_message),
-                    getString(R.string.write_required_message)
-                )
-            ),
             Pair(
                 Manifest.permission.RECORD_AUDIO,
                 PermissionRequiredDetails(

@@ -69,6 +69,5 @@ class StartRecordUC @Inject constructor(
 }
 
 private val voiceRecordPermissions: Set<String> = setOf(
-    Manifest.permission.WRITE_EXTERNAL_STORAGE,
     Manifest.permission.RECORD_AUDIO
 )

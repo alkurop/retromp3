@@ -19,7 +19,6 @@ class RecordTest {
 
     @get:Rule
     val permissionsRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.RECORD_AUDIO
     )
 

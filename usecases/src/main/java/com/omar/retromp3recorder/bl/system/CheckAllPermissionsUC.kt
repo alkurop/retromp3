@@ -16,6 +16,5 @@ class CheckAllPermissionsUC @Inject constructor(
 }
 
 private val playbackPermissions: Set<String> = setOf(
-    Manifest.permission.WRITE_EXTERNAL_STORAGE,
     Manifest.permission.RECORD_AUDIO
 )

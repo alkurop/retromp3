@@ -2,7 +2,6 @@ package com.omar.retromp3recorder.app.ui.main
 
 import com.omar.retromp3recorder.app.ui.main.MainView.Output
 import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
-import com.omar.retromp3recorder.bl.files.TakeLastFileDirScanUC
 import com.omar.retromp3recorder.bl.system.CheckAllPermissionsUC
 import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.MediaProjectionStateRepo
@@ -22,7 +21,6 @@ class MainViewInteractor @Inject constructor(
     private val mediaProjectionRequestBus: MediaProjectionStateRepo,
     private val updateMediaProjectionUC: UpdateMediaProjectionUC,
     private val featureFlagRepo: FeatureFlagRepo,
-    private val takeLastFileWithScanDirScanUC: TakeLastFileDirScanUC
 ) {
 
     fun processIO(): ObservableTransformer<MainView.Input, Output> =
@@ -57,10 +55,6 @@ class MainViewInteractor @Inject constructor(
                         .flatMapCompletable { updateMediaProjectionUC.execute(it.mediaProjection) },
                     input.ofType(MainView.Input.CheckAllPermisionsOnStartup::class.java)
                         .flatMapCompletable { checkAllPermissionsUC.execute() },
-                    input.ofType(MainView.Input.WritePermissionsGranted::class.java)
-                        .flatMapCompletable {
-                            takeLastFileWithScanDirScanUC.execute()
-                        }
                 )
             )
         }
