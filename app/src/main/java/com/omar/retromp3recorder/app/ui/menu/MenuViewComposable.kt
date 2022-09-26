@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.app.ui.menu
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,13 +30,13 @@ private fun DrawMenu(
         MenuPreviewStateProvider::class
     ) state: MenuView.State, onAction: (MenuAction) -> Unit = {}
 ) {
-    AnimatedVisibility(visible = state.isVisible) {
+    if (state.isVisible.not())
+        Spacer(modifier = Modifier)
+    else
         Row() {
             state.items.map { DrawMenuItem(action = it, onAction = onAction) }
         }
-    }
 }
-
 
 
 @Composable
