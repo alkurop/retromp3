@@ -20,7 +20,6 @@ import com.omar.retromp3recorder.app.ui.recorder_settings.sample_rate.SampleRate
 import com.omar.retromp3recorder.app.ui.settings.SettingsViewModel
 import com.omar.retromp3recorder.app.ui.visualizer.VisualizerViewModel
 import com.omar.retromp3recorder.storage.StorageModule
-import com.omar.retromp3recorder.utils.UtilsModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -30,7 +29,6 @@ import javax.inject.Singleton
         AndroidModule::class,
         FunctionalityModule::class,
         RepoModule::class,
-        UtilsModule::class,
         StorageModule::class
     ]
 )

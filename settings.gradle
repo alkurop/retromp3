@@ -1,7 +1,7 @@
 include ':app'
 include ':io-audioplayer'
 include ':io-mp3recorder'
-include ':io-audio-cropper'
+include ':io-audio-tansformer'
 include ':io-share'
 include ':storage'
 include ':ui-state-button'

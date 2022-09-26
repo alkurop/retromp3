@@ -2,10 +2,14 @@ package com.omar.retromp3recorder.app.di
 
 import android.app.Application
 import android.content.Context
+import com.omar.retromp3recorder.utils.Constants
 import com.omar.retromp3recorder.utils.ServiceDealer
 import dagger.Module
 import dagger.Provides
-
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Named
 
 @Module
 class AndroidModule(private val app: Application) {
@@ -18,4 +22,15 @@ class AndroidModule(private val app: Application) {
     @Provides
     fun provideWakelockDealer(serviceDealerImpl: com.omar.retromp3recorder.app.ServiceDealerImpl): ServiceDealer =
         serviceDealerImpl
+
+    @Provides
+    fun provideScheduler(): Scheduler {
+        return Schedulers.io()
+    }
+
+    @Provides
+    @Named(Constants.MAIN_THREAD)
+    fun provideMainThreadScheduler(): Scheduler {
+        return AndroidSchedulers.mainThread()
+    }
 }

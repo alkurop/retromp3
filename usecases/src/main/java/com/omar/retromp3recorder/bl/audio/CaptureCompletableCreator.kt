@@ -1,6 +1,5 @@
 package com.omar.retromp3recorder.bl.audio
 
-import com.omar.retromp3recorder.bl.files.GenerateDirIfNotExistsUC
 import com.omar.retromp3recorder.bl.files.GetNewFileNameUC
 import com.omar.retromp3recorder.bl.files.IncrementFileNameUC
 import com.omar.retromp3recorder.dto.toFutureFileWrapper
@@ -17,7 +16,6 @@ class CaptureCompletableCreator @Inject constructor(
     private val recorderPrefsRepo: RecorderPrefsRepo,
     private val currentFileRepo: CurrentFileRepo,
     private val incrementFileNameUC: IncrementFileNameUC,
-    private val generateDirIfNotExistsUC: GenerateDirIfNotExistsUC,
     private val getNewFileNameUC: GetNewFileNameUC,
     private val voiceRecorder: Mp3VoiceRecorder
 ) {
@@ -26,14 +24,13 @@ class CaptureCompletableCreator @Inject constructor(
                                        prefs: Mp3VoiceRecorder.RecorderPrefs ->
             Mp3VoiceRecorder.RecorderProps(filepath, prefs, audioSource)
         }
-        return generateDirIfNotExistsUC.execute()
-            .andThen(
-                Single.zip(
-                    getNewFileNameUC.execute(),
-                    recorderPrefsRepo.takeOne(),
-                    propsZipper
-                )
+        return Single
+            .zip(
+                getNewFileNameUC.execute(),
+                recorderPrefsRepo.takeOne(),
+                propsZipper
             )
+
             .flatMapCompletable { props: Mp3VoiceRecorder.RecorderProps ->
                 Completable.fromAction {
                     currentFileRepo.onNext(Optional(props.filepath.toFutureFileWrapper()))

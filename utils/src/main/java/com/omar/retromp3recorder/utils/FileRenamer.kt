@@ -4,21 +4,16 @@ import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import java.io.File
 import javax.inject.Inject
 
-interface FileRenamer {
-    fun renameFile(fileWrapper: ExistingFileWrapper, newName: String): String
 
-    fun canRename(fileWrapper: ExistingFileWrapper, newName: String): Boolean
-}
-
-class FileRenameImpl @Inject constructor() : FileRenamer {
-    override fun renameFile(fileWrapper: ExistingFileWrapper, newName: String): String {
+class FileRenamer @Inject constructor() {
+    fun renameFile(fileWrapper: ExistingFileWrapper, newName: String): String {
         val newFile = generateNewFile(fileWrapper, newName)
         val isRenamed = File(fileWrapper.path).renameTo(newFile)
 
         return if (isRenamed) newFile.path else fileWrapper.path
     }
 
-    override fun canRename(fileWrapper: ExistingFileWrapper, newName: String): Boolean {
+    fun canRename(fileWrapper: ExistingFileWrapper, newName: String): Boolean {
         val generateNewFile = generateNewFile(fileWrapper, newName)
         return generateNewFile.exists().not()
     }
