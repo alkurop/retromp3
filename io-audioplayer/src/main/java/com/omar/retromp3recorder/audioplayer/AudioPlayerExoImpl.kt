@@ -40,7 +40,7 @@ class AudioPlayerExoImpl @Inject constructor(
                     } else {
                         it.copy(position = it.position + range.from, duration = options.length)
                     }
-                }.doOnNext { println(it) },
+                },
             events
         )
 
