@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.app.ui.audio_controls
 
+import com.omar.retromp3recorder.dto.FromToMillis
 import com.omar.retromp3recorder.dto.PlayerProgress
 import com.omar.retromp3recorder.ui.state_button.InteractiveButton
 
@@ -27,5 +28,9 @@ object AudioControlsView {
         val recordButtonState: InteractiveButton.State = InteractiveButton.State.DISABLED,
         val stopButtonState: InteractiveButton.State = InteractiveButton.State.DISABLED,
         val shareButtonState: InteractiveButton.State = InteractiveButton.State.DISABLED,
+    )
+
+    data class ProgressDisplay(
+        val data: FromToMillis
     )
 }

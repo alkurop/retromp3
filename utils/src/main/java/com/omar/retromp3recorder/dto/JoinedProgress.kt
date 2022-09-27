@@ -1,7 +1,5 @@
 package com.omar.retromp3recorder.dto
 
-import kotlin.math.floor
-
 sealed class JoinedProgress {
     object Hidden : JoinedProgress()
     object Intermediate : JoinedProgress()
@@ -26,10 +24,5 @@ data class FromToMillis(
     val from: Long,
     val to: Long
 ) {
-    fun length(): Long = to - from
-}
-
-fun Long.toSecondsStart(): Long {
-    val r = this.toDouble() / 1000
-    return floor(r).toLong()
+    val length: Long = to - from
 }
