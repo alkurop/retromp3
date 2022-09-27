@@ -9,7 +9,7 @@ data class PlayerControls(
 
     data class Range(
         val isActive: Boolean = false,
-        val isVisible: Boolean = true
+        val isVisible: Boolean = false
         //todo val isZoom: Boolean = false,
     )
 
