@@ -1,8 +1,11 @@
 package com.omar.retromp3recorder.app.ui.menu
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,12 +33,14 @@ private fun DrawMenu(
         MenuPreviewStateProvider::class
     ) state: MenuView.State, onAction: (MenuAction) -> Unit = {}
 ) {
-    if (state.isVisible.not())
+    if (state.isVisible.not()) {
         Spacer(modifier = Modifier)
-    else
-        Row() {
+    } else {
+        val scrollState = rememberScrollState()
+        Row(Modifier.horizontalScroll(scrollState)) {
             state.items.map { DrawMenuItem(action = it, onAction = onAction) }
         }
+    }
 }
 
 
