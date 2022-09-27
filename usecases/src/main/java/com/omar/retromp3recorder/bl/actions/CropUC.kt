@@ -14,6 +14,7 @@ import javax.inject.Inject
 
 
 //todo disable menu during recording and hide when no file present
+//todo recalculate player counter when in range
 class CropUC @Inject constructor(
     private val appDatabase: AppDatabase,
     private val audioCropper: AudioCropper,

@@ -11,34 +11,35 @@ class MenuStateMapper @Inject constructor(
     private val featureFlagRepo: FeatureFlagRepo
 ) {
     fun observe(): Observable<MenuView.State> =
-        playerControlsRepo
-            .observe(
-            ).map { (loop, range, reverse, speed) ->
-                MenuView.State(
-                    items = listOf(
-                        MenuAction.Execute(
-                            MenuExecutable.Crop
-                        ),
-                        MenuAction.Enable(
-                            VisibilityEnabler.RangeBar,
-                            range.isActive
-                        ),
-                        MenuAction.Enable(
-                            AudioEnabler.Loop,
-                            loop.isEnabled
-                        ),
-                        MenuAction.Enable(
-                            AudioEnabler.Reverse,
-                            reverse.isEnabled
-                        ),
-                        MenuAction.Enable(
-                            VisibilityEnabler.PlaybackSpeed,
-                            speed.isEnabled
+        Observable.combineLatest(
+            playerControlsRepo
+                .observe().map { (loop, range, reverse, speed) ->
+                    MenuView.State(
+                        items = listOf(
+                            MenuAction.Execute(
+                                MenuExecutable.Crop
+                            ),
+                            MenuAction.Enable(
+                                VisibilityEnabler.RangeBar,
+                                range.isActive
+                            ),
+                            MenuAction.Enable(
+                                AudioEnabler.Loop,
+                                loop.isEnabled
+                            ),
+                            MenuAction.Enable(
+                                AudioEnabler.Reverse,
+                                reverse.isEnabled
+                            ),
+                            MenuAction.Enable(
+                                VisibilityEnabler.PlaybackSpeed,
+                                speed.isEnabled
+                            )
                         )
                     )
-                )
-            }
-            .zipWith(featureFlagRepo.observe()) { menu, featureFlags ->
-                menu.copy(isVisible = featureFlags.isEnabled(FeatureFlag.MenuView))
-            }
+                },
+            featureFlagRepo.observe()
+        ) { menu, featureFlags ->
+            menu.copy(isVisible = featureFlags.isEnabled(FeatureFlag.MenuView))
+        }
 }
