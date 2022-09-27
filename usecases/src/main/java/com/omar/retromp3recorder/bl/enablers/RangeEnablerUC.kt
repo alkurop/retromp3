@@ -9,7 +9,8 @@ class RangeEnablerUC @Inject constructor(
 ) {
     fun execute(isEnabled: Boolean): Completable = playerControlsRepo.takeOne().flatMapCompletable {
         Completable.fromAction {
-            val updatedSettings = it.copy(range = it.range.copy(isVisible = isEnabled))
+            val range = it.range.copy(isVisible = isEnabled, isActive = false)
+            val updatedSettings = it.copy(range = range)
             playerControlsRepo.onNext(updatedSettings)
         }
     }
