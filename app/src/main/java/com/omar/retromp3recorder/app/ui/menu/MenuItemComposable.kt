@@ -15,13 +15,75 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+
+enum class MenuItemState {
+    Enabled,
+    Disabled,
+    OneTime
+}
+
 @Preview
 @Composable
 fun MenuItemComposable(
-    title: String = "menu"
+    modifier: Modifier = Modifier,
+    title: String = "menu",
+    state: MenuItemState = MenuItemState.Disabled,
 ) {
-    Column(Modifier.padding(2.dp)) {
-        MenuBox(Color.Gray) {
+    when (state) {
+        MenuItemState.Enabled -> MenuItemEnabled(title = title, modifier)
+        MenuItemState.OneTime -> MenuItemOneTime(title = title, modifier)
+        MenuItemState.Disabled -> MenuItemDisabled(title = title, modifier)
+    }
+}
+
+@Composable
+private fun MenuItemEnabled(
+    title: String,
+    modifier: Modifier,
+) {
+    MenuItemConstructor(
+        title = title,
+        backgroundColor = Color.Gray,
+        circleColor = Color.Green,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun MenuItemDisabled(
+    title: String,
+    modifier: Modifier,
+) {
+    MenuItemConstructor(
+        title = title,
+        backgroundColor = Color.Black,
+        circleColor = Color.Gray,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun MenuItemOneTime(
+    title: String,
+    modifier: Modifier,
+) {
+    MenuItemConstructor(
+        title = title,
+        backgroundColor = Color.Black,
+        circleColor = null,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun MenuItemConstructor(
+    title: String,
+    backgroundColor: Color,
+    circleColor: Color?,
+    modifier: Modifier,
+) {
+    Column(modifier.padding(2.dp)) {
+        MenuBox(backgroundColor) {
             Column(
                 Modifier.padding(bottom = 2.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -31,7 +93,7 @@ fun MenuItemComposable(
                     color = Color.White,
                     fontSize = 12.sp
                 )
-                Circle(Color.Red)
+                if (circleColor != null) Circle(circleColor) else Spacer(modifier = Modifier)
             }
         }
     }
@@ -74,3 +136,4 @@ private fun Circle(color: Color) {
 
 
 private val corners = 8.dp
+
