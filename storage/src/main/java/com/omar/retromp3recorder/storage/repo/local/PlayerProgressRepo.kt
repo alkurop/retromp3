@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class PlayerProgressRepo @Inject constructor(
-    private val audioFeaturesRepo: PlayerControlsRepo
+    private val playerControlsRepo: PlayerControlsRepo
 ) :
     ReducerRepo<PlayerProgressRepo.In, Optional<PlayerProgress>>(
         init = Optional.empty(),
@@ -31,7 +31,7 @@ class PlayerProgressRepo @Inject constructor(
     override fun observe(): Observable<Optional<PlayerProgress>> {
         return Observable.combineLatest(
             super.observe(),
-            audioFeaturesRepo.observe()
+            playerControlsRepo.observe()
         ) { progress, features ->
             Optional(progress.value?.let {
                 it.copy(

@@ -16,12 +16,12 @@ class MenuStateMapper @Inject constructor(
                 .observe().map { (loop, range, reverse, speed) ->
                     MenuView.State(
                         items = listOf(
-                            MenuAction.Execute(
-                                MenuExecutable.Crop
-                            ),
+//                            MenuAction.Execute(
+//                                MenuExecutable.Crop
+//                            ),
                             MenuAction.Enable(
                                 VisibilityEnabler.RangeBar,
-                                range.isActive
+                                range.isVisible
                             ),
 //                            MenuAction.Enable(
 //                                AudioEnabler.Loop,

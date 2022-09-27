@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,6 +25,7 @@ class RangeBarFragment : Fragment(R.layout.fragment_rangebar) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.isInvisible = true
         viewModel.state.observe(viewLifecycleOwner, ::renderState)
         rangeBarStateText.clicks().observe(viewLifecycleOwner) {
             viewModel.input.onNext(RangeBarView.Input.Enable)
