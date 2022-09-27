@@ -1,8 +1,8 @@
-package com.omar.retromp3recorder.storage.repo.common
+package com.omar.retromp3recorder.storage.repo.local
 
 import com.omar.retromp3recorder.dto.PlayerProgress
 import com.omar.retromp3recorder.dto.PlayerRange
-import com.omar.retromp3recorder.storage.repo.PlayerFeaturesRepo
+import com.omar.retromp3recorder.storage.repo.common.ReducerRepo
 import com.omar.retromp3recorder.utils.Optional
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class PlayerProgressRepo @Inject constructor(
-    private val audioFeaturesRepo: PlayerFeaturesRepo
+    private val playerControlsRepo: PlayerControlsRepo
 ) :
     ReducerRepo<PlayerProgressRepo.In, Optional<PlayerProgress>>(
         init = Optional.empty(),
@@ -31,7 +31,7 @@ class PlayerProgressRepo @Inject constructor(
     override fun observe(): Observable<Optional<PlayerProgress>> {
         return Observable.combineLatest(
             super.observe(),
-            audioFeaturesRepo.observe()
+            playerControlsRepo.observe()
         ) { progress, features ->
             Optional(progress.value?.let {
                 it.copy(

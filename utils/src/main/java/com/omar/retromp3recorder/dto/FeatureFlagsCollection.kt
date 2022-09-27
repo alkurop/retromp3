@@ -1,8 +1,8 @@
-package com.omar.retromp3recorder.storage.repo
+package com.omar.retromp3recorder.dto
 
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
-import com.omar.retromp3recorder.storage.R
+import com.omar.retromp3recorder.app.utils.R
 
 @Keep
 enum class FeatureFlag(
@@ -22,9 +22,9 @@ enum class FeatureFlag(
         isEnabledByDefault = false
 
     ),
-    RangeControl(
+    MenuView(
         featureLevel = FeatureLevel.Debug,
-        friendlyName = R.string.feature_name_range_control,
+        friendlyName = R.string.feature_menu_view,
         isEnabledByDefault = false
     ),
     ;

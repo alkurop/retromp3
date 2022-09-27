@@ -3,13 +3,14 @@ package com.omar.retromp3recorder.bl.audio
 import android.Manifest
 import android.media.AudioAttributes.USAGE_GAME
 import android.media.AudioAttributes.USAGE_MEDIA
+import com.omar.retromp3recorder.bl.enablers.DeactivatePlayerControlsUC
 import com.omar.retromp3recorder.bl.system.CheckPermissionsUC
 import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.storage.repo.MediaProjectionStateRepo
-import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
-import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions
-import com.omar.retromp3recorder.storage.repo.RecorderPrefsRepo
+import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
+import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus
+import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus.ShouldRequestPermissions
+import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import com.omar.retromp3recorder.utils.ServiceDealer
 import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Completable
@@ -19,34 +20,37 @@ class StartRecordUC @Inject constructor(
     private val recorderPrefsRepo: RecorderPrefsRepo,
     private val checkPermissionsUC: CheckPermissionsUC,
     private val captureCompletableCreator: CaptureCompletableCreator,
+    private val deactivatePlayerControlsUC: DeactivatePlayerControlsUC,
     private val permissionsRequestBus: PermissionsRequestBus,
     private val projectionRepo: MediaProjectionStateRepo,
     private val requestMediaProjectionUC: RequestMediaProjectionUC,
     private val serviceDealer: ServiceDealer,
 ) {
     fun execute(): Completable {
-        fun executeMedia(source: Int) = Completable
-            .fromAction { serviceDealer.startMediaProjectionService() }
-            .andThen(projectionRepo.observe().takeOne())
-            .flatMapCompletable {
-                val projection = it.mediaProjection.value
-                if (projection != null) {
-                    captureCompletableCreator.create(
-                        Mp3VoiceRecorder.AudioSource.Output(
-                            projection,
-                            source
+        fun executeMedia(source: Int) =
+            Completable
+                .fromAction { serviceDealer.startMediaProjectionService() }
+                .andThen(projectionRepo.observe().takeOne())
+                .flatMapCompletable {
+                    val projection = it.mediaProjection.value
+                    if (projection != null) {
+                        captureCompletableCreator.create(
+                            Mp3VoiceRecorder.AudioSource.Output(
+                                projection,
+                                source
+                            )
                         )
-                    )
-                } else {
-                    requestMediaProjectionUC.execute()
+                    } else {
+                        requestMediaProjectionUC.execute()
+                    }
                 }
-            }
 
         fun executeMic() = captureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Mic)
 
         val abort = Completable.complete()
-        return checkPermissionsUC
-            .execute(voiceRecordPermissions)
+        return deactivatePlayerControlsUC
+            .execute()
+            .andThen(checkPermissionsUC.execute(voiceRecordPermissions))
             .andThen(permissionsRequestBus.observe().takeOne())
             .flatMapCompletable { shouldAskPermissions ->
                 if (shouldAskPermissions is ShouldRequestPermissions.Granted) {

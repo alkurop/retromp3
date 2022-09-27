@@ -10,13 +10,13 @@ import javax.inject.Inject
 
 class RangeBarViewModel : ViewModel() {
 
+    @Inject
+    lateinit var interactor: RangeBarInteractor
+
     val state = BehaviorSubject.create<RangeBarView.State>()
     val input = PublishSubject.create<RangeBarView.Input>()
 
     private val compositeDisposable = CompositeDisposable()
-
-    @Inject
-    lateinit var interactor: RangeBarInteractor
 
     init {
         App.appComponent.inject(this)

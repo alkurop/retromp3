@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.ui.settings
 
 import com.omar.retromp3recorder.bl.settings.FeatureMapSaveUC
-import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
+import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.utils.processIO
 import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Completable

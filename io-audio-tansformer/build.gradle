@@ -1,0 +1,29 @@
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+}
+
+android {
+    compileSdk rootProject.ext.compileSdk
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdk
+        targetSdk rootProject.ext.targetSdk
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation project(":utils")
+    implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation "com.arthenica:mobile-ffmpeg-min:$versions.ffmpegKit"
+
+}

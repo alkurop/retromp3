@@ -7,28 +7,22 @@ import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
-interface FileLister {
-    fun listFiles(dirPathList: List<String>, extensions: List<String>): List<ExistingFileWrapper>
-    fun discoverFile(path: String): ExistingFileWrapper
-    fun discoverLength(path: String): Long
-}
-
 @Singleton
-class FileListerImpl @Inject constructor() : FileLister {
+class FileLister @Inject constructor() {
     val lister by lazy { MediaMetadataRetriever() }
-    override fun listFiles(
+    fun listFiles(
         dirPathList: List<String>,
         extensions: List<String>
     ): List<ExistingFileWrapper> {
         return dirPathList.map { listFiles(it, extensions) }.flatten()
     }
 
-    override fun discoverFile(path: String): ExistingFileWrapper {
+    fun discoverFile(path: String): ExistingFileWrapper {
         val file = File(path)
         return file.toFileWrapper().copy(length = discoverLength(path))
     }
 
-    override fun discoverLength(path: String): Long {
+    fun discoverLength(path: String): Long {
         return try {
             lister.setDataSource(path)
             lister.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0

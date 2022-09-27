@@ -13,8 +13,8 @@ import androidx.core.view.isVisible
 import com.omar.retromp3recorder.app.BuildConfig
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.uiutils.observe
-import com.omar.retromp3recorder.storage.repo.FeatureFlagSetting
-import com.omar.retromp3recorder.storage.repo.FeatureLevel
+import com.omar.retromp3recorder.dto.FeatureFlagSetting
+import com.omar.retromp3recorder.dto.FeatureLevel
 
 class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
     private val toolbar: Toolbar

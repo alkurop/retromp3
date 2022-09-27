@@ -3,8 +3,8 @@ package com.omar.retromp3recorder.app.ui.files.rename
 import com.omar.retromp3recorder.bl.files.CanRenameFileUC
 import com.omar.retromp3recorder.bl.files.RenameFileUC
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
-import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable

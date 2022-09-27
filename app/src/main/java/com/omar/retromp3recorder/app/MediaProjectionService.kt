@@ -7,11 +7,12 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import com.omar.retromp3recorder.app.WakelockService.Companion.WAKELOCK_SERVICE_CHANNEL
 import com.omar.retromp3recorder.app.ui.main.MainActivity
-import com.omar.retromp3recorder.storage.repo.MediaProjectionStateRepo
+import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.disposedBy
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -62,10 +63,26 @@ class MediaProjectionService : Service() {
             .disposedBy(compositeDisposable)
     }
 
+
     private fun showRecordingNotification() {
         val pendingIntent: PendingIntent =
             Intent(this, MainActivity::class.java).let { notificationIntent ->
-                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    PendingIntent.getActivity(
+                        this,
+                        0,
+                        notificationIntent,
+                        PendingIntent.FLAG_MUTABLE
+                    )
+                } else {
+                    //todo test it with flag immutable
+                    PendingIntent.getActivity(
+                        this,
+                        0,
+                        notificationIntent,
+                        PendingIntent.FLAG_MUTABLE
+                    )
+                }
             }
         val notification = NotificationCompat.Builder(this, WAKELOCK_SERVICE_CHANNEL)
             .setContentTitle(getText(R.string.projection_notification_title))

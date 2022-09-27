@@ -1,15 +1,15 @@
 package com.omar.retromp3recorder.bl.system
 
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus
-import com.omar.retromp3recorder.storage.repo.PermissionsRequestBus.ShouldRequestPermissions.Denied
-import com.omar.retromp3recorder.utils.PermissionChecker
+import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus
+import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus.ShouldRequestPermissions.Denied
+import com.omar.retromp3recorder.utils.PermissionCheckerUtil
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class CheckPermissionsUC @Inject constructor(
-    private val permissionChecker: PermissionChecker,
+    private val permissionChecker: PermissionCheckerUtil,
     private val permissionsRequestBus: PermissionsRequestBus
 ) {
     fun execute(permissions: Set<String>): Completable {

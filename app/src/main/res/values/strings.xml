@@ -11,8 +11,13 @@
     <string name="experimental_features">Experimental features:</string>
     <string name="debug_features">Debug features:</string>
     <string name="error_string">Error: %1$s</string>
+    <string name="menu_bark_crop">Crop</string>
+    <string name="menu_bark_loop">Loop</string>
+    <string name="menu_bark_range">Range</string>
+    <string name="menu_bark_reverse">Rev</string>
+    <string name="menu_bark_speed">Speed</string>
     <string name="please_record_something">Please record something</string>
-    <string name="no_file">No file</string>
+    <string name="no_file">Click record button</string>
     <string name="no">No</string>
     <string name="playing">Playing ...</string>
     <string name="projection_acquired">Projection acquired</string>
@@ -24,7 +29,8 @@
     <string name="record_required_message">Recording audio is required. Go to settings let this app use Microphone</string>
     <string name="recording">Recording ...</string>
     <string name="rerendered">Rerendered</string>
-    <string name="range_enabled">Range bar: %1$s</string>
+    <string name="reverse">reverse</string>
+    <string name="range_enabled">range: %1$s</string>
     <string name="on">on</string>
     <string name="off">off</string>
     <string name="rename_file">Rename file</string>

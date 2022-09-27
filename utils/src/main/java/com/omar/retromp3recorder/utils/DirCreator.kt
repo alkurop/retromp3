@@ -7,12 +7,9 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import javax.inject.Inject
 
-interface DirCreator {
-    fun createDirIfNotExists(filepath: String)
-}
 
-class DirCreatorImpl @Inject constructor() : DirCreator {
-    override fun createDirIfNotExists(filepath: String) {
+class DirCreator @Inject constructor() {
+    fun createDirIfNotExists(filepath: String) {
         val f = File(filepath)
         if (f.exists().not()) {
             try {

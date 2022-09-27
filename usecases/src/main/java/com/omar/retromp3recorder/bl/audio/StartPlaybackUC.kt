@@ -4,8 +4,8 @@ import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.audioplayer.PlayerStartOptions
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.FromToMillis
-import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
-import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
 import com.omar.retromp3recorder.utils.takeOne
 import com.omar.retromp3recorder.utils.toFromToMillis
 import io.reactivex.rxjava3.core.Completable

@@ -36,7 +36,7 @@ class AudioPlayerExoImpl @Inject constructor(
                 .map {
                     val range = options.rangeMillis
                     if (it.end) {
-                        it.copy(position = options.length, duration = options.length)
+                        it.copy(position = range.from, duration = options.length)
                     } else {
                         it.copy(position = it.position + range.from, duration = options.length)
                     }
@@ -94,8 +94,8 @@ class AudioPlayerExoImpl @Inject constructor(
                         if (state == STATE_ENDED) {
                             progress.onNext(
                                 AudioPlayer.Output.Progress(
-                                    options.rangeMillis.length(),
-                                    options.rangeMillis.length(),
+                                    options.rangeMillis.length,
+                                    options.rangeMillis.length,
                                     true
                                 )
                             )
@@ -135,7 +135,7 @@ class AudioPlayerExoImpl @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 val position = mediaPlayer.currentPosition
-                val duration = (options.rangeMillis.length())
+                val duration = (options.rangeMillis.length)
                 progress.onNext(AudioPlayer.Output.Progress(position, duration, false))
             }
     }

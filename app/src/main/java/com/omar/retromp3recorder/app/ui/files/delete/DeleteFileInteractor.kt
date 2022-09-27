@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.ui.files.delete
 
 import com.omar.retromp3recorder.bl.files.DeleteCurrentFileUC
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
-import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable

@@ -14,11 +14,14 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.isInvisible
 import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
 import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
 import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.app.ui.menu.MenuViewComposable
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
 import com.omar.retromp3recorder.app.uiutils.observe
 
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private val permissionsMap = createPermissionsMap()
     private val viewModel by viewModels<MainViewModel>()
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
+    private val composeMenu by lazy { findViewById<ComposeView>(R.id.compose_menu) }
     private val logFragment by lazy { findViewById<View>(R.id.audio_log) }
     private val mediaProjectionManager by lazy { getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
 
@@ -36,6 +40,14 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         viewModel.state.observe(this, ::renderView)
         viewModel.input.onNext(MainView.Input.CheckAllPermisionsOnStartup)
+        composeMenu.apply {
+            // Dispose of the Composition when the view's LifecycleOwner
+            // is destroyed
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                MenuViewComposable()
+            }
+        }
     }
 
     private fun renderView(state: MainView.State) {

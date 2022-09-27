@@ -12,6 +12,7 @@ import com.omar.retromp3recorder.app.ui.files.selector.SelectorViewModel
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressViewModel
 import com.omar.retromp3recorder.app.ui.log.LogViewModel
 import com.omar.retromp3recorder.app.ui.main.MainViewModel
+import com.omar.retromp3recorder.app.ui.menu.MenuViewModel
 import com.omar.retromp3recorder.app.ui.rangebar.RangeBarViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.audio_source.AudioSourceViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.beat_rate.BitRateSettingsViewModel
@@ -19,7 +20,6 @@ import com.omar.retromp3recorder.app.ui.recorder_settings.sample_rate.SampleRate
 import com.omar.retromp3recorder.app.ui.settings.SettingsViewModel
 import com.omar.retromp3recorder.app.ui.visualizer.VisualizerViewModel
 import com.omar.retromp3recorder.storage.StorageModule
-import com.omar.retromp3recorder.utils.UtilsModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -29,7 +29,6 @@ import javax.inject.Singleton
         AndroidModule::class,
         FunctionalityModule::class,
         RepoModule::class,
-        UtilsModule::class,
         StorageModule::class
     ]
 )
@@ -52,4 +51,5 @@ interface AppComponent {
     fun inject(mediaProjectionService: MediaProjectionService)
     fun inject(settingsViewModel: SettingsViewModel)
     fun inject(rangeBarViewModel: RangeBarViewModel)
+    fun inject(menuViewModel: MenuViewModel)
 }

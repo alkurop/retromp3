@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.bl.audio
 import com.omar.retromp3recorder.bl.system.SaveRecordingWithWavetableUC
 import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
-import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single

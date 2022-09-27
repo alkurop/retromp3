@@ -1,14 +1,11 @@
-package com.omar.retromp3recorder.storage.repo
+package com.omar.retromp3recorder.storage.repo.global
 
-import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.dto.FileWrapper
-import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.dto.FeatureFlagsCollection
 import com.omar.retromp3recorder.dto.LogEvent
-import com.omar.retromp3recorder.dto.PlayerFeatures
+import com.omar.retromp3recorder.dto.MediaProjectionState
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
 import com.omar.retromp3recorder.storage.repo.common.PublishSubjectRepo
-import com.omar.retromp3recorder.utils.Optional
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,9 +17,6 @@ class RecorderPrefsRepo @Inject constructor() :
 class FeatureFlagRepo @Inject constructor() :
     BehaviorSubjectRepo<FeatureFlagsCollection>()
 
-@Singleton
-class JoinedProgressRepo @Inject constructor() :
-    BehaviorSubjectRepo<JoinedProgress>(JoinedProgress.Hidden)
 
 @Singleton
 class MediaProjectionStateRepo @Inject constructor() :
@@ -30,14 +24,3 @@ class MediaProjectionStateRepo @Inject constructor() :
 
 @Singleton
 class LogsRepo @Inject constructor() : PublishSubjectRepo<LogEvent>()
-
-
-//todo should move to local
-
-@Singleton
-class CurrentFileRepo @Inject constructor() :
-    BehaviorSubjectRepo<Optional<out FileWrapper>>(Optional.empty())
-
-@Singleton
-class RangeBarResetBus @Inject constructor() :
-    BehaviorSubjectRepo<Shell<Any>>(Shell.empty())

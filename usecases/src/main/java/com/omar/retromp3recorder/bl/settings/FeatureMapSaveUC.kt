@@ -2,10 +2,10 @@ package com.omar.retromp3recorder.bl.settings
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import com.omar.retromp3recorder.storage.repo.FeatureFlag
-import com.omar.retromp3recorder.storage.repo.FeatureFlagRepo
-import com.omar.retromp3recorder.storage.repo.FeatureFlagSetting
-import com.omar.retromp3recorder.storage.repo.FeatureFlagsCollection
+import com.omar.retromp3recorder.dto.FeatureFlag
+import com.omar.retromp3recorder.dto.FeatureFlagSetting
+import com.omar.retromp3recorder.dto.FeatureFlagsCollection
+import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject

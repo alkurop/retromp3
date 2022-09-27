@@ -8,21 +8,14 @@ import com.mpatric.mp3agic.Mp3File
 import com.omar.retromp3recorder.dto.RecordingTags
 import timber.log.Timber
 import java.io.File
-import java.lang.Exception
 import javax.inject.Inject
 
-interface Mp3TagsEditor {
-    fun setTags(filepath: String, tags: RecordingTags)
-    fun getTags(filepath: String): RecordingTags
-    fun getFilenameFromPath(filePath: String): String
-}
-
-class Mp3TagsEditorImpl @Inject constructor(
+class Mp3TagsEditor @Inject constructor(
     private val context: Context,
     private val recordingTagsDefaultsProvider: RecordingTagsDefaultProvider,
     private val fileEmptyChecker: FileEmptyChecker
-) : Mp3TagsEditor {
-    override fun setTags(filepath: String, tags: RecordingTags) {
+) {
+    fun setTags(filepath: String, tags: RecordingTags) {
         try {
             if (isTagsWork().not()) return
             if (fileEmptyChecker.isFileEmpty(filepath).not()) {
@@ -49,11 +42,11 @@ class Mp3TagsEditorImpl @Inject constructor(
         }
     }
 
-    override fun getFilenameFromPath(filePath: String): String {
+    fun getFilenameFromPath(filePath: String): String {
         return filePath.split("/").last().split("-").last().split(".").first()
     }
 
-    override fun getTags(filepath: String): RecordingTags {
+    fun getTags(filepath: String): RecordingTags {
         val defaults = recordingTagsDefaultsProvider.provideDefaults()
         val titleFromFileName = getFilenameFromPath(filepath)
         return if (isTagsWork() && fileEmptyChecker.isFileEmpty(filepath).not()) {
@@ -70,5 +63,6 @@ class Mp3TagsEditorImpl @Inject constructor(
 }
 
 private const val VERSION_TAGS_WORK = Build.VERSION_CODES.O_MR1
+
 @ChecksSdkIntAtLeast(api = VERSION_TAGS_WORK)
 private fun isTagsWork() = Build.VERSION.SDK_INT >= VERSION_TAGS_WORK

@@ -44,8 +44,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/audio_controls"
+        app:layout_constraintBottom_toTopOf="@id/compose_menu"
         app:layout_constraintTop_toBottomOf="@id/current_file" />
 
     <androidx.fragment.app.FragmentContainerView
@@ -56,6 +55,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@id/progress" />
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/audio_controls" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/audio_controls"

@@ -21,7 +21,7 @@ class WavetablePreview @JvmOverloads constructor(
     private val paintRangeActive: Paint = Paint().apply {
         style = Paint.Style.FILL
         color = Color.rgb(255, 255, 255)
-        alpha = 30
+        alpha = 155
     }
 
     private val paintRangeInActive: Paint = Paint().apply {

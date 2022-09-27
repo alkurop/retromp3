@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.audio
 
 import com.omar.retromp3recorder.dto.PlayerRange
-import com.omar.retromp3recorder.storage.repo.common.PlayerProgressRepo
+import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

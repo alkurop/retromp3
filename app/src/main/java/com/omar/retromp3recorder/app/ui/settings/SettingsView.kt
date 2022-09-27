@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.app.ui.settings
 
-import com.omar.retromp3recorder.storage.repo.FeatureFlag
-import com.omar.retromp3recorder.storage.repo.FeatureFlagSetting
-import com.omar.retromp3recorder.storage.repo.FeatureFlagsCollection
+import com.omar.retromp3recorder.dto.FeatureFlag
+import com.omar.retromp3recorder.dto.FeatureFlagSetting
+import com.omar.retromp3recorder.dto.FeatureFlagsCollection
 
 class SettingsView {
     data class State(

@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.storage.repo
+package com.omar.retromp3recorder.dto
 
 import android.media.projection.MediaProjection
 import com.github.alkurop.ghostinshell.Shell

@@ -7,7 +7,7 @@ import com.omar.retromp3recorder.app.ui.files.preview.buttonstate.RenameFileButt
 import com.omar.retromp3recorder.bl.audio.AudioSeekFinishUC
 import com.omar.retromp3recorder.bl.audio.AudioSeekPauseUC
 import com.omar.retromp3recorder.bl.audio.AudioSeekProgressUC
-import com.omar.retromp3recorder.storage.repo.CurrentFileRepo
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.ui.state_button.InteractiveButton
 import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO

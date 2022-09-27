@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.bl.audio.AudioSeekFinishUC
 import com.omar.retromp3recorder.bl.audio.AudioSeekPauseUC
 import com.omar.retromp3recorder.bl.audio.AudioSeekProgressUC
 import com.omar.retromp3recorder.dto.JoinedProgress
-import com.omar.retromp3recorder.storage.repo.JoinedProgressRepo
+import com.omar.retromp3recorder.storage.repo.local.JoinedProgressRepo
 import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable

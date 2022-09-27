@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.ui.recorder_settings.audio_source
 
 import com.omar.retromp3recorder.bl.settings.ChangeAudioSourceUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.storage.repo.RecorderPrefsRepo
+import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable

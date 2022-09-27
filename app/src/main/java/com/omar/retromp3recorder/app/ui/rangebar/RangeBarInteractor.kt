@@ -2,7 +2,6 @@ package com.omar.retromp3recorder.app.ui.rangebar
 
 import com.omar.retromp3recorder.bl.audio.UpdatePlayerRangeUC
 import com.omar.retromp3recorder.bl.settings.ActivateRangeUC
-import com.omar.retromp3recorder.storage.repo.RangeBarResetBus
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
