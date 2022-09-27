@@ -8,5 +8,3 @@ interface MenuView {
         val isVisible: Boolean = true
     )
 }
-
-

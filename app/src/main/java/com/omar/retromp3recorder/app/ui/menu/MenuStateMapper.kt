@@ -23,18 +23,18 @@ class MenuStateMapper @Inject constructor(
                                 VisibilityEnabler.RangeBar,
                                 range.isActive
                             ),
-                            MenuAction.Enable(
-                                AudioEnabler.Loop,
-                                loop.isEnabled
-                            ),
-                            MenuAction.Enable(
-                                AudioEnabler.Reverse,
-                                reverse.isEnabled
-                            ),
-                            MenuAction.Enable(
-                                VisibilityEnabler.PlaybackSpeed,
-                                speed.isEnabled
-                            )
+//                            MenuAction.Enable(
+//                                AudioEnabler.Loop,
+//                                loop.isEnabled
+//                            ),
+//                            MenuAction.Enable(
+//                                AudioEnabler.Reverse,
+//                                reverse.isEnabled
+//                            ),
+//                            MenuAction.Enable(
+//                                VisibilityEnabler.PlaybackSpeed,
+//                                speed.isEnabled
+//                            )
                         )
                     )
                 },
