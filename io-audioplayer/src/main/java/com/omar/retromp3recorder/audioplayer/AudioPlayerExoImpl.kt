@@ -36,11 +36,11 @@ class AudioPlayerExoImpl @Inject constructor(
                 .map {
                     val range = options.rangeMillis
                     if (it.end) {
-                        it.copy(position = options.length, duration = options.length)
+                        it.copy(position = range.from, duration = options.length)
                     } else {
                         it.copy(position = it.position + range.from, duration = options.length)
                     }
-                }.doOnNext { println(it) },
+                },
             events
         )
 

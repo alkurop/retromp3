@@ -45,8 +45,8 @@ class AudioControlsFragment : Fragment(R.layout.fragment_audio_controls) {
         durationView.isInvisible =
             state.playerProgressState == null && state.recordingDuration == null
         state.playerProgressState?.apply {
-            progressView.text = progress.toDisplay(requireContext())
-            durationView.text = duration.toDisplay(requireContext())
+            progressView.text = data.from.toDisplay(requireContext())
+            durationView.text = data.to.toDisplay(requireContext())
         }
         state.recordingDuration?.let {
             durationView.text = it.toDisplay(requireContext())
