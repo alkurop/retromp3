@@ -43,7 +43,8 @@ private fun MenuItemEnabled(
 ) {
     MenuItemConstructor(
         title = title,
-        backgroundColor = Color.Gray,
+        backgroundColor = Color.Transparent,
+        borderColor = Color.Green,
         circleColor = Color.Green,
         modifier = modifier
     )
@@ -57,6 +58,7 @@ private fun MenuItemDisabled(
     MenuItemConstructor(
         title = title,
         backgroundColor = Color.Black,
+        borderColor = Color.Transparent,
         circleColor = Color.Gray,
         modifier = modifier
     )
@@ -70,6 +72,7 @@ private fun MenuItemOneTime(
     MenuItemConstructor(
         title = title,
         backgroundColor = Color.Black,
+        borderColor = Color.Transparent,
         circleColor = null,
         modifier = modifier
     )
@@ -79,11 +82,12 @@ private fun MenuItemOneTime(
 private fun MenuItemConstructor(
     title: String,
     backgroundColor: Color,
+    borderColor: Color,
     circleColor: Color?,
     modifier: Modifier,
 ) {
-    Column(modifier.padding(2.dp)) {
-        MenuBox(backgroundColor) {
+    Column(modifier) {
+        MenuBox(backgroundColor, borderColor) {
             Column(
                 Modifier.padding(bottom = 2.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -101,20 +105,19 @@ private fun MenuItemConstructor(
 
 @Composable
 private fun MenuBox(
-    color: Color,
+    bgColor: Color,
+    borderColor: Color,
     content: @Composable () -> Unit
 ) {
     Box(
         Modifier
-            .offset(y = (-1).dp)
-
             .background(
-                color,
+                bgColor,
                 shape = RoundedCornerShape(0.dp, 0.dp, corners, corners)
             )
             .border(
                 width = 1.dp,
-                color = Color.Green,
+                color = borderColor,
                 shape = RoundedCornerShape(0.dp, 0.dp, corners, corners)
             )
 
