@@ -1,6 +1,5 @@
 package com.omar.retromp3recorder.dto
 
-import kotlin.math.ceil
 import kotlin.math.floor
 
 sealed class JoinedProgress {

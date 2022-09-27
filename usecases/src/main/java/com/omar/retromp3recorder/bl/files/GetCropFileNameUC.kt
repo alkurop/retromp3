@@ -5,9 +5,6 @@ import io.reactivex.rxjava3.core.Single
 import java.io.File
 import javax.inject.Inject
 
-/**
- * Get file path, and then create filename from incremented shared pref
- */
 class GetCropFileNameUC @Inject constructor(
     private val dirPathProvider: DirPathProvider
 ) {
@@ -24,15 +21,12 @@ class GetCropFileNameUC @Inject constructor(
             val previousCropCount = cropSuffix.toIntOrNull() ?: 0
 
             var newCropCount = previousCropCount
-
+            val path = dirPathProvider.providerDirPath()
             var result: String?
             var file: File?
             do {
                 newCropCount++
-                val mutablePath = pathSplit.toMutableList()
-                mutablePath.removeLast()
-                mutablePath.add("${originalName}$CROP_SUFFIX$newCropCount.$extension")
-                result = mutablePath.joinToString("/")
+                result = "$path/${originalName}$CROP_SUFFIX$newCropCount.$extension"
                 file = File(result)
             } while (
                 file?.exists()?.not() != false
