@@ -5,15 +5,18 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.omar.retromp3recorder.app.R
 
 
 enum class MenuItemState {
@@ -43,8 +46,7 @@ private fun MenuItemEnabled(
 ) {
     MenuItemConstructor(
         title = title,
-        backgroundColor = Color.Transparent,
-        borderColor = Color.Green,
+        backgroundColor = Color.Gray,
         circleColor = Color.Green,
         modifier = modifier
     )
@@ -57,8 +59,7 @@ private fun MenuItemDisabled(
 ) {
     MenuItemConstructor(
         title = title,
-        backgroundColor = Color.Black,
-        borderColor = Color.Transparent,
+        backgroundColor = colorResource(id = R.color.grayish),
         circleColor = Color.Gray,
         modifier = modifier
     )
@@ -71,8 +72,7 @@ private fun MenuItemOneTime(
 ) {
     MenuItemConstructor(
         title = title,
-        backgroundColor = Color.Black,
-        borderColor = Color.Transparent,
+        backgroundColor = colorResource(id = R.color.grayish),
         circleColor = null,
         modifier = modifier
     )
@@ -82,42 +82,41 @@ private fun MenuItemOneTime(
 private fun MenuItemConstructor(
     title: String,
     backgroundColor: Color,
-    borderColor: Color,
     circleColor: Color?,
     modifier: Modifier,
 ) {
-    Column(modifier) {
-        MenuBox(backgroundColor, borderColor) {
-            Column(
-                Modifier.padding(bottom = 2.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    title, Modifier.padding(start = 4.dp, end = 4.dp),
-                    color = Color.White,
-                    fontSize = 12.sp
-                )
-                if (circleColor != null) Circle(circleColor) else Spacer(modifier = Modifier)
-            }
+    MenuBox(modifier, backgroundColor) {
+        Column(
+            Modifier.padding(bottom = 2.dp).width(IntrinsicSize.Max),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                title.toLowerCase(), Modifier.padding(start = 4.dp, end = 4.dp),
+                color = Color.White,
+                fontSize = 12.sp
+            )
+            if (circleColor != null) Circle(circleColor) else Empty()
         }
     }
 }
 
 @Composable
+private fun Empty() {
+    Spacer(
+        modifier = Modifier
+    )
+}
+
+@Composable
 private fun MenuBox(
+    modifier: Modifier,
     bgColor: Color,
-    borderColor: Color,
     content: @Composable () -> Unit
 ) {
     Box(
-        Modifier
+        modifier
             .background(
                 bgColor,
-                shape = RoundedCornerShape(0.dp, 0.dp, corners, corners)
-            )
-            .border(
-                width = 1.dp,
-                color = borderColor,
                 shape = RoundedCornerShape(0.dp, 0.dp, corners, corners)
             )
 
@@ -130,7 +129,7 @@ private fun Circle(color: Color) {
     Box(
         modifier = Modifier
             .wrapContentSize(Alignment.Center)
-            .padding(top = 1.dp, bottom = 1.dp)
+            .padding(top = 3.dp, bottom = 2.dp)
             .size(5.dp)
             .clip(CircleShape)
             .background(color)

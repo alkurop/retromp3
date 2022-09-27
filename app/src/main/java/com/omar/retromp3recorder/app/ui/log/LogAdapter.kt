@@ -79,7 +79,7 @@ class LogAdapter : RecyclerView.Adapter<LogAdapter.LogViewHolder>() {
                 textView.setTextColor(
                     ContextCompat.getColor(
                         context,
-                        android.R.color.holo_orange_light
+                        R.color.orange
                     )
                 )
             }

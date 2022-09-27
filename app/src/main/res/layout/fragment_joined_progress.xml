@@ -7,13 +7,13 @@
         android:id="@+id/fjp_recorder_wavetable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_visualizer_bg" />
+        android:background="@color/grayish" />
 
     <com.omar.retromp3recorder.ui.wavetable.WavetableSeekbarPreview
         android:id="@+id/fjp_player_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_visualizer_bg" />
+        android:background="@color/grayish" />
 
     <TextView
         android:id="@+id/no_file"
