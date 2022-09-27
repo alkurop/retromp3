@@ -34,8 +34,3 @@ fun Long.toSecondsStart(): Long {
     val r = this.toDouble() / 1000
     return floor(r).toLong()
 }
-
-fun Long.toSecondsEnd(): Long {
-    val r = this.toDouble() / 1000
-    return ceil(r).toLong()
-}
