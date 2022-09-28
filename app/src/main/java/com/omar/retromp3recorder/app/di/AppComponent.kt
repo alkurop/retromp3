@@ -21,7 +21,6 @@ import com.omar.retromp3recorder.dto.Track
 import com.omar.retromp3recorder.storage.StorageModule
 import dagger.Component
 import dagger.Subcomponent
-import java.lang.ref.WeakReference
 import javax.inject.Singleton
 
 @Singleton
@@ -35,11 +34,11 @@ import javax.inject.Singleton
 )
 abstract class AppComponent {
 
-    private val componentsMap: MutableMap<String, WeakReference<TrackComponent>> = mutableMapOf()
+    private val componentsMap: MutableMap<String, TrackComponent> = mutableMapOf()
 
     fun getComponent(key: String = "default"): TrackComponent {
-        val component = componentsMap[key]?.get() ?: plus()
-        componentsMap[key] = WeakReference(component)
+        val component = componentsMap[key] ?: plus()
+        componentsMap[key] = component
         return component
     }
 
