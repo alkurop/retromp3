@@ -4,11 +4,12 @@ import com.omar.retromp3recorder.app.ui.audio_controls.buttonsstate.PlayButtonSt
 import com.omar.retromp3recorder.app.ui.audio_controls.buttonsstate.RecordButtonStateMapper
 import com.omar.retromp3recorder.app.ui.audio_controls.buttonsstate.ShareButtonStateMapper
 import com.omar.retromp3recorder.app.ui.audio_controls.buttonsstate.StopButtonStateMapper
+import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.audio.StartPlaybackUC
 import com.omar.retromp3recorder.bl.audio.StartRecordUC
 import com.omar.retromp3recorder.bl.audio.StopPlaybackAndRecordUC
 import com.omar.retromp3recorder.bl.system.ShareUC
-import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
+import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 class AudioControlsInteractor @Inject constructor(
     private val playButtonStateMapper: PlayButtonStateMapper,
-    private val playerProgressRepo: PlayerProgressRepo,
+    private val joinedProgressMapper: JoinedProgressMapper,
     private val recordButtonStateMapper: RecordButtonStateMapper,
     private val recorderDurationStateMapper: RecorderDurationStateMapper,
     private val shareButtonStateMapper: ShareButtonStateMapper,
@@ -41,8 +42,11 @@ class AudioControlsInteractor @Inject constructor(
             listOf(
                 playButtonStateMapper.observe()
                     .map { AudioControlsView.Output.PlayButtonState(it) },
-                playerProgressRepo.observe()
-                    .map { AudioControlsView.Output.PlayerProgressState(it.value?.toProgressDisplay()) },
+                joinedProgressMapper.observe()
+                    .map {
+                        val progress = (it as? JoinedProgress.PlayerProgressShown)?.progress
+                        AudioControlsView.Output.PlayerProgressState(progress?.toProgressDisplay())
+                    },
                 recordButtonStateMapper.observe()
                     .map { AudioControlsView.Output.RecordButtonState(it) },
                 recorderDurationStateMapper.observe(),

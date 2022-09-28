@@ -2,13 +2,13 @@ package com.omar.retromp3recorder.storage.repo.local
 
 import com.omar.retromp3recorder.dto.PlayerProgress
 import com.omar.retromp3recorder.dto.PlayerRange
+import com.omar.retromp3recorder.dto.Track
 import com.omar.retromp3recorder.storage.repo.common.ReducerRepo
 import com.omar.retromp3recorder.utils.Optional
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Track
 class PlayerProgressRepo @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo
 ) :

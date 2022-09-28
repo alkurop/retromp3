@@ -20,16 +20,12 @@ class AudioControlsViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     init {
-        App.appComponent.inject(this)
+        App.appComponent.getComponent().inject(this)
         input
             .compose(interactor.processIO())
             .compose(mapOutputToState())
             .subscribe(state::onNext)
             .disposedBy(compositeDisposable)
-    }
-
-    fun onInput(action: AudioControlsView.Input) {
-        input.onNext(action)
     }
 
     override fun onCleared() {

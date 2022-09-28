@@ -3,6 +3,7 @@ package com.omar.retromp3recorder.app.ui.main
 import com.omar.retromp3recorder.app.ui.main.MainView.Output
 import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
 import com.omar.retromp3recorder.bl.system.CheckAllPermissionsUC
+import com.omar.retromp3recorder.bl.system.StartupUC
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus
@@ -21,6 +22,7 @@ class MainViewInteractor @Inject constructor(
     private val mediaProjectionRequestBus: MediaProjectionStateRepo,
     private val updateMediaProjectionUC: UpdateMediaProjectionUC,
     private val featureFlagRepo: FeatureFlagRepo,
+    private val startupUC: StartupUC
 ) {
 
     fun processIO(): ObservableTransformer<MainView.Input, Output> =
@@ -32,6 +34,7 @@ class MainViewInteractor @Inject constructor(
     private val mapRepoToOutput: () -> (Observable<Output>) = {
         Observable.merge(
             listOf(
+                startupUC.execute().toObservable(),
                 permissionsRequestBus.observe()
                     .ofType(PermissionsRequestBus.ShouldRequestPermissions.Denied::class.java)
                     .map { it.permissions }

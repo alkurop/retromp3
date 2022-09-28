@@ -19,7 +19,7 @@ class MenuViewModel : ViewModel() {
     val input = PublishSubject.create<MenuAction>()
 
     init {
-        App.appComponent.inject(this)
+        App.appComponent.getComponent().inject(this)
         input
             .compose(interactor.processIO())
             .subscribe(state::onNext)

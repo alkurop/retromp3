@@ -1,12 +1,13 @@
 package com.omar.retromp3recorder.bl.actions
 
+import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.files.GetCropFileNameUC
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.storage.repo.local.JoinedProgressRepo
+import com.omar.retromp3recorder.utils.takeOne
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
@@ -20,12 +21,12 @@ class CropUC @Inject constructor(
     private val audioCropper: AudioCropper,
     private val currentFileRepo: CurrentFileRepo,
     private val getCropFileNameUC: GetCropFileNameUC,
-    private val joinedProgressRepo: JoinedProgressRepo,
+    private val joinedProgressRepo: JoinedProgressMapper,
     private val scheduler: Scheduler
 ) {
     fun execute(): Completable =
         Single.zip(
-            joinedProgressRepo.takeOne(),
+            joinedProgressRepo.observe().takeOne(),
             currentFileRepo.takeOne()
         ) { progress, optional ->
             val range = (progress as JoinedProgress.PlayerProgressShown).progress.range

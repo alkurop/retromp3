@@ -5,13 +5,10 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.omar.retromp3recorder.app.di.AndroidModule
 import com.omar.retromp3recorder.app.di.AppComponent
 import com.omar.retromp3recorder.app.di.DaggerAppComponent
-import com.omar.retromp3recorder.bl.system.StartupUC
 import timber.log.Timber
-import javax.inject.Inject
 
 class App : Application() {
-    @Inject
-    lateinit var startupUC: StartupUC
+
 
     override fun onCreate() {
         super.onCreate()
@@ -28,9 +25,6 @@ class App : Application() {
                 }
             })
         }
-        appComponent.inject(this)
-
-        startupUC.execute().subscribe()
     }
 
     companion object {

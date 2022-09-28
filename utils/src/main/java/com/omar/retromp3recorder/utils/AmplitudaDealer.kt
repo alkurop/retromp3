@@ -1,7 +1,13 @@
 package com.omar.retromp3recorder.utils
 
+import android.content.Context
 import linc.com.amplituda.Amplituda
+import javax.inject.Inject
 
-interface AmplitudaDealer {
-    fun createAmplituda(): Amplituda
+class AmplitudaDealer @Inject constructor(
+    private val context: Context
+) {
+    fun createAmplituda(): Amplituda {
+        return Amplituda(context)
+    }
 }

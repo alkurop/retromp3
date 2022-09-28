@@ -19,12 +19,14 @@ import javax.inject.Inject
 class StartRecordUC @Inject constructor(
     private val recorderPrefsRepo: RecorderPrefsRepo,
     private val checkPermissionsUC: CheckPermissionsUC,
-    private val captureCompletableCreator: CaptureCompletableCreator,
+    private val micCaptureCompletableCreator: MicCaptureCompletableCreator,
     private val deactivatePlayerControlsUC: DeactivatePlayerControlsUC,
     private val permissionsRequestBus: PermissionsRequestBus,
     private val projectionRepo: MediaProjectionStateRepo,
     private val requestMediaProjectionUC: RequestMediaProjectionUC,
     private val serviceDealer: ServiceDealer,
+    private val wavetableUC: RecordWavetableUC
+
 ) {
     fun execute(): Completable {
         fun executeMedia(source: Int) =
@@ -34,7 +36,7 @@ class StartRecordUC @Inject constructor(
                 .flatMapCompletable {
                     val projection = it.mediaProjection.value
                     if (projection != null) {
-                        captureCompletableCreator.create(
+                        micCaptureCompletableCreator.create(
                             Mp3VoiceRecorder.AudioSource.Output(
                                 projection,
                                 source
@@ -45,7 +47,7 @@ class StartRecordUC @Inject constructor(
                     }
                 }
 
-        fun executeMic() = captureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Mic)
+        fun executeMic() = micCaptureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Mic)
 
         val abort = Completable.complete()
         return deactivatePlayerControlsUC
@@ -65,6 +67,7 @@ class StartRecordUC @Inject constructor(
                                 Mp3VoiceRecorder.AudioSourcePref.Games -> executeMedia(USAGE_GAME)
                             }
                         }
+                        .andThen(wavetableUC.execute())
                 } else {
                     abort
                 }

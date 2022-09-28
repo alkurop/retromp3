@@ -1,12 +1,12 @@
 package com.omar.retromp3recorder.app.ui.audio_controls
 
+import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.dto.JoinedProgress
-import com.omar.retromp3recorder.storage.repo.local.JoinedProgressRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class RecorderDurationStateMapper @Inject constructor(
-    private val joinedProgressRepo: JoinedProgressRepo,
+    private val joinedProgressRepo: JoinedProgressMapper,
 ) {
     fun observe(): Observable<AudioControlsView.Output.RecorderDurationState> =
         joinedProgressRepo.observe().map { joinedProgressState ->

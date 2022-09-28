@@ -5,15 +5,11 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
-interface AudioStateMapper {
-    fun observe(): Observable<AudioState>
-}
-
-class AudioStateMapperImpl @Inject constructor(
+class AudioStateMapper @Inject constructor(
     private val player: AudioPlayer,
     private val recorder: Mp3VoiceRecorder
-) : AudioStateMapper {
-    override fun observe(): Observable<AudioState> = Observable
+) {
+    fun observe(): Observable<AudioState> = Observable
         .combineLatest(
             player.observeState(),
             recorder.observeState()

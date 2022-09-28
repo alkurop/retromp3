@@ -8,25 +8,17 @@ import android.app.PendingIntent.FLAG_MUTABLE
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.PowerManager
 import androidx.annotation.Keep
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import com.omar.retromp3recorder.app.ui.main.MainActivity
-import com.omar.retromp3recorder.bl.audio.AudioState
-import com.omar.retromp3recorder.bl.audio.AudioStateMapper
-import com.omar.retromp3recorder.utils.disposedBy
-import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import javax.inject.Inject
 
 class WakelockService : Service() {
-    @Inject
-    lateinit var audioStateMapper: AudioStateMapper
     private val compositeDisposable = CompositeDisposable()
     private val notificationManager: NotificationManager by lazy {
-        getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
     private val wakeLock: PowerManager.WakeLock by lazy {
         val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -40,31 +32,15 @@ class WakelockService : Service() {
     }
 
     override fun onCreate() {
-        App.appComponent.inject(this)
         createNotificationChannel()
-        observeAudioState()
         obtainWakeLock()
+        showRecordingNotification()
     }
 
     override fun onDestroy() {
         compositeDisposable.clear()
         releaseWakeLock()
     }
-
-    private fun observeAudioState() {
-        Completable
-            .merge(
-                listOf(
-                    audioStateMapper.observe().ofType(AudioState.Idle::class.java)
-                        .flatMapCompletable { Completable.fromAction { stopSelf(); hideNotification() } },
-                    audioStateMapper.observe().ofType(AudioState.Recording::class.java)
-                        .flatMapCompletable { Completable.fromAction { showRecordingNotification() } },
-                )
-            )
-            .subscribe()
-            .disposedBy(compositeDisposable)
-    }
-
 
     private fun showRecordingNotification() {
         val pendingIntent: PendingIntent =
@@ -84,21 +60,14 @@ class WakelockService : Service() {
         startForeground(WAKELOCK_NOTIFICATION_ID, notification)
     }
 
-    private fun hideNotification() {
-        notificationManager.cancel(WAKELOCK_NOTIFICATION_ID)
-    }
-
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.channel_name)
-            val descriptionText = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(WAKELOCK_SERVICE_CHANNEL, name, importance).apply {
-                description = descriptionText
-            }
-
-            notificationManager.createNotificationChannel(channel)
+        val name = getString(R.string.channel_name)
+        val descriptionText = getString(R.string.channel_description)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(WAKELOCK_SERVICE_CHANNEL, name, importance).apply {
+            description = descriptionText
         }
+        notificationManager.createNotificationChannel(channel)
     }
 
     @SuppressLint("WakelockTimeout")

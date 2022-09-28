@@ -7,6 +7,7 @@ import android.os.Looper
 import com.github.alkurop.stringerbell.Stringer
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.Player.STATE_ENDED
+import com.omar.retromp3recorder.dto.Track
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -16,9 +17,8 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Track
 class AudioPlayerExoImpl @Inject constructor(
     val context: Context
 ) : AudioPlayer {

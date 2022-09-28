@@ -17,7 +17,7 @@ class RenameFileViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     init {
-        App.appComponent.inject(this)
+        App.appComponent.getComponent().inject(this)
         input
             .compose(interactor.processIO())
             .compose(RenameFileOutputMapper.mapOutputToState())

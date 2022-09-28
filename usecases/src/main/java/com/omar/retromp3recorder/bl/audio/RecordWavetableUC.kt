@@ -17,24 +17,22 @@ class RecordWavetableUC @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
     private val scheduler: Scheduler
 ) {
-    fun execute(): Completable = audioStateMapper.observe()
-        .ofType(AudioState.Recording::class.java)
-        .flatMapCompletable {
-            recorderMapper.observe()
-                .takeUntil(audioStateMapper.observe().ofType(AudioState.Idle::class.java))
-                .collectInto(WavetableSummer(), WavetableSummer.recordCollectFunction)
-                .map { it.toWaveTable() }
-                .flatMapCompletable { wavetable ->
-                    Single.fromCallable {
-                        val currentFile = currentFileRepo.observe().blockingFirst().value!!
-                        Pair(currentFile.path, wavetable)
+    fun execute(): Completable =
+        recorderMapper
+            .observe()
+            .takeUntil(audioStateMapper.observe().ofType(AudioState.Idle::class.java))
+            .collectInto(WavetableSummer(), WavetableSummer.recordCollectFunction)
+            .map { it.toWaveTable() }
+            .flatMapCompletable { wavetable ->
+                Single.fromCallable {
+                    val currentFile = currentFileRepo.observe().blockingFirst().value!!
+                    Pair(currentFile.path, wavetable)
 
-                    }.flatMapCompletable {
-                        saveRecordingWithWavetableUC.execute(it)
-                    }
+                }.flatMapCompletable {
+                    saveRecordingWithWavetableUC.execute(it)
                 }
-        }
-        .subscribeOn(scheduler)
+            }
+            .subscribeOn(scheduler)
 }
 
 
