@@ -10,25 +10,26 @@ import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
-class MenuStateMapper @Inject constructor(
+class MenuStateExcavator @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo,
     private val featureFlagRepo: FeatureFlagRepo,
     private val menuPopupBus: MenuPopupBus
 ) {
+    @Suppress("unused")
     fun observe(): Observable<MenuView.State> = Observable
         .combineLatest(
             playerControlsRepo.observe()
-                .map { (loop, range, reverse, speed) ->
+                .map { (_, range, _, _) ->
                     listOfNotNull(
                         MenuAction.Enable(
                             VisibilityEnabler.RangeBar, range.isVisible
                         ),
-                        if (range.isVisible) {
-                            MenuAction.Popup(
-                                MenuExecutable.Crop
-                            )
-                        } else null,
+                        MenuAction.Popup(
+                            MenuExecutable.Crop,
+                            range.isVisible
+                        )
                     )
+
                 },
             featureFlagRepo.observe(),
             menuPopupBus.observe()

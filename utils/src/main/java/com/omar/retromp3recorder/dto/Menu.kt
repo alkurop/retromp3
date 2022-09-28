@@ -1,7 +1,11 @@
 package com.omar.retromp3recorder.dto
 
 sealed class MenuAction {
-    data class Popup(val menuExecutable: MenuExecutable) : MenuAction()
+    data class Popup(
+        val menuExecutable: MenuExecutable,
+        val isEnabled: Boolean
+    ) : MenuAction()
+
     data class Enable(
         val enabler: MenuEnabler,
         val isEnabled: Boolean
@@ -23,6 +27,7 @@ enum class AudioEnabler : MenuEnabler {
 
 enum class VisibilityEnabler : MenuEnabler {
     RangeBar,
+
     //todo RangeBarZoom,
     PlaybackSpeed
 }

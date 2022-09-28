@@ -2,6 +2,7 @@
 <resources>
     <color name="log_text_color">#9900ff00</color>
     <color name="grayish">#202020</color>
+    <color name="half_white">#88ffffff</color>
     <color name="white">#fff</color>
     <color name="ic_launcher_background">#FAFFFB</color>
     <color name="orange">#ffffbb33</color>

@@ -29,6 +29,11 @@ fun VisibilityEnabler.getTitleRes(): Int = when (this) {
     VisibilityEnabler.PlaybackSpeed -> R.string.menu_bark_speed
 }
 
-fun Boolean.mapToState(): MenuItemState {
-    return if (this) MenuItemState.Enabled else MenuItemState.Disabled
+fun Boolean.mapToStateEnabler(): MenuItemState {
+    return if (this) MenuItemState.EnablerEnabled else MenuItemState.EnablerDisabled
 }
+
+fun Boolean.mapToStatePopup(): MenuItemState {
+    return if (this) MenuItemState.PopupEnabled else MenuItemState.PopupDisabled
+}
+

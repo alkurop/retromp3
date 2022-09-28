@@ -15,12 +15,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.omar.retromp3recorder.app.R
+import java.util.*
 
 
 enum class MenuItemState {
-    Enabled,
-    Disabled,
-    OneTime
+    EnablerEnabled,
+    EnablerDisabled,
+    PopupEnabled,
+    PopupDisabled
 }
 
 @Preview
@@ -28,17 +30,18 @@ enum class MenuItemState {
 fun MenuItemComposable(
     modifier: Modifier = Modifier,
     title: String = "menu",
-    state: MenuItemState = MenuItemState.Disabled,
+    state: MenuItemState = MenuItemState.EnablerDisabled,
 ) {
     when (state) {
-        MenuItemState.Enabled -> MenuItemEnabled(title = title, modifier)
-        MenuItemState.OneTime -> MenuItemOneTime(title = title, modifier)
-        MenuItemState.Disabled -> MenuItemDisabled(title = title, modifier)
+        MenuItemState.EnablerEnabled -> MenuItemEnablerEnabled(title = title, modifier)
+        MenuItemState.EnablerDisabled -> MenuItemEnablerDisabled(title = title, modifier)
+        MenuItemState.PopupEnabled -> MenuItemExecutorEnabled(title = title, modifier)
+        MenuItemState.PopupDisabled -> MenuItemExecutorDisabled(title = title, modifier)
     }
 }
 
 @Composable
-private fun MenuItemEnabled(
+private fun MenuItemEnablerEnabled(
     title: String,
     modifier: Modifier,
 ) {
@@ -46,17 +49,19 @@ private fun MenuItemEnabled(
         title = title,
         backgroundColor = Color.Gray,
         circleColor = Color.Green,
+        textColor = Color.Green,
         modifier = modifier
     )
 }
 
 @Composable
-private fun MenuItemDisabled(
+private fun MenuItemEnablerDisabled(
     title: String,
     modifier: Modifier,
 ) {
     MenuItemConstructor(
         title = title,
+        textColor = colorResource(id = R.color.half_white),
         backgroundColor = colorResource(id = R.color.grayish),
         circleColor = Color.Gray,
         modifier = modifier
@@ -64,13 +69,28 @@ private fun MenuItemDisabled(
 }
 
 @Composable
-private fun MenuItemOneTime(
+private fun MenuItemExecutorEnabled(
     title: String,
     modifier: Modifier,
 ) {
     MenuItemConstructor(
         title = title,
         backgroundColor = colorResource(id = R.color.grayish),
+        circleColor = null,
+        textColor = Color.Green,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun MenuItemExecutorDisabled(
+    title: String,
+    modifier: Modifier,
+) {
+    MenuItemConstructor(
+        title = title,
+        backgroundColor = colorResource(id = R.color.grayish),
+        textColor = colorResource(id = R.color.half_white),
         circleColor = null,
         modifier = modifier
     )
@@ -81,16 +101,19 @@ private fun MenuItemConstructor(
     title: String,
     backgroundColor: Color,
     circleColor: Color?,
+    textColor: Color,
     modifier: Modifier,
 ) {
     MenuBox(modifier, backgroundColor) {
         Column(
-            Modifier.padding(bottom = 2.dp).width(IntrinsicSize.Max),
+            Modifier
+                .padding(bottom = 2.dp)
+                .width(IntrinsicSize.Max),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                title.toLowerCase(), Modifier.padding(start = 4.dp, end = 4.dp),
-                color = Color.White,
+                title.lowercase(Locale.ROOT), Modifier.padding(start = 4.dp, bottom = 2.dp, end = 4.dp),
+                color = textColor,
                 fontSize = 12.sp
             )
             if (circleColor != null) Circle(circleColor) else Empty()
@@ -127,7 +150,7 @@ private fun Circle(color: Color) {
     Box(
         modifier = Modifier
             .wrapContentSize(Alignment.Center)
-            .padding(top = 3.dp, bottom = 2.dp)
+            .padding(top = 1.dp, bottom = 2.dp)
             .size(5.dp)
             .clip(CircleShape)
             .background(color)

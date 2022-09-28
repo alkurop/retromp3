@@ -66,7 +66,7 @@ private fun getPadding(side: Boolean) = if (side) 16.dp else 4.dp
 @Composable
 private fun DrawMenuItem(modifier: Modifier, action: MenuAction, onAction: (MenuAction) -> Unit) =
     when (action) {
-        is MenuAction.Popup -> DrawMenuExecutableItem(modifier, action, onAction)
+        is MenuAction.Popup -> DrawMenuPopupItem(modifier, action, onAction)
         is MenuAction.Enable -> DrawEnablerItem(modifier, action, onAction)
     }
 
@@ -81,21 +81,21 @@ private fun DrawEnablerItem(
         title = stringResource(
             id = action.enabler.getTitleRes()
         ),
-        state = action.isEnabled.mapToState()
+        state = action.isEnabled.mapToStateEnabler()
     )
 }
 
 @Composable
-private fun DrawMenuExecutableItem(
+private fun DrawMenuPopupItem(
     modifier: Modifier,
     action: MenuAction.Popup,
     onAction: (MenuAction) -> Unit
 ) {
     MenuItemComposable(
-        modifier = modifier.clickable { onAction(action) },
+        modifier = modifier.clickable(action.isEnabled) { onAction.invoke(action) },
         title = stringResource(
             id = action.menuExecutable.getTitleRes()
         ),
-        state = MenuItemState.OneTime
+        state = action.isEnabled.mapToStatePopup()
     )
 }

@@ -12,7 +12,12 @@ class MenuPreviewStateProvider : PreviewParameterProvider<MenuView.State> {
             isVisible = true,
             items = listOf(
                 MenuAction.Popup(
-                    MenuExecutable.Crop
+                    MenuExecutable.Crop,
+                    true
+                ),
+                MenuAction.Popup(
+                    MenuExecutable.Crop,
+                    false
                 ),
                 MenuAction.Enable(
                     VisibilityEnabler.RangeBar,
