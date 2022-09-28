@@ -9,7 +9,7 @@ ext.versions = [
         exo                   :    '2.14.0',
         firebase              :    '28.4.0',
         ffmpegKit             :    '4.4.LTS',
-        ghostinshell          :    '0.3',
+        ghostinshell          :    '0.1',
         kotlin                :    '1.7.10',
         ktxFragment           :    '1.5.3',
         lifecycle             :    '2.5.1',

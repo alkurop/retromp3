@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.ui.menu.logic
 
+import com.github.alkurop.ghostinshell.Shell
 import com.github.alkurop.ghostinshell.Shell.Companion.empty
-import com.github.alkurop.ghostinshell.Shell.Companion.toShell
 import com.omar.retromp3recorder.bl.actions.AudioActionsExecutor
 import com.omar.retromp3recorder.bl.enablers.EnablersSwitcher
 import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
@@ -36,7 +36,7 @@ class MenuInteractor @Inject constructor(
                     },
                     input.ofType(MenuView.Input.Popup::class.java).flatMapCompletable {
                         Completable.fromAction {
-                            menuPopupBus.onNext(it.action.toShell())
+                            menuPopupBus.onNext(Shell(it.action))
                         }
                     },
                     input.ofType(MenuView.Input.DismissPopup::class.java).flatMapCompletable {
