@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu
+package com.omar.retromp3recorder.app.ui.menu.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -33,15 +33,15 @@ fun MenuItemComposable(
     state: MenuItemState = MenuItemState.EnablerDisabled,
 ) {
     when (state) {
-        MenuItemState.EnablerEnabled -> MenuItemEnablerEnabled(title = title, modifier)
-        MenuItemState.EnablerDisabled -> MenuItemEnablerDisabled(title = title, modifier)
-        MenuItemState.PopupEnabled -> MenuItemExecutorEnabled(title = title, modifier)
-        MenuItemState.PopupDisabled -> MenuItemExecutorDisabled(title = title, modifier)
+        MenuItemState.EnablerEnabled -> EnablerEnabled(title = title, modifier)
+        MenuItemState.EnablerDisabled -> EnablerDisabled(title = title, modifier)
+        MenuItemState.PopupEnabled -> PopupEnabled(title = title, modifier)
+        MenuItemState.PopupDisabled -> PopupDisabled(title = title, modifier)
     }
 }
 
 @Composable
-private fun MenuItemEnablerEnabled(
+private fun EnablerEnabled(
     title: String,
     modifier: Modifier,
 ) {
@@ -55,7 +55,7 @@ private fun MenuItemEnablerEnabled(
 }
 
 @Composable
-private fun MenuItemEnablerDisabled(
+private fun EnablerDisabled(
     title: String,
     modifier: Modifier,
 ) {
@@ -69,7 +69,7 @@ private fun MenuItemEnablerDisabled(
 }
 
 @Composable
-private fun MenuItemExecutorEnabled(
+private fun PopupEnabled(
     title: String,
     modifier: Modifier,
 ) {
@@ -83,7 +83,7 @@ private fun MenuItemExecutorEnabled(
 }
 
 @Composable
-private fun MenuItemExecutorDisabled(
+private fun PopupDisabled(
     title: String,
     modifier: Modifier,
 ) {

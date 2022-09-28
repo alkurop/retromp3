@@ -10,7 +10,7 @@ import com.omar.retromp3recorder.app.ui.files.selector.SelectorViewModel
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressViewModel
 import com.omar.retromp3recorder.app.ui.log.LogViewModel
 import com.omar.retromp3recorder.app.ui.main.MainViewModel
-import com.omar.retromp3recorder.app.ui.menu.MenuViewModel
+import com.omar.retromp3recorder.app.ui.menu.logic.MenuViewModel
 import com.omar.retromp3recorder.app.ui.rangebar.RangeBarViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.audio_source.AudioSourceViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.beat_rate.BitRateSettingsViewModel

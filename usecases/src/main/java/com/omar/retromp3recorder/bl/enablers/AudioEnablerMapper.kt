@@ -8,7 +8,7 @@ class AudioEnablerMapper @Inject constructor(
     private val reverseEnablerUC: ReversePlaybackEnablerUC,
     private val loopEnablerUC: LoopEnablerUC
 ) {
-    fun execute(isEnabled: Boolean, enabler: AudioEnabler): Completable =
+    fun execute(enabler: AudioEnabler, isEnabled: Boolean): Completable =
         when (enabler) {
             AudioEnabler.Reverse -> reverseEnablerUC.execute(isEnabled)
             AudioEnabler.Loop -> loopEnablerUC.execute(isEnabled)

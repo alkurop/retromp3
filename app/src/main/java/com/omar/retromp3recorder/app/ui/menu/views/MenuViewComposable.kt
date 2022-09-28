@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu
+package com.omar.retromp3recorder.app.ui.menu.views
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -15,8 +15,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.omar.retromp3recorder.app.ui.menu.MenuPreviewStateProvider
+import com.omar.retromp3recorder.app.ui.menu.logic.MenuView
+import com.omar.retromp3recorder.app.ui.menu.logic.MenuViewModel
+import com.omar.retromp3recorder.app.ui.menu.logic.toInput
 import com.omar.retromp3recorder.app.ui.menu.popups.MenuPopups
-import com.omar.retromp3recorder.dto.MenuAction
 
 
 @Composable
@@ -34,8 +37,9 @@ fun MenuViewComposable(viewModel: MenuViewModel = viewModel()) {
 private fun DrawMenu(
     @PreviewParameter(
         MenuPreviewStateProvider::class
-    ) state: MenuView.State, onAction: (MenuAction) -> Unit = {}
+    ) state: MenuView.State, onAction: (MenuView.Input) -> Unit = {}
 ) {
+    Spacer(modifier = Modifier)
     if (state.isVisible.not()) {
         Spacer(modifier = Modifier)
     } else {
@@ -64,38 +68,44 @@ private fun DrawMenu(
 private fun getPadding(side: Boolean) = if (side) 16.dp else 4.dp
 
 @Composable
-private fun DrawMenuItem(modifier: Modifier, action: MenuAction, onAction: (MenuAction) -> Unit) =
+private fun DrawMenuItem(
+    modifier: Modifier,
+    action: MenuView.Item,
+    onAction: (MenuView.Input) -> Unit
+) =
     when (action) {
-        is MenuAction.Popup -> DrawMenuPopupItem(modifier, action, onAction)
-        is MenuAction.Enable -> DrawEnablerItem(modifier, action, onAction)
+        is MenuView.Item.Popup -> DrawMenuPopupItem(modifier, action, onAction)
+        is MenuView.Item.Enable -> DrawEnablerItem(modifier, action, onAction)
     }
 
 @Composable
 private fun DrawEnablerItem(
     modifier: Modifier,
-    action: MenuAction.Enable,
-    onAction: (MenuAction) -> Unit
+    item: MenuView.Item.Enable,
+    onAction: (MenuView.Input) -> Unit
 ) {
     MenuItemComposable(
-        modifier = modifier.clickable { onAction(action) },
+        modifier = modifier.clickable {
+            onAction(item.toInput())
+        },
         title = stringResource(
-            id = action.enabler.getTitleRes()
+            id = item.enabler.getTitleRes()
         ),
-        state = action.isEnabled.mapToStateEnabler()
+        state = item.isEnabled.mapToStateEnabler()
     )
 }
 
 @Composable
 private fun DrawMenuPopupItem(
     modifier: Modifier,
-    action: MenuAction.Popup,
-    onAction: (MenuAction) -> Unit
+    item: MenuView.Item.Popup,
+    onAction: (MenuView.Input) -> Unit
 ) {
     MenuItemComposable(
-        modifier = modifier.clickable(action.isEnabled) { onAction.invoke(action) },
+        modifier = modifier.clickable(item.isEnabled) { onAction.invoke(item.toInput()) },
         title = stringResource(
-            id = action.menuExecutable.getTitleRes()
+            id = item.menuExecutable.getTitleRes()
         ),
-        state = action.isEnabled.mapToStatePopup()
+        state = item.isEnabled.mapToStatePopup()
     )
 }

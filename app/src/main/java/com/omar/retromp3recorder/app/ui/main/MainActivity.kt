@@ -21,7 +21,7 @@ import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
 import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
 import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.ui.menu.MenuViewComposable
+import com.omar.retromp3recorder.app.ui.menu.views.MenuViewComposable
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
 import com.omar.retromp3recorder.app.uiutils.observe
 

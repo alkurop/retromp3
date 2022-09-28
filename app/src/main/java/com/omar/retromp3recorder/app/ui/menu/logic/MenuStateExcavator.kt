@@ -1,7 +1,6 @@
-package com.omar.retromp3recorder.app.ui.menu
+package com.omar.retromp3recorder.app.ui.menu.logic
 
 import com.omar.retromp3recorder.dto.FeatureFlag
-import com.omar.retromp3recorder.dto.MenuAction
 import com.omar.retromp3recorder.dto.MenuExecutable
 import com.omar.retromp3recorder.dto.VisibilityEnabler
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
@@ -21,10 +20,11 @@ class MenuStateExcavator @Inject constructor(
             playerControlsRepo.observe()
                 .map { (_, range, _, _) ->
                     listOfNotNull(
-                        MenuAction.Enable(
-                            VisibilityEnabler.RangeBar, range.isVisible
+                        MenuView.Item.Enable(
+                            VisibilityEnabler.RangeBar,
+                            range.isVisible
                         ),
-                        MenuAction.Popup(
+                        MenuView.Item.Popup(
                             MenuExecutable.Crop,
                             range.isVisible
                         )

@@ -8,13 +8,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.appcompattheme.AppCompatTheme
-import com.omar.retromp3recorder.app.ui.menu.MenuViewModel
+import com.omar.retromp3recorder.app.ui.menu.logic.MenuView
+import com.omar.retromp3recorder.app.ui.menu.logic.MenuViewModel
 
 @Composable
 fun CropPopup(viewModel: MenuViewModel = viewModel()) {
     AppCompatTheme() {
         Dialog(onDismissRequest = {
-
+            viewModel.input.onNext(MenuView.Input.DismissPopup)
         }, content = {
             Text(text = "hello")
         })

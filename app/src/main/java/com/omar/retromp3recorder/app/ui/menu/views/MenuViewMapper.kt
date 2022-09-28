@@ -1,8 +1,11 @@
-package com.omar.retromp3recorder.app.ui.menu
+package com.omar.retromp3recorder.app.ui.menu.views
 
 import androidx.annotation.StringRes
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.dto.*
+import com.omar.retromp3recorder.dto.AudioEnabler
+import com.omar.retromp3recorder.dto.MenuEnabler
+import com.omar.retromp3recorder.dto.MenuExecutable
+import com.omar.retromp3recorder.dto.VisibilityEnabler
 
 @StringRes
 fun MenuExecutable.getTitleRes(): Int = when (this) {
