@@ -11,7 +11,7 @@ class MenuPreviewStateProvider : PreviewParameterProvider<MenuView.State> {
         MenuView.State(
             isVisible = true,
             items = listOf(
-                MenuAction.Execute(
+                MenuAction.Popup(
                     MenuExecutable.Crop
                 ),
                 MenuAction.Enable(

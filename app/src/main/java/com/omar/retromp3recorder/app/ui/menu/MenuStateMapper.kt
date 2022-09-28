@@ -1,45 +1,42 @@
 package com.omar.retromp3recorder.app.ui.menu
 
-import com.omar.retromp3recorder.dto.*
+import com.omar.retromp3recorder.dto.FeatureFlag
+import com.omar.retromp3recorder.dto.MenuAction
+import com.omar.retromp3recorder.dto.MenuExecutable
+import com.omar.retromp3recorder.dto.VisibilityEnabler
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
+import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
 import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class MenuStateMapper @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo,
-    private val featureFlagRepo: FeatureFlagRepo
+    private val featureFlagRepo: FeatureFlagRepo,
+    private val menuPopupBus: MenuPopupBus
 ) {
-    fun observe(): Observable<MenuView.State> =
-        Observable.combineLatest(
-            playerControlsRepo
-                .observe().map { (loop, range, reverse, speed) ->
-                    MenuView.State(
-                        items = listOf(
-//                            MenuAction.Execute(
-//                                MenuExecutable.Crop
-//                            ),
-                            MenuAction.Enable(
-                                VisibilityEnabler.RangeBar,
-                                range.isVisible
-                            ),
-//                            MenuAction.Enable(
-//                                AudioEnabler.Loop,
-//                                loop.isEnabled
-//                            ),
-//                            MenuAction.Enable(
-//                                AudioEnabler.Reverse,
-//                                reverse.isEnabled
-//                            ),
-//                            MenuAction.Enable(
-//                                VisibilityEnabler.PlaybackSpeed,
-//                                speed.isEnabled
-//                            )
-                        )
+    fun observe(): Observable<MenuView.State> = Observable
+        .combineLatest(
+            playerControlsRepo.observe()
+                .map { (loop, range, reverse, speed) ->
+                    listOfNotNull(
+                        MenuAction.Enable(
+                            VisibilityEnabler.RangeBar, range.isVisible
+                        ),
+                        if (range.isVisible) {
+                            MenuAction.Popup(
+                                MenuExecutable.Crop
+                            )
+                        } else null,
                     )
                 },
-            featureFlagRepo.observe()
-        ) { menu, featureFlags ->
-            menu.copy(isVisible = featureFlags.isEnabled(FeatureFlag.MenuView))
+            featureFlagRepo.observe(),
+            menuPopupBus.observe()
+        ) { menu, featureFlags, popup ->
+            MenuView.State(
+                items = menu,
+                isVisible = featureFlags.isEnabled(FeatureFlag.MenuView),
+                popup = popup
+            )
         }
 }

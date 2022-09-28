@@ -17,7 +17,7 @@
         app:connectingLineColor="#fff"
         app:connectingLineWeight="1dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:thumbRadius="4dp"
+        app:thumbRadius="3dp"
         app:tickCount="100"
         app:tickHeight="0dp" />
 

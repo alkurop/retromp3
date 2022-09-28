@@ -10,12 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.omar.retromp3recorder.app.ui.menu.popups.MenuPopups
 import com.omar.retromp3recorder.dto.MenuAction
 
 
@@ -23,7 +23,10 @@ import com.omar.retromp3recorder.dto.MenuAction
 fun MenuViewComposable(viewModel: MenuViewModel = viewModel()) {
     val state: MenuView.State by viewModel.state
         .subscribeAsState(initial = MenuView.State())
-    DrawMenu(state = state, onAction = { viewModel.input.onNext(it) })
+    DrawMenu(state = state, onAction = {
+        viewModel.input.onNext(it)
+    })
+
 }
 
 @Preview
@@ -49,6 +52,10 @@ private fun DrawMenu(
                     action = item,
                     onAction = onAction
                 )
+
+                state.popup.ghost?.let {
+                    MenuPopups.showPopup(it)
+                }
             }
         }
     }
@@ -59,7 +66,7 @@ private fun getPadding(side: Boolean) = if (side) 16.dp else 4.dp
 @Composable
 private fun DrawMenuItem(modifier: Modifier, action: MenuAction, onAction: (MenuAction) -> Unit) =
     when (action) {
-        is MenuAction.Execute -> DrawMenuExecutableItem(modifier, action, onAction)
+        is MenuAction.Popup -> DrawMenuExecutableItem(modifier, action, onAction)
         is MenuAction.Enable -> DrawEnablerItem(modifier, action, onAction)
     }
 
@@ -81,7 +88,7 @@ private fun DrawEnablerItem(
 @Composable
 private fun DrawMenuExecutableItem(
     modifier: Modifier,
-    action: MenuAction.Execute,
+    action: MenuAction.Popup,
     onAction: (MenuAction) -> Unit
 ) {
     MenuItemComposable(
