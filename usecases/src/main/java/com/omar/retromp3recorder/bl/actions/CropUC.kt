@@ -1,11 +1,15 @@
 package com.omar.retromp3recorder.bl.actions
 
-import com.omar.retromp3recorder.bl.waveform.WaveformScanner
+import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
+import com.omar.retromp3recorder.bl.files.GetCropFileNameUC
+import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
-import com.omar.retromp3recorder.io.audiotransformer.CropRequest
-import com.omar.retromp3recorder.io.audiotransformer.CropResponse
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.utils.takeOne
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
@@ -16,18 +20,22 @@ class CropUC @Inject constructor(
     private val appDatabase: AppDatabase,
     private val audioCropper: AudioCropper,
     private val currentFileRepo: CurrentFileRepo,
-    private val waveformScanner: WaveformScanner,
-
+    private val getCropFileNameUC: GetCropFileNameUC,
+    private val joinedProgressRepo: JoinedProgressMapper,
+    private val scheduler: Scheduler
 ) {
-    fun execute(request: CropRequest): Single<CropResponse> = Single
-        .fromCallable {
-            audioCropper.crop(request)
-        }.flatMap {
-            if (it.isSuccess.not()) {
-                Single.just(it)
-            } else Single.just(it)
+    fun execute(): Completable =
+        Single.zip(
+            joinedProgressRepo.observe().takeOne(),
+            currentFileRepo.takeOne()
+        ) { progress, optional ->
+            val range = (progress as JoinedProgress.PlayerProgressShown).progress.range
+
+            val fileWrapper = (optional.value!! as ExistingFileWrapper)
+            val currentPath = fileWrapper.path
+            getCropFileNameUC.execute(currentPath).map { currentPath to it }
+        }.flatMapCompletable {
+            Completable.complete()
+//            audioCropper.crop()
         }
 }
-
-
-
