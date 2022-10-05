@@ -7,11 +7,11 @@ import com.omar.retromp3recorder.utils.FileRenamer
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
-class CanRenameFileUC @Inject constructor(
+class CanRenameName @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
     private val fileRenamer: FileRenamer
 ) {
-    fun execute(newFileName: String, canRenameFileRepo: BehaviorSubjectRepo<Boolean>): Completable =
+    fun execute(path: String, canRenameFileRepo: BehaviorSubjectRepo<Boolean>): Completable =
         currentFileRepo
             .takeOne()
             .flatMapCompletable { optional ->
@@ -19,8 +19,8 @@ class CanRenameFileUC @Inject constructor(
                 Completable.fromAction {
                     canRenameFileRepo.onNext(false)
                     val canRename =
-                        if (newFileName.isNotEmpty() && fileWrapper != null && fileWrapper is ExistingFileWrapper)
-                            fileRenamer.canRename(fileWrapper, newFileName) else false
+                        if (path.isNotEmpty() && fileWrapper != null && fileWrapper is ExistingFileWrapper)
+                            fileRenamer.canRename(fileWrapper, path) else false
                     canRenameFileRepo.onNext(canRename)
                 }
             }

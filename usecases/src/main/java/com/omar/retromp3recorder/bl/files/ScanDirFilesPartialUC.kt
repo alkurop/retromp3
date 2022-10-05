@@ -49,7 +49,7 @@ class ScanDirFilesPartialUC @Inject constructor(
                         .fromCallable {
                             appDatabase.fileEntityDao().delete(dbUpdateItem.deletes)
                             appDatabase.fileEntityDao().update(dbUpdateItem.updates)
-                            val insertIds = appDatabase.fileEntityDao().insert(dbUpdateItem.inserts)
+                            val insertIds = appDatabase.fileEntityDao().insertBatch(dbUpdateItem.inserts)
                             val insertsWithId =
                                 dbUpdateItem.inserts.zip(insertIds) { item, id -> item.copy(id = id) }
                             dbUpdateItem.copy(inserts = insertsWithId)

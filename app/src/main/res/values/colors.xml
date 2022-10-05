@@ -6,4 +6,6 @@
     <color name="white">#fff</color>
     <color name="ic_launcher_background">#FAFFFB</color>
     <color name="orange">#ffffbb33</color>
+    <color name="popup_color">#424242</color>
+    <color name="popup_button_deactivated">#6a6a6a</color>
 </resources>

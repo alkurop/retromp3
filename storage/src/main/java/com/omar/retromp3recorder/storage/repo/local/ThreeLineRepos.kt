@@ -21,6 +21,5 @@ class RangeBarResetBus @Inject constructor() :
 class PlayerControlsRepo @Inject constructor() :
     BehaviorSubjectRepo<PlayerControls>(PlayerControls())
 
-
 @Track
-class MenuPopupBus @Inject constructor() : BehaviorSubjectRepo<Shell<MenuExecutable>>(Shell.empty())
+class MenuPopupBus @Inject constructor() : BehaviorSubjectRepo<Optional<MenuExecutable>>(Optional.empty())

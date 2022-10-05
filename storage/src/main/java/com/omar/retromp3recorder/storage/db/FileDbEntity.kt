@@ -59,7 +59,10 @@ interface FileDbEntityDao {
     fun getByFilepath(filepath: String): List<FileDbEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(items: List<FileDbEntity>): List<Long>
+    fun insertBatch(items: List<FileDbEntity>): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(item: FileDbEntity): Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateItem(item: FileDbEntity)

@@ -10,7 +10,8 @@ import com.omar.retromp3recorder.app.ui.files.selector.SelectorViewModel
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressViewModel
 import com.omar.retromp3recorder.app.ui.log.LogViewModel
 import com.omar.retromp3recorder.app.ui.main.MainViewModel
-import com.omar.retromp3recorder.app.ui.menu.logic.MenuViewModel
+import com.omar.retromp3recorder.app.ui.menu.container.views.MenuViewModel
+import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropViewModel
 import com.omar.retromp3recorder.app.ui.rangebar.RangeBarViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.audio_source.AudioSourceViewModel
 import com.omar.retromp3recorder.app.ui.recorder_settings.beat_rate.BitRateSettingsViewModel
@@ -69,4 +70,5 @@ interface TrackComponent {
     fun inject(joinedProgressViewModel: JoinedProgressViewModel)
     fun inject(rangeBarViewModel: RangeBarViewModel)
     fun inject(menuViewModel: MenuViewModel)
+    fun inject(cropViewModel: CropViewModel)
 }

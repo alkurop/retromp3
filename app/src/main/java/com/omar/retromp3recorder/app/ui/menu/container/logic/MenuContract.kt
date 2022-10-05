@@ -1,14 +1,14 @@
-package com.omar.retromp3recorder.app.ui.menu.logic
+package com.omar.retromp3recorder.app.ui.menu.container.logic
 
-import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.dto.MenuEnabler
 import com.omar.retromp3recorder.dto.MenuExecutable
+import com.omar.retromp3recorder.utils.Optional
 
 interface MenuView {
     data class State(
         val items: List<Item> = emptyList(),
         val isVisible: Boolean = true,
-        val popup: Shell<MenuExecutable> = Shell.empty()
+        val popup: Optional<MenuExecutable> = Optional.empty()
     )
 
     sealed class Input {
@@ -18,8 +18,6 @@ interface MenuView {
         ) : Input()
 
         data class Popup(val action: MenuExecutable) : Input()
-        data class Execute(val action: MenuExecutable) : Input()
-        object DismissPopup : Input()
     }
 
     sealed class Item {

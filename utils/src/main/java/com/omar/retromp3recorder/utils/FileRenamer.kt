@@ -18,6 +18,10 @@ class FileRenamer @Inject constructor() {
         return generateNewFile.exists().not()
     }
 
+    fun exists(path: String): Boolean {
+        return File(path).exists()
+    }
+
     private fun generateNewFile(fileWrapper: ExistingFileWrapper, newName: String): File {
         val split = fileWrapper.path.split("/")
         val pathWithoutName = split.dropLast(1).joinToString(separator = "/")

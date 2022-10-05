@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.app.ui.files.rename
 
-import com.omar.retromp3recorder.bl.files.CanRenameFileUC
+import com.omar.retromp3recorder.bl.files.CanRenameName
 import com.omar.retromp3recorder.bl.files.RenameFileUC
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
@@ -14,7 +14,7 @@ import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject
 
 class RenameFileInteractor @Inject constructor(
-    private val canRenameFileUC: CanRenameFileUC,
+    private val canRenameNameUC: CanRenameName,
     private val currentFileRepo: CurrentFileRepo,
     private val renameFileUC: RenameFileUC,
     private val scheduler: Scheduler
@@ -48,7 +48,7 @@ class RenameFileInteractor @Inject constructor(
                             }
                     },
                     input.mapToUsecase<RenameFileView.Input.CheckCanRename> {
-                        canRenameFileUC.execute(
+                        canRenameNameUC.execute(
                             it.newName,
                             canRenameFileRepo = canRenameFileRepo
                         )

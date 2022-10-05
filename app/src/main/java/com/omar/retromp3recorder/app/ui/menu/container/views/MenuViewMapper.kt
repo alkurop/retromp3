@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu.views
+package com.omar.retromp3recorder.app.ui.menu.container.views
 
 import androidx.annotation.StringRes
 import com.omar.retromp3recorder.app.R
@@ -9,9 +9,8 @@ import com.omar.retromp3recorder.dto.VisibilityEnabler
 
 @StringRes
 fun MenuExecutable.getTitleRes(): Int = when (this) {
-    MenuExecutable.Crop -> R.string.menu_bark_crop
+    MenuExecutable.Crop -> R.string.menu_crop
 }
-
 
 @StringRes
 fun MenuEnabler.getTitleRes(): Int = when (this) {
@@ -19,16 +18,15 @@ fun MenuEnabler.getTitleRes(): Int = when (this) {
     is VisibilityEnabler -> this.getTitleRes()
 }
 
-
 @StringRes
 fun AudioEnabler.getTitleRes(): Int = when (this) {
-    AudioEnabler.Reverse -> R.string.menu_bark_reverse
-    AudioEnabler.Loop -> R.string.menu_bark_loop
+    AudioEnabler.Reverse -> R.string.menu_reverse
+    AudioEnabler.Loop -> R.string.menu_loop
 }
 
 @StringRes
 fun VisibilityEnabler.getTitleRes(): Int = when (this) {
-    VisibilityEnabler.RangeBar -> R.string.menu_bark_range
+    VisibilityEnabler.RangeBar -> R.string.menu_range
     VisibilityEnabler.PlaybackSpeed -> R.string.menu_bark_speed
 }
 

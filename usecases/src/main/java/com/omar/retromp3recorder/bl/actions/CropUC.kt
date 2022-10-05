@@ -1,41 +1,61 @@
 package com.omar.retromp3recorder.bl.actions
 
-import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
-import com.omar.retromp3recorder.bl.files.GetCropFileNameUC
+import com.omar.retromp3recorder.bl.waveform.WaveformScanner
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
-import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.dto.NewNameSuggestion
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
-import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.takeOne
-import io.reactivex.rxjava3.core.Completable
+import com.omar.retromp3recorder.storage.db.toDatabaseEntity
+import com.omar.retromp3recorder.utils.AmplitudaDealer
+import com.omar.retromp3recorder.utils.FileLister
+import com.omar.retromp3recorder.utils.Optional
+import com.omar.retromp3recorder.utils.toOptional
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 
-//todo disable menu during recording and hide when no file present
-//todo recalculate player counter when in range
 class CropUC @Inject constructor(
+    private val amplitudaDealer: AmplitudaDealer,
     private val appDatabase: AppDatabase,
     private val audioCropper: AudioCropper,
-    private val currentFileRepo: CurrentFileRepo,
-    private val getCropFileNameUC: GetCropFileNameUC,
-    private val joinedProgressRepo: JoinedProgressMapper,
+    private val gatherCropRequestUC: GatherCropRequestUC,
+    private val fileLister: FileLister,
+    private val waveformScanner: WaveformScanner,
     private val scheduler: Scheduler
 ) {
-    fun execute(): Completable =
-        Single.zip(
-            joinedProgressRepo.observe().takeOne(),
-            currentFileRepo.takeOne()
-        ) { progress, optional ->
-            val range = (progress as JoinedProgress.PlayerProgressShown).progress.range
-
-            val fileWrapper = (optional.value!! as ExistingFileWrapper)
-            val currentPath = fileWrapper.path
-            getCropFileNameUC.execute(currentPath).map { currentPath to it }
-        }.flatMapCompletable {
-            Completable.complete()
-//            audioCropper.crop()
-        }
+    fun execute(nameSuggestion: NewNameSuggestion): Single<Optional<ExistingFileWrapper>> =
+        gatherCropRequestUC
+            .execute(nameSuggestion)
+            .flatMap { request ->
+                Single
+                    .fromCallable {
+                        audioCropper.crop(request)
+                    }
+                    .flatMap { cropResponse ->
+                        if (cropResponse.isSuccess.not()) {
+                            Single.just(Optional.empty())
+                        } else Single
+                            .fromCallable {
+                                fileLister.discoverFile(request.existingFileWrapper.path)
+                            }
+                            .flatMap {
+                                waveformScanner.execute(
+                                    it,
+                                    amplitudaDealer.createAmplituda()
+                                )
+                            }
+                            .flatMap { fileWrapper ->
+                                Single.fromCallable {
+                                    val id = appDatabase.fileEntityDao()
+                                        .insert(fileWrapper.toDatabaseEntity())
+                                    fileWrapper.copy(id = id).toOptional()
+                                }
+                            }
+                    }
+            }
+            .subscribeOn(scheduler)
 }
+
+
+

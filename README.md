@@ -11,4 +11,7 @@ Retro MP3 Recorder:
 //todo:
 
 - check low storage
+- change appcompat theme to material
 
+- disable menu during recording and hide when no file present
+- zoom in waveform mode

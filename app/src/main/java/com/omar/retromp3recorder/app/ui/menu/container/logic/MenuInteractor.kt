@@ -1,11 +1,9 @@
-package com.omar.retromp3recorder.app.ui.menu.logic
+package com.omar.retromp3recorder.app.ui.menu.container.logic
 
-import com.github.alkurop.ghostinshell.Shell
-import com.github.alkurop.ghostinshell.Shell.Companion.empty
-import com.omar.retromp3recorder.bl.actions.AudioActionsExecutor
 import com.omar.retromp3recorder.bl.enablers.EnablersSwitcher
 import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
 import com.omar.retromp3recorder.utils.processIO
+import com.omar.retromp3recorder.utils.toOptional
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
@@ -16,7 +14,6 @@ class MenuInteractor @Inject constructor(
     private val menuPopupBus: MenuPopupBus,
     private val menuStateExcavator: MenuStateExcavator,
     private val eneblersSwitcher: EnablersSwitcher,
-    private val actionsExecutor: AudioActionsExecutor,
     private val scheduler: Scheduler
 ) {
     fun processIO(): ObservableTransformer<MenuView.Input, MenuView.State> =
@@ -31,19 +28,12 @@ class MenuInteractor @Inject constructor(
                     input.ofType(MenuView.Input.Enable::class.java).flatMapCompletable {
                         eneblersSwitcher.execute(it.enabler, it.isEnabled)
                     },
-                    input.ofType(MenuView.Input.Execute::class.java).flatMapCompletable {
-                        actionsExecutor.execute(it.action)
-                    },
                     input.ofType(MenuView.Input.Popup::class.java).flatMapCompletable {
                         Completable.fromAction {
-                            menuPopupBus.onNext(Shell(it.action))
+                            menuPopupBus.onNext(it.action.toOptional())
                         }
                     },
-                    input.ofType(MenuView.Input.DismissPopup::class.java).flatMapCompletable {
-                        Completable.fromAction {
-                            menuPopupBus.onNext(empty())
-                        }
-                    })
+                )
             )
         }
 }

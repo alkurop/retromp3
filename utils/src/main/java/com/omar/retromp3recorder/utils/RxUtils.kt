@@ -20,7 +20,7 @@ fun <In : Any, Out : Any> Scheduler.processIO(
     outputMapper: () -> Observable<Out>
 ): ObservableTransformer<In, Out> = ObservableTransformer { actions ->
     outputMapper().mergeWith(
-        inputMapper(actions.observeOn(this)).subscribeOn(this)
+        inputMapper(actions.subscribeOn(this)).subscribeOn(this)
     )
 }
 
