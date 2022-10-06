@@ -11,7 +11,10 @@ Retro MP3 Recorder:
 //todo:
 
 - check low storage
-- change appcompat theme to material
-
-- disable menu during recording and hide when no file present
 - zoom in waveform mode
+- add mp3 tags to a cropped file
+- add search
+- reassamble delete rename popups in JPC, add to menu
+- add settings to bottom menu
+- move open file to tool bar
+- fix circle ci
