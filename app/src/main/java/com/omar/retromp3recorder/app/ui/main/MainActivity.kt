@@ -30,7 +30,7 @@ import com.omar.retromp3recorder.app.uiutils.observe
 class MainActivity : AppCompatActivity() {
     private val permissionsManager: PermissionsManager by lazy { PermissionsManager(this) }
     private val permissionsMap = createPermissionsMap()
-    private val viewModel by viewModels<MainViewModel>() { FactoryWithId("s") }
+    private val viewModel by viewModels<MainViewModel>() { FactoryWithId() }
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val composeMenu by lazy { findViewById<ComposeView>(R.id.compose_menu) }
     private val logFragment by lazy { findViewById<View>(R.id.audio_log) }
@@ -42,6 +42,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         viewModel.state.observe(this, ::renderView)
         viewModel.input.onNext(MainView.Input.CheckAllPermisionsOnStartup)
+        viewModel.popupRepo.observe().observe(this) { popup ->
+            Toast.makeText(this, popup, Toast.LENGTH_SHORT).show()
+        }
         composeMenu.apply {
             // Dispose of the Composition when the view's LifecycleOwner
             // is destroyed

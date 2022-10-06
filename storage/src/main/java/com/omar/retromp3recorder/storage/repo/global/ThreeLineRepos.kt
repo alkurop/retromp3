@@ -1,5 +1,7 @@
 package com.omar.retromp3recorder.storage.repo.global
 
+import android.content.Context
+import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.dto.FeatureFlagsCollection
 import com.omar.retromp3recorder.dto.LogEvent
 import com.omar.retromp3recorder.dto.MediaProjectionState
@@ -24,3 +26,10 @@ class MediaProjectionStateRepo @Inject constructor() :
 
 @Singleton
 class LogsRepo @Inject constructor() : PublishSubjectRepo<LogEvent>()
+
+@Singleton
+class PopupRepo @Inject constructor(private val context: Context) : PublishSubjectRepo<String>() {
+    fun onNext(stringer: Stringer) {
+        onNext(stringer.bell(context))
+    }
+}
