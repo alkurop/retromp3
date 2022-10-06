@@ -46,7 +46,7 @@ class WaveformScanner @Inject constructor() {
                     source.onSuccess(file.copy(wavetable = wavetable))
                 }
 
-            }, { error ->
+            }, {
                 if (!source.isDisposed) {
                     source.onSuccess(file)
                 }
