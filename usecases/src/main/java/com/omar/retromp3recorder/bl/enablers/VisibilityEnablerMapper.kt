@@ -6,11 +6,10 @@ import javax.inject.Inject
 
 class VisibilityEnablerMapper @Inject constructor(
     private val rangeEnablerUC: RangeEnablerUC,
-    private val plSpeedEnablerUC: SpeedEnablerUC
 ) {
     fun execute(enabler: VisibilityEnabler, isEnabled: Boolean): Completable =
         when (enabler) {
             VisibilityEnabler.RangeBar -> rangeEnablerUC.execute(isEnabled)
-            VisibilityEnabler.PlaybackSpeed -> plSpeedEnablerUC.execute(isEnabled)
+            VisibilityEnabler.PlaybackSpeed -> Completable.complete()
         }
 }

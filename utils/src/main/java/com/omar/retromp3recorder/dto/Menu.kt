@@ -7,11 +7,14 @@ enum class MenuExecutable {
 sealed interface MenuEnabler
 
 enum class AudioEnabler : MenuEnabler {
+    //todo
     Reverse,
+    //todo
     Loop
 }
 
 enum class VisibilityEnabler : MenuEnabler {
+    //todo
     PlaybackSpeed,
     RangeBar,
 }
