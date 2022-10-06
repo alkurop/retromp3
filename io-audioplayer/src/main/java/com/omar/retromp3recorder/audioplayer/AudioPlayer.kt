@@ -34,6 +34,7 @@ interface AudioPlayer {
 }
 
 data class PlayerStartOptions(
+    val isStopToRangeStartEnabled: Boolean,
     val rangeMillis: FromToMillis,
     val length: Long,
     val relativeSeekPosition: Long,

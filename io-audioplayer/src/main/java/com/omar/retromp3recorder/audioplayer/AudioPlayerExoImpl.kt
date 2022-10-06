@@ -36,7 +36,11 @@ class AudioPlayerExoImpl @Inject constructor(
                 .map {
                     val range = options.rangeMillis
                     if (it.end) {
-                        it.copy(position = range.from, duration = options.length)
+                        val position = if (options.isStopToRangeStartEnabled) range.from else 0
+                        it.copy(
+                            position = position,
+                            duration = options.length
+                        )
                     } else {
                         it.copy(position = it.position + range.from, duration = options.length)
                     }
