@@ -1,17 +1,23 @@
 package com.omar.retromp3recorder.app.ui.menu.popups.crop.logic
 
-import com.omar.retromp3recorder.bl.actions.CropUC
 import com.omar.retromp3recorder.dto.NewNameSuggestion
-import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
-import com.omar.retromp3recorder.utils.Optional
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.utils.toOptional
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
 class CropInPlaceUC @Inject constructor(
-    private val menuPopupBus: MenuPopupBus,
-    private val cropUC: CropUC,
+    private val cropOutsideUC: CropOutsideUC,
+    private val currentFileRepo: CurrentFileRepo,
 ) {
-    fun execute(nameSuggestion: NewNameSuggestion): Completable = Completable.fromAction {
-        menuPopupBus.onNext(Optional.empty())
-    }
+    fun execute(nameSuggestion: NewNameSuggestion): Completable =
+        cropOutsideUC
+            .execute(nameSuggestion)
+            .flatMapCompletable {
+                Completable.fromAction {
+                    it.value?.let { file ->
+                        currentFileRepo.onNext(file.toOptional())
+                    }
+                }
+            }
 }

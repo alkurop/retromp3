@@ -74,6 +74,7 @@ class CropInteractor @Inject constructor(
                 },
                 input.mapToUsecase<CropContract.Input.CropOutside> {
                     cropOutsideUC.execute(it.nameSuggestion)
+                        .flatMapCompletable { Completable.complete() }
                 }
             )
         )

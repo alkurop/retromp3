@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         viewModel.state.observe(this, ::renderView)
         viewModel.input.onNext(MainView.Input.CheckAllPermisionsOnStartup)
-        viewModel.popupRepo.observe().observe(this) { popup ->
-            Toast.makeText(this, popup, Toast.LENGTH_SHORT).show()
+        viewModel.toastRepo.observe().observe(this) { toast ->
+            Toast.makeText(this, toast, Toast.LENGTH_SHORT).show()
         }
         composeMenu.apply {
             // Dispose of the Composition when the view's LifecycleOwner

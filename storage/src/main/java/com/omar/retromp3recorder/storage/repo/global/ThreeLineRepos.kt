@@ -28,7 +28,7 @@ class MediaProjectionStateRepo @Inject constructor() :
 class LogsRepo @Inject constructor() : PublishSubjectRepo<LogEvent>()
 
 @Singleton
-class PopupRepo @Inject constructor(private val context: Context) : PublishSubjectRepo<String>() {
+class ToastRepo @Inject constructor(private val context: Context) : PublishSubjectRepo<String>() {
     fun onNext(stringer: Stringer) {
         onNext(stringer.bell(context))
     }

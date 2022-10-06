@@ -10,10 +10,13 @@ import javax.inject.Inject
 
 class AudioCropper @Inject constructor() {
     fun crop(request: CropRequest): CropResponse {
+        val command =
+            "-ss ${request.range.from}ms -to ${request.range.to}ms -i " + "${request.existingFileWrapper.path} -c:a  copy ${request.nameSuggestion.path}"
         val returnCode = FFmpeg.execute(
-            "-ss ${request.range.from}ms " + "-to ${request.range.to}ms -i " + "${request.existingFileWrapper.path} -c:a " + "copy $${request.nameSuggestion.path}"
+            command
         )
-        return CropResponse(Config.RETURN_CODE_CANCEL != returnCode)
+        val cropResponse = CropResponse(Config.RETURN_CODE_SUCCESS == returnCode)
+        return cropResponse
     }
 }
 

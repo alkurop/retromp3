@@ -22,4 +22,5 @@ class PlayerControlsRepo @Inject constructor() :
     BehaviorSubjectRepo<PlayerControls>(PlayerControls())
 
 @Track
-class MenuPopupBus @Inject constructor() : BehaviorSubjectRepo<Optional<MenuExecutable>>(Optional.empty())
+class MenuPopupBus @Inject constructor() :
+    BehaviorSubjectRepo<Optional<MenuExecutable>>(Optional.empty())

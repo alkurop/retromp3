@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.omar.retromp3recorder.app.App
 import com.omar.retromp3recorder.app.ui.main.MainViewOutputMapper.mapOutputToState
-import com.omar.retromp3recorder.storage.repo.global.PopupRepo
+import com.omar.retromp3recorder.storage.repo.global.ToastRepo
 import com.omar.retromp3recorder.utils.disposedBy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
@@ -26,7 +26,7 @@ class MainViewModel(key: String) : ViewModelWithId(key) {
     @Inject
     lateinit var interactor: MainViewInteractor
     @Inject
-    lateinit var popupRepo: PopupRepo
+    lateinit var toastRepo: ToastRepo
 
     private val compositeDisposable = CompositeDisposable()
 

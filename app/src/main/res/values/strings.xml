@@ -19,6 +19,8 @@
     <string name="popup_cancel">Cancel</string>
     <string name="popup_title_crop">Crop file</string>
     <string name="popup_label_filename">File name</string>
+    <string name="toast_crop_success">Crop success</string>
+    <string name="toast_crop_failed">Crop failed</string>
     <string name="popup_button_crop_in_place">In place</string>
     <string name="popup_button_crop_outside">Outside</string>
     <string name="please_record_something">Please record something</string>

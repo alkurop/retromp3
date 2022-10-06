@@ -37,7 +37,7 @@ class CropUC @Inject constructor(
                             Single.just(Optional.empty())
                         } else Single
                             .fromCallable {
-                                fileLister.discoverFile(request.existingFileWrapper.path)
+                                fileLister.discoverFile(request.nameSuggestion.path)
                             }
                             .flatMap {
                                 waveformScanner.execute(
