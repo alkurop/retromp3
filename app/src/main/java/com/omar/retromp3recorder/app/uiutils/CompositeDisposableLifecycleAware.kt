@@ -1,9 +1,8 @@
 package com.omar.retromp3recorder.app.uiutils
 
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 
@@ -18,11 +17,12 @@ fun <T : Any> Observable<T>.subscribe(
         if (onError != null) observable.subscribe(onNext, onError)
         else observable.subscribe(onNext)
     val lifecycle = lifecycleOwner.lifecycle
-    val observer = object : LifecycleObserver {
-        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        fun onDestroy() {
-            disposable.dispose()
-            lifecycle.removeObserver(this)
+    val observer = object : LifecycleEventObserver {
+        override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                disposable.dispose()
+                lifecycle.removeObserver(this)
+            }
         }
     }
     lifecycle.addObserver(observer)
