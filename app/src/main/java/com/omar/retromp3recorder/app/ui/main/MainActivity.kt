@@ -22,7 +22,7 @@ import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
 import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
 import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.ui.menu.container.views.MenuNav
+import com.omar.retromp3recorder.app.ui.menu.container.views.MenuPopupNav
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuView
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
 import com.omar.retromp3recorder.app.uiutils.observe
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             setContent {
                 val navController = rememberNavController()
 
-                MenuNav(navController)
+                MenuPopupNav(navController)
 
                 MenuView(navController = navController)
             }

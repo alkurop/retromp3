@@ -36,7 +36,7 @@ fun MenuView(viewModel: MenuViewModel = viewModel(), navController: NavHostContr
 }
 
 @Composable
-fun MenuNav(
+fun MenuPopupNav(
     navController: NavHostController
 ) {
     NavHost(navController = navController, startDestination = BLANK) {
