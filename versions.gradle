@@ -21,14 +21,14 @@ ext.versions = [
         picasso          : '2.8',
         rangeBar         : '2.0.8',
         recyclerView     : '1.2.1',
-        room             : '2.5.0-alpha03',
+        room             : '2.5.0-beta01',
         rxView           : '4.0.0',
         rxAndroid        : '3.0.0',
         rxJava           : '3.1.3',
         rxKotlin         : '3.0.1',
-        stringerbell     :    '0.4',
-        support          :    '1.5.1',
-        timber           :    '4.7.1'
+        stringerbell     : '0.4',
+        support          : '1.5.1',
+        timber           : '4.7.1'
 ]
 ext.testVersions = [
         espressoCore          :    '3.4.0',
