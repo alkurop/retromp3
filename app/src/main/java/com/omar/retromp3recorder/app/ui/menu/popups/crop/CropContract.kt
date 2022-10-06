@@ -14,14 +14,12 @@ class CropContract {
     }
 
     sealed class Output {
-        data class IsVisible(val isVisible: Boolean) : Output()
         data class IsActionEnabled(val isEnabled: Boolean) : Output()
         data class FileNameUpdate(val nameSuggestion: NewNameSuggestion) : Output()
     }
 
     data class State(
         val isOkEnabled: Boolean = false,
-        val isVisible: Boolean = false,
         val nameSuggestion: NewNameSuggestion = NewNameSuggestion()
     )
 }
@@ -35,7 +33,6 @@ object CropMapper {
     private fun getMapper(): BiFunction<CropContract.State, CropContract.Output, CropContract.State> =
         BiFunction { oldState, output ->
             when (output) {
-                is CropContract.Output.IsVisible -> oldState.copy(isVisible = output.isVisible)
                 is CropContract.Output.IsActionEnabled -> oldState.copy(isOkEnabled = output.isEnabled)
                 is CropContract.Output.FileNameUpdate -> oldState.copy(nameSuggestion = output.nameSuggestion)
             }

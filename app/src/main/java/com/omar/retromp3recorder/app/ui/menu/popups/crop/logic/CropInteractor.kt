@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 class CropInteractor @Inject constructor(
     private val canSaveAs: CanSaveAsName,
-    private val cropPopupVisibilityMapper: CropPopupVisibilityMapper,
     private val cropInPlaceUC: CropInPlaceUC,
     private val cropOutsideUC: CropOutsideUC,
     private val nameUpdater: CropFileNameUpdater,
@@ -35,9 +34,6 @@ class CropInteractor @Inject constructor(
     private val mapRepoToOutput: () -> Observable<CropContract.Output> = {
         Observable.merge(
             listOf(
-                cropPopupVisibilityMapper.observe().map {
-                    CropContract.Output.IsVisible(it)
-                },
                 canCropFileRepo.observe().map {
                     CropContract.Output.IsActionEnabled(it)
                 },

@@ -37,7 +37,7 @@
     <string name="recording">Recording ...</string>
     <string name="rerendered">Rerendered</string>
     <string name="reverse">reverse</string>
-    <string name="range_enabled">range: %1$s</string>
+    <string name="range_enabled">Player range: %1$s</string>
     <string name="on">on</string>
     <string name="off">off</string>
     <string name="rename_file">Rename file</string>

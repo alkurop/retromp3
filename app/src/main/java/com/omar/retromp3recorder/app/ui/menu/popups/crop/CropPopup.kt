@@ -21,25 +21,24 @@ fun CropPopup(viewModel: CropViewModel = viewModel()) {
             viewModel.input.onNext(CropContract.Input.CheckCanCrop(newNameSuggestion))
         }
 
-    if (state.isVisible) {
-        PopupComposable(
-            title = stringResource(id = R.string.popup_title_crop),
-            content = {
-                CropContent(
-                    title = state.nameSuggestion.name,
-                    onValueChanged = onValueChanged,
-                    isError = state.isOkEnabled.not()
-                )
-            },
-            onDismiss = onDismiss,
-            buttonList = listOf(
-                PopupButtonData(isEnabled = state.isOkEnabled,
-                    text = stringResource(id = R.string.popup_button_crop_in_place),
-                    onClick = { viewModel.input.onNext(CropContract.Input.CropInPlace(state.nameSuggestion)) }),
-                PopupButtonData(isEnabled = state.isOkEnabled,
-                    text = stringResource(id = R.string.popup_button_crop_outside),
-                    onClick = { viewModel.input.onNext(CropContract.Input.CropOutside(state.nameSuggestion)) })
+    PopupComposable(
+        title = stringResource(id = R.string.popup_title_crop),
+        content = {
+            CropContent(
+                title = state.nameSuggestion.name,
+                onValueChanged = onValueChanged,
+                isError = state.isOkEnabled.not()
             )
+        },
+        onDismiss = onDismiss,
+        buttonList = listOf(
+            PopupButtonData(isEnabled = state.isOkEnabled,
+                text = stringResource(id = R.string.popup_button_crop_in_place),
+                onClick = { viewModel.input.onNext(CropContract.Input.CropInPlace(state.nameSuggestion)) }),
+            PopupButtonData(isEnabled = state.isOkEnabled,
+                text = stringResource(id = R.string.popup_button_crop_outside),
+                onClick = { viewModel.input.onNext(CropContract.Input.CropOutside(state.nameSuggestion)) })
         )
-    }
+    )
+
 }
