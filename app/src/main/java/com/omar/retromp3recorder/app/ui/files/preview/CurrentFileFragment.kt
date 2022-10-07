@@ -7,9 +7,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.ui.files.selector.SelectorActivity
 import com.omar.retromp3recorder.app.ui.files.delete.DeleteFileDialogFragment
 import com.omar.retromp3recorder.app.ui.files.rename.RenameFileDialogFragment
+import com.omar.retromp3recorder.app.ui.files.selector.jpc.SelectorActivityJPC
 import com.omar.retromp3recorder.app.ui.utils.lazyView
 import com.omar.retromp3recorder.app.ui.utils.toFileName
 import com.omar.retromp3recorder.app.uiutils.observe
@@ -24,7 +24,7 @@ class CurrentFileFragment : Fragment(R.layout.fragment_current_file) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner, ::renderState)
         buttonOpen.setOnClickListener {
-            startActivity(Intent(requireContext(), SelectorActivity::class.java))
+            startActivity(Intent(requireContext(), SelectorActivityJPC::class.java))
         }
         buttonDelete.setOnClickListener {
             DeleteFileDialogFragment().show(

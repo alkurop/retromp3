@@ -33,6 +33,11 @@
             android:value="false" />
 
         <activity
+            android:name=".ui.files.selector.jpc.SelectorActivityJPC"
+            android:label="@string/current_file"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
+        <activity
             android:name=".ui.files.selector.SelectorActivity"
             android:label="@string/current_file"
             android:launchMode="singleTask"
