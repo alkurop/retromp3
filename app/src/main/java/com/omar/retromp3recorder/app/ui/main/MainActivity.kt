@@ -30,7 +30,7 @@ import com.omar.retromp3recorder.app.uiutils.observe
 class MainActivity : AppCompatActivity() {
     private val permissionsManager: PermissionsManager by lazy { PermissionsManager(this) }
     private val permissionsMap = createPermissionsMap()
-    private val viewModel by viewModels<MainViewModel>() { FactoryWithId() }
+    private val viewModel by viewModels<MainViewModel>()
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val composeMenu by lazy { findViewById<ComposeView>(R.id.compose_menu) }
     private val logFragment by lazy { findViewById<View>(R.id.audio_log) }

@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.app.ui.main
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.omar.retromp3recorder.app.App
 import com.omar.retromp3recorder.app.ui.main.MainViewOutputMapper.mapOutputToState
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
@@ -11,20 +10,13 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
-abstract class ViewModelWithId(val key: String) : ViewModel()
-
-class FactoryWithId(private val key: String = "default") : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(String::class.java).newInstance(key)
-    }
-}
-
-class MainViewModel(key: String) : ViewModelWithId(key) {
+class MainViewModel() : ViewModel() {
     val state = BehaviorSubject.create<MainView.State>()
     val input = PublishSubject.create<MainView.Input>()
 
     @Inject
     lateinit var interactor: MainViewInteractor
+
     @Inject
     lateinit var toastRepo: ToastRepo
 
@@ -42,6 +34,4 @@ class MainViewModel(key: String) : ViewModelWithId(key) {
     override fun onCleared() {
         compositeDisposable.clear()
     }
-
-
 }
