@@ -27,8 +27,6 @@
     <string name="no_file">Click record button</string>
     <string name="no">No</string>
     <string name="playing">Playing ...</string>
-    <string name="projection_acquired">Projection acquired</string>
-    <string name="projection_not_acquired">Projection not acquired</string>
     <string name="projection_notification_message">Media Projection acquired</string>
     <string name="projection_notification_title">Allowed to record output audio</string>
     <string name="record_permission_title">Record Audio</string>

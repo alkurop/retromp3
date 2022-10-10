@@ -26,7 +26,6 @@ class StartRecordUC @Inject constructor(
     private val requestMediaProjectionUC: RequestMediaProjectionUC,
     private val serviceDealer: ServiceDealer,
     private val wavetableUC: RecordWavetableUC
-
 ) {
     fun execute(): Completable {
         fun executeMedia(source: Int) =
@@ -41,13 +40,13 @@ class StartRecordUC @Inject constructor(
                                 projection,
                                 source
                             )
-                        )
+                        ).andThen(wavetableUC.execute())
                     } else {
                         requestMediaProjectionUC.execute()
                     }
                 }
 
-        fun executeMic() = micCaptureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Mic)
+        fun executeMic() = micCaptureCompletableCreator.create(Mp3VoiceRecorder.AudioSource.Mic).andThen(wavetableUC.execute())
 
         val abort = Completable.complete()
         return deactivatePlayerControlsUC
@@ -67,7 +66,6 @@ class StartRecordUC @Inject constructor(
                                 Mp3VoiceRecorder.AudioSourcePref.Games -> executeMedia(USAGE_GAME)
                             }
                         }
-                        .andThen(wavetableUC.execute())
                 } else {
                     abort
                 }

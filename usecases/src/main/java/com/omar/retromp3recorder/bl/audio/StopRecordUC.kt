@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.bl.audio
 
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.Constants.MAIN_THREAD
@@ -17,20 +16,12 @@ class StopRecordUC @Inject constructor(
     private val scheduler: Scheduler,
     private val voiceRecorder: Mp3VoiceRecorder,
     private val serviceDealer: ServiceDealer,
-    private val recorderPrefsRepo: RecorderPrefsRepo,
     @Named(MAIN_THREAD) private val mainThreadScheduler: Scheduler
 ) {
     fun execute(): Completable = Completable
         .fromAction { voiceRecorder.stopRecord() }
         .subscribeOn(scheduler)
         .andThen(Completable.fromAction { serviceDealer.stopWakelockService() })
-        .andThen(recorderPrefsRepo.takeOne().flatMapCompletable {
-            if (it.audioSourcePref == Mp3VoiceRecorder.AudioSourcePref.Mic) {
-                Completable.complete()
-            }else{
-                Completable.fromAction { serviceDealer.stopMediaProjectionService() }
-            }
-        })
         .subscribeOn(mainThreadScheduler)
         .andThen(
             currentFileRepo.observe().subscribeOn(scheduler).takeOne()

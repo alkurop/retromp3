@@ -10,6 +10,7 @@ import javax.inject.Inject
 
 class UpdateMediaProjectionUC @Inject constructor(
     private val mediaProjectionRepo: MediaProjectionStateRepo,
+    private val startRecordUC: StartRecordUC
 ) {
     fun execute(mediaProjection: MediaProjection?): Completable = Completable.fromAction {
         mediaProjectionRepo.onNext(
@@ -20,5 +21,5 @@ class UpdateMediaProjectionUC @Inject constructor(
                 } else Shell.empty()
             )
         )
-    }
+    }.andThen(if (mediaProjection != null) startRecordUC.execute() else Completable.complete())
 }

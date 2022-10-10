@@ -130,16 +130,12 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val projection = mediaProjectionManager.getMediaProjection(resultCode, data)
                 viewModel.input.onNext(MainView.Input.MediaProjectionUpdated(projection))
-                Toast.makeText(this, getString(R.string.projection_acquired), Toast.LENGTH_LONG)
-                    .show()
                 projection.registerCallback(object : MediaProjection.Callback() {
                     override fun onStop() {
                         viewModel.input.onNext(MainView.Input.MediaProjectionUpdated(null))
                     }
                 }, Handler(Looper.myLooper()!!))
             } else {
-                Toast.makeText(this, getString(R.string.projection_not_acquired), Toast.LENGTH_LONG)
-                    .show()
                 viewModel.input.onNext(MainView.Input.MediaProjectionUpdated(null))
             }
         } else {
