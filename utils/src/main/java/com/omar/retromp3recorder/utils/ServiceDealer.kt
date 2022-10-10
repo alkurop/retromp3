@@ -4,4 +4,5 @@ interface ServiceDealer {
     fun startWakelockService()
     fun stopWakelockService()
     fun startMediaProjectionService()
+    fun stopMediaProjectionService()
 }

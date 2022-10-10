@@ -25,4 +25,8 @@ class ServiceDealerImpl @Inject constructor(
             context.startForegroundService(startIntent)
         }
     }
+
+    override fun stopMediaProjectionService() {
+        context.stopService(Intent(context, MediaProjectionService::class.java))
+    }
 }
