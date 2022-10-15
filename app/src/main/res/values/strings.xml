@@ -31,7 +31,7 @@
     <string name="projection_notification_title">Allowed to record output audio</string>
     <string name="record_permission_title">Record Audio</string>
     <string name="record_permission_message">This app is going to record audio files using your mic.</string>
-    <string name="record_required_message">Recording audio is required. Go to settings let this app use Microphone</string>
+    <string name="record_required_message">Recording audio is required. Open settings to give permission?</string>
     <string name="recording">Recording ...</string>
     <string name="rerendered">Rerendered</string>
     <string name="reverse">reverse</string>
