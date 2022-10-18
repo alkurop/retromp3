@@ -6,6 +6,7 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,6 +20,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
@@ -34,7 +36,7 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
-fun Toolbar(
+fun SearchToolbar(
     onsBackPressed: () -> Unit = {},
     onSearch: (String) -> Unit = {}
 ) {
@@ -76,37 +78,41 @@ fun Toolbar(
     }
 
     val focusRequester = remember { FocusRequester() }
-        AppBar(
-            backgroundColor = Color.Black,
-            contentColor = Color.White,
-            elevation = 4.dp,
-            shape = RoundedCornerShape(4.dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                // Back button
-                IconButton(
-                    modifier = Modifier.padding(start = 2.dp),
-                    onClick = {
-                        focusManager.clearFocus()
-                        keyboardController?.hide()
-                        onBackPressed
-                    }) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                }
-                OutlinedTextField(
-                    value = textFileValue,
+    AppBar(
+        backgroundColor = Color.Black,
+        contentColor = Color.White,
+        elevation = 4.dp,
+        shape = RoundedCornerShape(4.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            // Back button
+            IconButton(
+                modifier = Modifier.padding(start = 2.dp),
+                onClick = {
+                    focusManager.clearFocus()
+                    keyboardController?.hide()
+                    onBackPressed
+                }) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+            }
+            BasicTextField(
+                value = textFileValue,
+                textStyle = TextStyle(
+                    color = MaterialTheme.colors.primary,
+                    fontSize = 16.sp,
+                ),
+                cursorBrush  = SolidColor(MaterialTheme.colors.primary),
+                onValueChange = onQueryChange,
+                modifier = Modifier
 
-                    onValueChange = onQueryChange,
-                    modifier = Modifier
-
-                        .weight(1f)
-                        .onFocusChanged { isFocused = it.isFocused }
-                        .focusRequester(focusRequester),
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Search
-                    )
+                    .weight(1f)
+                    .onFocusChanged { isFocused = it.isFocused }
+                    .focusRequester(focusRequester),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Search
                 )
+            )
 
         }
     }
