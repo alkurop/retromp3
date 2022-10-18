@@ -6,7 +6,6 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -29,7 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.appcompattheme.AppCompatTheme
 
 
 @ExperimentalAnimationApi
@@ -37,7 +35,7 @@ import com.google.accompanist.appcompattheme.AppCompatTheme
 @Preview
 @Composable
 fun Toolbar(
-    onBackPressed: () -> Unit = {},
+    onsBackPressed: () -> Unit = {},
     onSearch: (String) -> Unit = {}
 ) {
     val focusManager = LocalFocusManager.current
@@ -69,8 +67,15 @@ fun Toolbar(
         }
     }
 
+
+    DisposableEffect(onBackPressed) { // dispose/relaunch if dispatcher changes
+        onBackPressed.addCallback(backCallback)
+        onDispose {
+            backCallback.remove() // avoid leaks!
+        }
+    }
+
     val focusRequester = remember { FocusRequester() }
-    MaterialTheme() {
         AppBar(
             backgroundColor = Color.Black,
             contentColor = Color.White,
@@ -84,16 +89,13 @@ fun Toolbar(
                     onClick = {
                         focusManager.clearFocus()
                         keyboardController?.hide()
-                        onBackPressed()
+                        onBackPressed
                     }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                 }
-                BasicTextField(
+                OutlinedTextField(
                     value = textFileValue,
-                    textStyle = TextStyle(
-                        color = Color.White,
-                        fontSize = 16.sp
-                    ),
+
                     onValueChange = onQueryChange,
                     modifier = Modifier
 
@@ -105,7 +107,7 @@ fun Toolbar(
                         imeAction = ImeAction.Search
                     )
                 )
-            }
+
         }
     }
 }

@@ -21,7 +21,11 @@
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <meta-data
@@ -30,15 +34,11 @@
 
         <activity
             android:name=".ui.files.selector.jpc.SelectorActivityJPC"
+            android:exported="true"
             android:label="@string/current_file"
             android:launchMode="singleTask"
-            android:exported="true"
             android:screenOrientation="sensorPortrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.files.selector.SelectorActivity"
