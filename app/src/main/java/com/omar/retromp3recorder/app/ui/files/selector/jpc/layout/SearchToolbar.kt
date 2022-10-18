@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -96,22 +97,25 @@ fun SearchToolbar(
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
             }
             BasicTextField(
+
                 value = textFileValue,
                 textStyle = TextStyle(
                     color = MaterialTheme.colors.primary,
                     fontSize = 16.sp,
                 ),
-                cursorBrush  = SolidColor(MaterialTheme.colors.primary),
+
+                cursorBrush = SolidColor(MaterialTheme.colors.primary),
                 onValueChange = onQueryChange,
                 modifier = Modifier
-
                     .weight(1f)
                     .onFocusChanged { isFocused = it.isFocused }
                     .focusRequester(focusRequester),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Search
-                )
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Uri,
+                    autoCorrect = false
+                ),
             )
 
         }
