@@ -4,5 +4,5 @@ import androidx.compose.runtime.Composable
 
 
 @Composable
-fun Results() {
+fun Results(searchQuery: () -> String = {"HEllo"}) {
 }

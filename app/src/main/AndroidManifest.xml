@@ -37,6 +37,7 @@
             android:exported="true"
             android:label="@string/current_file"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="sensorPortrait">
 
         </activity>
