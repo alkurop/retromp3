@@ -7,8 +7,8 @@ import com.omar.retromp3recorder.storage.db.FileDbEntity
 
 object SelectorView {
     data class State(
-        val selectedFile: String?,
-        val items: LiveData<PagedList<FileDbEntity>>?
+        val selectedFile: String? = null,
+        val items: LiveData<PagedList<FileDbEntity>>? = null
     )
 
     sealed class Input {
