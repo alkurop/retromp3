@@ -5,6 +5,7 @@ ext.versions = [
         composeActivity  :    '1.5.1',
         composeViewModel :    '2.5.1',
         composeConstraint:    '1.0.1',
+        composePaging    :    '1.0.0-alpha16',
         composeNav       : '2.5.2',
         dagger           : '2.43.2',
         exo              : '2.14.0',

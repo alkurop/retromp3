@@ -75,6 +75,10 @@ interface FileDbEntityDao {
 
     @Query("DELETE from FileDbEntity where filepath=:filePath")
     fun deleteByFilepath(filePath: String)
+
+    companion object {
+        const val LOAD_SIZE = 5
+    }
 }
 
 fun FileDbEntity.toFileWrapper(): ExistingFileWrapper =

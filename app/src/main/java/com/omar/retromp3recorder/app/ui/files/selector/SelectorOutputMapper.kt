@@ -1,5 +1,8 @@
 package com.omar.retromp3recorder.app.ui.files.selector
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.functions.BiFunction
@@ -18,6 +21,18 @@ object SelectorOutputMapper {
             when (output) {
                 is SelectorView.Output.FileList -> {
                     oldState.copy(items = output.items)
+                }
+                is SelectorView.Output.FileListNew -> {
+                    oldState.copy(
+                        itemsPaging = Pager(
+                            PagingConfig(
+                                pageSize = FileDbEntityDao.LOAD_SIZE,
+                                enablePlaceholders = false
+                            )
+                        ) {
+                            output.itemsSource
+                        }.flow
+                    )
                 }
                 is SelectorView.Output.CurrentFile -> {
                     val selectedFile = output.filePath

@@ -30,6 +30,9 @@ class SelectorInteractor @Inject constructor(
                 },
                 Observable.just(pagingProvider.providePagingFiles()).map {
                     SelectorView.Output.FileList(it)
+                },
+                Observable.just(pagingProvider.provideItemSource()).map {
+                    SelectorView.Output.FileListNew(itemsSource = it)
                 }
             )
         )

@@ -78,6 +78,7 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling:$versions.compose"
     implementation "androidx.navigation:navigation-compose:$versions.composeNav"
     implementation "androidx.compose.foundation:foundation:$versions.compose"
+    implementation "androidx.paging:paging-compose:$versions.composePaging"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.composeViewModel"
     implementation "androidx.compose.runtime:runtime-rxjava3:$versions.compose"
     implementation "com.google.accompanist:accompanist-appcompat-theme:0.25.1"

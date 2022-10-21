@@ -4,10 +4,7 @@ import com.omar.retromp3recorder.bl.database.GetPagingItemsUC
 import com.omar.retromp3recorder.bl.system.WaveformScanUpdaterUC
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.isEmpty
-import com.omar.retromp3recorder.storage.db.AppDatabase
-import com.omar.retromp3recorder.storage.db.FileDbEntity
-import com.omar.retromp3recorder.storage.db.toDatabaseEntity
-import com.omar.retromp3recorder.storage.db.toFileWrapper
+import com.omar.retromp3recorder.storage.db.*
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
@@ -26,7 +23,7 @@ class ScanDirFilesPartialUC @Inject constructor(
     ): Completable = findFilesUC
         .get(listOf("mp3"), shouldCheckEmptyFiles)
         .flatMapCompletable { foundFiles ->
-            getPagingItemsUC.observe(10)
+            getPagingItemsUC.observe(FileDbEntityDao.LOAD_SIZE)
                 .flatMapSingle { dbFiles ->
                     Single.fromCallable {
                         val deletes = dbFiles.findDeletes(foundFiles)
