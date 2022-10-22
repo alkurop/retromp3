@@ -46,5 +46,6 @@
     <string name="timer_no_text"><![CDATA[<< : >>]]></string>
     <string name="yes">Yes</string>
     <string name="range_control">Range control</string>
+    <string name="no_saved_records_found">No saved records found</string>
 
 </resources>

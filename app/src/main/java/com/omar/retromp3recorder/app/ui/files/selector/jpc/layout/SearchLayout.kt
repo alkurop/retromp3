@@ -1,11 +1,13 @@
 package com.omar.retromp3recorder.app.ui.files.selector.jpc.layout
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.rxjava3.subscribeAsState
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.ui.RetroTheme
 import com.omar.retromp3recorder.app.ui.files.selector.SelectorContract
@@ -23,16 +25,13 @@ fun SearchLayout(viewModel: SelectorViewModel = viewModel()) {
         }
     }
     RetroTheme {
-        Column {
+        Column(modifier = Modifier
+            .fillMaxHeight()
+            .background(MaterialTheme.colors.surface)) {
             SearchToolbar(lambda)
 
             val itemsPaging = state.itemsPaging
-            if (itemsPaging == null) {
-                Text(
-                    text = "Empty",
-                    color = MaterialTheme.colors.primary,
-                )
-            } else {
+            if (itemsPaging != null) {
                 Results(data = itemsPaging) { query }
             }
         }
