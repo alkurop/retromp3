@@ -15,7 +15,7 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
     private val viewModel by viewModels<SelectorViewModel>()
     private val recyclerView by lazyView<RecyclerView>(R.id.recycler_view)
     private val adapter = SelectorAdapter {
-        viewModel.input.onNext(SelectorView.Input.ItemSelected(it))
+        viewModel.input.onNext(SelectorContract.Input.ItemSelected(it))
         requireActivity().finish()
     }
 
@@ -32,7 +32,7 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
         viewModel.state.observe(viewLifecycleOwner, ::renderState)
     }
 
-    private fun renderState(state: SelectorView.State) {
+    private fun renderState(state: SelectorContract.State) {
         state.items?.observe(this) {
             adapter.submitList(it)
         }

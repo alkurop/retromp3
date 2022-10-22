@@ -3,11 +3,13 @@ package com.omar.retromp3recorder.app.ui.files.selector
 import com.omar.retromp3recorder.bl.files.SetCurrentFileUC
 import com.omar.retromp3recorder.storage.db.DatabasePagingProvider
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class SelectorInteractor @Inject constructor(
@@ -16,34 +18,42 @@ class SelectorInteractor @Inject constructor(
     private val pagingProvider: DatabasePagingProvider,
     private val setCurrentFileUC: SetCurrentFileUC
 ) {
-    fun processIO(): ObservableTransformer<SelectorView.Input, SelectorView.Output> =
+    fun processIO(): ObservableTransformer<SelectorContract.Input, SelectorContract.Output> =
         scheduler.processIO(
             inputMapper = mapInputToUsecase,
             outputMapper = mapRepoToOutput
         )
 
-    private val mapRepoToOutput: () -> Observable<SelectorView.Output> = {
+    private val query = BehaviorSubject.createDefault("")
+
+    private val mapRepoToOutput: () -> Observable<SelectorContract.Output> = {
         Observable.merge(
             listOf(
                 currentFileRepo.observe().map {
-                    SelectorView.Output.CurrentFile(it.value!!.path)
+                    SelectorContract.Output.CurrentFile(it.value!!.path)
                 },
                 Observable.just(pagingProvider.providePagingFiles()).map {
-                    SelectorView.Output.FileList(it)
+                    SelectorContract.Output.FileList(it)
                 },
                 Observable.just(pagingProvider.provideItemSource()).map {
-                    SelectorView.Output.FileListNew(itemsSource = it)
-                }
+                    SelectorContract.Output.FileListNew(itemsSource = it)
+                },
+                query.map { SelectorContract.Output.QueryChanged(it) }
             )
         )
     }
-    private val mapInputToUsecase: (Observable<SelectorView.Input>) -> Completable =
+    private val mapInputToUsecase: (Observable<SelectorContract.Input>) -> Completable =
         { input ->
             Completable.merge(listOf(
-                input.ofType(SelectorView.Input.ItemSelected::class.java)
+                input.ofType(SelectorContract.Input.ItemSelected::class.java)
                     .flatMapCompletable {
                         setCurrentFileUC.execute(it.item)
+                    },
+                input.mapToUsecase<SelectorContract.Input.QuerySubmit> { event ->
+                    Completable.fromAction {
+                        query.onNext(event.query)
                     }
+                }
             ))
         }
 }

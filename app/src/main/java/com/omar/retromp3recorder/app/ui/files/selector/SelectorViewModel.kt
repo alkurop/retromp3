@@ -9,8 +9,8 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class SelectorViewModel : ViewModel() {
-    val state = BehaviorSubject.create<SelectorView.State>()
-    val input = PublishSubject.create<SelectorView.Input>()
+    val state = BehaviorSubject.create<SelectorContract.State>()
+    val input = PublishSubject.create<SelectorContract.Input>()
 
     @Inject
     lateinit var interactor: SelectorInteractor
