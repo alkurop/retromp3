@@ -27,8 +27,8 @@ class GatherCropRequestUC @Inject constructor(
 
             CropRequest(
                 range = range,
-                existingFileWrapper = file,
-                nameSuggestion = nameSuggestion
+                original = file,
+                newFileNameSuggestion = nameSuggestion
             )
         }
     }

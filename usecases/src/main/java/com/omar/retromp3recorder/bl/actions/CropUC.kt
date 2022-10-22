@@ -6,10 +6,8 @@ import com.omar.retromp3recorder.dto.NewNameSuggestion
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
-import com.omar.retromp3recorder.utils.AmplitudaDealer
-import com.omar.retromp3recorder.utils.FileLister
-import com.omar.retromp3recorder.utils.Optional
-import com.omar.retromp3recorder.utils.toOptional
+import com.omar.retromp3recorder.utils.*
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
@@ -21,6 +19,7 @@ class CropUC @Inject constructor(
     private val audioCropper: AudioCropper,
     private val gatherCropRequestUC: GatherCropRequestUC,
     private val fileLister: FileLister,
+    private val mp3TagsEditor: Mp3TagsEditor,
     private val waveformScanner: WaveformScanner,
     private val scheduler: Scheduler
 ) {
@@ -35,23 +34,31 @@ class CropUC @Inject constructor(
                     .flatMap { cropResponse ->
                         if (cropResponse.isSuccess.not()) {
                             Single.just(Optional.empty())
-                        } else Single
-                            .fromCallable {
-                                fileLister.discoverFile(request.nameSuggestion.path)
-                            }
-                            .flatMap {
-                                waveformScanner.execute(
-                                    it,
-                                    amplitudaDealer.createAmplituda()
-                                )
-                            }
-                            .flatMap { fileWrapper ->
-                                Single.fromCallable {
-                                    val id = appDatabase.fileEntityDao()
-                                        .insert(fileWrapper.toDatabaseEntity())
-                                    fileWrapper.copy(id = id).toOptional()
+                        } else
+                            Completable
+                                .fromAction {
+                                    val tags = mp3TagsEditor.getTags(request.original.path)
+                                        .copy(title = request.newFileNameSuggestion.name)
+                                    mp3TagsEditor.setTags(request.newFileNameSuggestion.path, tags)
                                 }
-                            }
+                                .andThen(
+                                    Single
+                                        .fromCallable {
+                                            fileLister.discoverFile(request.newFileNameSuggestion.path)
+                                        })
+                                .flatMap {
+                                    waveformScanner.execute(
+                                        it,
+                                        amplitudaDealer.createAmplituda()
+                                    )
+                                }
+                                .flatMap { fileWrapper ->
+                                    Single.fromCallable {
+                                        val id = appDatabase.fileEntityDao()
+                                            .insert(fileWrapper.toDatabaseEntity())
+                                        fileWrapper.copy(id = id).toOptional()
+                                    }
+                                }
                     }
             }
             .subscribeOn(scheduler)

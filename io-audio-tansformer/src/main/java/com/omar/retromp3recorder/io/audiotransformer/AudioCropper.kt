@@ -11,7 +11,7 @@ import javax.inject.Inject
 class AudioCropper @Inject constructor() {
     fun crop(request: CropRequest): CropResponse {
         val command =
-            "-ss ${request.range.from}ms -to ${request.range.to}ms -i " + "${request.existingFileWrapper.path} -c:a  copy ${request.nameSuggestion.path}"
+            "-ss ${request.range.from}ms -to ${request.range.to}ms -i " + "${request.original.path} -c:a  copy ${request.newFileNameSuggestion.path}"
         val returnCode = FFmpeg.execute(
             command
         )
@@ -22,8 +22,8 @@ class AudioCropper @Inject constructor() {
 
 data class CropRequest(
     val range: FromToMillis,
-    val existingFileWrapper: ExistingFileWrapper,
-    val nameSuggestion: NewNameSuggestion
+    val original: ExistingFileWrapper,
+    val newFileNameSuggestion: NewNameSuggestion
 )
 
 data class CropResponse(
