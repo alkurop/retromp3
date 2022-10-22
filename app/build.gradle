@@ -58,6 +58,7 @@ android {
             keyPassword 'android'
         }
     }
+    namespace 'com.omar.retromp3recorder.app'
 }
 
 dependencies {

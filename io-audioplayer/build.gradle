@@ -18,6 +18,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.omar.retromp3recorder.audioplayer'
 }
 
 dependencies {
