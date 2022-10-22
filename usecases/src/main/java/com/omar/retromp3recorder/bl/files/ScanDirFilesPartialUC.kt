@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.files
 
-import com.omar.retromp3recorder.bl.database.GetPagingItemsUC
+import com.omar.retromp3recorder.bl.database.GetPagingItemsDatabaseUC
 import com.omar.retromp3recorder.bl.system.WaveformScanUpdaterUC
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.isEmpty
@@ -14,7 +14,7 @@ class ScanDirFilesPartialUC @Inject constructor(
     private val appDatabase: AppDatabase,
     private val findFilesUC: FindFilesUC,
     private val fileRepoUpdaterUC: FileRepoUpdaterUC,
-    private val getPagingItemsUC: GetPagingItemsUC,
+    private val getPagingItemsDatabaseUC: GetPagingItemsDatabaseUC,
     private val waveformScanUpdaterUC: WaveformScanUpdaterUC,
     private val scheduler: Scheduler
 ) {
@@ -23,16 +23,20 @@ class ScanDirFilesPartialUC @Inject constructor(
     ): Completable = findFilesUC
         .get(listOf("mp3"), shouldCheckEmptyFiles)
         .flatMapCompletable { foundFiles ->
-            getPagingItemsUC.observe(FileDbEntityDao.LOAD_SIZE)
+            getPagingItemsDatabaseUC.observe(FileDbEntityDao.LOAD_SIZE)
                 .flatMapSingle { dbFiles ->
                     Single.fromCallable {
                         val deletes = dbFiles.findDeletes(foundFiles)
                         val inserts = dbFiles.findInserts(foundFiles)
                         val updates = dbFiles.findUpdates(foundFiles)
+                        val updatesName =
+                            dbFiles.findOnlyNeedToUpdateNameAfterMigrationOfDb(foundFiles)
+
                         DbUpdateItem(
-                            deletes,
-                            updates,
-                            inserts,
+                            deletes = deletes,
+                            updates = updates,
+                            inserts = inserts,
+                            updateNames = updatesName,
                             existing = dbFiles.map { it.filepath })
                     }
                 }
@@ -46,7 +50,9 @@ class ScanDirFilesPartialUC @Inject constructor(
                         .fromCallable {
                             appDatabase.fileEntityDao().delete(dbUpdateItem.deletes)
                             appDatabase.fileEntityDao().update(dbUpdateItem.updates)
-                            val insertIds = appDatabase.fileEntityDao().insertBatch(dbUpdateItem.inserts)
+                            appDatabase.fileEntityDao().update(dbUpdateItem.updateNames)
+                            val insertIds =
+                                appDatabase.fileEntityDao().insertBatch(dbUpdateItem.inserts)
                             val insertsWithId =
                                 dbUpdateItem.inserts.zip(insertIds) { item, id -> item.copy(id = id) }
                             dbUpdateItem.copy(inserts = insertsWithId)
@@ -72,6 +78,7 @@ class ScanDirFilesPartialUC @Inject constructor(
 data class DbUpdateItem(
     val deletes: List<FileDbEntity>,
     val updates: List<FileDbEntity>,
+    val updateNames: List<FileDbEntity>,
     val inserts: List<FileDbEntity>,
     val existing: List<String>
 )
@@ -81,10 +88,21 @@ private fun List<DbUpdateItem>.merge(): DbUpdateItem {
     val deletes = this.map { it.deletes }.flatten()
     val otherChanges = updates.plus(deletes)
     val existing = this.map { it.existing }.flatten()
+
     val inserts = this.map { it.inserts }.flatten()
         .filter { item -> !otherChanges.map { it.filepath }.contains(item.filepath) }
         .filter { !existing.contains(it.filepath) }
-    return DbUpdateItem(deletes, updates, inserts, existing)
+
+    val updateNames = this.map { it.updateNames }.flatten()
+        .filter { it !in updates && it !in deletes && it !in inserts }
+
+    return DbUpdateItem(
+        deletes = deletes,
+        updates = updates,
+        updateNames = updateNames,
+        inserts = inserts,
+        existing = existing
+    )
 }
 
 fun List<FileDbEntity>.findDeletes(foundFiles: List<ExistingFileWrapper>): List<FileDbEntity> {
@@ -97,6 +115,22 @@ fun List<FileDbEntity>.findInserts(foundFiles: List<ExistingFileWrapper>): List<
     return foundFiles.filter { item ->
         !this.map { it.filepath }.contains(item.path)
     }.map { it.toDatabaseEntity() }
+}
+
+fun List<FileDbEntity>.findOnlyNeedToUpdateNameAfterMigrationOfDb(foundFiles: List<ExistingFileWrapper>): List<FileDbEntity> {
+    return foundFiles
+        .filter { item ->
+            this.map { it.filepath }.contains(item.path)
+
+        }.mapNotNull { item ->
+            this.firstOrNull { it.filepath == item.path }
+                ?.takeIf {
+                    it.name == null
+                }
+                ?.copy(
+                    name = item.name
+                )
+        }
 }
 
 fun List<FileDbEntity>.findUpdates(foundFiles: List<ExistingFileWrapper>): List<FileDbEntity> {
@@ -115,7 +149,8 @@ fun List<FileDbEntity>.findUpdates(foundFiles: List<ExistingFileWrapper>): List<
                 ?.copy(
                     length = item.length,
                     created = item.createTimedStamp,
-                    lastModified = item.modifiedTimestamp
+                    lastModified = item.modifiedTimestamp,
+                    name = item.name
                 )
         }
 }

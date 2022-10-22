@@ -24,11 +24,15 @@ class ItemsSource @Inject constructor(
             val prevPage = thisPage?.let { if (it.page == 0) null else it.copy(page = it.page - 1) }
             val nextPage = thisPage?.let { it.copy(page = it.page + 1) }
 
+            val query = params.key?.query?.let { if (it.isNotBlank()) "%$it%" else null }
 
             withContext(Dispatchers.IO) {
                 val response =
-                    database.fileEntityDao().getAllPaging(params.loadSize, offset)
-                        .map { it.toFileWrapper() }
+                    if (query == null) {
+                        database.fileEntityDao().getAllPaging(params.loadSize, offset)
+                    } else {
+                        database.fileEntityDao().getAllPagingQuery(query, params.loadSize, offset)
+                    }.map { it.toFileWrapper() }
 
                 LoadResult.Page(
                     data = response,

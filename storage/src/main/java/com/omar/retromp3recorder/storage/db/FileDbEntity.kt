@@ -15,7 +15,8 @@ data class FileDbEntity(
     val filepath: String,
     @Embedded
     val waveform: WaveformDbEntity?,
-    val length: Long?
+    val length: Long?,
+    val name: String?
 )
 
 @Entity
@@ -55,6 +56,9 @@ interface FileDbEntityDao {
     @Query("SELECT * FROM FileDbEntity ORDER BY id DESC limit :pageSize offset :offsetItems")
     fun getAllPaging(pageSize: Int, offsetItems: Int): List<FileDbEntity>
 
+    @Query("SELECT * FROM FileDbEntity where name like :query ORDER BY id DESC limit :pageSize offset :offsetItems COLLATE NOCASE")
+    fun getAllPagingQuery(query: String, pageSize: Int, offsetItems: Int): List<FileDbEntity>
+
     @Query("SELECT * from FileDbEntity WHERE filepath = :filepath")
     fun getByFilepath(filepath: String): List<FileDbEntity>
 
@@ -92,12 +96,13 @@ fun FileDbEntity.toFileWrapper(): ExistingFileWrapper =
     )
 
 fun ExistingFileWrapper.toDatabaseEntity(): FileDbEntity = FileDbEntity(
-    this.id,
-    this.createTimedStamp,
-    this.modifiedTimestamp,
-    this.path,
+    id = this.id,
+    created = this.createTimedStamp,
+    lastModified = this.modifiedTimestamp,
+    filepath = this.path,
     waveform = this.wavetable?.toDatabaseEntity(),
-    length
+    length = length,
+    name = this.name
 )
 
 fun Wavetable.toDatabaseEntity() = WaveformDbEntity(this.data, stepMillis)

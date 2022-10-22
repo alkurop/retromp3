@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.storage.db.FileDbEntity
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
-class GetPagingItemsUC @Inject constructor(
+class GetPagingItemsDatabaseUC @Inject constructor(
     private val appDatabase: AppDatabase
 ) {
     fun observe(pageSize: Int): Observable<List<FileDbEntity>> {
