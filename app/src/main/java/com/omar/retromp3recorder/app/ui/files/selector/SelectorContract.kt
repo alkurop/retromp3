@@ -18,11 +18,9 @@ object SelectorContract {
 
     sealed class Input {
         data class ItemSelected(val item: ExistingFileWrapper) : Input()
-        data class QuerySubmit(val query: String) : Input()
     }
 
     sealed class Output {
-        data class QueryChanged(val query: String) : Output()
         data class FileList(val items: LiveData<PagedList<FileDbEntity>>) : Output()
         data class FileListNew(val itemsSource: ItemsSource) : Output()
         data class CurrentFile(val filePath: String?) : Output()

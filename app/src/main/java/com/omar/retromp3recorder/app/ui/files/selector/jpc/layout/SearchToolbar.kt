@@ -56,8 +56,10 @@ fun SearchToolbar(
     }
 
     val onQueryChange: (TextFieldValue) -> Unit = {
-        onSearch.invoke(it.text)
-        textFileValue = it
+        if (textFileValue.text != it.text) {
+            onSearch.invoke(it.text)
+            textFileValue = it
+        }
     }
 
     val backCallback = remember {

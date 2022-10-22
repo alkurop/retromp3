@@ -27,13 +27,6 @@ object SelectorOutputMapper {
                 is SelectorContract.Output.FileList -> {
                     oldState.copy(items = output.items)
                 }
-                is SelectorContract.Output.QueryChanged -> {
-                    val itemsSource = oldState.itemsSource
-                    if (itemsSource != null)
-                        oldState.copy(
-                            itemsPaging = itemsSource.createFlow(output.query)
-                        ) else oldState
-                }
                 is SelectorContract.Output.FileListNew -> {
                     oldState.copy(
                         itemsSource = output.itemsSource,
@@ -56,6 +49,8 @@ object SelectorOutputMapper {
     )
 }
 
+//JPC does not like changing source of data, so I'm filtering on the view side.
+//keeping query db cuz I like how it works, but no current usecase for it
 private fun ItemsSource.createFlow(query: String): Flow<PagingData<ExistingFileWrapper>> {
     return Pager(
         initialKey = ItemsLoadRequest(query, page = 0),

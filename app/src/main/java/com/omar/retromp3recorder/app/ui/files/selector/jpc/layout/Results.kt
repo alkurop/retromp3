@@ -13,11 +13,11 @@ import kotlinx.coroutines.flow.Flow
 
 
 @Composable
-fun Results(data: Flow<PagingData<ExistingFileWrapper>>) {
+fun Results(data: Flow<PagingData<ExistingFileWrapper>>, query: () -> String) {
     val pagingItems: LazyPagingItems<ExistingFileWrapper> = data.collectAsLazyPagingItems()
     LazyColumn {
-        items(pagingItems) { file ->
-            file?.let {
+        items(items = pagingItems) { file ->
+            file?.takeIf { it.name.contains(query.invoke(), true) }?.let {
                 Text(it.path, color = MaterialTheme.colors.primary)
             }
         }

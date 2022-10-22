@@ -15,12 +15,16 @@ import com.omar.retromp3recorder.app.ui.files.selector.SelectorViewModel
 @Composable
 fun SearchLayout(viewModel: SelectorViewModel = viewModel()) {
     val state by viewModel.state.subscribeAsState(initial = SelectorContract.State())
+    var query by remember { mutableStateOf("") }
 
+    val lambda: (String) -> Unit = remember {
+        {
+            query = it
+        }
+    }
     RetroTheme {
         Column {
-            SearchToolbar {
-                viewModel.input.onNext(SelectorContract.Input.QuerySubmit(it))
-            }
+            SearchToolbar(lambda)
 
             val itemsPaging = state.itemsPaging
             if (itemsPaging == null) {
@@ -29,7 +33,7 @@ fun SearchLayout(viewModel: SelectorViewModel = viewModel()) {
                     color = MaterialTheme.colors.primary,
                 )
             } else {
-                Results(data = itemsPaging)
+                Results(data = itemsPaging) { query }
             }
         }
     }
