@@ -7,6 +7,7 @@ import android.text.SpannableString
 import android.text.style.TextAppearanceSpan
 import androidx.annotation.StyleRes
 import com.omar.retromp3recorder.utils.Constants.PRECISION_PLAYER_TO_RECORDER_CONVERSION_MILLIS
+import java.text.SimpleDateFormat
 import java.time.Duration
 
 typealias SeekbarTime = Int
@@ -17,8 +18,11 @@ data class TimeDisplay(
     val millis: String
 )
 
-fun SeekbarTime.toPlayerTime(): PlayerTime = this.toLong() * PRECISION_PLAYER_TO_RECORDER_CONVERSION_MILLIS
-fun PlayerTime.toSeekbarTime(): SeekbarTime = (this / PRECISION_PLAYER_TO_RECORDER_CONVERSION_MILLIS).toInt()
+fun SeekbarTime.toPlayerTime(): PlayerTime =
+    this.toLong() * PRECISION_PLAYER_TO_RECORDER_CONVERSION_MILLIS
+
+fun PlayerTime.toSeekbarTime(): SeekbarTime =
+    (this / PRECISION_PLAYER_TO_RECORDER_CONVERSION_MILLIS).toInt()
 
 
 @SuppressLint("NewApi")
@@ -46,6 +50,15 @@ fun PlayerTime.toTimeDisplay(): TimeDisplay {
         millisString
     )
 }
+
+private const val DATE_FORMAT_PATTERN = ("dd-MMM-yyyy HH:mm")
+
+@SuppressLint("SimpleDateFormat")
+private val formatter = SimpleDateFormat(DATE_FORMAT_PATTERN)
+fun Long.toCreationDate(): String {
+    return formatter.format(this)
+}
+
 
 private fun Long.toFormat(showFullTime: Boolean): String =
     if (showFullTime && this >= 10) {

@@ -7,10 +7,12 @@
     <string name="channel_name">Service notifications</string>
     <string name="channel_description">channel_description</string>
     <string name="current_file">Current file</string>
+    <string name="created">Created:</string>
     <string name="delete_file">Delete file</string>
     <string name="experimental_features">Experimental features:</string>
     <string name="debug_features">Debug features:</string>
     <string name="error_string">Error: %1$s</string>
+    <string name="length">Length:</string>
     <string name="menu_crop">Crop</string>
     <string name="menu_loop">Loop</string>
     <string name="menu_range">Range</string>
