@@ -10,6 +10,7 @@ import com.omar.retromp3recorder.dto.VisibilityEnabler
 @StringRes
 fun MenuExecutable.getTitleRes(): Int = when (this) {
     MenuExecutable.Crop -> R.string.menu_crop
+    MenuExecutable.Open -> R.string.menu_open
 }
 
 @StringRes

@@ -27,9 +27,12 @@ class MenuStateExcavator @Inject constructor(
                         MenuView.Item.Popup(
                             MenuExecutable.Crop,
                             range.isVisible
+                        ),
+                        MenuView.Item.Popup(
+                            MenuExecutable.Open,
+                            true
                         )
                     )
-
                 },
             menuPopupBus.observe(),
             audioStateMapper.observe()
