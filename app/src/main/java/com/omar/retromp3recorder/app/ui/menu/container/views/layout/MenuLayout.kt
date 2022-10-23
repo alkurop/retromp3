@@ -10,15 +10,15 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuView
+import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
 
 @Preview
 @Composable
 fun MenuLayout(
-    @PreviewParameter(MenuPreviewStateProvider::class) state: MenuView.State,
-    onAction: (MenuView.Input) -> Unit = {}
+    @PreviewParameter(MenuPreviewStateProvider::class) state: MenuContract.State,
+    onAction: (MenuContract.Input) -> Unit = {}
 ) {
-    val noAction: (MenuView.Input) -> Unit = {}
+    val noAction: (MenuContract.Input) -> Unit = {}
     val scrollState = rememberScrollState()
     Row(
         Modifier

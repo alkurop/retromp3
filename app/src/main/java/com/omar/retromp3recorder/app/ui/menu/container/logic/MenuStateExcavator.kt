@@ -15,20 +15,20 @@ class MenuStateExcavator @Inject constructor(
     private val audioStateMapper: AudioStateMapper
 ) {
     @Suppress("unused")
-    fun observe(): Observable<MenuView.State> = Observable
+    fun observe(): Observable<MenuContract.State> = Observable
         .combineLatest(
             playerControlsRepo.observe()
                 .map { (_, range, _, _) ->
                     listOfNotNull(
-                        MenuView.Item.Enable(
+                        MenuContract.Item.Enable(
                             VisibilityEnabler.RangeBar,
                             range.isVisible
                         ),
-                        MenuView.Item.Popup(
+                        MenuContract.Item.Popup(
                             MenuExecutable.Crop,
                             range.isVisible
                         ),
-                        MenuView.Item.Popup(
+                        MenuContract.Item.Popup(
                             MenuExecutable.Open,
                             true
                         )
@@ -37,7 +37,7 @@ class MenuStateExcavator @Inject constructor(
             menuPopupBus.observe(),
             audioStateMapper.observe()
         ) { menu, popup, audioState ->
-            MenuView.State(
+            MenuContract.State(
                 items = menu,
                 isVisible = audioState != AudioState.Recording,
                 popup = popup

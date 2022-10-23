@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.app.ui.menu.container.logic
 
 import com.omar.retromp3recorder.bl.enablers.EnablersSwitcher
 import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
+import com.omar.retromp3recorder.utils.Optional
 import com.omar.retromp3recorder.utils.processIO
 import com.omar.retromp3recorder.utils.toOptional
 import io.reactivex.rxjava3.core.Completable
@@ -16,21 +17,26 @@ class MenuInteractor @Inject constructor(
     private val eneblersSwitcher: EnablersSwitcher,
     private val scheduler: Scheduler
 ) {
-    fun processIO(): ObservableTransformer<MenuView.Input, MenuView.State> =
+    fun processIO(): ObservableTransformer<MenuContract.Input, MenuContract.State> =
         scheduler.processIO(inputMapper, stateMapper)
 
-    private val stateMapper: () -> Observable<MenuView.State> = { menuStateExcavator.observe() }
+    private val stateMapper: () -> Observable<MenuContract.State> = { menuStateExcavator.observe() }
 
-    private val inputMapper: (Observable<MenuView.Input>) -> Completable =
+    private val inputMapper: (Observable<MenuContract.Input>) -> Completable =
         { input ->
             Completable.merge(
                 listOf(
-                    input.ofType(MenuView.Input.Enable::class.java).flatMapCompletable {
+                    input.ofType(MenuContract.Input.Enable::class.java).flatMapCompletable {
                         eneblersSwitcher.execute(it.enabler, it.isEnabled)
                     },
-                    input.ofType(MenuView.Input.Popup::class.java).flatMapCompletable {
+                    input.ofType(MenuContract.Input.Popup::class.java).flatMapCompletable {
                         Completable.fromAction {
                             menuPopupBus.onNext(it.action.toOptional())
+                        }
+                    },
+                    input.ofType(MenuContract.Input.Clear::class.java).flatMapCompletable {
+                        Completable.fromAction {
+                            menuPopupBus.onNext(Optional.empty()/**/)
                         }
                     },
                 )

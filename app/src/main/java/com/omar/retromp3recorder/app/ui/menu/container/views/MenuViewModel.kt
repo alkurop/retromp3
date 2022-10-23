@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.ui.menu.container.views
 import androidx.lifecycle.ViewModel
 import com.omar.retromp3recorder.app.App
 import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuInteractor
-import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuView
+import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
 import com.omar.retromp3recorder.utils.disposedBy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
@@ -16,8 +16,8 @@ class MenuViewModel : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
-    val state = BehaviorSubject.create<MenuView.State>()
-    val input = PublishSubject.create<MenuView.Input>()
+    val state = BehaviorSubject.create<MenuContract.State>()
+    val input = PublishSubject.create<MenuContract.Input>()
 
     init {
         App.appComponent.getComponent().inject(this)

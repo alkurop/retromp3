@@ -1,37 +1,37 @@
 package com.omar.retromp3recorder.app.ui.menu.container.views.layout
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuView
+import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
 import com.omar.retromp3recorder.dto.AudioEnabler
 import com.omar.retromp3recorder.dto.MenuExecutable
 import com.omar.retromp3recorder.dto.VisibilityEnabler
 
-class MenuPreviewStateProvider : PreviewParameterProvider<MenuView.State> {
+class MenuPreviewStateProvider : PreviewParameterProvider<MenuContract.State> {
     override val values = sequenceOf(
-        MenuView.State(
+        MenuContract.State(
             isVisible = true,
             items = listOf(
-                MenuView.Item.Popup(
+                MenuContract.Item.Popup(
                     MenuExecutable.Crop,
                     true
                 ),
-                MenuView.Item.Popup(
+                MenuContract.Item.Popup(
                     MenuExecutable.Open,
                     false
                 ),
-                MenuView.Item.Enable(
+                MenuContract.Item.Enable(
                     VisibilityEnabler.RangeBar,
                     false
                 ),
-                MenuView.Item.Enable(
+                MenuContract.Item.Enable(
                     AudioEnabler.Loop,
                     true
                 ),
-                MenuView.Item.Enable(
+                MenuContract.Item.Enable(
                     AudioEnabler.Reverse,
                     false
                 ),
-                MenuView.Item.Enable(
+                MenuContract.Item.Enable(
                     VisibilityEnabler.PlaybackSpeed,
                     true
                 )

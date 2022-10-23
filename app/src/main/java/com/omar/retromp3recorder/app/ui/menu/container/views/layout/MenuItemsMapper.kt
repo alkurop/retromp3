@@ -4,7 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuView
+import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
 import com.omar.retromp3recorder.app.ui.menu.container.logic.toInput
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuItemComposable
 import com.omar.retromp3recorder.app.ui.menu.container.views.getTitleRes
@@ -14,19 +14,19 @@ import com.omar.retromp3recorder.app.ui.menu.container.views.mapToStatePopup
 @Composable
 fun DrawMenuItem(
     modifier: Modifier,
-    action: MenuView.Item,
-    onAction: (MenuView.Input) -> Unit
+    action: MenuContract.Item,
+    onAction: (MenuContract.Input) -> Unit
 ) =
     when (action) {
-        is MenuView.Item.Popup -> DrawMenuPopupItem(modifier, action, onAction)
-        is MenuView.Item.Enable -> DrawEnablerItem(modifier, action, onAction)
+        is MenuContract.Item.Popup -> DrawMenuPopupItem(modifier, action, onAction)
+        is MenuContract.Item.Enable -> DrawEnablerItem(modifier, action, onAction)
     }
 
 @Composable
 private fun DrawEnablerItem(
     modifier: Modifier,
-    item: MenuView.Item.Enable,
-    onAction: (MenuView.Input) -> Unit
+    item: MenuContract.Item.Enable,
+    onAction: (MenuContract.Input) -> Unit
 ) {
     MenuItemComposable(
         modifier = modifier.clickable {
@@ -42,8 +42,8 @@ private fun DrawEnablerItem(
 @Composable
 private fun DrawMenuPopupItem(
     modifier: Modifier,
-    item: MenuView.Item.Popup,
-    onAction: (MenuView.Input) -> Unit
+    item: MenuContract.Item.Popup,
+    onAction: (MenuContract.Input) -> Unit
 ) {
     MenuItemComposable(
         modifier = modifier.clickable(item.isEnabled) { onAction.invoke(item.toInput()) },

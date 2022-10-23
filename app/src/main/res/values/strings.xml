@@ -14,7 +14,7 @@
     <string name="error_string">Error: %1$s</string>
     <string name="length">Length:</string>
     <string name="menu_crop">Crop</string>
-    <string name="menu_open">Crop</string>
+    <string name="menu_open">Open</string>
     <string name="menu_loop">Loop</string>
     <string name="menu_range">Range</string>
     <string name="menu_reverse">Rev</string>

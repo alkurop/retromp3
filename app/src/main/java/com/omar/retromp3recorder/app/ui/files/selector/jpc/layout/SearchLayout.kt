@@ -29,8 +29,8 @@ fun SearchLayout(viewModel: SelectorViewModel = viewModel()) {
 
     val lambdaClick: (ExistingFileWrapper) -> Unit = remember {
         {
-            onBackPressed.onBackPressed()
             viewModel.input.onNext(SelectorContract.Input.ItemSelected(it))
+            onBackPressed.onBackPressed()
         }
     }
 

@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.dto.MenuEnabler
 import com.omar.retromp3recorder.dto.MenuExecutable
 import com.omar.retromp3recorder.utils.Optional
 
-interface MenuView {
+interface MenuContract {
     data class State(
         val items: List<Item> = emptyList(),
         val isVisible: Boolean = true,
@@ -17,6 +17,7 @@ interface MenuView {
             val isEnabled: Boolean
         ) : Input()
 
+        object Clear : Input()
         data class Popup(val action: MenuExecutable) : Input()
     }
 
@@ -33,6 +34,8 @@ interface MenuView {
     }
 }
 
-fun MenuView.Item.Enable.toInput() = MenuView.Input.Enable(this.enabler, this.isEnabled.not())
-fun MenuView.Item.Popup.toInput() = MenuView.Input.Popup(this.menuExecutable)
+fun MenuContract.Item.Enable.toInput() =
+    MenuContract.Input.Enable(this.enabler, this.isEnabled.not())
+
+fun MenuContract.Item.Popup.toInput() = MenuContract.Input.Popup(this.menuExecutable)
 
