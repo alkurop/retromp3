@@ -3,8 +3,10 @@ package com.omar.retromp3recorder.app.ui.files.selector.jpc.layout
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -28,9 +30,16 @@ import kotlinx.coroutines.flow.Flow
 
 
 @Composable
-fun Results(data: Flow<PagingData<ExistingFileWrapper>>, currentFilePath: String?, query: String) {
-    val pagingItems: LazyPagingItems<ExistingFileWrapper> = data
-        .collectAsLazyPagingItems()
+fun Results(
+    data: Flow<PagingData<ExistingFileWrapper>>,
+    currentFilePath: String?,
+    query: String,
+    onClick: (ExistingFileWrapper) -> Unit
+) {
+
+    val pagingItems: LazyPagingItems<ExistingFileWrapper> = data.collectAsLazyPagingItems()
+
+    val listState = rememberLazyListState()
 
     val finishedLoading = pagingItems.loadState.append.endOfPaginationReached
     if (pagingItems.itemCount == 0 && finishedLoading) {
@@ -39,38 +48,46 @@ fun Results(data: Flow<PagingData<ExistingFileWrapper>>, currentFilePath: String
             color = MaterialTheme.colors.primary,
         )
     } else {
-        LazyColumn {
+        LazyColumn(state = listState) {
             items(items = pagingItems) { file ->
-                file?.takeIf { it.name.contains(query, true) }?.let {
-                    ItemComposable(existingFileWrapper = it, currentFilePath)
+                file?.takeIf { it.filter(query) }?.let { existingFileWrapper ->
+                    ItemComposable(
+                        existingFileWrapper = existingFileWrapper, currentFilePath, onClick
+                    )
                 }
             }
         }
     }
 }
 
+private fun ExistingFileWrapper.filter(query: String): Boolean {
+    return this.name.contains(query, true)
+}
+
 @Composable
 private fun ItemComposable(
     existingFileWrapper: ExistingFileWrapper,
-    selectedPath: String? = null
+    currentFilePath: String? = null,
+    onClick: (ExistingFileWrapper) -> Unit
 ) {
-    val matches = existingFileWrapper.path == selectedPath
+    val matches = existingFileWrapper.path == currentFilePath
 
     Card(
         Modifier
+            .clickable { onClick.invoke(existingFileWrapper) }
             .padding(top = 8.dp)
             .fillMaxWidth(),
         backgroundColor = MaterialTheme.colors.background,
-        border = if (matches) BorderStroke(5.dp, color = MaterialTheme.colors.secondaryVariant) else null
-    ) {
+        border = if (matches) BorderStroke(
+            5.dp, color = MaterialTheme.colors.secondaryVariant
+        ) else null) {
         Column(
             Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
             Text(
-                text = existingFileWrapper.name,
-                color = MaterialTheme.colors.onSurface
+                text = existingFileWrapper.name, color = MaterialTheme.colors.onSurface
             )
             existingFileWrapper.wavetable?.let { wavetable ->
                 AndroidView(factory = { context ->
@@ -103,9 +120,7 @@ private fun ItemComposable(
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
-                    fontSize = 12.sp,
-                    color = MaterialTheme.colors.onSurface,
-                    text = time
+                    fontSize = 12.sp, color = MaterialTheme.colors.onSurface, text = time
                 )
             }
 

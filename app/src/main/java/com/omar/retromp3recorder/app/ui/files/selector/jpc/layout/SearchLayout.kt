@@ -1,5 +1,7 @@
 package com.omar.retromp3recorder.app.ui.files.selector.jpc.layout
 
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -12,32 +14,40 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.ui.RetroTheme
 import com.omar.retromp3recorder.app.ui.files.selector.SelectorContract
 import com.omar.retromp3recorder.app.ui.files.selector.SelectorViewModel
+import com.omar.retromp3recorder.dto.ExistingFileWrapper
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SearchLayout(viewModel: SelectorViewModel = viewModel()) {
     val state by viewModel.state.subscribeAsState(initial = SelectorContract.State())
     var query by remember { mutableStateOf("") }
-
     val currentFilePath = state.selectedFile
-    val lambda: (String) -> Unit = remember {
+    val lambdaSearch: (String) -> Unit = remember { { query = it } }
+
+    val onBackPressed: OnBackPressedDispatcher =
+        LocalOnBackPressedDispatcherOwner.current!!.onBackPressedDispatcher
+
+    val lambdaClick: (ExistingFileWrapper) -> Unit = remember {
         {
-            query = it
+            onBackPressed.onBackPressed()
+            viewModel.input.onNext(SelectorContract.Input.ItemSelected(it))
         }
     }
+
     RetroTheme {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
                 .background(MaterialTheme.colors.surface)
         ) {
-            SearchToolbar(lambda)
+            SearchToolbar(lambdaSearch)
             val itemsPaging = state.itemsPaging
             if (itemsPaging != null) {
                 Results(
                     data = itemsPaging,
                     currentFilePath = currentFilePath,
-                    query = query
+                    query = query,
+                    onClick = lambdaClick
                 )
             }
         }
