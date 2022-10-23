@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.app.ui.files.selector.jpc.layout
 
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
@@ -10,7 +11,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.Flow
 
 
 @Composable
-fun Results(data: Flow<PagingData<ExistingFileWrapper>>, query: () -> String) {
+fun Results(data: Flow<PagingData<ExistingFileWrapper>>, currentFilePath: String?, query: String) {
     val pagingItems: LazyPagingItems<ExistingFileWrapper> = data
         .collectAsLazyPagingItems()
 
@@ -41,8 +41,8 @@ fun Results(data: Flow<PagingData<ExistingFileWrapper>>, query: () -> String) {
     } else {
         LazyColumn {
             items(items = pagingItems) { file ->
-                file?.takeIf { it.name.contains(query.invoke(), true) }?.let {
-                    ItemComposable(existingFileWrapper = it)
+                file?.takeIf { it.name.contains(query, true) }?.let {
+                    ItemComposable(existingFileWrapper = it, currentFilePath)
                 }
             }
         }
@@ -50,22 +50,18 @@ fun Results(data: Flow<PagingData<ExistingFileWrapper>>, query: () -> String) {
 }
 
 @Composable
-@Preview
 private fun ItemComposable(
-    existingFileWrapper: ExistingFileWrapper = ExistingFileWrapper(
-        id = 0,
-        path = "my/file_created_by_me.mp3",
-        createTimedStamp = 1666485830840,
-        wavetable = null,
-        length = 100,
-        modifiedTimestamp = 1666485830840
-    )
+    existingFileWrapper: ExistingFileWrapper,
+    selectedPath: String? = null
 ) {
+    val matches = existingFileWrapper.path == selectedPath
+
     Card(
         Modifier
             .padding(top = 8.dp)
             .fillMaxWidth(),
-        backgroundColor = MaterialTheme.colors.background
+        backgroundColor = MaterialTheme.colors.background,
+        border = if (matches) BorderStroke(5.dp, color = MaterialTheme.colors.secondaryVariant) else null
     ) {
         Column(
             Modifier

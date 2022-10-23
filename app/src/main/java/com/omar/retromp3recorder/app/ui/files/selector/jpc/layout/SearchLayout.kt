@@ -19,20 +19,26 @@ fun SearchLayout(viewModel: SelectorViewModel = viewModel()) {
     val state by viewModel.state.subscribeAsState(initial = SelectorContract.State())
     var query by remember { mutableStateOf("") }
 
+    val currentFilePath = state.selectedFile
     val lambda: (String) -> Unit = remember {
         {
             query = it
         }
     }
     RetroTheme {
-        Column(modifier = Modifier
-            .fillMaxHeight()
-            .background(MaterialTheme.colors.surface)) {
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .background(MaterialTheme.colors.surface)
+        ) {
             SearchToolbar(lambda)
-
             val itemsPaging = state.itemsPaging
             if (itemsPaging != null) {
-                Results(data = itemsPaging) { query }
+                Results(
+                    data = itemsPaging,
+                    currentFilePath = currentFilePath,
+                    query = query
+                )
             }
         }
     }

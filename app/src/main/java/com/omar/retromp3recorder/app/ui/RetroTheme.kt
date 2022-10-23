@@ -11,8 +11,8 @@ fun RetroTheme(content: @Composable () -> Unit) {
         colors = Colors(
             primary = Color.White,
             primaryVariant = Color.White,
-            secondary = Color.White,
-            secondaryVariant = Color.White,
+            secondaryVariant = Color(0xFFFF6F00),
+            secondary = Color(0x9900ff00),
             background = Color(0xff121212),
             surface = Color(0xff202020),
             error = Color.White,
