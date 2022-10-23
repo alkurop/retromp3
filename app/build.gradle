@@ -16,8 +16,8 @@ android {
 
         minSdk rootProject.ext.minSdk
         targetSdk rootProject.ext.targetSdk
-        versionCode 366
-        versionName "3.66"
+        versionCode 370
+        versionName "3.70"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         signingConfig signingConfigs.debug
