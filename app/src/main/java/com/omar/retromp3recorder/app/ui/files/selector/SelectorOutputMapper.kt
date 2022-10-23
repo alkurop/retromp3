@@ -24,9 +24,6 @@ object SelectorOutputMapper {
     private fun getMapper(): BiFunction<SelectorContract.State, SelectorContract.Output, SelectorContract.State> =
         BiFunction { oldState: SelectorContract.State, output: SelectorContract.Output ->
             when (output) {
-                is SelectorContract.Output.FileList -> {
-                    oldState.copy(items = output.items)
-                }
                 is SelectorContract.Output.FileListNew -> {
                     oldState.copy(
                         itemsSource = output.itemsSource,
@@ -42,11 +39,7 @@ object SelectorOutputMapper {
             }
         }
 
-    private fun getDefaultViewModel() = SelectorContract.State(
-        items = null,
-        // selected file has to be here,   in case selection comes before list
-        selectedFile = null
-    )
+    private fun getDefaultViewModel() = SelectorContract.State()
 }
 
 //JPC does not like changing source of data, so I'm filtering on the view side.

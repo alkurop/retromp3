@@ -29,9 +29,6 @@ class SelectorInteractor @Inject constructor(
                 currentFileRepo.observe().map {
                     SelectorContract.Output.CurrentFile(it.value!!.path)
                 },
-                Observable.just(pagingProvider.providePagingFiles()).map {
-                    SelectorContract.Output.FileList(it)
-                },
                 Observable.just(pagingProvider.provideItemSource()).map {
                     SelectorContract.Output.FileListNew(itemsSource = it)
                 },

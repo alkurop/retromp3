@@ -41,11 +41,6 @@
             android:screenOrientation="sensorPortrait">
 
         </activity>
-        <activity
-            android:name=".ui.files.selector.SelectorActivity"
-            android:label="@string/current_file"
-            android:launchMode="singleTask"
-            android:screenOrientation="sensorPortrait" />
 
         <activity
             android:name=".ui.settings.SettingsActivity"
