@@ -35,7 +35,7 @@ fun MenuView(viewModel: MenuViewModel = viewModel(), navController: NavHostContr
             val pop = navController.popBackStack()
         } while (pop)
     } else {
-        if (popup == MenuExecutable.Open) {
+        if (popup == MenuExecutable.Search) {
             viewModel.input.onNext(MenuContract.Input.Clear)
             val context = LocalContext.current
             context.startActivity(Intent(context, SelectorActivityJPC::class.java))
@@ -53,7 +53,7 @@ fun MenuPopupNav(
         dialog(MenuExecutable.Crop.name) {
             CropPopup()
         }
-        composable(MenuExecutable.Open.name) {
+        composable(MenuExecutable.Search.name) {
             SearchLayout()
         }
         composable(BLANK) { Spacer(modifier = Modifier) }

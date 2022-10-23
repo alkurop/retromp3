@@ -29,7 +29,7 @@ class MenuStateExcavator @Inject constructor(
                             range.isVisible
                         ),
                         MenuContract.Item.Popup(
-                            MenuExecutable.Open,
+                            MenuExecutable.Search,
                             true
                         )
                     )

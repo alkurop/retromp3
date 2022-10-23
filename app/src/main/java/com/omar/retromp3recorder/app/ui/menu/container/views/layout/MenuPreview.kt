@@ -16,7 +16,7 @@ class MenuPreviewStateProvider : PreviewParameterProvider<MenuContract.State> {
                     true
                 ),
                 MenuContract.Item.Popup(
-                    MenuExecutable.Open,
+                    MenuExecutable.Search,
                     false
                 ),
                 MenuContract.Item.Enable(
