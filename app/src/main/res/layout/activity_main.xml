@@ -66,16 +66,7 @@
         android:id="@+id/compose_audio_controls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/audio_controls" />
-
-    <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/audio_controls"
-            android:name="com.omar.retromp3recorder.app.ui.audio_controls.AudioControlsFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            app:layout_constraintBottom_toTopOf="@id/audio_log" />
+        app:layout_constraintBottom_toTopOf="@id/audio_log" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/audio_log"

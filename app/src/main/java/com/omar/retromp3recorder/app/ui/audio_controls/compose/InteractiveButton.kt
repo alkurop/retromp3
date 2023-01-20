@@ -50,12 +50,10 @@ fun InteractiveButton(
             contentDescription = contentDescription,
             modifier = modifier.fillMaxSize()
         )
-        if (state == InteractiveButtonState.RUNNING && blinkPainter != null) {
-            LaunchedEffect(key1 = null) {
-                while (true) {
-                    delay(250)
-                    blinkState.value = !blinkState.value
-                }
+        LaunchedEffect(key1 = state) {
+            while (state == InteractiveButtonState.RUNNING && blinkPainter != null) {
+                delay(250)
+                blinkState.value = !blinkState.value
             }
         }
     }

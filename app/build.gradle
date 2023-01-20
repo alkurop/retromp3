@@ -94,7 +94,6 @@ dependencies {
     implementation project(':io-audioplayer')
     implementation project(':io-audio-tansformer')
     implementation project(':io-share')
-    implementation project(':ui-state-button')
     implementation project(':ui-wavetable')
     implementation project(':usecases')
     implementation project(':storage')
