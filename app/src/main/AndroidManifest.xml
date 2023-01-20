@@ -33,7 +33,7 @@
             android:value="false" />
 
         <activity
-            android:name=".ui.files.selector.jpc.SelectorActivityJPC"
+            android:name=".ui.files.selector.SelectorActivityJPC"
             android:exported="true"
             android:label="@string/current_file"
             android:launchMode="singleTask"

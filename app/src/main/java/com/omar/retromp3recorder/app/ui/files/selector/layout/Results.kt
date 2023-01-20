@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.files.selector.jpc.layout
+package com.omar.retromp3recorder.app.ui.files.selector.layout
 
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout

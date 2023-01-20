@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.files.delete.DeleteFileDialogFragment
 import com.omar.retromp3recorder.app.ui.files.rename.RenameFileDialogFragment
-import com.omar.retromp3recorder.app.ui.files.selector.jpc.SelectorActivityJPC
+import com.omar.retromp3recorder.app.ui.files.selector.SelectorActivityJPC
 import com.omar.retromp3recorder.app.ui.utils.lazyView
 import com.omar.retromp3recorder.app.ui.utils.toFileName
 import com.omar.retromp3recorder.app.uiutils.observe

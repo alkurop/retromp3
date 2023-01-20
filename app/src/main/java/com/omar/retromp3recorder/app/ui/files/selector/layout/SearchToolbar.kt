@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.files.selector.jpc.layout
+package com.omar.retromp3recorder.app.ui.files.selector.layout
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher

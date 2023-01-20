@@ -12,8 +12,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
-import com.omar.retromp3recorder.app.ui.files.selector.jpc.SelectorActivityJPC
-import com.omar.retromp3recorder.app.ui.files.selector.jpc.layout.SearchLayout
+import com.omar.retromp3recorder.app.ui.files.selector.SelectorActivityJPC
+import com.omar.retromp3recorder.app.ui.files.selector.layout.SearchLayout
 import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
 import com.omar.retromp3recorder.app.ui.menu.container.views.layout.MenuLayout
 import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropPopup
