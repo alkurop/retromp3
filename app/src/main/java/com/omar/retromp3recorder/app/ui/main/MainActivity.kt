@@ -22,6 +22,7 @@ import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
 import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
 import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.app.ui.audio_controls.compose.AudioControlsLayout
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuPopupNav
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuView
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val composeMenu by lazy { findViewById<ComposeView>(R.id.compose_menu) }
+    private val composeAudioControls by lazy { findViewById<ComposeView>(R.id.compose_audio_controls) }
     private val logFragment by lazy { findViewById<View>(R.id.audio_log) }
     private val mediaProjectionManager by lazy { getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
 
@@ -55,6 +57,12 @@ class MainActivity : AppCompatActivity() {
                 MenuPopupNav(navController)
 
                 MenuView(navController = navController)
+            }
+        }
+        composeAudioControls.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                AudioControlsLayout()
             }
         }
     }
