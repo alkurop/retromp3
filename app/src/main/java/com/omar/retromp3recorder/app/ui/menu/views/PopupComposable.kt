@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu.popups
+package com.omar.retromp3recorder.app.ui.menu.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

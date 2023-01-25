@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.files.delete
+package com.omar.retromp3recorder.app.ui.menu.popups.delete
 
 import com.omar.retromp3recorder.bl.files.DeleteCurrentFileUC
 import com.omar.retromp3recorder.dto.ExistingFileWrapper

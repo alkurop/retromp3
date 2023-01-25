@@ -6,9 +6,9 @@ import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.ui.menu.popups.PopupButtonData
-import com.omar.retromp3recorder.app.ui.menu.popups.PopupComposable
 import com.omar.retromp3recorder.app.ui.menu.popups.crop.layout.CropContent
+import com.omar.retromp3recorder.app.ui.menu.views.PopupButtonData
+import com.omar.retromp3recorder.app.ui.menu.views.PopupComposable
 import com.omar.retromp3recorder.utils.updateName
 
 @Composable
