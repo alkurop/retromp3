@@ -7,9 +7,9 @@ import androidx.compose.ui.res.stringResource
 import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
 import com.omar.retromp3recorder.app.ui.menu.container.logic.toInput
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuItemComposable
-import com.omar.retromp3recorder.app.ui.menu.container.views.getTitleRes
-import com.omar.retromp3recorder.app.ui.menu.container.views.mapToStateEnabler
-import com.omar.retromp3recorder.app.ui.menu.container.views.mapToStatePopup
+import com.omar.retromp3recorder.app.ui.menu.getTitleRes
+import com.omar.retromp3recorder.app.ui.menu.mapToStateEnabler
+import com.omar.retromp3recorder.app.ui.menu.mapToStatePopup
 
 @Composable
 fun DrawMenuItem(
@@ -48,7 +48,7 @@ private fun DrawMenuPopupItem(
     MenuItemComposable(
         modifier = modifier.clickable(item.isEnabled) { onAction.invoke(item.toInput()) },
         title = stringResource(
-            id = item.menuExecutable.getTitleRes()
+            id = item.menuPopup.getTitleRes()
         ),
         state = item.isEnabled.mapToStatePopup()
     )

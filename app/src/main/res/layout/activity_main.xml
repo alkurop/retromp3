@@ -19,26 +19,15 @@
         android:id="@+id/compose_visualizer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/current_file"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/current_file"
-        android:name="com.omar.retromp3recorder.app.ui.files.preview.CurrentFileFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/compose_seek"
-        app:layout_constraintTop_toBottomOf="@id/compose_visualizer" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/compose_seek"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/compose_menu"
-        app:layout_constraintTop_toBottomOf="@id/current_file" />
+        app:layout_constraintTop_toBottomOf="@id/compose_visualizer" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/range"

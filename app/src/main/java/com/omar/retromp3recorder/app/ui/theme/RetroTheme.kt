@@ -28,7 +28,7 @@ private val darkColorTheme = darkColorScheme(
 fun RetroTheme(content: @Composable () -> Unit) {
     val colorScheme = darkColorTheme
     val view = LocalView.current
-    if (!view.isInEditMode) {
+    if (!view.isInEditMode && view.context is Activity) {
         SideEffect {
             (view.context as? Activity)?.window?.statusBarColor = colorScheme.background.toArgb()
         }

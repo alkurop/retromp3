@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.app.ui.utils.toFileName
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
@@ -23,23 +24,26 @@ import io.reactivex.rxjava3.kotlin.plusAssign
 
 @Composable
 fun JoinedProgressLayout(viewModel: JoinedProgressViewModel = viewModel(), modifier: Modifier) {
-    val state: JoinedProgress by viewModel.state.subscribeAsState(initial = JoinedProgress.Hidden)
+    val viewState: JoinedProgressView.State by viewModel.state.subscribeAsState(initial = JoinedProgressView.State())
 
     Surface(modifier = modifier) {
-        when (state) {
+        when (val progress = viewState.joinedProgress) {
             is JoinedProgress.RecorderProgressShown -> {
-                BuildPreview(state as JoinedProgress.RecorderProgressShown)
+                BuildPreview(progress)
             }
             is JoinedProgress.PlayerProgressShown -> {
-                BuildSeek(progress = state as JoinedProgress.PlayerProgressShown) {
+                BuildSeek(progress = progress) {
                     viewModel.input.onNext(it)
                 }
             }
             JoinedProgress.Hidden -> {
                 BuildRecordMessage(modifier)
             }
-            else -> {}
+            JoinedProgress.Intermediate -> {
+                /* no render */
+            }
         }
+        viewState.currentFile?.path?.toFileName()?.let { fileName -> Text(text = fileName) }
     }
 }
 

@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.storage.repo.local
 
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.dto.FileWrapper
-import com.omar.retromp3recorder.dto.MenuExecutable
+import com.omar.retromp3recorder.dto.MenuPopup
 import com.omar.retromp3recorder.dto.PlayerControls
 import com.omar.retromp3recorder.dto.Track
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
@@ -23,4 +23,4 @@ class PlayerControlsRepo @Inject constructor() :
 
 @Track
 class MenuPopupBus @Inject constructor() :
-    BehaviorSubjectRepo<Optional<MenuExecutable>>(Optional.empty())
+    BehaviorSubjectRepo<Optional<MenuPopup>>(Optional.empty())

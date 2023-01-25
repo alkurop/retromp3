@@ -1,14 +1,14 @@
 package com.omar.retromp3recorder.app.ui.menu.container.logic
 
 import com.omar.retromp3recorder.dto.MenuEnabler
-import com.omar.retromp3recorder.dto.MenuExecutable
+import com.omar.retromp3recorder.dto.MenuPopup
 import com.omar.retromp3recorder.utils.Optional
 
 interface MenuContract {
     data class State(
         val items: List<Item> = emptyList(),
         val isVisible: Boolean = true,
-        val popup: Optional<MenuExecutable> = Optional.empty()
+        val popup: Optional<MenuPopup> = Optional.empty()
     )
 
     sealed class Input {
@@ -18,12 +18,12 @@ interface MenuContract {
         ) : Input()
 
         object Clear : Input()
-        data class Popup(val action: MenuExecutable) : Input()
+        data class Popup(val action: MenuPopup) : Input()
     }
 
     sealed class Item {
         data class Popup(
-            val menuExecutable: MenuExecutable,
+            val menuPopup: MenuPopup,
             val isEnabled: Boolean
         ) : Item()
 
@@ -37,5 +37,5 @@ interface MenuContract {
 fun MenuContract.Item.Enable.toInput() =
     MenuContract.Input.Enable(this.enabler, this.isEnabled.not())
 
-fun MenuContract.Item.Popup.toInput() = MenuContract.Input.Popup(this.menuExecutable)
+fun MenuContract.Item.Popup.toInput() = MenuContract.Input.Popup(this.menuPopup)
 

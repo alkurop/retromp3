@@ -17,7 +17,7 @@ import com.omar.retromp3recorder.app.ui.files.selector.layout.SearchLayout
 import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
 import com.omar.retromp3recorder.app.ui.menu.container.views.layout.MenuLayout
 import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropPopup
-import com.omar.retromp3recorder.dto.MenuExecutable
+import com.omar.retromp3recorder.dto.MenuPopup
 
 
 @Composable
@@ -35,7 +35,7 @@ fun MenuView(viewModel: MenuViewModel = viewModel(), navController: NavHostContr
             val pop = navController.popBackStack()
         } while (pop)
     } else {
-        if (popup == MenuExecutable.Search) {
+        if (popup == MenuPopup.Search) {
             viewModel.input.onNext(MenuContract.Input.Clear)
             val context = LocalContext.current
             context.startActivity(Intent(context, SelectorActivityJPC::class.java))
@@ -50,10 +50,10 @@ fun MenuPopupNav(
     navController: NavHostController
 ) {
     NavHost(navController = navController, startDestination = BLANK) {
-        dialog(MenuExecutable.Crop.name) {
+        dialog(MenuPopup.Crop.name) {
             CropPopup()
         }
-        composable(MenuExecutable.Search.name) {
+        composable(MenuPopup.Search.name) {
             SearchLayout()
         }
         composable(BLANK) { Spacer(modifier = Modifier) }

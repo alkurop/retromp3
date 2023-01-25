@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.ui.menu.container.logic
 
 import com.omar.retromp3recorder.bl.audio.AudioState
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper
-import com.omar.retromp3recorder.dto.MenuExecutable
+import com.omar.retromp3recorder.dto.MenuPopup
 import com.omar.retromp3recorder.dto.VisibilityEnabler
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
@@ -29,11 +29,11 @@ class MenuStateExcavator @Inject constructor(
                                 range.isVisible
                             ),
                             MenuContract.Item.Popup(
-                                MenuExecutable.Crop,
+                                MenuPopup.Crop,
                                 range.isVisible
                             ),
                             MenuContract.Item.Popup(
-                                MenuExecutable.Search,
+                                MenuPopup.Search,
                                 file.value?.path != null
                             )
                         )

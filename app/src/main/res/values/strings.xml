@@ -16,6 +16,8 @@
     <string name="menu_crop">Crop</string>
     <string name="menu_search">Search</string>
     <string name="menu_loop">Loop</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_rename">Rename</string>
     <string name="menu_range">Range</string>
     <string name="menu_reverse">Rev</string>
     <string name="menu_bark_speed">Speed</string>

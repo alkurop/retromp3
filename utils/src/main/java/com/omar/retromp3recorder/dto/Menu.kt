@@ -1,8 +1,10 @@
 package com.omar.retromp3recorder.dto
 
-enum class MenuExecutable {
+enum class MenuPopup {
     Crop,
     Search,
+    Delete,
+    Rename
 }
 
 sealed interface MenuEnabler

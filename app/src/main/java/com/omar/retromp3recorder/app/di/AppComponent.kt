@@ -3,7 +3,6 @@ package com.omar.retromp3recorder.app.di
 import com.omar.retromp3recorder.app.MediaProjectionService
 import com.omar.retromp3recorder.app.ui.audio_controls.AudioControlsViewModel
 import com.omar.retromp3recorder.app.ui.files.delete.DeleteFileViewModel
-import com.omar.retromp3recorder.app.ui.files.preview.CurrentFileViewModel
 import com.omar.retromp3recorder.app.ui.files.rename.RenameFileViewModel
 import com.omar.retromp3recorder.app.ui.files.selector.SelectorViewModel
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressViewModel
@@ -61,7 +60,6 @@ interface TrackComponent {
     fun inject(viewModel: AudioControlsViewModel)
     fun inject(mainViewModel: MainViewModel)
     fun inject(visualizerViewModel: VisualizerViewModel)
-    fun inject(currentFileViewModel: CurrentFileViewModel)
     fun inject(fileSelectorViewModel: SelectorViewModel)
     fun inject(deleteFileViewModel: DeleteFileViewModel)
     fun inject(renameFileViewModel: RenameFileViewModel)
