@@ -11,7 +11,6 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class DeleteFileInteractor @Inject constructor(
@@ -20,8 +19,6 @@ class DeleteFileInteractor @Inject constructor(
     private val popupBus: MenuPopupBus,
     private val scheduler: Scheduler
 ) {
-    private val dismissSubject = BehaviorSubject.createDefault(false)
-
     fun processIO(): ObservableTransformer<DeleteFileContract.Input, DeleteFileContract.Output> =
         scheduler.processIO(
             inputMapper = mapInputToUsecase,
@@ -36,7 +33,6 @@ class DeleteFileInteractor @Inject constructor(
                         it.value as? ExistingFileWrapper
                     )
                 },
-                dismissSubject.map { DeleteFileContract.Output.ShouldDismiss(it) },
             )
         )
     }
@@ -49,7 +45,11 @@ class DeleteFileInteractor @Inject constructor(
                         Completable.fromAction { popupBus.onNext(Optional.empty()) }
                     },
                     input.mapToUsecase<DeleteFileContract.Input.DeleteFile> {
-                        deleteCurrentFileUC.execute().andThen { dismissSubject.onNext(true) }
+                        deleteCurrentFileUC
+                            .execute()
+                            .andThen(Completable
+                                .fromAction { popupBus.onNext(Optional.empty()) }
+                            )
                     }
                 )
             )

@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.files.rename
+package com.omar.retromp3recorder.app.ui.menu.popups.rename
 
 import androidx.lifecycle.ViewModel
 import com.omar.retromp3recorder.app.App
@@ -9,8 +9,8 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class RenameFileViewModel : ViewModel() {
-    val state = BehaviorSubject.create<RenameFileView.State>()
-    val input = PublishSubject.create<RenameFileView.Input>()
+    val state = BehaviorSubject.create<RenameFileContract.State>()
+    val input = PublishSubject.create<RenameFileContract.Input>()
 
     @Inject
     lateinit var interactor: RenameFileInteractor

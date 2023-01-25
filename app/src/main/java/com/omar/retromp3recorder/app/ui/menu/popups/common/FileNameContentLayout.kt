@@ -21,13 +21,13 @@ import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FileNameContentLayout(
-    title: String = "privet",
+    value: String = "privet",
     maxChar: Int = 40,
     label: String = stringResource(id = R.string.popup_label_filename),
     isError: Boolean = false,
     onValueChanged: (String) -> Unit = {}
 ) {
-    var text by remember { mutableStateOf(TextFieldValue(title)) }
+    var text by remember { mutableStateOf(TextFieldValue(value)) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LocalSpacing.current.normal

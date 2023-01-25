@@ -6,7 +6,6 @@ import com.omar.retromp3recorder.dto.ExistingFileWrapper
 object DeleteFileContract {
     @Immutable
     data class State(
-        val shouldDismiss: Boolean = false,
         val fileWrapper: ExistingFileWrapper? = null
     )
 
@@ -16,7 +15,6 @@ object DeleteFileContract {
     }
 
     sealed class Output {
-        data class ShouldDismiss(val shouldDismiss: Boolean) : Output()
         data class CurrentFile(val fileWrapper: ExistingFileWrapper?) : Output()
     }
 }

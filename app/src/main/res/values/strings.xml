@@ -23,6 +23,7 @@
     <string name="menu_bark_speed">Speed</string>
     <string name="popup_cancel">Cancel</string>
     <string name="popup_title_crop">Crop file</string>
+    <string name="popup_title_rename">Rename file</string>
     <string name="popup_title_delete">Delete file</string>
     <string name="popup_label_filename">File name</string>
     <string name="toast_crop_success">Crop success</string>

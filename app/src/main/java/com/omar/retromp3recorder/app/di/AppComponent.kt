@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.di
 import com.omar.retromp3recorder.app.MediaProjectionService
 import com.omar.retromp3recorder.app.ui.audio_controls.AudioControlsViewModel
 import com.omar.retromp3recorder.app.ui.menu.popups.delete.DeleteFileViewModel
-import com.omar.retromp3recorder.app.ui.files.rename.RenameFileViewModel
+import com.omar.retromp3recorder.app.ui.menu.popups.rename.RenameFileViewModel
 import com.omar.retromp3recorder.app.ui.files.selector.SelectorViewModel
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressViewModel
 import com.omar.retromp3recorder.app.ui.log.LogViewModel

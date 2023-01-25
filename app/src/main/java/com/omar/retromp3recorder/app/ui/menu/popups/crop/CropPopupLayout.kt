@@ -25,7 +25,7 @@ fun CropPopupLayout(viewModel: CropViewModel = viewModel()) {
         title = stringResource(id = R.string.popup_title_crop),
         content = {
             FileNameContentLayout(
-                title = state.nameSuggestion.name,
+                value = state.nameSuggestion.name,
                 onValueChanged = onValueChanged,
                 isError = state.isOkEnabled.not()
             )
@@ -40,5 +40,4 @@ fun CropPopupLayout(viewModel: CropViewModel = viewModel()) {
                 onClick = { viewModel.input.onNext(CropContract.Input.CropOutside(state.nameSuggestion)) })
         )
     )
-
 }

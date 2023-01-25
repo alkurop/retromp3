@@ -18,7 +18,7 @@ import com.omar.retromp3recorder.dto.ExistingFileWrapper
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SearchLayout(viewModel: SelectorViewModel = viewModel()) {
+fun SearchScreenLayout(viewModel: SelectorViewModel = viewModel()) {
     val state by viewModel.state.subscribeAsState(initial = SelectorContract.State())
     var query by remember { mutableStateOf("") }
     val currentFilePath = state.selectedFile
