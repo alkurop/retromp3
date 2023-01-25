@@ -2,6 +2,12 @@ package com.omar.retromp3recorder.app.uiutils
 
 import android.content.Context
 import android.text.SpannableString
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.utils.toSpannableStringWithSmallMillis
 import com.omar.retromp3recorder.utils.toTimeDisplay
@@ -11,6 +17,14 @@ object TimeDisplay {
         this.toTimeDisplay()
             .toSpannableStringWithSmallMillis(context, R.style.Control_Normal_Millis)
 
+
+    @Composable
+    fun Long?.toDisplayCompose(): AnnotatedString? = this?.toTimeDisplay()?.let { timeDisplay ->
+        buildAnnotatedString {
+            append(timeDisplay.time)
+            withStyle(style = SpanStyle(fontSize = MaterialTheme.typography.labelSmall.fontSize)) {
+                append(timeDisplay.millis)
+            }
+        }
+    }
 }
-
-

@@ -4,13 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.omar.retromp3recorder.app.ui.files.selector.layout.SearchLayout
+import com.omar.retromp3recorder.app.ui.theme.RetroTheme
 
 
 class SelectorActivityJPC : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SearchLayout()
+            RetroTheme {
+                SearchLayout()
+            }
         }
     }
 }
