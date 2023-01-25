@@ -22,7 +22,7 @@ class RenameFileInteractor @Inject constructor(
     private val popupBus: MenuPopupBus,
     private val scheduler: Scheduler
 ) {
-    private val canRenameFileRepo = BehaviorSubjectRepo(false)
+    private val canRenameFileRepo = BehaviorSubjectRepo(Pair<Boolean, String?>(false, null))
 
     fun processIO(): ObservableTransformer<RenameFileContract.Input, RenameFileContract.Output> =
         scheduler.processIO(
@@ -36,7 +36,7 @@ class RenameFileInteractor @Inject constructor(
                 currentFileRepo.observe()
                     .map { RenameFileContract.Output.CurrentFile(it.value as ExistingFileWrapper) },
                 canRenameFileRepo.observe()
-                    .map { RenameFileContract.Output.OkButtonState(it) },
+                    .map { RenameFileContract.Output.OkButtonState(it.first, it.second) },
             )
         )
     }
@@ -49,6 +49,9 @@ class RenameFileInteractor @Inject constructor(
                             .andThen {
                                 popupBus.onNext(Optional.empty())
                             }
+                    },
+                    input.mapToUsecase<RenameFileContract.Input.DismissPopup> {
+                        Completable.fromAction { popupBus.onNext(Optional.empty()) }
                     },
                     input.mapToUsecase<RenameFileContract.Input.CheckCanRename> {
                         canRenameNameUC.execute(

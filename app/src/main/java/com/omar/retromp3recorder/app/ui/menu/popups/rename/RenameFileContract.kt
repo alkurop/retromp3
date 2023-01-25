@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.functions.BiFunction
 
 object RenameFileContract {
     data class State(
+        val newName: String? = null,
         val isOkButtonEnabled: Boolean = false,
         val fileWrapper: ExistingFileWrapper? = null
     )
@@ -18,7 +19,7 @@ object RenameFileContract {
     }
 
     sealed class Output {
-        data class OkButtonState(val isEnabled: Boolean) : Output()
+        data class OkButtonState(val isEnabled: Boolean, val newName: String?) : Output()
         data class CurrentFile(val fileWrapper: ExistingFileWrapper?) : Output()
     }
 }
@@ -35,7 +36,10 @@ object RenameFileOutputMapper {
     private fun getMapper(): BiFunction<RenameFileContract.State, RenameFileContract.Output, RenameFileContract.State> =
         BiFunction { oldState: RenameFileContract.State, output: RenameFileContract.Output ->
             when (output) {
-                is RenameFileContract.Output.OkButtonState -> oldState.copy(isOkButtonEnabled = output.isEnabled)
+                is RenameFileContract.Output.OkButtonState -> oldState.copy(
+                    isOkButtonEnabled = output.isEnabled,
+                    newName = output.newName
+                )
                 is RenameFileContract.Output.CurrentFile -> oldState.copy(fileWrapper = output.fileWrapper)
             }
         }

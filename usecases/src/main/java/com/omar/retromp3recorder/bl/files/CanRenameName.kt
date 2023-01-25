@@ -11,17 +11,20 @@ class CanRenameName @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
     private val fileRenamer: FileRenamer
 ) {
-    fun execute(path: String, canRenameFileRepo: BehaviorSubjectRepo<Boolean>): Completable =
+    fun execute(
+        path: String,
+        canRenameFileRepo: BehaviorSubjectRepo<Pair<Boolean, String?>>
+    ): Completable =
         currentFileRepo
             .takeOne()
             .flatMapCompletable { optional ->
                 val fileWrapper = optional.value
                 Completable.fromAction {
-                    canRenameFileRepo.onNext(false)
+                    canRenameFileRepo.onNext(false to null)
                     val canRename =
                         if (path.isNotEmpty() && fileWrapper != null && fileWrapper is ExistingFileWrapper)
                             fileRenamer.canRename(fileWrapper, path) else false
-                    canRenameFileRepo.onNext(canRename)
+                    canRenameFileRepo.onNext(canRename to path)
                 }
             }
 }
