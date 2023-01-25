@@ -13,7 +13,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import com.omar.retromp3recorder.app.ui.files.selector.SelectorActivityJPC
-import com.omar.retromp3recorder.app.ui.files.selector.layout.SearchScreenLayout
 import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropPopupLayout
 import com.omar.retromp3recorder.app.ui.menu.popups.delete.DeletePopupLayout
 import com.omar.retromp3recorder.app.ui.menu.popups.rename.RenamePopupLayout
@@ -60,9 +59,6 @@ fun MenuPopupNav(
         }
         dialog(MenuPopup.Rename.name) {
             RenamePopupLayout()
-        }
-        composable(MenuPopup.Search.name) {
-            SearchScreenLayout()
         }
         dialog(MenuPopup.Delete.name){
             DeletePopupLayout()
