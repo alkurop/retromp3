@@ -1,8 +1,7 @@
 package com.omar.retromp3recorder.app.ui.audio_controls.compose
 
-import android.content.Context
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rxjava3.subscribeAsState
@@ -12,9 +11,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.omar.retromp3recorder.app.ui.RetroTheme
 import com.omar.retromp3recorder.app.ui.audio_controls.AudioControlsView
 import com.omar.retromp3recorder.app.ui.audio_controls.AudioControlsViewModel
+import com.omar.retromp3recorder.app.ui.theme.RetroTheme
 
 @Composable
 fun AudioControlsLayout(viewModel: AudioControlsViewModel = viewModel(), modifier: Modifier) {
@@ -84,9 +83,9 @@ fun AudioControlsLayout(viewModel: AudioControlsViewModel = viewModel(), modifie
     }
 }
 
-//private fun AudioControlsView.State.progressText(context:Context): String? {
-
-    //    state.playerProgressState?.apply {
+//private fun AudioControlsView.State.progressText(context: Context): String? {
+//
+//        state.playerProgressState?.apply {
 //        progressView.text = data.from.toDisplay(requireContext())
 //        durationView.text = data.to.toDisplay(requireContext())
 //    }

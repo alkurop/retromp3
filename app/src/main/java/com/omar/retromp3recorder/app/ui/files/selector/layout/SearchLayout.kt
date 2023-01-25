@@ -6,14 +6,14 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.omar.retromp3recorder.app.ui.RetroTheme
 import com.omar.retromp3recorder.app.ui.files.selector.SelectorContract
 import com.omar.retromp3recorder.app.ui.files.selector.SelectorViewModel
+import com.omar.retromp3recorder.app.ui.theme.RetroTheme
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -38,7 +38,7 @@ fun SearchLayout(viewModel: SelectorViewModel = viewModel()) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .background(MaterialTheme.colors.surface)
+                .background(MaterialTheme.colorScheme.surface)
         ) {
             SearchToolbar(lambdaSearch)
             val itemsPaging = state.itemsPaging

@@ -3,13 +3,14 @@ package com.omar.retromp3recorder.app.ui.files.selector.layout
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -45,7 +46,7 @@ fun Results(
     if (pagingItems.itemCount == 0 && finishedLoading) {
         Text(
             text = stringResource(id = R.string.no_saved_records_found),
-            color = MaterialTheme.colors.primary,
+            color = MaterialTheme.colorScheme.primary,
         )
     } else {
         LazyColumn(state = listState) {
@@ -73,13 +74,13 @@ private fun ItemComposable(
     val matches = existingFileWrapper.path == currentFilePath
 
     Card(
-        Modifier
+        modifier = Modifier
             .clickable { onClick.invoke(existingFileWrapper) }
+            .background(MaterialTheme.colorScheme.background)
             .padding(top = 8.dp)
             .fillMaxWidth(),
-        backgroundColor = MaterialTheme.colors.background,
         border = if (matches) BorderStroke(
-            5.dp, color = MaterialTheme.colors.secondaryVariant
+            5.dp, color = MaterialTheme.colorScheme.secondary
         ) else null) {
         Column(
             Modifier
@@ -87,7 +88,7 @@ private fun ItemComposable(
                 .padding(8.dp)
         ) {
             Text(
-                text = existingFileWrapper.name, color = MaterialTheme.colors.onSurface
+                text = existingFileWrapper.name, color = MaterialTheme.colorScheme.onSurface
             )
             existingFileWrapper.wavetable?.let { wavetable ->
                 AndroidView(factory = { context ->
@@ -103,24 +104,24 @@ private fun ItemComposable(
             Row {
                 Text(
                     fontSize = 12.sp,
-                    color = MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colorScheme.onSurface,
                     text = stringResource(id = R.string.created)
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     fontSize = 12.sp,
                     text = existingFileWrapper.createTimedStamp.toCreationDate(),
-                    color = MaterialTheme.colors.onSurface
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(Modifier.weight(1f))
                 Text(
                     fontSize = 12.sp,
-                    color = MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colorScheme.onSurface,
                     text = stringResource(id = R.string.length)
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
-                    fontSize = 12.sp, color = MaterialTheme.colors.onSurface, text = time
+                    fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface, text = time
                 )
             }
 

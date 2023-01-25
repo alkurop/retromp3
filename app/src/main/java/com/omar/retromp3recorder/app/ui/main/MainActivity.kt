@@ -15,7 +15,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
+import androidx.compose.material3.Card
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -26,11 +26,11 @@ import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
 import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
 import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.ui.RetroTheme
 import com.omar.retromp3recorder.app.ui.audio_controls.compose.AudioControlsLayout
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuPopupNav
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuView
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
+import com.omar.retromp3recorder.app.ui.theme.RetroTheme
 import com.omar.retromp3recorder.app.uiutils.observe
 
 class MainActivity : AppCompatActivity() {

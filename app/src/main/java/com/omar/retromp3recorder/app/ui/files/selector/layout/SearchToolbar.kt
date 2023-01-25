@@ -13,6 +13,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -105,11 +106,11 @@ fun SearchToolbar(
                 BasicTextField(
                     value = textFileValue,
                     textStyle = TextStyle(
-                        color = MaterialTheme.colors.primary,
+                        color = MaterialTheme.colorScheme.primary,
                         fontSize = 16.sp,
                     ),
 
-                    cursorBrush = SolidColor(MaterialTheme.colors.primary),
+                    cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                     onValueChange = onQueryChange,
                     modifier = Modifier
                         .onFocusChanged { isFocused = it.isFocused }
@@ -151,21 +152,19 @@ private fun AppBar(
     Surface(
         color = backgroundColor,
         contentColor = contentColor,
-        elevation = elevation,
+        shadowElevation = elevation,
         shape = shape,
         modifier = modifier
     ) {
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(start = AppBarHorizontalPadding, end = AppBarHorizontalPadding)
-                    .height(AppBarHeight),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically,
-                content = content
-            )
-        }
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(start = AppBarHorizontalPadding, end = AppBarHorizontalPadding)
+                .height(AppBarHeight),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+            content = content
+        )
     }
 }
 

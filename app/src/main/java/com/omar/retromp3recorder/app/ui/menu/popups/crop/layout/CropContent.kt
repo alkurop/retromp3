@@ -2,9 +2,10 @@ package com.omar.retromp3recorder.app.ui.menu.popups.crop.layout
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -17,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.omar.retromp3recorder.app.R
 
 @Preview
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun CropContent(
     title: String = "privet",
@@ -32,7 +33,7 @@ fun CropContent(
     OutlinedTextField(
         modifier = Modifier
             .padding(top = 8.dp, bottom = 16.dp),
-        textStyle = TextStyle(color = MaterialTheme.colors.primary),
+        textStyle = TextStyle(color = MaterialTheme.colorScheme.primary),
         value = text,
         isError = isError,
         label = { Text(text = label) },
