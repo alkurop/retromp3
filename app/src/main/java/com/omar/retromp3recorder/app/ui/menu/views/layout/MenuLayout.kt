@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu.container.views.layout
+package com.omar.retromp3recorder.app.ui.menu.views.layout
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
-import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
+import com.omar.retromp3recorder.app.ui.menu.MenuContract
+import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 
 @Preview
 @Composable
@@ -37,5 +37,5 @@ fun MenuLayout(
     }
 }
 
-
-private fun getPadding(side: Boolean) = if (side) 16.dp else 4.dp
+@Composable
+private fun getPadding(side: Boolean) = if (side) LocalSpacing.current.normal else LocalSpacing.current.x_small

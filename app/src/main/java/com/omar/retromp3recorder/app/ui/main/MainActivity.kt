@@ -27,8 +27,8 @@ import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.audio_controls.compose.AudioControlsLayout
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressLayout
-import com.omar.retromp3recorder.app.ui.menu.container.views.MenuPopupNav
-import com.omar.retromp3recorder.app.ui.menu.container.views.MenuView
+import com.omar.retromp3recorder.app.ui.menu.views.MenuPopupNav
+import com.omar.retromp3recorder.app.ui.menu.views.MenuView
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
 import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 import com.omar.retromp3recorder.app.ui.theme.RetroTheme

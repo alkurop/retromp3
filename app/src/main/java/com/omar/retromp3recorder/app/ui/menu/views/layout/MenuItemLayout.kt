@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu.container.views.layout
+package com.omar.retromp3recorder.app.ui.menu.views.layout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

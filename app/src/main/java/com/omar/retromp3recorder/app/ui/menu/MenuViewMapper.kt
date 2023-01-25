@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.ui.menu
 
 import androidx.annotation.StringRes
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.ui.menu.container.views.MenuItemState
+import com.omar.retromp3recorder.app.ui.menu.views.MenuItemState
 import com.omar.retromp3recorder.dto.AudioEnabler
 import com.omar.retromp3recorder.dto.MenuEnabler
 import com.omar.retromp3recorder.dto.MenuPopup

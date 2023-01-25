@@ -1,7 +1,7 @@
-package com.omar.retromp3recorder.app.ui.menu.container.views.layout
+package com.omar.retromp3recorder.app.ui.menu.views.layout
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
+import com.omar.retromp3recorder.app.ui.menu.MenuContract
 import com.omar.retromp3recorder.dto.AudioEnabler
 import com.omar.retromp3recorder.dto.MenuPopup
 import com.omar.retromp3recorder.dto.VisibilityEnabler

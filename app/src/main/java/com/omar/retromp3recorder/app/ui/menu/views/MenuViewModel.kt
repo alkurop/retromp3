@@ -1,13 +1,14 @@
-package com.omar.retromp3recorder.app.ui.menu.container.views
+package com.omar.retromp3recorder.app.ui.menu.views
 
 import androidx.lifecycle.ViewModel
 import com.omar.retromp3recorder.app.App
-import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuInteractor
-import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
+import com.omar.retromp3recorder.app.ui.menu.MenuContract
+import com.omar.retromp3recorder.app.ui.menu.visibility_logic.MenuInteractor
 import com.omar.retromp3recorder.utils.disposedBy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
+import timber.log.Timber
 import javax.inject.Inject
 
 class MenuViewModel : ViewModel() {
@@ -23,7 +24,7 @@ class MenuViewModel : ViewModel() {
         App.appComponent.getComponent().inject(this)
         input
             .compose(interactor.processIO())
-            .subscribe(state::onNext)
+            .subscribe(state::onNext, { Timber.e(it)})
             .disposedBy(compositeDisposable)
     }
 

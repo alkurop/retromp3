@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu.container.views
+package com.omar.retromp3recorder.app.ui.menu.views
 
 import android.content.Intent
 import androidx.compose.foundation.layout.Spacer
@@ -14,9 +14,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import com.omar.retromp3recorder.app.ui.files.selector.SelectorActivityJPC
 import com.omar.retromp3recorder.app.ui.files.selector.layout.SearchLayout
-import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
-import com.omar.retromp3recorder.app.ui.menu.container.views.layout.MenuLayout
+import com.omar.retromp3recorder.app.ui.menu.MenuContract
 import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropPopup
+import com.omar.retromp3recorder.app.ui.menu.views.layout.MenuLayout
 import com.omar.retromp3recorder.dto.MenuPopup
 
 
@@ -49,15 +49,17 @@ fun MenuView(viewModel: MenuViewModel = viewModel(), navController: NavHostContr
 fun MenuPopupNav(
     navController: NavHostController
 ) {
-    NavHost(navController = navController, startDestination = BLANK) {
+    NavHost(navController = navController, startDestination = START_WITH_BLANK) {
         dialog(MenuPopup.Crop.name) {
             CropPopup()
         }
         composable(MenuPopup.Search.name) {
             SearchLayout()
         }
-        composable(BLANK) { Spacer(modifier = Modifier) }
+        composable(START_WITH_BLANK) {
+            Spacer(modifier = Modifier)
+        }
     }
 }
 
-private const val BLANK = "BLANK"
+private const val START_WITH_BLANK = "BLANK"

@@ -1,15 +1,11 @@
-package com.omar.retromp3recorder.app.ui.menu.container.views.layout
+package com.omar.retromp3recorder.app.ui.menu.views.layout
 
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.omar.retromp3recorder.app.ui.menu.container.logic.MenuContract
-import com.omar.retromp3recorder.app.ui.menu.container.logic.toInput
-import com.omar.retromp3recorder.app.ui.menu.container.views.MenuItemComposable
-import com.omar.retromp3recorder.app.ui.menu.getTitleRes
-import com.omar.retromp3recorder.app.ui.menu.mapToStateEnabler
-import com.omar.retromp3recorder.app.ui.menu.mapToStatePopup
+import com.omar.retromp3recorder.app.ui.menu.*
+import com.omar.retromp3recorder.app.ui.menu.views.MenuItemComposable
 
 @Composable
 fun DrawMenuItem(

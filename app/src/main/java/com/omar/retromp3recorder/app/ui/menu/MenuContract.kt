@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu.container.logic
+package com.omar.retromp3recorder.app.ui.menu
 
 import com.omar.retromp3recorder.dto.MenuEnabler
 import com.omar.retromp3recorder.dto.MenuPopup

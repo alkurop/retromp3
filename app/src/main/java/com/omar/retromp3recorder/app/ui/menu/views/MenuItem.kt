@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu.container.views
+package com.omar.retromp3recorder.app.ui.menu.views
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.ui.menu.container.views.layout.MenuItemLayout
+import com.omar.retromp3recorder.app.ui.menu.views.layout.MenuItemLayout
 
 
 enum class MenuItemState {

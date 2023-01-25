@@ -1,16 +1,19 @@
-package com.omar.retromp3recorder.app.ui.files.preview.buttonstate
+package com.omar.retromp3recorder.app.ui.menu.visibility_logic.file
 
+import com.omar.retromp3recorder.app.ui.menu.MenuContract
+import com.omar.retromp3recorder.app.ui.menu.visibility_logic.MenuVisibilityMapper
 import com.omar.retromp3recorder.bl.audio.AudioState
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper
+import com.omar.retromp3recorder.dto.MenuPopup
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
-class RenameFileButtonStateMapper @Inject constructor(
+class DeleteFileMenuStateMapper @Inject constructor(
     private val audioStateMapper: AudioStateMapper,
     private val currentFileRepo: CurrentFileRepo
-) {
-    fun observe(): Observable<Boolean> {
+) : MenuVisibilityMapper {
+    override fun observe(): Observable<List<MenuContract.Item>> {
         return Observable.combineLatest(
             currentFileRepo.observe(),
             audioStateMapper.observe()
@@ -19,6 +22,13 @@ class RenameFileButtonStateMapper @Inject constructor(
                 is AudioState.Idle -> currentFile.value != null
                 else -> false
             }
+        }.map {
+            listOf(
+                MenuContract.Item.Popup(
+                    menuPopup = MenuPopup.Delete,
+                    isEnabled = it
+                )
+            )
         }
     }
 }
