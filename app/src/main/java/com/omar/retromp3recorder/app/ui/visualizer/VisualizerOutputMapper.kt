@@ -1,6 +1,5 @@
 package com.omar.retromp3recorder.app.ui.visualizer
 
-import com.omar.retromp3recorder.bl.audio.AudioState
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.functions.BiFunction
@@ -22,8 +21,5 @@ object VisualizerOutputMapper {
                 )
             }
         }
-    private val defaultViewModel = VisualizerView.State(
-        audioState = AudioState.Idle,
-        playerId = null
-    )
+    private val defaultViewModel = VisualizerView.State()
 }

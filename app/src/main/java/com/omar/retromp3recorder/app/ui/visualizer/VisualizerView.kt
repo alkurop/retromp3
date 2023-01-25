@@ -4,8 +4,8 @@ import com.omar.retromp3recorder.bl.audio.AudioState
 
 object VisualizerView {
     data class State(
-        val audioState: AudioState,
-        val playerId: Int?
+        val audioState: AudioState = AudioState.Idle,
+        val playerId: Int? = null
     )
 
     sealed class Input

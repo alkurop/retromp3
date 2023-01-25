@@ -15,14 +15,10 @@
         app:title="@string/app_name" />
 
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_visualizer"
-        android:name="com.omar.retromp3recorder.app.ui.visualizer.VisualizerFragment"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_visualizer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/current_file"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -35,7 +31,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/compose_seek"
-        app:layout_constraintTop_toBottomOf="@id/fragment_visualizer" />
+        app:layout_constraintTop_toBottomOf="@id/compose_visualizer" />
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/compose_seek"

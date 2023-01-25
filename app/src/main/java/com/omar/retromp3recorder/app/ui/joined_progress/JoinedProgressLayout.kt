@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.joined_progress.compose
+package com.omar.retromp3recorder.app.ui.joined_progress
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,8 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressView
-import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressViewModel
 import com.omar.retromp3recorder.dto.JoinedProgress
 import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
@@ -47,7 +45,6 @@ fun JoinedProgressLayout(viewModel: JoinedProgressViewModel = viewModel(), modif
 
 @Composable
 private fun BuildPreview(
-
     progress: JoinedProgress.RecorderProgressShown,
     modifier: Modifier = Modifier
 ) {
@@ -69,6 +66,7 @@ private fun BuildSeek(
         factory = { context -> WavetableSeekbarPreview(context) },
         update = { view ->
             view.update(progress)
+            compositeDisposable.clear()
             compositeDisposable += view.observeIsSeeking().subscribe {
                 callback.invoke(it.mapToEvent())
             }

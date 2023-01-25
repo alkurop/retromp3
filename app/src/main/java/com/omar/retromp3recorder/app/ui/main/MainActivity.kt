@@ -26,12 +26,13 @@ import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
 import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.audio_controls.compose.AudioControlsLayout
-import com.omar.retromp3recorder.app.ui.joined_progress.compose.JoinedProgressLayout
+import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressLayout
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuPopupNav
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuView
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
 import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 import com.omar.retromp3recorder.app.ui.theme.RetroTheme
+import com.omar.retromp3recorder.app.ui.visualizer.VisualizerLayout
 import com.omar.retromp3recorder.app.uiutils.observe
 
 class MainActivity : AppCompatActivity() {
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private val composeAudioControls by lazy { findViewById<ComposeView>(R.id.compose_audio_controls) }
     private val composeSeek by lazy { findViewById<ComposeView>(R.id.compose_seek) }
     private val logFragment by lazy { findViewById<View>(R.id.audio_log) }
+    private val visualiser by lazy { findViewById<ComposeView>(R.id.compose_visualizer) }
     private val mediaProjectionManager by lazy { getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,6 +95,22 @@ class MainActivity : AppCompatActivity() {
                         modifier = Modifier.padding(
                             horizontal = LocalSpacing.current.normal
                         )
+                    )
+                }
+            }
+        }
+        visualiser.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                RetroTheme {
+                    VisualizerLayout(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = LocalSpacing.current.normal,
+                            )
+                            .padding(
+                                bottom = LocalSpacing.current.normal,
+                            )
                     )
                 }
             }
