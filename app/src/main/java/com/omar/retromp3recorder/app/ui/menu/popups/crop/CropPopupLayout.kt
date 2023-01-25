@@ -6,13 +6,13 @@ import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.ui.menu.popups.crop.layout.CropContent
+import com.omar.retromp3recorder.app.ui.menu.popups.common.FileNameContentLayout
 import com.omar.retromp3recorder.app.ui.menu.views.PopupButtonData
 import com.omar.retromp3recorder.app.ui.menu.views.PopupComposable
 import com.omar.retromp3recorder.utils.updateName
 
 @Composable
-fun CropPopup(viewModel: CropViewModel = viewModel()) {
+fun CropPopupLayout(viewModel: CropViewModel = viewModel()) {
     val state by viewModel.state.subscribeAsState(initial = CropContract.State())
     val onDismiss = { viewModel.input.onNext(CropContract.Input.DismissPopup) }
     val onValueChanged: (String) -> Unit =
@@ -24,7 +24,7 @@ fun CropPopup(viewModel: CropViewModel = viewModel()) {
     PopupComposable(
         title = stringResource(id = R.string.popup_title_crop),
         content = {
-            CropContent(
+            FileNameContentLayout(
                 title = state.nameSuggestion.name,
                 onValueChanged = onValueChanged,
                 isError = state.isOkEnabled.not()

@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.ui.menu.popups.delete
 import androidx.compose.runtime.Immutable
 import com.omar.retromp3recorder.dto.ExistingFileWrapper
 
-object DeleteFileView {
+object DeleteFileContract {
     @Immutable
     data class State(
         val shouldDismiss: Boolean = false,
@@ -12,6 +12,7 @@ object DeleteFileView {
 
     sealed class Input {
         object DeleteFile : Input()
+        object DismissPopup : Input()
     }
 
     sealed class Output {

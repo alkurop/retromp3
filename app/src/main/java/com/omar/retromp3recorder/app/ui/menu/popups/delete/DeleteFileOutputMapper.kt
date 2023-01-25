@@ -5,20 +5,20 @@ import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.functions.BiFunction
 
 object DeleteFileOutputMapper {
-    fun mapOutputToState(): ObservableTransformer<DeleteFileView.Output, DeleteFileView.State> =
-        ObservableTransformer { upstream: Observable<DeleteFileView.Output> ->
+    fun mapOutputToState(): ObservableTransformer<DeleteFileContract.Output, DeleteFileContract.State> =
+        ObservableTransformer { upstream: Observable<DeleteFileContract.Output> ->
             upstream.scan(
-                DeleteFileView.State(),
+                DeleteFileContract.State(),
                 getMapper()
             )
         }
 
-    private fun getMapper(): BiFunction<DeleteFileView.State, DeleteFileView.Output, DeleteFileView.State> =
-        BiFunction { oldState: DeleteFileView.State, output: DeleteFileView.Output ->
+    private fun getMapper(): BiFunction<DeleteFileContract.State, DeleteFileContract.Output, DeleteFileContract.State> =
+        BiFunction { oldState: DeleteFileContract.State, output: DeleteFileContract.Output ->
             when (output) {
-                is DeleteFileView.Output.ShouldDismiss ->
+                is DeleteFileContract.Output.ShouldDismiss ->
                     oldState.copy(shouldDismiss = output.shouldDismiss)
-                is DeleteFileView.Output.CurrentFile -> {
+                is DeleteFileContract.Output.CurrentFile -> {
                     oldState.copy(fileWrapper = output.fileWrapper)
                 }
             }

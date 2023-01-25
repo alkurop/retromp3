@@ -1,30 +1,30 @@
 package com.omar.retromp3recorder.app.ui.menu.popups.delete
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rxjava3.subscribeAsState
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.app.ui.menu.views.PopupButtonData
+import com.omar.retromp3recorder.app.ui.menu.views.PopupComposable
+import com.omar.retromp3recorder.app.ui.utils.toFileName
 
 @Composable
-fun DeletePopupLayout (){
+fun DeletePopupLayout(viewModel: DeleteFileViewModel = viewModel()) {
+    val state by viewModel.state.subscribeAsState(initial = DeleteFileContract.State())
+    val onDismiss = { viewModel.input.onNext(DeleteFileContract.Input.DismissPopup) }
+    PopupComposable(
+        title = stringResource(id = R.string.popup_title_delete),
+        content = {
+            Text(state.fileWrapper?.path?.toFileName() ?: "")
+        },
+        onDismiss = onDismiss,
+        buttonList = listOf(
+            PopupButtonData(isEnabled = true,
+                text = stringResource(id = R.string.yes),
+                onClick = { viewModel.input.onNext(DeleteFileContract.Input.DeleteFile) }),
+        )
+    )
 }
-
-//private val viewModel by viewModels<DeleteFileViewModel>()
-//private lateinit var dialog: AlertDialog
-//override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//    dialog = AlertDialog.Builder(requireContext())
-//        .setTitle(getString(R.string.delete_file))
-//        .setMessage("fileName")
-//        .setPositiveButton(getString(R.string.yes)) { _, _ ->
-//        }
-//        .setNegativeButton(getString(R.string.no)) { _, _ -> dismiss() }.create()
-//    viewModel.state.observe(this, ::render)
-//    return dialog
-//}
-//
-//private fun render(state: DeleteFileView.State) {
-//    state.fileWrapper?.let {
-//        dialog.setMessage(it.path.toFileName())
-//    }
-//    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-//        viewModel.input.onNext(DeleteFileView.Input.DeleteFile)
-//    }
-//    state.shouldDismiss.takeIf { it }?.let { dismiss() }
-//}

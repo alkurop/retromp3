@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu.popups.crop.layout
+package com.omar.retromp3recorder.app.ui.menu.popups.common
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -14,13 +14,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 
 @Preview
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun CropContent(
+fun FileNameContentLayout(
     title: String = "privet",
     maxChar: Int = 40,
     label: String = stringResource(id = R.string.popup_label_filename),
@@ -30,9 +30,10 @@ fun CropContent(
     var text by remember { mutableStateOf(TextFieldValue(title)) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    LocalSpacing.current.normal
     OutlinedTextField(
         modifier = Modifier
-            .padding(top = 8.dp, bottom = 16.dp),
+            .padding(top = LocalSpacing.current.normal, bottom = LocalSpacing.current.large),
         textStyle = TextStyle(color = MaterialTheme.colorScheme.primary),
         value = text,
         isError = isError,

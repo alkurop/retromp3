@@ -9,8 +9,8 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class DeleteFileViewModel : ViewModel() {
-    val state = BehaviorSubject.create<DeleteFileView.State>()
-    val input = PublishSubject.create<DeleteFileView.Input>()
+    val state = BehaviorSubject.create<DeleteFileContract.State>()
+    val input = PublishSubject.create<DeleteFileContract.Input>()
 
     @Inject
     lateinit var interactor: DeleteFileInteractor

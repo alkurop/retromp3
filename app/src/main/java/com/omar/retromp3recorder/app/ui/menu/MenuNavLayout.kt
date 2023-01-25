@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.menu.views
+package com.omar.retromp3recorder.app.ui.menu
 
 import android.content.Intent
 import androidx.compose.foundation.layout.Spacer
@@ -14,8 +14,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import com.omar.retromp3recorder.app.ui.files.selector.SelectorActivityJPC
 import com.omar.retromp3recorder.app.ui.files.selector.layout.SearchLayout
-import com.omar.retromp3recorder.app.ui.menu.MenuContract
-import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropPopup
+import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropPopupLayout
+import com.omar.retromp3recorder.app.ui.menu.popups.delete.DeletePopupLayout
+import com.omar.retromp3recorder.app.ui.menu.views.MenuViewModel
 import com.omar.retromp3recorder.app.ui.menu.views.layout.MenuLayout
 import com.omar.retromp3recorder.dto.MenuPopup
 
@@ -50,14 +51,17 @@ fun MenuPopupNav(
     navController: NavHostController
 ) {
     NavHost(navController = navController, startDestination = START_WITH_BLANK) {
+        composable(START_WITH_BLANK) {
+            Spacer(modifier = Modifier)
+        }
         dialog(MenuPopup.Crop.name) {
-            CropPopup()
+            CropPopupLayout()
         }
         composable(MenuPopup.Search.name) {
             SearchLayout()
         }
-        composable(START_WITH_BLANK) {
-            Spacer(modifier = Modifier)
+        dialog(MenuPopup.Delete.name){
+            DeletePopupLayout()
         }
     }
 }
