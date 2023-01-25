@@ -19,7 +19,7 @@ private val darkColorTheme = darkColorScheme(
     error = Color.White,
     onPrimary = Color.White,
     onSecondary = Color.White,
-    onBackground = Color.Black,
+    onBackground = Color.White,
     onSurface = Color.White,
     onError = Color.White,
 )

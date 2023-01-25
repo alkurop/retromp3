@@ -19,7 +19,6 @@ import androidx.compose.material3.Card
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.unit.dp
 import androidx.core.view.isInvisible
 import androidx.navigation.compose.rememberNavController
 import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
@@ -27,9 +26,11 @@ import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
 import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.audio_controls.compose.AudioControlsLayout
+import com.omar.retromp3recorder.app.ui.joined_progress.compose.JoinedProgressLayout
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuPopupNav
 import com.omar.retromp3recorder.app.ui.menu.container.views.MenuView
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
+import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 import com.omar.retromp3recorder.app.ui.theme.RetroTheme
 import com.omar.retromp3recorder.app.uiutils.observe
 
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val composeMenu by lazy { findViewById<ComposeView>(R.id.compose_menu) }
     private val composeAudioControls by lazy { findViewById<ComposeView>(R.id.compose_audio_controls) }
+    private val composeSeek by lazy { findViewById<ComposeView>(R.id.compose_seek) }
     private val logFragment by lazy { findViewById<View>(R.id.audio_log) }
     private val mediaProjectionManager by lazy { getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
 
@@ -53,24 +55,45 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, toast, Toast.LENGTH_SHORT).show()
         }
         composeMenu.apply {
-            // Dispose of the Composition when the view's LifecycleOwner
-            // is destroyed
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                val navController = rememberNavController()
+                RetroTheme {
+                    val navController = rememberNavController()
 
-                MenuPopupNav(navController)
+                    MenuPopupNav(navController)
 
-                MenuView(navController = navController)
+                    MenuView(navController = navController)
+                }
             }
         }
         composeAudioControls.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 RetroTheme {
-                    Card(Modifier.padding(horizontal = 12.dp, vertical = 16.dp)) {
-                        AudioControlsLayout(modifier = Modifier.padding(vertical = 8.dp))
+                    Card(
+                        Modifier.padding(
+                            horizontal = LocalSpacing.current.medium,
+                            vertical = LocalSpacing.current.normal
+                        )
+                    ) {
+                        AudioControlsLayout(
+                            modifier = Modifier.padding(
+                                vertical = LocalSpacing.current.small
+                            )
+                        )
                     }
+                }
+            }
+        }
+        composeSeek.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                RetroTheme {
+                    JoinedProgressLayout(
+                        modifier = Modifier.padding(
+                            horizontal = LocalSpacing.current.normal
+                        )
+                    )
                 }
             }
         }
