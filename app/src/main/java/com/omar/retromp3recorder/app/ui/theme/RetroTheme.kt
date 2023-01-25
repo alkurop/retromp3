@@ -30,7 +30,7 @@ fun RetroTheme(content: @Composable () -> Unit) {
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.background.toArgb()
+            (view.context as? Activity)?.window?.statusBarColor = colorScheme.background.toArgb()
         }
     }
     MaterialTheme {

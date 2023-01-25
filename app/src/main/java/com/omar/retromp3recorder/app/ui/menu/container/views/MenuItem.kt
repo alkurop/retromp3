@@ -52,7 +52,7 @@ private fun EnablerDisabled(
 ) {
     MenuItemLayout(
         title = title,
-        textColor = colorResource(id = R.color.half_white),
+        textColor = Color.Green,
         backgroundColor = colorResource(id = R.color.grayish),
         circleColor = Color.Gray,
         modifier = modifier
