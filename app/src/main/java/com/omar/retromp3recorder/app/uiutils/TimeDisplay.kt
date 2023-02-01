@@ -19,8 +19,10 @@ object TimeDisplay {
 
 
     @Composable
-    fun Long?.toDisplayCompose(): AnnotatedString? = this?.toTimeDisplay()?.let { timeDisplay ->
-        buildAnnotatedString {
+    fun Long?.toDisplayCompose(): AnnotatedString {
+        return if (this == null) buildAnnotatedString { }
+        else buildAnnotatedString {
+            val timeDisplay = toTimeDisplay()
             append(timeDisplay.time)
             withStyle(style = SpanStyle(fontSize = MaterialTheme.typography.labelSmall.fontSize)) {
                 append(timeDisplay.millis)

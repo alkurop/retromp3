@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalView
 
 private val darkColorTheme = darkColorScheme(
     primary = Color.White,
-    secondary = Color(0x9900ff00),
+    secondary = Color(0xff00ff00),
     tertiary = Color(0xFFFF6F00),
     background = Color(0xff121212),
     surface = Color(0xff202020),

@@ -29,6 +29,7 @@ import com.omar.retromp3recorder.app.ui.audio_controls.compose.AudioControlsLayo
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressLayout
 import com.omar.retromp3recorder.app.ui.menu.MenuPopupNav
 import com.omar.retromp3recorder.app.ui.menu.MenuView
+import com.omar.retromp3recorder.app.ui.rangebar.compose.RangeBarLayout
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
 import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 import com.omar.retromp3recorder.app.ui.theme.RetroTheme
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val composeMenu by lazy { findViewById<ComposeView>(R.id.compose_menu) }
+    private val composeRange by lazy { findViewById<ComposeView>(R.id.compose_range) }
     private val composeAudioControls by lazy { findViewById<ComposeView>(R.id.compose_audio_controls) }
     private val composeSeek by lazy { findViewById<ComposeView>(R.id.compose_seek) }
     private val logFragment by lazy { findViewById<View>(R.id.audio_log) }
@@ -110,6 +112,19 @@ class MainActivity : AppCompatActivity() {
                             )
                             .padding(
                                 bottom = LocalSpacing.current.normal,
+                            )
+                    )
+                }
+            }
+        }
+        composeRange.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                RetroTheme {
+                    RangeBarLayout(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = LocalSpacing.current.normal,
                             )
                     )
                 }
