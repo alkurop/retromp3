@@ -9,7 +9,8 @@ import com.omar.retromp3recorder.app.ui.recorder_settings.RecorderSettingsBaseFr
 import com.omar.retromp3recorder.app.uiutils.observe
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 
-class BitRateSettingsFragment : RecorderSettingsBaseFragment() {
+class
+BitRateSettingsFragment : RecorderSettingsBaseFragment() {
     private val viewModel by viewModels<BitRateSettingsViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

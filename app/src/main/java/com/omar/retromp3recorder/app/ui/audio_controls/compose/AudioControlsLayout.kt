@@ -38,8 +38,7 @@ fun AudioControlsLayout(viewModel: AudioControlsViewModel = viewModel(), modifie
         ) {
             Spacer(modifier = Modifier.weight(spacerWeight))
             Text(
-                text = state.playerProgressState?.data?.from.toDisplayCompose()
-                    ?: buildAnnotatedString { },
+                text = state.playerProgressState?.data?.from.toDisplayCompose(),
                 textAlign = TextAlign.End,
                 modifier = Modifier
                     .width(textWidth)
