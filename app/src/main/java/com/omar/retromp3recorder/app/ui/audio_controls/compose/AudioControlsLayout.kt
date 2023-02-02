@@ -19,7 +19,10 @@ import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 import com.omar.retromp3recorder.app.uiutils.TimeDisplay.toDisplayCompose
 
 @Composable
-fun AudioControlsLayout(viewModel: AudioControlsViewModel = viewModel(), modifier: Modifier) {
+fun AudioControlsLayout(
+    modifier: Modifier,
+    viewModel: AudioControlsViewModel = viewModel()
+) {
 
     val state: AudioControlsView.State by viewModel.state.subscribeAsState(initial = AudioControlsView.State())
 

@@ -44,11 +44,10 @@
         android:id="@+id/compose_audio_controls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/audio_log" />
+        app:layout_constraintBottom_toTopOf="@id/audio_log_compose" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/audio_log"
-        android:name="com.omar.retromp3recorder.app.ui.log.LogFragment"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/audio_log_compose"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_marginStart="12dp"

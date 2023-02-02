@@ -4,12 +4,12 @@ import com.github.alkurop.stringerbell.Stringer
 
 object LogView {
     data class State(
-        val messages: List<Output>
+        val messages: List<Output> = emptyList()
     )
 
     sealed class Input
     sealed class Output {
-        data class ErrorLogOutput(val error: Stringer) : LogView.Output()
-        data class MessageLogOutput(val message: Stringer) : LogView.Output()
+        data class ErrorLogOutput(val error: Stringer) : Output()
+        data class MessageLogOutput(val message: Stringer) : Output()
     }
 }

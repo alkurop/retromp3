@@ -27,6 +27,7 @@ import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.audio_controls.compose.AudioControlsLayout
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressLayout
+import com.omar.retromp3recorder.app.ui.log.compose.LogLayout
 import com.omar.retromp3recorder.app.ui.menu.MenuPopupNav
 import com.omar.retromp3recorder.app.ui.menu.MenuView
 import com.omar.retromp3recorder.app.ui.rangebar.compose.RangeBarLayout
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private val composeRange by lazy { findViewById<ComposeView>(R.id.compose_range) }
     private val composeAudioControls by lazy { findViewById<ComposeView>(R.id.compose_audio_controls) }
     private val composeSeek by lazy { findViewById<ComposeView>(R.id.compose_seek) }
-    private val logFragment by lazy { findViewById<View>(R.id.audio_log) }
+    private val composeLog by lazy { findViewById<ComposeView>(R.id.audio_log_compose) }
     private val visualiser by lazy { findViewById<ComposeView>(R.id.compose_visualizer) }
     private val mediaProjectionManager by lazy { getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
 
@@ -130,6 +131,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        composeLog.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                RetroTheme {
+                    LogLayout(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = LocalSpacing.current.normal,
+                            )
+                    )
+                }
+            }
+        }
     }
 
     private fun renderView(state: MainView.State) {
@@ -141,7 +156,7 @@ class MainActivity : AppCompatActivity() {
             }
             requestForPermissions.ghost?.let { makePermissionsRequest(it) }
             requestForScreenCapture.ghost?.let { makeScreenCaptureRequest() }
-            logFragment.isInvisible = !this.isLogViewEnabled
+            composeLog.isInvisible = !this.isLogViewEnabled
         }
     }
 
