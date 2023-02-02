@@ -18,10 +18,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
@@ -60,15 +61,19 @@ class MainActivity : ComponentActivity() {
         setContent {
             RetroTheme {
                 Column {
+                    val context = LocalContext.current
+
                     TopAppBar(
                         title = { Text(text = stringResource(id = R.string.app_name)) },
                         actions = {
                             IconButton(
-                                onClick = {}
+                                onClick = {
+                                    val intent = Intent(context, SettingsActivity::class.java)
+                                    context.startActivity(intent)
+                                }
                             ) {
                                 Icon(
-                                    modifier = Modifier.padding(start = LocalSpacing.current.normal),
-                                    imageVector = Icons.Default.ArrowBack,
+                                    imageVector = Icons.Default.Settings,
                                     contentDescription = stringResource(id = R.string.settings)
                                 )
                             }
@@ -101,7 +106,7 @@ class MainActivity : ComponentActivity() {
                     LogLayout(
                         modifier = Modifier
                             .alpha(0.6f)
-                            .height(40.dp)
+                            .height(60.dp)
                             .padding(
                                 horizontal = LocalSpacing.current.normal,
                             )
