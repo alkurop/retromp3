@@ -6,8 +6,8 @@ import com.omar.retromp3recorder.dto.FeatureFlagsCollection
 
 object MainView {
     data class State(
-        val requestForPermissions: Shell<Set<String>>,
-        val requestForScreenCapture: Shell<Any>,
+        val requestForPermissions: Shell<Set<String>> = Shell.empty(),
+        val requestForScreenCapture: Shell<Any> = Shell.empty(),
         val isNewLayout: Boolean = false,
         val isLogViewEnabled: Boolean = false,
         val shouldKeepScreenOn: Boolean = false,
