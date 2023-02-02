@@ -12,10 +12,6 @@ android {
         targetSdk rootProject.ext.targetSdk
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -23,8 +19,6 @@ android {
 }
 
 dependencies {
-    api "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
     api "io.reactivex.rxjava3:rxjava:$versions.rxJava"
     api "io.reactivex.rxjava3:rxkotlin:$versions.rxKotlin"
     api "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"
@@ -37,7 +31,7 @@ dependencies {
 
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
     implementation "com.google.dagger:dagger:$versions.dagger"
-    implementation "androidx.appcompat:appcompat:$versions.support"
     implementation "com.mpatric:mp3agic:$versions.mp3magic"
+    implementation "androidx.appcompat:appcompat:$versions.support"
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
 }

@@ -12,7 +12,7 @@ ext.versions = [
         firebase         : '28.4.0',
         ffmpegKit        : '4.4.LTS',
         ghostinshell     : '0.1',
-        kotlin           : '1.7.10',
+        kotlin           : '1.8.0',
         ktxFragment      : '1.5.3',
         lifecycle        : '2.5.1',
         mp3magic         : '0.9.1',

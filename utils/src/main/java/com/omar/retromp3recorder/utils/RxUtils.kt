@@ -27,4 +27,4 @@ fun <In : Any, Out : Any> Scheduler.processIO(
 fun <T : Any> Observable<T>.takeOne():Single<T> = this.take(1).singleOrError()
 
 inline fun <reified T> Observable<out Any>.mapToUsecase(crossinline action: (T) -> Completable): Completable =
-    this.filter { it is T }.map { it as T }.flatMapCompletable { action(it) }
+    this.filter { it is T }.flatMapCompletable { action(it as T) }
