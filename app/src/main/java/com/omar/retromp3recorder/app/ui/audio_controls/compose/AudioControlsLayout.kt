@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.ui.audio_controls.compose
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -9,7 +9,6 @@ import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -35,7 +34,10 @@ fun AudioControlsLayout(
 
     val mapVisibility: (Boolean) -> Float = { if (it) 1f else 0f }
 
-    Surface {
+    Card(
+        modifier = modifier
+    ) {
+
         Row(
             verticalAlignment = Alignment.CenterVertically, modifier = modifier
         ) {
@@ -76,8 +78,7 @@ fun AudioControlsLayout(
             }
             Text(
                 text = state.recordingDuration?.toDisplayCompose()
-                    ?: state.playerProgressState?.data?.to.toDisplayCompose()
-                    ?: buildAnnotatedString { },
+                    ?: state.playerProgressState?.data?.to.toDisplayCompose(),
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .width(textWidth)

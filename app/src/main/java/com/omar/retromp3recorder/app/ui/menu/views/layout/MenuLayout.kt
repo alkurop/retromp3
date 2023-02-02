@@ -15,13 +15,14 @@ import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 @Preview
 @Composable
 fun MenuLayout(
+    modifier: Modifier = Modifier,
     @PreviewParameter(MenuPreviewStateProvider::class) state: MenuContract.State,
-    onAction: (MenuContract.Input) -> Unit = {}
+    onAction: (MenuContract.Input) -> Unit = {},
 ) {
     val noAction: (MenuContract.Input) -> Unit = {}
     val scrollState = rememberScrollState()
     Row(
-        Modifier
+        modifier
             .alpha(if (state.isVisible) 1f else 0.5f)
             .horizontalScroll(scrollState)
     ) {

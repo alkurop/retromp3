@@ -22,9 +22,14 @@ import com.omar.retromp3recorder.dto.MenuPopup
 
 
 @Composable
-fun MenuView(viewModel: MenuViewModel = viewModel(), navController: NavHostController) {
+fun MenuView(
+    modifier: Modifier,
+    viewModel: MenuViewModel = viewModel(),
+    navController: NavHostController,
+) {
     val state: MenuContract.State by viewModel.state.subscribeAsState(initial = MenuContract.State())
     MenuLayout(
+        modifier,
         state = state,
         onAction = {
             viewModel.input.onNext(it)
@@ -60,7 +65,7 @@ fun MenuPopupNav(
         dialog(MenuPopup.Rename.name) {
             RenamePopupLayout()
         }
-        dialog(MenuPopup.Delete.name){
+        dialog(MenuPopup.Delete.name) {
             DeletePopupLayout()
         }
     }

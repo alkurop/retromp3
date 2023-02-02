@@ -53,10 +53,9 @@ private fun MenuBox(
     bgColor: Color,
     content: @Composable () -> Unit
 ) {
-    Box(modifier.height(50.dp)) {
+    Box(modifier.height(40.dp)) {
         Box(
             Modifier
-
                 .background(
                     bgColor,
                     shape = RoundedCornerShape(0.dp, 0.dp, corners, corners)
