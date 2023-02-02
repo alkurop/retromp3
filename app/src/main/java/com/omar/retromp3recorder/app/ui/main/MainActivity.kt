@@ -25,11 +25,12 @@ import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
 import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
 import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.ui.log.compose.LogLayout
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
 import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 import com.omar.retromp3recorder.app.ui.theme.RetroTheme
+import com.omar.retromp3recorder.app.ui.visualizer.VisualizerLayout
 import com.omar.retromp3recorder.app.uiutils.observe
+import com.omar.retromp3recorder.app.ui.log.compose.LogLayout
 
 class MainActivity : AppCompatActivity() {
     private val permissionsManager: PermissionsManager by lazy { PermissionsManager(this) }
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     private val composeRowContainer by lazy { findViewById<ComposeView>(R.id.compose_row_container) }
     private val composeLog by lazy { findViewById<ComposeView>(R.id.audio_log_compose) }
-//    private val visualiser by lazy { findViewById<ComposeView>(R.id.compose_visualizer) }
+    private val visualiser by lazy { findViewById<ComposeView>(R.id.compose_visualizer) }
     private val mediaProjectionManager by lazy { getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,22 +53,22 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, toast, Toast.LENGTH_SHORT).show()
         }
 
-//        visualiser.apply {
-//            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-//            setContent {
-//                RetroTheme {
-//                    VisualizerLayout(
-//                        modifier = Modifier
-//                            .padding(
-//                                horizontal = LocalSpacing.current.normal,
-//                            )
-//                            .padding(
-//                                bottom = LocalSpacing.current.normal,
-//                            )
-//                    )
-//                }
-//            }
-//        }
+        visualiser.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                RetroTheme {
+                    VisualizerLayout(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = LocalSpacing.current.normal,
+                            )
+                            .padding(
+                                bottom = LocalSpacing.current.normal,
+                            )
+                    )
+                }
+            }
+        }
         composeRowContainer.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
