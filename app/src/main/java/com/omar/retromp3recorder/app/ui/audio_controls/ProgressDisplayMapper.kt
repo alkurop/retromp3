@@ -8,6 +8,6 @@ fun PlayerProgress.toProgressDisplay(): AudioControlsView.ProgressDisplay {
     val rangeSetting = this.range.settings
     val range = this.range.toFromToMillis(this.duration)
     val length = if (rangeSetting.isActive) range.length else this.duration
-    val progress = if (rangeSetting.isActive) progress - range.from else progress
+    val progress = if (rangeSetting.isActive) range.from - progress else progress
     return AudioControlsView.ProgressDisplay(FromToMillis(progress, length))
 }
