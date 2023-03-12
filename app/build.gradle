@@ -53,7 +53,6 @@ dependencies {
     implementation "com.google.accompanist:accompanist-permissions:$versions.accompanist_permissions"
     implementation "com.squareup.picasso:picasso:$versions.picasso"
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
-    implementation "com.jakewharton.rxbinding4:rxbinding:$versions.rxView"
     implementation "com.github.alkurop:Android-Runtime-Permission-Manager:$versions.permission"
 
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
@@ -71,11 +70,8 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling"
     debugImplementation "androidx.compose.ui:ui-test-manifest"
 
-    //lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.lifecycle"
-
     implementation "androidx.navigation:navigation-compose:$versions.navigation"
-
     implementation "androidx.paging:paging-compose:$versions.composePaging"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.composeViewModel"
     implementation "androidx.constraintlayout:constraintlayout-compose:$versions.composeConstraint"
