@@ -15,6 +15,7 @@ dependencies {
     implementation project(":domain:platform")
 
     api project(':utils:generic')
+    api project(':utils:platform')
     api "io.reactivex.rxjava3:rxjava:$versions.rxJava"
     api "io.reactivex.rxjava3:rxkotlin:$versions.rxKotlin"
     api "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"

@@ -1,0 +1,19 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-kapt'
+    id 'kotlin-android'
+}
+
+apply from: "$scripts.android_library"
+
+android {
+    namespace "${applicationId}.utils.platform"
+}
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:$versions.support"
+
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    api "com.jakewharton.timber:timber:$versions.timber"
+}
