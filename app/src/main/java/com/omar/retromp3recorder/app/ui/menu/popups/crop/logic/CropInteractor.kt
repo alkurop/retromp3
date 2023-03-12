@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class CropInteractor @Inject constructor(
@@ -21,6 +22,7 @@ class CropInteractor @Inject constructor(
 ) {
     private val canCropFileRepo = BehaviorSubjectRepo(false)
     private val nameSuggestionRepo = BehaviorSubjectRepo(NewNameSuggestion())
+    private val dismissBus = PublishSubject.create<Boolean>()
 
     fun processIO(): ObservableTransformer<CropContract.Input, CropContract.Output> =
         scheduler.processIO(
@@ -31,6 +33,7 @@ class CropInteractor @Inject constructor(
     private val mapRepoToOutput: () -> Observable<CropContract.Output> = {
         Observable.merge(
             listOf(
+                dismissBus.map { CropContract.Output.Dismiss },
                 canCropFileRepo.observe().map {
                     CropContract.Output.IsActionEnabled(it)
                 },
@@ -60,11 +63,12 @@ class CropInteractor @Inject constructor(
                         )
                 },
                 input.mapToUsecase<CropContract.Input.CropInPlace> {
-                    cropInPlaceUC.execute(it.nameSuggestion)
+                    cropInPlaceUC.execute(it.nameSuggestion).andThen { dismissBus.onNext(true) }
                 },
                 input.mapToUsecase<CropContract.Input.CropOutside> {
                     cropOutsideUC.execute(it.nameSuggestion)
                         .flatMapCompletable { Completable.complete() }
+                        .andThen { dismissBus.onNext(true) }
                 }
             )
         )

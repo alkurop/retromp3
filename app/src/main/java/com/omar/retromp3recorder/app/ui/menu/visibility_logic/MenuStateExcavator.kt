@@ -7,14 +7,12 @@ import com.omar.retromp3recorder.bl.audio.AudioStateMapper
 import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.domain.VisibilityEnabler
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
 import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class MenuStateExcavator @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo,
-    private val menuPopupBus: MenuPopupBus,
     private val audioStateMapper: AudioStateMapper,
     private val currentFileRepo: CurrentFileRepo,
     private val fileActionsStateMapper: FileActionsStateMapper
@@ -44,13 +42,11 @@ class MenuStateExcavator @Inject constructor(
                         fileActionsStateMapper.observe()
                     ),
                 ) { array -> array.mapToMenuList() },
-                menuPopupBus.observe(),
                 audioStateMapper.observe()
-            ) { menu, popup, audioState ->
+            ) { menu, audioState ->
                 MenuContract.State(
                     items = menu,
                     isVisible = audioState != AudioState.Recording,
-                    popup = popup
                 )
             }
     }
