@@ -20,7 +20,7 @@ class AndroidModule(private val app: Application) {
     }
 
     @Provides
-    fun provideWakelockDealer(serviceDealerImpl: com.omar.retromp3recorder.app.ServiceDealerImpl): ServiceDealer =
+    fun provideWakelockDealer(serviceDealerImpl: ServiceDealerImpl): ServiceDealer =
         serviceDealerImpl
 
     @Provides

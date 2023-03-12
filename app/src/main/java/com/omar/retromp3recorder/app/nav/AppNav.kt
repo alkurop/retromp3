@@ -6,11 +6,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
-import com.omar.retromp3recorder.app.ui.files.selector.layout.SearchScreenLayout
-import com.omar.retromp3recorder.app.ui.main.MainLayout
-import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropPopupLayout
-import com.omar.retromp3recorder.app.ui.menu.popups.delete.DeletePopupLayout
-import com.omar.retromp3recorder.app.ui.menu.popups.rename.RenamePopupLayout
+import com.omar.retromp3recorder.app.screens.search.layout.SearchScreenLayout
+import com.omar.retromp3recorder.app.screens.main.MainLayout
+import com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop.CropPopupLayout
+import com.omar.retromp3recorder.app.screens.main.components.menu.popups.delete.DeletePopupLayout
+import com.omar.retromp3recorder.app.screens.main.components.menu.popups.rename.RenamePopupLayout
 
 @Composable
 fun AppNavHost(

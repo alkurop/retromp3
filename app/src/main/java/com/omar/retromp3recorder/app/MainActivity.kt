@@ -20,11 +20,11 @@ import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
 import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
 import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.nav.AppNavHost
-import com.omar.retromp3recorder.app.ui.main.MainViewContract
-import com.omar.retromp3recorder.app.ui.main.MainViewModel
-import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
+import com.omar.retromp3recorder.app.screens.main.MainViewContract
+import com.omar.retromp3recorder.app.screens.main.MainViewModel
+import com.omar.retromp3recorder.app.screens.settings.SettingsActivity
 import com.omar.retromp3recorder.app.ui.theme.RetroTheme
-import com.omar.retromp3recorder.app.uiutils.observe
+import com.omar.retromp3recorder.app.utils.observe
 
 class MainActivity : ComponentActivity() {
     private val permissionsManager: PermissionsManager by lazy { PermissionsManager(this) }

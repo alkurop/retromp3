@@ -32,7 +32,7 @@
             android:value="false" />
 
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name=".screens.settings.SettingsActivity"
             android:label="@string/settings"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait" />

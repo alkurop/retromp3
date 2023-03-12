@@ -30,13 +30,13 @@
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/BitRateSettingsFragment"
-                    android:name="com.omar.retromp3recorder.app.ui.recorder_settings.beat_rate.BitRateSettingsFragment"
+                    android:name="com.omar.retromp3recorder.app.screens.settings.components.beat_rate.BitRateSettingsFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/SampleRateSettingsFragment"
-                    android:name="com.omar.retromp3recorder.app.ui.recorder_settings.sample_rate.SampleRateSettingsFragment"
+                    android:name="com.omar.retromp3recorder.app.screens.settings.components.sample_rate.SampleRateSettingsFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -60,7 +60,7 @@
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/AudioSourceSettingsFragment"
-                    android:name="com.omar.retromp3recorder.app.ui.recorder_settings.audio_source.AudioSourceSettingsFragment"
+                    android:name="com.omar.retromp3recorder.app.screens.settings.components.audio_source.AudioSourceSettingsFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
