@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.screens.settings.components.sample_rate.SampleRateViewModel
-import com.omar.retromp3recorder.app.screens.settings.compose.group.SettingGroup
-import com.omar.retromp3recorder.app.screens.settings.compose.group.SettingGroupData
+import com.omar.retromp3recorder.app.screens.settings.compose.components.selection_group.SelectionGroup
+import com.omar.retromp3recorder.app.screens.settings.compose.components.selection_group.SelectionGroupData
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 
 @Composable
@@ -25,13 +25,13 @@ fun SampleRateLayout(
             viewModel.input.onNext(it)
         }
     }
-    val settings = SettingGroupData(
+    val settings = SelectionGroupData(
         title = title,
         options = Mp3VoiceRecorder.SampleRate.values()
             .map { stringResource(R.string.sample_rate_format, it.value) },
         selection = Mp3VoiceRecorder.SampleRate.values().indexOf(state.value)
     )
-    SettingGroup(settings = settings, modifier = modifier, onSelected = {
+    SelectionGroup(settings = settings, modifier = modifier, onSelected = {
         onSelected(Mp3VoiceRecorder.SampleRate.values()[it])
     })
 }

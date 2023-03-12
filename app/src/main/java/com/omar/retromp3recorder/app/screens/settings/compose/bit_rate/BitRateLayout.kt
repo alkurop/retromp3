@@ -8,8 +8,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.screens.settings.components.beat_rate.BitRateSettingsViewModel
-import com.omar.retromp3recorder.app.screens.settings.compose.group.SettingGroup
-import com.omar.retromp3recorder.app.screens.settings.compose.group.SettingGroupData
+import com.omar.retromp3recorder.app.screens.settings.compose.components.selection_group.SelectionGroup
+import com.omar.retromp3recorder.app.screens.settings.compose.components.selection_group.SelectionGroupData
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 
 @Composable
@@ -24,13 +24,13 @@ fun BitRateLayout(
             viewModel.input.onNext(it)
         }
     }
-    val settings = SettingGroupData(
+    val settings = SelectionGroupData(
         title = title,
         options = Mp3VoiceRecorder.BitRate.values()
             .map { stringResource(R.string.bit_rate_format, it.value) },
         selection = Mp3VoiceRecorder.BitRate.values().indexOf(state.value)
     )
-    SettingGroup(settings = settings, modifier = modifier, onSelected = {
+    SelectionGroup(settings = settings, modifier = modifier, onSelected = {
         onSelected(Mp3VoiceRecorder.BitRate.values()[it])
     })
 }

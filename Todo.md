@@ -1,4 +1,4 @@
-- Replace search screen with jpc
+V Replace search screen with jpc
 - cleanup dependency
 - refactor permissions
 - refactor main activity
@@ -13,5 +13,7 @@
 - refactor search ui
 - order strings
 - add previews
+- reanable log view *
+- fix search screen settings checkbox *
 
 * means bug

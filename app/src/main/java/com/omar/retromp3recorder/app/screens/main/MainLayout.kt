@@ -11,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,8 +31,6 @@ fun MainLayout(
 ) {
     Column {
         val state by viewModel.state.subscribeAsState(initial = MainViewContract.State())
-
-        val context = LocalContext.current
 
         TopAppBar(
             title = { Text(text = stringResource(id = R.string.app_name)) },

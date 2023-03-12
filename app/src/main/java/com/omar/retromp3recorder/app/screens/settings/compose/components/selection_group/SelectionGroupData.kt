@@ -1,19 +1,19 @@
-package com.omar.retromp3recorder.app.screens.settings.compose.group
+package com.omar.retromp3recorder.app.screens.settings.compose.components.selection_group
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 
 
 @Immutable
-data class SettingGroupData(
+data class SelectionGroupData(
     val title: String,
     val options: List<String>,
     val selection: Int
 )
 
-class PreviewSettingGroupData : PreviewParameterProvider<SettingGroupData> {
+class PreviewSettingGroupData : PreviewParameterProvider<SelectionGroupData> {
     override val values = sequenceOf(
-        SettingGroupData(
+        SelectionGroupData(
             "Settings group",
             listOf(
                 "Option 1", "Option 2"

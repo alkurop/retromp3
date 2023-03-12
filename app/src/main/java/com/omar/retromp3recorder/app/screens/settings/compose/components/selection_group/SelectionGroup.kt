@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.settings.compose.group
+package com.omar.retromp3recorder.app.screens.settings.compose.components.selection_group
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
@@ -15,12 +15,13 @@ import androidx.compose.ui.unit.dp
 import com.omar.retromp3recorder.app.RetroTheme
 
 @Composable
-fun SettingGroup(
-    settings: SettingGroupData,
+fun SelectionGroup(
+    settings: SelectionGroupData,
     modifier: Modifier = Modifier,
     onSelected: (Int) -> Unit = {},
 ) {
     Column(modifier) {
+
         Text(
             text = settings.title,
             style = MaterialTheme.typography.labelLarge
@@ -55,9 +56,9 @@ fun SettingGroup(
 @Preview
 @Composable
 private fun PreviewSettingGroup(
-    @PreviewParameter(PreviewSettingGroupData::class) settings: SettingGroupData,
+    @PreviewParameter(PreviewSettingGroupData::class) settings: SelectionGroupData,
 ) {
     RetroTheme {
-        SettingGroup(settings = settings)
+        SelectionGroup(settings = settings)
     }
 }
