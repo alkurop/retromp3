@@ -6,31 +6,22 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
-android {
+apply from: "$scripts.android_common"
 
-    compileSdk rootProject.ext.compileSdk
+android {
+    namespace "${rootProject.ext.applicationId}.app"
 
     defaultConfig {
-        applicationId "com.omar.retromp3recorder.app"
-        testApplicationId "com.omar.retromp3recorder.app.test"
+        applicationId "${rootProject.ext.applicationId}.app"
+        applicationId "${rootProject.ext.applicationId}.app.test"
 
-        minSdk rootProject.ext.minSdk
-        targetSdk rootProject.ext.targetSdk
         versionCode 371
         versionName "3.71"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
     }
 
     buildFeatures {
         compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.4.0'
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
     }
 
     buildTypes {
@@ -53,7 +44,6 @@ android {
             keyPassword 'android'
         }
     }
-    namespace 'com.omar.retromp3recorder.app'
 }
 
 dependencies {

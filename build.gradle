@@ -24,8 +24,11 @@ ext {
     ]
     apply from: "$scripts.versions"
 
+    compileSdkVersion = 33
     compileSdk = 33
+    minSdkVersion = 25
     minSdk = 25
+    targetSdkVersion = 33
     targetSdk = 33
     applicationId = "com.omar.retromp3recorder"
     kotlin_compiler = "1.4.3"
