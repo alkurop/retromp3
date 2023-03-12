@@ -26,25 +26,25 @@ fun AppNavHost(
             MainLayout(onOpenDestination = { navController.navigate(it) })
         }
         composable(route = AppDestination.SettingScreen.route) {
-            SearchScreenLayout()
-        }
-        composable(route = AppDestination.SearchScreen.route) {
             TODO()
         }
+        composable(route = AppDestination.SearchScreen.route) {
+            SearchScreenLayout(onBack = { navController.popBackStack() })
+        }
         dialog(AppDestination.CropPopup.route) {
-            CropPopupLayout()
+            CropPopupLayout(onDismiss = { navController.popBackStack() })
         }
         dialog(AppDestination.RenamePopup.route) {
-            RenamePopupLayout()
+            RenamePopupLayout(onDismiss = { navController.popBackStack() })
         }
         dialog(AppDestination.DeletePopup.route) {
-            DeletePopupLayout()
+            DeletePopupLayout(onDismiss = { navController.popBackStack() })
         }
     }
 }
 
 fun NavHostController.navigate(destination: AppDestination) {
-    when (val type = destination.type) {
+    when (destination.type) {
         DestinationType.Popup -> this.navigatePopup(destination.route)
         DestinationType.Screen -> this.navigateScreen(destination.route)
     }

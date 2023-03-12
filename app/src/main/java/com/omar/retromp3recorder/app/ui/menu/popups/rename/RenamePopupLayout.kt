@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.app.ui.menu.popups.rename
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.res.stringResource
@@ -12,13 +13,20 @@ import com.omar.retromp3recorder.app.ui.menu.views.PopupComposable
 import com.omar.retromp3recorder.app.ui.utils.toFileName
 
 @Composable
-fun RenamePopupLayout(viewModel: RenameFileViewModel = viewModel()) {
+fun RenamePopupLayout(
+    viewModel: RenameFileViewModel = viewModel(),
+    onDismiss: () -> Unit
+) {
     val state by viewModel.state.subscribeAsState(initial = RenameFileContract.State())
-    val onDismiss = { viewModel.input.onNext(RenameFileContract.Input.DismissPopup) }
     val name =
         state.fileWrapper?.path?.toFileName() ?: ""
     val onValueChanged: (String) -> Unit = {
         viewModel.input.onNext(RenameFileContract.Input.CheckCanRename(newName = it))
+    }
+    if (state.dismiss) {
+        SideEffect {
+            onDismiss.invoke()
+        }
     }
     PopupComposable(
         title = stringResource(id = R.string.popup_title_rename),

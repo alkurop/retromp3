@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.app.ui.menu
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Modifier
@@ -20,16 +19,13 @@ fun MenuLayout(
 ) {
     val state: MenuContract.State by viewModel.state.subscribeAsState(initial = MenuContract.State())
     MenuLayout(
-        modifier,
+        modifier = modifier,
         state = state,
         onAction = {
             viewModel.input.onNext(it)
-        })
-
-    val popup = state.popup.value
-    SideEffect {
-        onOpenDestination.invoke(popup.toAppDestination())
-    }
+        },
+        onNavigation = { onOpenDestination(it.toAppDestination()) }
+    )
 }
 
 private fun MenuPopup?.toAppDestination(): AppDestination =

@@ -4,8 +4,6 @@ import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropContract
 import com.omar.retromp3recorder.bl.files.CanSaveAsName
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
-import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
-import com.omar.retromp3recorder.utils.generic.Optional
 import com.omar.retromp3recorder.utils.domain.mapToUsecase
 import com.omar.retromp3recorder.utils.domain.processIO
 import io.reactivex.rxjava3.core.Completable
@@ -19,7 +17,6 @@ class CropInteractor @Inject constructor(
     private val cropInPlaceUC: CropInPlaceUC,
     private val cropOutsideUC: CropOutsideUC,
     private val nameUpdater: CropFileNameUpdater,
-    private val popupBus: MenuPopupBus,
     private val scheduler: Scheduler
 ) {
     private val canCropFileRepo = BehaviorSubjectRepo(false)
@@ -53,9 +50,6 @@ class CropInteractor @Inject constructor(
     private val marInputToUsecase: (Observable<CropContract.Input>) -> Completable = { input ->
         Completable.merge(
             listOf(
-                input.mapToUsecase<CropContract.Input.DismissPopup> {
-                    Completable.fromAction { popupBus.onNext(Optional.empty()) }
-                },
                 input.mapToUsecase<CropContract.Input.CheckCanCrop> { action ->
                     Completable.fromAction { nameSuggestionRepo.onNext(action.nameSuggestion) }
                         .andThen(

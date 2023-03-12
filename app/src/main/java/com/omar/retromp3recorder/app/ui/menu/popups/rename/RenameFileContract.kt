@@ -9,16 +9,17 @@ object RenameFileContract {
     data class State(
         val newName: String? = null,
         val isOkButtonEnabled: Boolean = false,
-        val fileWrapper: ExistingFileWrapper? = null
+        val fileWrapper: ExistingFileWrapper? = null,
+        val dismiss: Boolean = false
     )
 
     sealed class Input {
         data class CheckCanRename(val newName: String) : Input()
         data class Rename(val newName: String) : Input()
-        object DismissPopup : Input()
     }
 
     sealed class Output {
+        object Dismiss : Output()
         data class OkButtonState(val isEnabled: Boolean, val newName: String?) : Output()
         data class CurrentFile(val fileWrapper: ExistingFileWrapper?) : Output()
     }
@@ -41,6 +42,7 @@ object RenameFileOutputMapper {
                     newName = output.newName
                 )
                 is RenameFileContract.Output.CurrentFile -> oldState.copy(fileWrapper = output.fileWrapper)
+                is RenameFileContract.Output.Dismiss -> oldState.copy(dismiss = true)
             }
         }
 }

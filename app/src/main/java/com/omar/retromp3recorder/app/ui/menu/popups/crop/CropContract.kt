@@ -10,7 +10,6 @@ class CropContract {
         data class CheckCanCrop(val nameSuggestion: NewNameSuggestion) : Input()
         data class CropInPlace(val nameSuggestion: NewNameSuggestion) : Input()
         data class CropOutside(val nameSuggestion: NewNameSuggestion) : Input()
-        object DismissPopup : Input()
     }
 
     sealed class Output {

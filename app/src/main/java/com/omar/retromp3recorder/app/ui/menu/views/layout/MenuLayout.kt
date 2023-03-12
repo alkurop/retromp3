@@ -11,13 +11,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.omar.retromp3recorder.app.ui.menu.MenuContract
 import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
+import com.omar.retromp3recorder.domain.MenuPopup
 
 @Preview
 @Composable
 fun MenuLayout(
-    modifier: Modifier = Modifier,
     @PreviewParameter(MenuPreviewStateProvider::class) state: MenuContract.State,
+    modifier: Modifier = Modifier,
     onAction: (MenuContract.Input) -> Unit = {},
+    onNavigation: (MenuPopup) -> Unit = {},
 ) {
     val noAction: (MenuContract.Input) -> Unit = {}
     val scrollState = rememberScrollState()
@@ -32,7 +34,8 @@ fun MenuLayout(
             DrawMenuItem(
                 Modifier.padding(start = getPadding(isFirst), end = getPadding(isLast)),
                 action = item,
-                onAction = if (state.isVisible) onAction else noAction
+                onAction = if (state.isVisible) onAction else noAction,
+                onNavigation = onNavigation
             )
         }
     }

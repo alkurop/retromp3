@@ -16,6 +16,9 @@ object DeleteFileOutputMapper {
     private fun getMapper(): BiFunction<DeleteFileContract.State, DeleteFileContract.Output, DeleteFileContract.State> =
         BiFunction { oldState: DeleteFileContract.State, output: DeleteFileContract.Output ->
             when (output) {
+                is DeleteFileContract.Output.Dismiss -> {
+                    oldState.copy(shouldDismiss = true)
+                }
                 is DeleteFileContract.Output.CurrentFile -> {
                     oldState.copy(fileWrapper = output.fileWrapper)
                 }

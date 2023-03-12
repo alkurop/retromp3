@@ -12,9 +12,8 @@ import com.omar.retromp3recorder.app.ui.menu.views.PopupComposable
 import com.omar.retromp3recorder.utils.domain.updateName
 
 @Composable
-fun CropPopupLayout(viewModel: CropViewModel = viewModel()) {
+fun CropPopupLayout(viewModel: CropViewModel = viewModel(), onDismiss: () -> Unit) {
     val state by viewModel.state.subscribeAsState(initial = CropContract.State())
-    val onDismiss = { viewModel.input.onNext(CropContract.Input.DismissPopup) }
     val onValueChanged: (String) -> Unit =
         {
             val newNameSuggestion = (state.nameSuggestion to it).updateName()

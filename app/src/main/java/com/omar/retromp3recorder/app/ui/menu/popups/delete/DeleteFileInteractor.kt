@@ -3,22 +3,21 @@ package com.omar.retromp3recorder.app.ui.menu.popups.delete
 import com.omar.retromp3recorder.bl.files.DeleteCurrentFileUC
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
-import com.omar.retromp3recorder.utils.generic.Optional
 import com.omar.retromp3recorder.utils.domain.mapToUsecase
 import com.omar.retromp3recorder.utils.domain.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class DeleteFileInteractor @Inject constructor(
     private val deleteCurrentFileUC: DeleteCurrentFileUC,
     private val currentFileMapper: CurrentFileRepo,
-    private val popupBus: MenuPopupBus,
     private val scheduler: Scheduler
 ) {
+    private val shouldDismiss = PublishSubject.create<Boolean>()
     fun processIO(): ObservableTransformer<DeleteFileContract.Input, DeleteFileContract.Output> =
         scheduler.processIO(
             inputMapper = mapInputToUsecase,
@@ -28,6 +27,7 @@ class DeleteFileInteractor @Inject constructor(
     private val mapRepoToOutput: () -> Observable<DeleteFileContract.Output> = {
         Observable.merge(
             listOf(
+                shouldDismiss.map { DeleteFileContract.Output.Dismiss },
                 currentFileMapper.observe().map {
                     DeleteFileContract.Output.CurrentFile(
                         it.value as? ExistingFileWrapper
@@ -41,14 +41,11 @@ class DeleteFileInteractor @Inject constructor(
             Completable.merge(
 
                 listOf(
-                    input.mapToUsecase<DeleteFileContract.Input.DismissPopup> {
-                        Completable.fromAction { popupBus.onNext(Optional.empty()) }
-                    },
                     input.mapToUsecase<DeleteFileContract.Input.DeleteFile> {
                         deleteCurrentFileUC
                             .execute()
                             .andThen(Completable
-                                .fromAction { popupBus.onNext(Optional.empty()) }
+                                .fromAction { shouldDismiss.onNext(false) }
                             )
                     }
                 )

@@ -1,7 +1,5 @@
 package com.omar.retromp3recorder.app.ui.files.selector.layout
 
-import androidx.activity.OnBackPressedDispatcher
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,19 +16,19 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SearchScreenLayout(viewModel: SelectorViewModel = viewModel()) {
+fun SearchScreenLayout(
+    viewModel: SelectorViewModel = viewModel(),
+    onBack: () -> Unit
+) {
     val state by viewModel.state.subscribeAsState(initial = SelectorContract.State())
     var query by remember { mutableStateOf("") }
     val currentFilePath = state.selectedFile
     val lambdaSearch: (String) -> Unit = remember { { query = it } }
 
-    val onBackPressed: OnBackPressedDispatcher =
-        LocalOnBackPressedDispatcherOwner.current!!.onBackPressedDispatcher
-
     val lambdaClick: (ExistingFileWrapper) -> Unit = remember {
         {
             viewModel.input.onNext(SelectorContract.Input.ItemSelected(it))
-            onBackPressed.onBackPressed()
+            onBack()
         }
     }
 

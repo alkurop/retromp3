@@ -17,8 +17,6 @@ interface MenuContract {
             val isEnabled: Boolean
         ) : Input()
 
-        object Clear : Input()
-        data class Popup(val action: MenuPopup) : Input()
     }
 
     sealed class Item {
@@ -36,6 +34,3 @@ interface MenuContract {
 
 fun MenuContract.Item.Enable.toInput() =
     MenuContract.Input.Enable(this.enabler, this.isEnabled.not())
-
-fun MenuContract.Item.Popup.toInput() = MenuContract.Input.Popup(this.menuPopup)
-
