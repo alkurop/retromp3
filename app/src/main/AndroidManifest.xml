@@ -31,12 +31,6 @@
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
 
-        <activity
-            android:name=".screens.settings.SettingsActivity"
-            android:label="@string/settings"
-            android:launchMode="singleTask"
-            android:screenOrientation="sensorPortrait" />
-
         <service
             android:name=".WakelockService"
             android:exported="false"

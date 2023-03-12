@@ -15,5 +15,6 @@ V Replace search screen with jpc
 - add previews
 - reanable log view *
 - fix search screen settings checkbox *
+- fix size jumping of waveform on main view *
 
 * means bug

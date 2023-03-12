@@ -55,9 +55,7 @@ dependencies {
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.jakewharton.rxbinding4:rxbinding:$versions.rxView"
     implementation "com.github.alkurop:Android-Runtime-Permission-Manager:$versions.permission"
-    implementation "androidx.fragment:fragment-ktx:$versions.ktxFragment"
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
 
     //compose
