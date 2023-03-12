@@ -44,19 +44,13 @@ android {
             keyPassword 'android'
         }
     }
-
-    // paging compose gives dependency to an alpha version of the compose libs
-    // this config strategy should be cleaned up when paging compose is in reals version
-    configurations.all {
-        resolutionStrategy.force "androidx.compose.foundation:foundation:$versions.compose"
-        resolutionStrategy.force "androidx.compose.ui:ui:$versions.compose"
-        resolutionStrategy.force "androidx.compose.runtime:runtime:$versions.compose"
-    }
 }
 
+apply from: "$scripts.android_test_dependency"
+apply from: "$scripts.test_dependency"
+
 dependencies {
-    implementation "androidx.appcompat:appcompat:$versions.support"
-    implementation "com.google.accompanist:accompanist-permissions:0.29.0-alpha"
+    implementation "com.google.accompanist:accompanist-permissions:$versions.accompanist_permissions"
     implementation "com.squareup.picasso:picasso:$versions.picasso"
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.jakewharton.rxbinding4:rxbinding:$versions.rxView"
@@ -70,7 +64,7 @@ dependencies {
     def composeBom = platform("androidx.compose:compose-bom:2023.01.00")
     implementation composeBom
     androidTestImplementation composeBom
-    implementation "androidx.activity:activity-compose:1.6.1"
+    implementation "androidx.activity:activity-compose"
     implementation "androidx.compose.ui:ui"
     implementation "androidx.compose.ui:ui-tooling"
     implementation "androidx.compose.runtime:runtime-rxjava3"
@@ -80,28 +74,19 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest"
 
     //lifecycle
-    def lifecycle_version = "2.6.0-alpha05"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version"
-    kapt "androidx.lifecycle:lifecycle-common:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.lifecycle"
 
-    def nav_version = "2.5.3"
-    implementation "androidx.navigation:navigation-compose:$nav_version"
+    implementation "androidx.navigation:navigation-compose:$versions.navigation"
 
     implementation "androidx.paging:paging-compose:$versions.composePaging"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.composeViewModel"
-    implementation "com.google.accompanist:accompanist-appcompat-theme:0.25.1"
     implementation "androidx.constraintlayout:constraintlayout-compose:$versions.composeConstraint"
     implementation "com.google.android.material:material:$versions.material"
 
     implementation "com.google.dagger:dagger:$versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
-    implementation project(':utils:domain')
 
+    implementation project(':utils:domain')
     implementation project(':io:mp3recorder')
     implementation project(':io:audioplayer')
     implementation project(':io:audio-tansformer')
@@ -119,9 +104,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
 
-    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espressoCore"
-    androidTestImplementation "androidx.test:runner:$versions.espresso"
-    androidTestImplementation "androidx.test:rules:$versions.espresso"
-    androidTestImplementation "androidx.test.ext:junit-ktx:$versions.junitKtx"
-
+    constraints {
+        implementation "androidx.compose.foundation:foundation:$versions.compose"
+        implementation "androidx.compose.ui:ui:$versions.compose"
+        implementation "androidx.compose.runtime:runtime:$versions.compose"
+    }
 }

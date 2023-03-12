@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
 }
 
-apply from :"$scripts.android_library"
+apply from: "$scripts.android_library"
 
 android {
     namespace "${applicationId}.io.recorder"
