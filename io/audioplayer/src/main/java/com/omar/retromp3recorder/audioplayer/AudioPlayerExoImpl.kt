@@ -7,7 +7,7 @@ import android.os.Looper
 import com.github.alkurop.stringerbell.Stringer
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.Player.STATE_ENDED
-import com.omar.retromp3recorder.utils.Track
+import com.omar.retromp3recorder.utils.domain.Track
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable

@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.ui.visualizer
 
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper
 import com.omar.retromp3recorder.bl.audio.PlayerIdMapper
-import com.omar.retromp3recorder.utils.processIO
+import com.omar.retromp3recorder.utils.domain.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer

@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.bl.files
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.FileRenamer
+import com.omar.retromp3recorder.utils.domain.FileRenamer
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

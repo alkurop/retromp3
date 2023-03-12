@@ -6,9 +6,9 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
-import com.omar.retromp3recorder.domain.platform.Optional
-import com.omar.retromp3recorder.utils.mapToUsecase
-import com.omar.retromp3recorder.utils.processIO
+import com.omar.retromp3recorder.utils.generic.Optional
+import com.omar.retromp3recorder.utils.domain.mapToUsecase
+import com.omar.retromp3recorder.utils.domain.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer

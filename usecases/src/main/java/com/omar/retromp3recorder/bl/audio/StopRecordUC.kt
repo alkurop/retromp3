@@ -2,9 +2,9 @@ package com.omar.retromp3recorder.bl.audio
 
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.Constants.MAIN_THREAD
-import com.omar.retromp3recorder.utils.ServiceDealer
-import com.omar.retromp3recorder.utils.takeOne
+import com.omar.retromp3recorder.utils.domain.Constants.MAIN_THREAD
+import com.omar.retromp3recorder.utils.domain.ServiceDealer
+import com.omar.retromp3recorder.utils.domain.takeOne
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject

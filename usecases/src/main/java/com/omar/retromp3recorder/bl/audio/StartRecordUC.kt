@@ -11,8 +11,8 @@ import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus
 import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus.ShouldRequestPermissions
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
-import com.omar.retromp3recorder.utils.ServiceDealer
-import com.omar.retromp3recorder.utils.takeOne
+import com.omar.retromp3recorder.utils.domain.ServiceDealer
+import com.omar.retromp3recorder.utils.domain.takeOne
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

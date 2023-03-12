@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.bl.audio
 import com.omar.retromp3recorder.bl.files.GetNewFileNameUC
 import com.omar.retromp3recorder.bl.files.IncrementFileNameUC
 import com.omar.retromp3recorder.bl.system.WakeLockUsecase
-import com.omar.retromp3recorder.domain.platform.Optional
+import com.omar.retromp3recorder.utils.generic.Optional
 import com.omar.retromp3recorder.domain.toFutureFileWrapper
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo

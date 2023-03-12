@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.bl.files.FileRepoUpdaterUC
 import com.omar.retromp3recorder.bl.waveform.WaveformScanner
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.isEmpty
-import com.omar.retromp3recorder.utils.AmplitudaDealer
+import com.omar.retromp3recorder.utils.domain.AmplitudaDealer
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject

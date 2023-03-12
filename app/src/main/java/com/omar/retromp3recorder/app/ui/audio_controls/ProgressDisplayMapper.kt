@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.ui.audio_controls
 
 import com.omar.retromp3recorder.domain.FromToMillis
 import com.omar.retromp3recorder.domain.PlayerProgress
-import com.omar.retromp3recorder.utils.toFromToMillis
+import com.omar.retromp3recorder.utils.domain.toFromToMillis
 
 fun PlayerProgress.toProgressDisplay(): AudioControlsView.ProgressDisplay {
     val rangeSetting = this.range.settings

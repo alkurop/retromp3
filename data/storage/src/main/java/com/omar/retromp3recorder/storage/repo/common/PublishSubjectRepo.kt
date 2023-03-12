@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.storage.repo.common
 
-import com.omar.retromp3recorder.utils.takeOne
+import com.omar.retromp3recorder.utils.domain.takeOne
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.PublishSubject

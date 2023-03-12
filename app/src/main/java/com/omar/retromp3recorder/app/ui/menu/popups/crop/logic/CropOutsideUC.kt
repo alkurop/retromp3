@@ -7,7 +7,7 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
 import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
-import com.omar.retromp3recorder.domain.platform.Optional
+import com.omar.retromp3recorder.utils.generic.Optional
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject

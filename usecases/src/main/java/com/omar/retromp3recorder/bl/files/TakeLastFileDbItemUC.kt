@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.files
 
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
-import com.omar.retromp3recorder.domain.platform.Optional
+import com.omar.retromp3recorder.utils.generic.Optional
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toFileWrapper
 import io.reactivex.rxjava3.core.Single

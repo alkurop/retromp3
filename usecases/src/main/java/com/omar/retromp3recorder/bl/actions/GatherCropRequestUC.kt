@@ -6,8 +6,8 @@ import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.io.audiotransformer.CropRequest
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.takeOne
-import com.omar.retromp3recorder.utils.toFromToMillis
+import com.omar.retromp3recorder.utils.domain.takeOne
+import com.omar.retromp3recorder.utils.domain.toFromToMillis
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

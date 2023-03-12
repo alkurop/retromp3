@@ -1,13 +1,13 @@
 package com.omar.retromp3recorder.bl.system
 
 import com.omar.retromp3recorder.domain.Wavetable
-import com.omar.retromp3recorder.domain.platform.toOptional
+import com.omar.retromp3recorder.utils.generic.toOptional
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.FileLister
-import com.omar.retromp3recorder.utils.Mp3TagsEditor
-import com.omar.retromp3recorder.utils.RecordingTagsDefaultProvider
+import com.omar.retromp3recorder.utils.domain.FileLister
+import com.omar.retromp3recorder.utils.domain.Mp3TagsEditor
+import com.omar.retromp3recorder.utils.domain.RecordingTagsDefaultProvider
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

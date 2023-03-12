@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.FileDeleter
+import com.omar.retromp3recorder.utils.domain.FileDeleter
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

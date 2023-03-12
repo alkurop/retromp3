@@ -4,9 +4,9 @@ import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.domain.FileWrapper
 import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.domain.PlayerControls
-import com.omar.retromp3recorder.domain.platform.Optional
+import com.omar.retromp3recorder.utils.generic.Optional
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
-import com.omar.retromp3recorder.utils.Track
+import com.omar.retromp3recorder.utils.domain.Track
 import javax.inject.Inject
 
 @Track

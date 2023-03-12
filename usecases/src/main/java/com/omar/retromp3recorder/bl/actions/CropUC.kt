@@ -3,12 +3,14 @@ package com.omar.retromp3recorder.bl.actions
 import com.omar.retromp3recorder.bl.waveform.WaveformScanner
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.NewNameSuggestion
-import com.omar.retromp3recorder.domain.platform.Optional
-import com.omar.retromp3recorder.domain.platform.toOptional
+import com.omar.retromp3recorder.utils.generic.Optional
+import com.omar.retromp3recorder.utils.generic.toOptional
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
-import com.omar.retromp3recorder.utils.*
+import com.omar.retromp3recorder.utils.domain.AmplitudaDealer
+import com.omar.retromp3recorder.utils.domain.FileLister
+import com.omar.retromp3recorder.utils.domain.Mp3TagsEditor
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single

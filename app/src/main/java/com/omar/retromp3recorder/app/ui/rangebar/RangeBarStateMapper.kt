@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
 import com.omar.retromp3recorder.storage.repo.local.RangeBarResetBus
-import com.omar.retromp3recorder.utils.toFromToMillis
+import com.omar.retromp3recorder.utils.domain.toFromToMillis
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 

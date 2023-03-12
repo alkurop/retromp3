@@ -92,8 +92,8 @@ dependencies {
 
     implementation "com.google.dagger:dagger:$versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    implementation project(':utils:domain')
 
-    implementation project(':utils')
     implementation project(':io:mp3recorder')
     implementation project(':io:audioplayer')
     implementation project(':io:audio-tansformer')

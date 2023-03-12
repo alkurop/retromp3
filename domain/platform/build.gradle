@@ -11,6 +11,7 @@ android {
 
 dependencies {
     api project(":domain:data")
+    api project(":utils:generic")
     api "com.github.alkurop:stringerbell:$versions.stringerbell"
     api "com.github.alkurop:ghostinshell:$versions.ghostinshell"
 }

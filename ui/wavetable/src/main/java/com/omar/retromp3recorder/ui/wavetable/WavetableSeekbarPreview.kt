@@ -7,9 +7,9 @@ import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.omar.retromp3recorder.domain.FromToMillis
 import com.omar.retromp3recorder.domain.JoinedProgress
-import com.omar.retromp3recorder.utils.toFromToMillis
-import com.omar.retromp3recorder.utils.toPlayerTime
-import com.omar.retromp3recorder.utils.toSeekbarTime
+import com.omar.retromp3recorder.utils.domain.toFromToMillis
+import com.omar.retromp3recorder.utils.domain.toPlayerTime
+import com.omar.retromp3recorder.utils.domain.toSeekbarTime
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 

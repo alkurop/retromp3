@@ -9,7 +9,7 @@ import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.menu.popups.common.FileNameContentLayout
 import com.omar.retromp3recorder.app.ui.menu.views.PopupButtonData
 import com.omar.retromp3recorder.app.ui.menu.views.PopupComposable
-import com.omar.retromp3recorder.utils.updateName
+import com.omar.retromp3recorder.utils.domain.updateName
 
 @Composable
 fun CropPopupLayout(viewModel: CropViewModel = viewModel()) {

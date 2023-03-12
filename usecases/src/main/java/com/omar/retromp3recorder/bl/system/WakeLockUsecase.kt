@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.system
 
-import com.omar.retromp3recorder.utils.ServiceDealer
+import com.omar.retromp3recorder.utils.domain.ServiceDealer
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

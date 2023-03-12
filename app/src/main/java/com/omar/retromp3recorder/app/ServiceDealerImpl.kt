@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app
 
 import android.content.Context
 import android.content.Intent
-import com.omar.retromp3recorder.utils.ServiceDealer
+import com.omar.retromp3recorder.utils.domain.ServiceDealer
 import javax.inject.Inject
 
 class ServiceDealerImpl @Inject constructor(

@@ -7,8 +7,8 @@ import com.omar.retromp3recorder.bl.system.StartupUC
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.storage.repo.global.PermissionsRequestBus
-import com.omar.retromp3recorder.utils.flatMapGhost
-import com.omar.retromp3recorder.utils.processIO
+import com.omar.retromp3recorder.utils.domain.flatMapGhost
+import com.omar.retromp3recorder.utils.domain.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer

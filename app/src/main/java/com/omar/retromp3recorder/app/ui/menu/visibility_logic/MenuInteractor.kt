@@ -2,10 +2,10 @@ package com.omar.retromp3recorder.app.ui.menu.visibility_logic
 
 import com.omar.retromp3recorder.app.ui.menu.MenuContract
 import com.omar.retromp3recorder.bl.enablers.EnablersSwitcher
-import com.omar.retromp3recorder.domain.platform.Optional
-import com.omar.retromp3recorder.domain.platform.toOptional
+import com.omar.retromp3recorder.utils.generic.Optional
+import com.omar.retromp3recorder.utils.generic.toOptional
 import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
-import com.omar.retromp3recorder.utils.processIO
+import com.omar.retromp3recorder.utils.domain.processIO
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer

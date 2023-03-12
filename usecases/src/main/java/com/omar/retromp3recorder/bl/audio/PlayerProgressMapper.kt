@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.audioplayer.observeProgress
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
-import com.omar.retromp3recorder.utils.toSeekbarTime
+import com.omar.retromp3recorder.utils.domain.toSeekbarTime
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

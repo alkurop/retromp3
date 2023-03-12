@@ -10,7 +10,7 @@ android {
 }
 
 dependencies {
-    implementation project(':utils')
+    implementation project(':utils:domain')
     implementation project(':domain:platform')
     implementation "com.android.support.constraint:constraint-layout:$versions.constraintLayout"
     implementation "androidx.appcompat:appcompat:$versions.support"

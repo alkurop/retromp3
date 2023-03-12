@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.SharedPrefsKeys
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
-import com.omar.retromp3recorder.utils.ServiceDealer
+import com.omar.retromp3recorder.utils.domain.ServiceDealer
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

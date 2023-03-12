@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.bl.files
 
 import android.content.SharedPreferences
 import com.omar.retromp3recorder.storage.SharedPrefsKeys
-import com.omar.retromp3recorder.utils.DirPathProvider
+import com.omar.retromp3recorder.utils.domain.DirPathProvider
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

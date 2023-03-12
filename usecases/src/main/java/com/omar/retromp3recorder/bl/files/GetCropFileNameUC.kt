@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.files
 
 import com.omar.retromp3recorder.domain.NewNameSuggestion
-import com.omar.retromp3recorder.utils.DirPathProvider
+import com.omar.retromp3recorder.utils.domain.DirPathProvider
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
 import java.io.File

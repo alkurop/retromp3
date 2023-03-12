@@ -2,8 +2,8 @@ package com.omar.retromp3recorder.app.di
 
 import android.app.Application
 import android.content.Context
-import com.omar.retromp3recorder.utils.Constants
-import com.omar.retromp3recorder.utils.ServiceDealer
+import com.omar.retromp3recorder.utils.domain.Constants
+import com.omar.retromp3recorder.utils.domain.ServiceDealer
 import dagger.Module
 import dagger.Provides
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

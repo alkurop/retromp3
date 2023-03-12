@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.domain.FeatureFlag
 import com.omar.retromp3recorder.domain.FeatureFlagSetting
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
-import com.omar.retromp3recorder.utils.takeOne
+import com.omar.retromp3recorder.utils.domain.takeOne
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

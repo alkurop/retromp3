@@ -6,7 +6,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import com.omar.retromp3recorder.utils.toTimeDisplay
+import com.omar.retromp3recorder.utils.domain.toTimeDisplay
 
 object TimeDisplay {
 

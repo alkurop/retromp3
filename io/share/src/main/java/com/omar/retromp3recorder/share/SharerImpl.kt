@@ -6,8 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.share.Sharer.Event.Error
-import com.omar.retromp3recorder.utils.Constants.MAIN_THREAD
-import com.omar.retromp3recorder.utils.FileUriCreator
+import com.omar.retromp3recorder.utils.domain.Constants.MAIN_THREAD
+import com.omar.retromp3recorder.utils.domain.FileUriCreator
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Scheduler
