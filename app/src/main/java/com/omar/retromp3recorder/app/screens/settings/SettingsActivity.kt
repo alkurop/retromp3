@@ -49,7 +49,7 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
     }
 
     @SuppressLint("InflateParams")
-    private fun renderState(state: SettingsView.State) {
+    private fun renderState(state: SettingsContract.State) {
         state.featureFlagsCollection?.let { featureFlagsCollection ->
             debugContainer.removeAllViews()
             expContainer.removeAllViews()
@@ -74,7 +74,7 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
                     val newSetting = FeatureFlagSetting(
                         isEnabled = state,
                     )
-                    viewModel.input.onNext(SettingsView.Input.FlagSettingChanged(flag, newSetting))
+                    viewModel.input.onNext(SettingsContract.Input.FlagSettingChanged(flag, newSetting))
                 }
             }
             debugSection.isVisible = BuildConfig.DEBUG

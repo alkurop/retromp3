@@ -9,8 +9,8 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class SettingsViewModel : ViewModel() {
-    val state = BehaviorSubject.create<SettingsView.State>()
-    val input = PublishSubject.create<SettingsView.Input>()
+    val state = BehaviorSubject.create<SettingsContract.State>()
+    val input = PublishSubject.create<SettingsContract.Input>()
 
     @Inject
     lateinit var interactor: SettingsInteractor

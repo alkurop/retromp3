@@ -9,5 +9,8 @@
 - add some UI tests
 - try to add second track
 - convert wavebar to compose
+- refactor search toolbar
+- refactor search ui
+- order strings
 
 * means bug

@@ -5,18 +5,18 @@ import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.functions.BiFunction
 
 object SettingsViewOutputMapper {
-    fun mapOutputToState(): ObservableTransformer<SettingsView.Output, SettingsView.State> =
-        ObservableTransformer { upstream: Observable<SettingsView.Output> ->
+    fun mapOutputToState(): ObservableTransformer<SettingsContract.Output, SettingsContract.State> =
+        ObservableTransformer { upstream: Observable<SettingsContract.Output> ->
             upstream.scan(
-                SettingsView.State(),
+                SettingsContract.State(),
                 getMapper()
             )
         }
 
-    private fun getMapper(): BiFunction<SettingsView.State, SettingsView.Output, SettingsView.State> =
-        BiFunction { oldState: SettingsView.State, output: SettingsView.Output ->
+    private fun getMapper(): BiFunction<SettingsContract.State, SettingsContract.Output, SettingsContract.State> =
+        BiFunction { oldState: SettingsContract.State, output: SettingsContract.Output ->
             when (output) {
-                is SettingsView.Output.FlagsCollectionUpdate -> oldState.copy(
+                is SettingsContract.Output.FlagsCollectionUpdate -> oldState.copy(
                     featureFlagsCollection = output.featureFlagsCollection
                 )
             }

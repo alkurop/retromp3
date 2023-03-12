@@ -15,20 +15,20 @@ class SettingsInteractor @Inject constructor(
     private val featureFlagRepo: FeatureFlagRepo,
     private val scheduler: Scheduler
 ) {
-    fun processIO(): ObservableTransformer<SettingsView.Input, SettingsView.Output> =
+    fun processIO(): ObservableTransformer<SettingsContract.Input, SettingsContract.Output> =
         scheduler.processIO(
             inputMapper = mapInputToUsecase,
             outputMapper = mapRepoToOutput
         )
 
-    private val mapRepoToOutput: () -> (Observable<SettingsView.Output>) = {
+    private val mapRepoToOutput: () -> (Observable<SettingsContract.Output>) = {
         Observable.merge(
             listOf(
                 featureFlagRepo.observe()
                     .takeOne()
                     .toObservable()
                     .map { featureFlagsCollection ->
-                        SettingsView.Output.FlagsCollectionUpdate(
+                        SettingsContract.Output.FlagsCollectionUpdate(
                             featureFlagsCollection
                         )
                     },
@@ -36,11 +36,11 @@ class SettingsInteractor @Inject constructor(
         )
     }
 
-    private val mapInputToUsecase: (Observable<SettingsView.Input>) -> Completable =
+    private val mapInputToUsecase: (Observable<SettingsContract.Input>) -> Completable =
         { input ->
             Completable.merge(
                 listOf(
-                    input.ofType(SettingsView.Input.FlagSettingChanged::class.java)
+                    input.ofType(SettingsContract.Input.FlagSettingChanged::class.java)
                         .flatMapCompletable { featureMapSaveUC.execute(it.flag, it.setting) }
                 )
             )

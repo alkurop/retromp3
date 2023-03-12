@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.domain.FeatureFlag
 import com.omar.retromp3recorder.domain.FeatureFlagSetting
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 
-class SettingsView {
+class SettingsContract {
     data class State(
         val featureFlagsCollection: FeatureFlagsCollection? = null
     )

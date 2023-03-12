@@ -11,6 +11,7 @@ import com.omar.retromp3recorder.app.screens.main.MainLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop.CropPopupLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.delete.DeletePopupLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.rename.RenamePopupLayout
+import com.omar.retromp3recorder.app.screens.settings.compose.SettingsLayout
 
 @Composable
 fun AppNavHost(
@@ -26,7 +27,7 @@ fun AppNavHost(
             MainLayout(onOpenDestination = { navController.navigate(it) })
         }
         composable(route = AppDestination.SettingScreen.route) {
-            TODO()
+            SettingsLayout(onBack = { navController.popBackStack() })
         }
         composable(route = AppDestination.SearchScreen.route) {
             SearchScreenLayout(onBack = { navController.popBackStack() })
