@@ -1,20 +1,21 @@
 package com.omar.retromp3recorder.storage.repo.common
 
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.rx3.asObservable
 
 open class ReducerRepo<In : Any, State : Any>(
     init: State,
     private val function: State.(In) -> State
 ) {
-    private val stateKeeper = BehaviorSubject.createDefault(init)
+    private val stateKeeper = MutableStateFlow(init)
 
     @Synchronized
     fun onNext(input: In) {
-        val prev = stateKeeper.blockingFirst()
+        val prev = stateKeeper.value
         val next = prev.function(input)
-        stateKeeper.onNext(next)
+        stateKeeper.value = next
     }
 
-    open fun observe(): Observable<State> = stateKeeper
+    open fun observe(): Observable<State> = stateKeeper.asObservable()
 }

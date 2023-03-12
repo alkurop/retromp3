@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.app.ui.menu.popups.crop.logic
 
-import com.omar.retromp3recorder.utils.generic.toOptional
+import com.omar.retromp3recorder.utils.platform.toOptional
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject

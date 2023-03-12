@@ -5,7 +5,6 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.rx3.asObservable
 
 
@@ -26,5 +25,5 @@ open class StateFlowRepo<T : Any>(default: T? = null) {
 
     open fun observe(): Observable<T> = flow.asObservable()
 
-    fun takeOne(): Single<T> = flow.take(1).asObservable().takeOne()
+    fun takeOne(): Single<T> = flow.asObservable().takeOne()
 }

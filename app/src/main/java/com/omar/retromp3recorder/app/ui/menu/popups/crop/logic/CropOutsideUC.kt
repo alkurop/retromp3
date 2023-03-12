@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.bl.actions.CropUC
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
-import com.omar.retromp3recorder.utils.generic.Optional
+import com.omar.retromp3recorder.utils.platform.Optional
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject

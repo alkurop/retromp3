@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.system
 
 import com.omar.retromp3recorder.domain.Wavetable
-import com.omar.retromp3recorder.utils.generic.toOptional
+import com.omar.retromp3recorder.utils.platform.toOptional
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo

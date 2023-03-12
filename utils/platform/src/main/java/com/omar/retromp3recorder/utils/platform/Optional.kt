@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.utils.generic
+package com.omar.retromp3recorder.utils.platform
 
 data class Optional<T>(
     val value: T?

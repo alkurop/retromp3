@@ -3,16 +3,19 @@ package com.omar.retromp3recorder.storage.repo.common
 import com.omar.retromp3recorder.utils.domain.takeOne
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.rx3.asObservable
 
 open class PublishSubjectRepo<T : Any> {
-    private val publishSubject: PublishSubject<T> = PublishSubject.create()
+    private val state = MutableSharedFlow<T>(
+        replay = 0
+    )
 
     open fun onNext(next: T) {
-        publishSubject.onNext(next)
+        state.tryEmit(next)
     }
 
-    fun observe(): Observable<T> = publishSubject
+    fun observe(): Observable<T> = state.asObservable()
 
-    fun takeOne(): Single<T> = publishSubject.takeOne()
+    fun takeOne(): Single<T> = state.asObservable().takeOne()
 }
