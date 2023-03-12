@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.dto
+package com.omar.retromp3recorder.domain
 
 data class PlayerRange(
     val from: Int = 0,

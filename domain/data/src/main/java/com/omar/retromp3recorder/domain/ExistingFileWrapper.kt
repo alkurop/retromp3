@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.dto
+package com.omar.retromp3recorder.domain
 
 import java.io.File
 

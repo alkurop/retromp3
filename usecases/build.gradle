@@ -13,6 +13,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$versions.support"
 
     implementation project(':utils')
+    implementation project(':domain:platform')
     implementation project(':io-mp3recorder')
     implementation project(':io-audioplayer')
     implementation project(':io-audio-tansformer')

@@ -2,9 +2,9 @@ package com.omar.retromp3recorder.bl.audio
 
 import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
-import com.omar.retromp3recorder.dto.FutureFileWrapper
-import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.FutureFileWrapper
+import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo

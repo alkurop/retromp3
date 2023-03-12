@@ -2,8 +2,8 @@ package com.omar.retromp3recorder.storage.db
 
 import androidx.paging.DataSource
 import androidx.room.*
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
-import com.omar.retromp3recorder.dto.Wavetable
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.Wavetable
 
 @Entity
 data class FileDbEntity(

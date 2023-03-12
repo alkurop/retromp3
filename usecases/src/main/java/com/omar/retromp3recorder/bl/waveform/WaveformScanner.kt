@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.bl.waveform
 
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer.Companion.MAX_SIZE
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
-import com.omar.retromp3recorder.dto.Wavetable
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.Wavetable
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import io.reactivex.rxjava3.core.Single
 import linc.com.amplituda.Amplituda

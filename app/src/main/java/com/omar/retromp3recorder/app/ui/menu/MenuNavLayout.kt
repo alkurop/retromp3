@@ -18,7 +18,7 @@ import com.omar.retromp3recorder.app.ui.menu.popups.delete.DeletePopupLayout
 import com.omar.retromp3recorder.app.ui.menu.popups.rename.RenamePopupLayout
 import com.omar.retromp3recorder.app.ui.menu.views.MenuViewModel
 import com.omar.retromp3recorder.app.ui.menu.views.layout.MenuLayout
-import com.omar.retromp3recorder.dto.MenuPopup
+import com.omar.retromp3recorder.domain.MenuPopup
 
 
 @Composable

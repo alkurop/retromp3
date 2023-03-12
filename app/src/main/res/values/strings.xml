@@ -33,7 +33,7 @@
     <string name="please_record_something">Please record something</string>
     <string name="no_file">Click record button</string>
     <string name="no">No</string>
-    <string name="playing">Playing ...</string>
+    <string name="playing">Playing …</string>
     <string name="play">Play</string>
     <string name="stop">Stop</string>
     <string name="record">Record</string>
@@ -43,8 +43,8 @@
     <string name="record_permission_title">Record Audio</string>
     <string name="record_permission_message">This app is going to record audio files using your mic.</string>
     <string name="record_required_message">Recording audio is required. Open settings to give permission?</string>
-    <string name="recording">Recording ...</string>
-    <string name="rerendered">Rerendered</string>
+    <string name="recording">Recording …</string>
+    <string name="rerendered">Rendered</string>
     <string name="reverse">reverse</string>
     <string name="range_enabled">Player range: %1$s</string>
     <string name="on">on</string>
@@ -58,5 +58,13 @@
     <string name="yes">Yes</string>
     <string name="range_control">Range control</string>
     <string name="no_saved_records_found">No saved records found</string>
+
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="waveform_acquired">Waveform acquired for file %1$s</string>
+    <string name="feature_name_log_view">Log View</string>
+    <string name="feature_menu_view">Show menu</string>
+    <string name="feature_name_keep_screen_on">Keep screen on</string>
+    <string name="feature_name_new_layout">New layout</string>
+    <string name="feature_name_range_control">Range control</string>
 
 </resources>

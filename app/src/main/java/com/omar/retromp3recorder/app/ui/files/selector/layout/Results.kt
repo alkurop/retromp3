@@ -22,7 +22,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
 import com.omar.retromp3recorder.utils.toCreationDate

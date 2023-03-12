@@ -1,9 +1,9 @@
 package com.omar.retromp3recorder.bl.settings
 
 import android.content.SharedPreferences
-import com.omar.retromp3recorder.dto.FeatureFlag
-import com.omar.retromp3recorder.dto.FeatureFlagSetting
-import com.omar.retromp3recorder.dto.FeatureFlagsCollection
+import com.omar.retromp3recorder.domain.FeatureFlag
+import com.omar.retromp3recorder.domain.FeatureFlagSetting
+import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -25,7 +25,11 @@ class FeatureMapLoadUC @Inject constructor(
                     featureFlag to FeatureFlagSetting(isEnabled = isEnabled)
                 }
                 .toMap()
-            featureFlagRepo.onNext(FeatureFlagsCollection(featuresMap))
+            featureFlagRepo.onNext(
+                FeatureFlagsCollection(
+                    featuresMap
+                )
+            )
         }
         .subscribeOn(Schedulers.io())
 }

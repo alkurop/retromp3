@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.utils
 
-import com.omar.retromp3recorder.dto.NewNameSuggestion
+import com.omar.retromp3recorder.domain.NewNameSuggestion
 
 
 fun Pair<NewNameSuggestion, String>.updateName(): NewNameSuggestion {

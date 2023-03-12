@@ -2,10 +2,10 @@ package com.omar.retromp3recorder.app.ui.menu.popups.crop.logic
 
 import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropContract
 import com.omar.retromp3recorder.bl.files.CanSaveAsName
-import com.omar.retromp3recorder.dto.NewNameSuggestion
+import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
 import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
-import com.omar.retromp3recorder.utils.Optional
+import com.omar.retromp3recorder.domain.platform.Optional
 import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable

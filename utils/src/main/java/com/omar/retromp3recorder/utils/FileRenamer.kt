@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.utils
 
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import java.io.File
 import javax.inject.Inject
 

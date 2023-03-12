@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.ui.audio_controls
 
 import com.omar.retromp3recorder.app.ui.audio_controls.compose.InteractiveButtonState
-import com.omar.retromp3recorder.dto.FromToMillis
+import com.omar.retromp3recorder.domain.FromToMillis
 
 object AudioControlsView {
     sealed class Input {

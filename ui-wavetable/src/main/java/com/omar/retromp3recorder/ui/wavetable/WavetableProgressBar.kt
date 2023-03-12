@@ -9,7 +9,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.omar.retromp3recorder.dto.FromToMillis
+import com.omar.retromp3recorder.domain.FromToMillis
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 class WavetableProgressBar @JvmOverloads constructor(

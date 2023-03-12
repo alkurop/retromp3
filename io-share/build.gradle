@@ -10,6 +10,7 @@ android {
 }
 
 dependencies {
+    implementation project(':domain:platform')
     implementation project(':utils')
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.google.dagger:dagger:$versions.dagger"

@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.app.ui.rangebar
 
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.dto.FromToMillis
-import com.omar.retromp3recorder.dto.PlayerRange
+import com.omar.retromp3recorder.domain.FromToMillis
+import com.omar.retromp3recorder.domain.PlayerRange
 
 object RangeBarView {
     sealed class Input {

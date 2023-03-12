@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.ui.files.selector
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import com.omar.retromp3recorder.storage.db.ItemsLoadRequest
 import com.omar.retromp3recorder.storage.db.ItemsSource

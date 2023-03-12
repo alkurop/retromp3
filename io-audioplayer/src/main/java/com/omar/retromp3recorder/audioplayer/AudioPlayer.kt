@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.audioplayer
 
 import com.github.alkurop.stringerbell.Stringer
-import com.omar.retromp3recorder.dto.FromToMillis
+import com.omar.retromp3recorder.domain.FromToMillis
 import io.reactivex.rxjava3.core.Observable
 
 interface AudioPlayer {

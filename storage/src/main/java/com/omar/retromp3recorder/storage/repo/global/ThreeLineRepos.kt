@@ -2,12 +2,12 @@ package com.omar.retromp3recorder.storage.repo.global
 
 import android.content.Context
 import com.github.alkurop.stringerbell.Stringer
-import com.omar.retromp3recorder.dto.FeatureFlagsCollection
-import com.omar.retromp3recorder.dto.LogEvent
-import com.omar.retromp3recorder.dto.MediaProjectionState
+import com.omar.retromp3recorder.domain.FeatureFlagsCollection
+import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
 import com.omar.retromp3recorder.storage.repo.common.PublishSubjectRepo
+import com.omar.retromp3recorder.domain.platform.LogEvent
 import javax.inject.Inject
 import javax.inject.Singleton
 

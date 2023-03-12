@@ -101,6 +101,7 @@ dependencies {
     implementation project(':ui-wavetable')
     implementation project(':usecases')
     implementation project(':storage')
+    implementation project(':domain:platform')
 
     // Import the BoM for the Firebase platform
     implementation platform("com.google.firebase:firebase-bom:$versions.firebase")

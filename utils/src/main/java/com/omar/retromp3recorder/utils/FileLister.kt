@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.utils
 
 import android.media.MediaMetadataRetriever
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
-import com.omar.retromp3recorder.dto.toFileWrapper
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.toFileWrapper
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton

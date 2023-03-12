@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.waveform
 
-import com.omar.retromp3recorder.dto.Wavetable
+import com.omar.retromp3recorder.domain.Wavetable
 
 data class WavetableSummer(
     var list: MutableList<Byte> = mutableListOf(),

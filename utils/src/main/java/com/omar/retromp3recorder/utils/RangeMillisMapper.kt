@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.utils
 
-import com.omar.retromp3recorder.dto.FromToMillis
-import com.omar.retromp3recorder.dto.PlayerRange
+import com.omar.retromp3recorder.domain.FromToMillis
+import com.omar.retromp3recorder.domain.PlayerRange
 
 fun PlayerRange.toFromToMillis(durationMillis: Long): FromToMillis {
     val rangeMultiplier = if (this.max == 0) 1 else durationMillis / this.max

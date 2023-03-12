@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.ui.audio_controls
 
 import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
-import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.domain.JoinedProgress
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 

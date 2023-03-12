@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.bl.enablers
 
-import com.omar.retromp3recorder.dto.AudioEnabler
-import com.omar.retromp3recorder.dto.MenuEnabler
-import com.omar.retromp3recorder.dto.VisibilityEnabler
+import com.omar.retromp3recorder.domain.AudioEnabler
+import com.omar.retromp3recorder.domain.MenuEnabler
+import com.omar.retromp3recorder.domain.VisibilityEnabler
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

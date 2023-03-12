@@ -14,7 +14,7 @@ import com.omar.retromp3recorder.app.ui.rangebar.RangeBarView
 import com.omar.retromp3recorder.app.ui.rangebar.RangeBarViewModel
 import com.omar.retromp3recorder.app.ui.theme.LocalSpacing
 import com.omar.retromp3recorder.app.uiutils.TimeDisplay.toDisplayCompose
-import com.omar.retromp3recorder.dto.PlayerRange
+import com.omar.retromp3recorder.domain.PlayerRange
 
 
 @OptIn(ExperimentalMaterial3Api::class)

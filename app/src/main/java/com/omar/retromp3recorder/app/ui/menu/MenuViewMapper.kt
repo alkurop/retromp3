@@ -3,10 +3,10 @@ package com.omar.retromp3recorder.app.ui.menu
 import androidx.annotation.StringRes
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.menu.views.MenuItemState
-import com.omar.retromp3recorder.dto.AudioEnabler
-import com.omar.retromp3recorder.dto.MenuEnabler
-import com.omar.retromp3recorder.dto.MenuPopup
-import com.omar.retromp3recorder.dto.VisibilityEnabler
+import com.omar.retromp3recorder.domain.AudioEnabler
+import com.omar.retromp3recorder.domain.MenuEnabler
+import com.omar.retromp3recorder.domain.MenuPopup
+import com.omar.retromp3recorder.domain.VisibilityEnabler
 
 @StringRes
 fun MenuPopup.getTitleRes(): Int = when (this) {

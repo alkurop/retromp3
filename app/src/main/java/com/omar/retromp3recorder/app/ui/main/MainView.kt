@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.ui.main
 
 import android.media.projection.MediaProjection
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.dto.FeatureFlagsCollection
+import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 
 object MainView {
     data class State(

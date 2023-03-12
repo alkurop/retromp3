@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.ui.files.selector
 
 import androidx.paging.PagingData
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.ItemsSource
 import kotlinx.coroutines.flow.Flow
 

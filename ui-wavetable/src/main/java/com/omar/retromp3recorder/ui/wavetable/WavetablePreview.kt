@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import com.omar.retromp3recorder.dto.PlayerRange
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlin.math.max
 
@@ -105,7 +104,7 @@ class WavetablePreview @JvmOverloads constructor(
     }
 }
 
-data class BytesWithRange(val bytes: ByteArray, val range: PlayerRange?) {
+data class BytesWithRange(val bytes: ByteArray, val range: com.omar.retromp3recorder.domain.PlayerRange?) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

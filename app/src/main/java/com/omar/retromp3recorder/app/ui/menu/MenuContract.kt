@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.app.ui.menu
 
-import com.omar.retromp3recorder.dto.MenuEnabler
-import com.omar.retromp3recorder.dto.MenuPopup
-import com.omar.retromp3recorder.utils.Optional
+import com.omar.retromp3recorder.domain.MenuEnabler
+import com.omar.retromp3recorder.domain.MenuPopup
+import com.omar.retromp3recorder.domain.platform.Optional
 
 interface MenuContract {
     data class State(

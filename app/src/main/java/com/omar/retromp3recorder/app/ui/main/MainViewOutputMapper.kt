@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.ui.main
 
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.dto.FeatureFlag
+import com.omar.retromp3recorder.domain.FeatureFlag
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.functions.BiFunction

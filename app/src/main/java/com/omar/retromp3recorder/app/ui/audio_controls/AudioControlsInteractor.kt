@@ -9,7 +9,7 @@ import com.omar.retromp3recorder.bl.audio.StartPlaybackUC
 import com.omar.retromp3recorder.bl.audio.StartRecordUC
 import com.omar.retromp3recorder.bl.audio.StopPlaybackAndRecordUC
 import com.omar.retromp3recorder.bl.system.ShareUC
-import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.utils.mapToUsecase
 import com.omar.retromp3recorder.utils.processIO
 import io.reactivex.rxjava3.core.Completable

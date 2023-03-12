@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.app.ui.joined_progress
 
 import androidx.compose.runtime.Immutable
-import com.omar.retromp3recorder.dto.FileWrapper
-import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.domain.FileWrapper
+import com.omar.retromp3recorder.domain.JoinedProgress
 
 object JoinedProgressView {
     sealed class In {

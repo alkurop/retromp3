@@ -1,13 +1,11 @@
 package com.omar.retromp3recorder.app.ui.menu.visibility_logic
 
 import com.omar.retromp3recorder.app.ui.menu.MenuContract
-import com.omar.retromp3recorder.app.ui.menu.visibility_logic.file.DeleteFileMenuStateMapper
-import com.omar.retromp3recorder.app.ui.menu.visibility_logic.file.RenameFileMenuStateMapper
 import com.omar.retromp3recorder.app.ui.menu.visibility_logic.merged.FileActionsStateMapper
 import com.omar.retromp3recorder.bl.audio.AudioState
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper
-import com.omar.retromp3recorder.dto.MenuPopup
-import com.omar.retromp3recorder.dto.VisibilityEnabler
+import com.omar.retromp3recorder.domain.MenuPopup
+import com.omar.retromp3recorder.domain.VisibilityEnabler
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.MenuPopupBus
 import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo

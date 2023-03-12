@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.storage.db
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

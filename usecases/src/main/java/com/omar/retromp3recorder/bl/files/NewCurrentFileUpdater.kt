@@ -2,8 +2,8 @@ package com.omar.retromp3recorder.bl.files
 
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.bl.enablers.DeactivatePlayerControlsUC
-import com.omar.retromp3recorder.dto.PlayerProgress
-import com.omar.retromp3recorder.dto.PlayerRange
+import com.omar.retromp3recorder.domain.PlayerProgress
+import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
 import com.omar.retromp3recorder.storage.repo.local.RangeBarResetBus
 import io.reactivex.rxjava3.core.Completable

@@ -13,8 +13,9 @@ import androidx.core.view.isVisible
 import com.omar.retromp3recorder.app.BuildConfig
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.uiutils.observe
-import com.omar.retromp3recorder.dto.FeatureFlagSetting
-import com.omar.retromp3recorder.dto.FeatureLevel
+import com.omar.retromp3recorder.domain.FeatureFlag
+import com.omar.retromp3recorder.domain.FeatureFlagSetting
+import com.omar.retromp3recorder.domain.FeatureLevel
 
 class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
     private val toolbar: Toolbar
@@ -80,3 +81,10 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
         }
     }
 }
+
+val FeatureFlag.friendlyName: Int
+    get() = when (this) {
+        FeatureFlag.LogView -> R.string.feature_name_log_view
+        FeatureFlag.KeepScreenOn -> R.string.feature_name_keep_screen_on
+        else -> 0
+    }

@@ -1,10 +1,10 @@
 package com.omar.retromp3recorder.app.ui.menu.popups.crop.logic
 
 import com.omar.retromp3recorder.bl.files.GetCropFileNameUC
-import com.omar.retromp3recorder.dto.NewNameSuggestion
+import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.Optional
-import com.omar.retromp3recorder.utils.toOptional
+import com.omar.retromp3recorder.domain.platform.Optional
+import com.omar.retromp3recorder.domain.platform.toOptional
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject

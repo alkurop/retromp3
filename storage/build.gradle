@@ -21,6 +21,7 @@ android {
 }
 
 dependencies {
+    implementation project(':domain:platform')
     implementation project(":utils")
     implementation project(':io-mp3recorder')
     implementation project(':io-audioplayer')

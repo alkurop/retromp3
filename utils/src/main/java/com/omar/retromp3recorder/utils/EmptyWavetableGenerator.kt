@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.utils
 
 import android.media.MediaMetadataRetriever
-import com.omar.retromp3recorder.dto.Wavetable
+import com.omar.retromp3recorder.domain.Wavetable
 import javax.inject.Inject
 
 class EmptyWavetableGenerator @Inject constructor(

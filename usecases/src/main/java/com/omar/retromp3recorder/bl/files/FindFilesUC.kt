@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.files
 
-import com.omar.retromp3recorder.dto.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.utils.FileEmptyChecker
 import com.omar.retromp3recorder.utils.FileLister
 import com.omar.retromp3recorder.utils.DirPathProvider

@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.app.ui.menu.popups.crop
 
-import com.omar.retromp3recorder.dto.NewNameSuggestion
+import com.omar.retromp3recorder.domain.NewNameSuggestion
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.functions.BiFunction

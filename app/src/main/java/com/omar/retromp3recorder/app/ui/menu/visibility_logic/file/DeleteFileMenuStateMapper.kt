@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.app.ui.menu.MenuContract
 import com.omar.retromp3recorder.app.ui.menu.visibility_logic.MenuVisibilityMapper
 import com.omar.retromp3recorder.bl.audio.AudioState
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper
-import com.omar.retromp3recorder.dto.MenuPopup
+import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject

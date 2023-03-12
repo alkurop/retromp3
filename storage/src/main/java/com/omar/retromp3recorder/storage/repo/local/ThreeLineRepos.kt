@@ -1,12 +1,12 @@
 package com.omar.retromp3recorder.storage.repo.local
 
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.dto.FileWrapper
-import com.omar.retromp3recorder.dto.MenuPopup
-import com.omar.retromp3recorder.dto.PlayerControls
-import com.omar.retromp3recorder.dto.Track
+import com.omar.retromp3recorder.domain.FileWrapper
+import com.omar.retromp3recorder.domain.MenuPopup
+import com.omar.retromp3recorder.domain.PlayerControls
+import com.omar.retromp3recorder.domain.platform.Optional
 import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
-import com.omar.retromp3recorder.utils.Optional
+import com.omar.retromp3recorder.utils.Track
 import javax.inject.Inject
 
 @Track

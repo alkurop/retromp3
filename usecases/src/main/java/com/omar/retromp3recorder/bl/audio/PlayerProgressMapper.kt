@@ -2,8 +2,8 @@ package com.omar.retromp3recorder.bl.audio
 
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.audioplayer.observeProgress
-import com.omar.retromp3recorder.dto.PlayerProgress
-import com.omar.retromp3recorder.dto.PlayerRange
+import com.omar.retromp3recorder.domain.PlayerProgress
+import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
 import com.omar.retromp3recorder.utils.toSeekbarTime
 import io.reactivex.rxjava3.core.Completable

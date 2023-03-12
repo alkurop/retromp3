@@ -1,10 +1,9 @@
 package com.omar.retromp3recorder.storage.repo.local
 
-import com.omar.retromp3recorder.dto.PlayerProgress
-import com.omar.retromp3recorder.dto.PlayerRange
-import com.omar.retromp3recorder.dto.Track
+import com.omar.retromp3recorder.domain.PlayerProgress
+import com.omar.retromp3recorder.domain.platform.Optional
 import com.omar.retromp3recorder.storage.repo.common.ReducerRepo
-import com.omar.retromp3recorder.utils.Optional
+import com.omar.retromp3recorder.utils.Track
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
@@ -22,7 +21,7 @@ class PlayerProgressRepo @Inject constructor(
         ) : In()
 
         data class Progress(val progress: PlayerProgress) : In()
-        data class Range(val range: PlayerRange) : In()
+        data class Range(val range: com.omar.retromp3recorder.domain.PlayerRange) : In()
         data class NewCurrentFile(val progress: PlayerProgress) : In()
 
         object Hidden : In()
@@ -53,7 +52,7 @@ private val FUNCTION: Optional<PlayerProgress>.(PlayerProgressRepo.In) -> Option
                 )
             )
             is PlayerProgressRepo.In.Progress -> {
-                val range = this.value?.range ?: PlayerRange()
+                val range = this.value?.range ?: com.omar.retromp3recorder.domain.PlayerRange()
                 Optional(input.progress.copy(range = range))
             }
             is PlayerProgressRepo.In.NewCurrentFile -> Optional(input.progress)

@@ -15,7 +15,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.ui.utils.toFileName
-import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
 import com.omar.retromp3recorder.ui.wavetable.WavetableSeekbarPreview

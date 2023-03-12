@@ -5,7 +5,7 @@ import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
 import com.mpatric.mp3agic.ID3v1Tag
 import com.mpatric.mp3agic.Mp3File
-import com.omar.retromp3recorder.dto.RecordingTags
+import com.omar.retromp3recorder.domain.RecordingTags
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject

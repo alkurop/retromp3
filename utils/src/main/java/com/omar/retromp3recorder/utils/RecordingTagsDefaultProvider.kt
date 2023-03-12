@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.utils
 
-import com.omar.retromp3recorder.dto.RecordingTags
+import com.omar.retromp3recorder.domain.RecordingTags
 import java.util.*
 import javax.inject.Inject
 

@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.omar.retromp3recorder.dto.FromToMillis
-import com.omar.retromp3recorder.dto.JoinedProgress
+import com.omar.retromp3recorder.domain.FromToMillis
+import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.utils.toFromToMillis
 import com.omar.retromp3recorder.utils.toPlayerTime
 import com.omar.retromp3recorder.utils.toSeekbarTime

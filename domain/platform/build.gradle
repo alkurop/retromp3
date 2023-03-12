@@ -1,0 +1,16 @@
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+}
+
+apply from :"$scripts.android_library"
+
+android {
+    namespace "${applicationId}.domain.platform"
+}
+
+dependencies {
+    api project(":domain:data")
+    api "com.github.alkurop:stringerbell:$versions.stringerbell"
+    api "com.github.alkurop:ghostinshell:$versions.ghostinshell"
+}
