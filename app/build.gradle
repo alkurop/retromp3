@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "${rootProject.ext.applicationId}.app"
-        applicationId "${rootProject.ext.applicationId}.app.test"
+        testApplicationId "${rootProject.ext.applicationId}.app.test"
 
         versionCode 371
         versionName "3.71"

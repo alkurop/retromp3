@@ -22,6 +22,7 @@ ext {
             "android_library"                : "$scriptDir/api_dependency.gradle",
             "versions"                       : "$scriptDir/versions.gradle",
     ]
+
     apply from: "$scripts.versions"
 
     compileSdkVersion = 33
