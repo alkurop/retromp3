@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.share.Sharer.Event.Error
-import com.omar.retromp3recorder.share.Sharer.Event.SharingOk
 import com.omar.retromp3recorder.utils.Constants.MAIN_THREAD
 import com.omar.retromp3recorder.utils.FileUriCreator
 import io.reactivex.rxjava3.core.Completable

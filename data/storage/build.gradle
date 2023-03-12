@@ -23,9 +23,9 @@ android {
 dependencies {
     implementation project(':domain:platform')
     implementation project(":utils")
-    implementation project(':io-mp3recorder')
-    implementation project(':io-audioplayer')
-    implementation project(':io-share')
+    implementation project(':io:mp3recorder')
+    implementation project(':io:audioplayer')
+    implementation project(':io:share')
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
     implementation "androidx.room:room-runtime:$versions.room"

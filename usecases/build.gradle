@@ -14,11 +14,11 @@ dependencies {
 
     implementation project(':utils')
     implementation project(':domain:platform')
-    implementation project(':io-mp3recorder')
-    implementation project(':io-audioplayer')
-    implementation project(':io-audio-tansformer')
-    implementation project(':io-share')
-    implementation project(':storage')
+    implementation project(':io:mp3recorder')
+    implementation project(':io:audioplayer')
+    implementation project(':io:audio-tansformer')
+    implementation project(':io:share')
+    implementation project(':data:storage')
 
     implementation "com.google.dagger:dagger:$versions.dagger"
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
