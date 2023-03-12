@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.ui.theme
+package com.omar.retromp3recorder.app
 
 import android.app.Activity
 import androidx.compose.material3.MaterialTheme

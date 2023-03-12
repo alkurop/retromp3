@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.screens.search.SelectorContract
 import com.omar.retromp3recorder.app.screens.search.SelectorViewModel
-import com.omar.retromp3recorder.app.ui.theme.RetroTheme
+import com.omar.retromp3recorder.app.RetroTheme
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 
 @OptIn(ExperimentalAnimationApi::class)

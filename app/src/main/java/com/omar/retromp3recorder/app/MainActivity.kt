@@ -7,9 +7,6 @@ import android.media.projection.MediaProjectionManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -22,8 +19,6 @@ import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.nav.AppNavHost
 import com.omar.retromp3recorder.app.screens.main.MainViewContract
 import com.omar.retromp3recorder.app.screens.main.MainViewModel
-import com.omar.retromp3recorder.app.screens.settings.SettingsActivity
-import com.omar.retromp3recorder.app.ui.theme.RetroTheme
 import com.omar.retromp3recorder.app.utils.observe
 
 class MainActivity : ComponentActivity() {
