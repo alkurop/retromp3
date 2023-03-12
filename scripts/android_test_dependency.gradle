@@ -5,6 +5,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$versions.espresso"
     androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
     androidTestImplementation "androidx.arch.core:core-testing:$versions.core_testing"
+    androidTestImplementation "com.google.truth:truth:$versions.truth"
 
     androidTestImplementation "io.mockk:mockk-android:${versions.mockk}"
 
