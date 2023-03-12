@@ -120,9 +120,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
 
-    androidTestImplementation "androidx.test.espresso:espresso-core:$testVersions.espressoCore"
-    androidTestImplementation "androidx.test:runner:$testVersions.espresso"
-    androidTestImplementation "androidx.test:rules:$testVersions.espresso"
-    androidTestImplementation "androidx.test.ext:junit-ktx:$testVersions.junitKtx"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espressoCore"
+    androidTestImplementation "androidx.test:runner:$versions.espresso"
+    androidTestImplementation "androidx.test:rules:$versions.espresso"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$versions.junitKtx"
 
 }

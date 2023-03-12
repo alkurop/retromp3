@@ -1,0 +1,5 @@
+dependencies {
+    def composeBom = platform("androidx.compose:compose-bom:$versions.compose_bom")
+    androidTestImplementation composeBom
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
+}

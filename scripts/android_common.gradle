@@ -1,0 +1,31 @@
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = rootProject.ext.kotlin_compiler
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+    kotlinOptions {
+        // Treat all Kotlin warnings as errors
+        freeCompilerArgs += '-opt-in=kotlin.RequiresOptIn'
+        jvmTarget = '1.8'
+    }
+
+}
