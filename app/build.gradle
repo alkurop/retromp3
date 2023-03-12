@@ -46,7 +46,7 @@ android {
     }
 }
 
-apply from: "$scripts.android_test_dependency"
+apply from: "$scripts.android_test_compose_dependency"
 apply from: "$scripts.test_dependency"
 
 dependencies {

@@ -34,7 +34,7 @@ fun MainLayout(
     onOpenDestination: (AppDestination) -> Unit,
 ) {
     Column {
-        val state by viewModel.state.subscribeAsState(initial = MainView.State())
+        val state by viewModel.state.subscribeAsState(initial = MainViewContract.State())
 
         val context = LocalContext.current
 

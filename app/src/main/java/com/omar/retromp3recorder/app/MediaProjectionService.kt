@@ -10,7 +10,6 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import com.omar.retromp3recorder.app.WakelockService.Companion.WAKELOCK_SERVICE_CHANNEL
-import com.omar.retromp3recorder.app.ui.main.MainActivity
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.domain.disposedBy
 import io.reactivex.rxjava3.core.Completable

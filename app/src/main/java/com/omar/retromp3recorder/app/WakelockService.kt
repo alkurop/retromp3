@@ -12,7 +12,6 @@ import android.os.PowerManager
 import androidx.annotation.Keep
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
-import com.omar.retromp3recorder.app.ui.main.MainActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WakelockService : Service() {

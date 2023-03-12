@@ -1,3 +1,5 @@
+apply from: "$scripts.android_test_dependency"
+
 dependencies {
     def composeBom = platform("androidx.compose:compose-bom:$versions.compose_bom")
     androidTestImplementation composeBom

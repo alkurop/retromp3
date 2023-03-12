@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.app.ui.main
 
-import com.omar.retromp3recorder.app.ui.main.MainView.Output
+import com.omar.retromp3recorder.app.ui.main.MainViewContract.Output
 import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
 import com.omar.retromp3recorder.bl.system.CheckAllPermissionsUC
 import com.omar.retromp3recorder.bl.system.StartupUC
@@ -25,7 +25,7 @@ class MainViewInteractor @Inject constructor(
     private val startupUC: StartupUC
 ) {
 
-    fun processIO(): ObservableTransformer<MainView.Input, Output> =
+    fun processIO(): ObservableTransformer<MainViewContract.Input, Output> =
         scheduler.processIO(
             inputMapper = mapInputToUsecase,
             outputMapper = mapRepoToOutput
@@ -50,13 +50,13 @@ class MainViewInteractor @Inject constructor(
         )
     }
 
-    private val mapInputToUsecase: (Observable<MainView.Input>) -> Completable =
+    private val mapInputToUsecase: (Observable<MainViewContract.Input>) -> Completable =
         { input ->
             Completable.merge(
                 listOf(
-                    input.ofType(MainView.Input.MediaProjectionUpdated::class.java)
+                    input.ofType(MainViewContract.Input.MediaProjectionUpdated::class.java)
                         .flatMapCompletable { updateMediaProjectionUC.execute(it.mediaProjection) },
-                    input.ofType(MainView.Input.CheckAllPermisionsOnStartup::class.java)
+                    input.ofType(MainViewContract.Input.CheckAllPermisionsOnStartup::class.java)
                         .flatMapCompletable { checkAllPermissionsUC.execute() },
                 )
             )

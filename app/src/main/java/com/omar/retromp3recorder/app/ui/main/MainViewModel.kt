@@ -11,8 +11,8 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class MainViewModel() : ViewModel() {
-    val state = BehaviorSubject.create<MainView.State>()
-    val input = PublishSubject.create<MainView.Input>()
+    val state = BehaviorSubject.create<MainViewContract.State>()
+    val input = PublishSubject.create<MainViewContract.Input>()
 
     @Inject
     lateinit var interactor: MainViewInteractor

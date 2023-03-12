@@ -4,7 +4,7 @@ import android.media.projection.MediaProjection
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 
-object MainView {
+object MainViewContract {
     data class State(
         val requestForPermissions: Shell<Set<String>> = Shell.empty(),
         val requestForScreenCapture: Shell<Any> = Shell.empty(),

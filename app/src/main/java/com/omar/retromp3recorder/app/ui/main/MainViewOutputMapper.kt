@@ -7,25 +7,25 @@ import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.functions.BiFunction
 
 object MainViewOutputMapper {
-    fun mapOutputToState(): ObservableTransformer<MainView.Output, MainView.State> =
-        ObservableTransformer { upstream: Observable<MainView.Output> ->
+    fun mapOutputToState(): ObservableTransformer<MainViewContract.Output, MainViewContract.State> =
+        ObservableTransformer { upstream: Observable<MainViewContract.Output> ->
             upstream.scan(
                 getDefaultViewModel(),
                 getMapper()
             )
         }
 
-    private fun getMapper(): BiFunction<MainView.State, MainView.Output, MainView.State> =
-        BiFunction { oldState: MainView.State, output: MainView.Output ->
+    private fun getMapper(): BiFunction<MainViewContract.State, MainViewContract.Output, MainViewContract.State> =
+        BiFunction { oldState: MainViewContract.State, output: MainViewContract.Output ->
             when (output) {
-                is MainView.Output.RequestPermissionsOutput -> oldState.copy(
+                is MainViewContract.Output.RequestPermissionsOutput -> oldState.copy(
                     requestForPermissions = Shell(output.permissionsToRequest)
                 )
-                is MainView.Output.RequestScreenCapture ->
+                is MainViewContract.Output.RequestScreenCapture ->
                     oldState.copy(
                         requestForScreenCapture = Shell(output.shouldRequest)
                     )
-                is MainView.Output.SettingsUpdated -> {
+                is MainViewContract.Output.SettingsUpdated -> {
                     val isLogViewEnabled =
                         output.featureFlagsCollection.isEnabled(FeatureFlag.LogView)
                     val shouldKeepScreenOn =
@@ -38,7 +38,7 @@ object MainViewOutputMapper {
             }
         }
 
-    private fun getDefaultViewModel() = MainView.State(
+    private fun getDefaultViewModel() = MainViewContract.State(
         requestForPermissions = Shell.empty(),
         requestForScreenCapture = Shell.empty(),
     )
