@@ -1,4 +1,4 @@
-apply from: "$android_common"
+apply from: "$scripts.android_common"
 
 android {
 

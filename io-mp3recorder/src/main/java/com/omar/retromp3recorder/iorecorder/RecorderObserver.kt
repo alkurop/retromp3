@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.iorecorder
 
 import com.github.alkurop.stringerbell.Stringer
-import com.omar.retromp3recorder.app.iorecorder.R
+import com.omar.retromp3recorder.io.recorder.R
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.Subject
 import java.io.File

@@ -3,10 +3,8 @@
 plugins {
     id 'com.android.application' version '7.4.1' apply false
     id 'com.android.library' version '7.4.1' apply false
-    id 'com.google.dagger.hilt.android' version '2.44' apply false
-    id 'com.google.gms.google-services' version '4.3.15' apply false
     id 'org.jetbrains.kotlin.android' version "1.8.10" apply false
-    id 'org.jetbrains.kotlin.jvm' version '1.8.10' apply false
+    id 'com.google.gms.google-services' version '4.3.15' apply false
     id 'com.google.firebase.crashlytics' version '2.9.4' apply false
 }
 
@@ -19,17 +17,15 @@ ext {
             "android_test_compose_dependency": "$scriptDir/android_test_compose_dependency.gradle",
             "test_dependency"                : "$scriptDir/test_dependency.gradle",
             "android_common"                 : "$scriptDir/android_common.gradle",
-            "android_library"                : "$scriptDir/api_dependency.gradle",
+            "android_library"                : "$scriptDir/android_library.gradle",
             "versions"                       : "$scriptDir/versions.gradle",
     ]
 
     apply from: "$scripts.versions"
 
-    compileSdkVersion = 33
+
     compileSdk = 33
-    minSdkVersion = 25
     minSdk = 25
-    targetSdkVersion = 33
     targetSdk = 33
     applicationId = "com.omar.retromp3recorder"
     kotlin_compiler = "1.4.3"

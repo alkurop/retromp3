@@ -3,18 +3,10 @@ plugins {
     id "kotlin-android"
 }
 
+apply from :"$scripts.android_library"
+
 android {
-    compileSdk rootProject.ext.compileSdk
-
-    defaultConfig {
-        minSdk rootProject.ext.minSdk
-        targetSdk rootProject.ext.targetSdk
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    namespace 'com.omar.retromp3recorder.audioplayer'
+    namespace "${applicationId}.audioplayer"
 }
 
 dependencies {

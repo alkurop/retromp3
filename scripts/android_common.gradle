@@ -1,9 +1,9 @@
 android {
-    compileSdkVersion 33
+    compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
-        minSdk rootProject.ext.minSdkVersion
-        targetSdk rootProject.ext.targetSdkVersion
+        minSdk rootProject.ext.minSdk
+        targetSdk rootProject.ext.targetSdk
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

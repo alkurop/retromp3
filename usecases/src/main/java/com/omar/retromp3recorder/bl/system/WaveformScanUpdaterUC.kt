@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.bl.system
 
 import com.github.alkurop.stringerbell.Stringer
-import com.omar.retromp3recorder.bl.R
 import com.omar.retromp3recorder.bl.database.DbUpdaterUC
 import com.omar.retromp3recorder.bl.files.FileRepoUpdaterUC
 import com.omar.retromp3recorder.bl.waveform.WaveformScanner
@@ -9,6 +8,7 @@ import com.omar.retromp3recorder.dto.ExistingFileWrapper
 import com.omar.retromp3recorder.dto.LogEvent
 import com.omar.retromp3recorder.dto.isEmpty
 import com.omar.retromp3recorder.storage.repo.global.LogsRepo
+import com.omar.retromp3recorder.usecase.R
 import com.omar.retromp3recorder.utils.AmplitudaDealer
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler

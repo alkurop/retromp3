@@ -11,8 +11,8 @@ import android.os.Build
 import android.os.Process
 import androidx.annotation.RequiresApi
 import com.github.alkurop.stringerbell.Stringer
-import com.omar.retromp3recorder.app.iorecorder.R
 import com.omar.retromp3recorder.app.recorder.LameModule
+import com.omar.retromp3recorder.io.recorder.R
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.AUDIO_FORMAT_PRESETS
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.CHANNEL_PRESETS
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.QUALITY_PRESETS

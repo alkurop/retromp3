@@ -4,7 +4,7 @@ import android.media.AudioFormat
 import android.media.projection.MediaProjection
 import androidx.annotation.StringRes
 import com.github.alkurop.stringerbell.Stringer
-import com.omar.retromp3recorder.app.iorecorder.R
+import com.omar.retromp3recorder.io.recorder.R
 import io.reactivex.rxjava3.core.Observable
 
 interface Mp3VoiceRecorder {
