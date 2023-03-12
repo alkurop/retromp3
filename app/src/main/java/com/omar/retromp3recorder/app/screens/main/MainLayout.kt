@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.app.screens.main
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,7 @@ import com.omar.retromp3recorder.app.screens.main.components.log.LogLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuView
 import com.omar.retromp3recorder.app.screens.main.components.rangebar.RangeBarLayout
 import com.omar.retromp3recorder.app.screens.main.components.visualizer.VisualizerLayout
+import com.omar.retromp3recorder.app.screens.settings.SettingsActivity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,9 +42,9 @@ fun MainLayout(
             actions = {
                 IconButton(
                     onClick = {
-                        onOpenDestination(AppDestination.SettingScreen)
-//                        val intent = Intent(context, SettingsActivity::class.java)
-//                        context.startActivity(intent)
+//                        onOpenDestination(AppDestination.SettingScreen)
+                        val intent = Intent(context, SettingsActivity::class.java)
+                        context.startActivity(intent)
                     }
                 ) {
                     Icon(
