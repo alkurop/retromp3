@@ -1,12 +1,12 @@
 package com.omar.retromp3recorder.storage.repo.global
 
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
+import com.omar.retromp3recorder.storage.repo.common.StateFlowRepo
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PermissionsRequestBus @Inject constructor() : BehaviorSubjectRepo<PermissionsRequestBus.ShouldRequestPermissions>(){
+class PermissionsRequestBus @Inject constructor() : StateFlowRepo<PermissionsRequestBus.ShouldRequestPermissions>(){
     sealed class ShouldRequestPermissions {
         object Granted : ShouldRequestPermissions()
         data class Denied(val permissions: Shell<Set<String>>) : ShouldRequestPermissions()

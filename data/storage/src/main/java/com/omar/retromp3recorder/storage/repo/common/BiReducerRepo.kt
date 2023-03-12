@@ -7,7 +7,7 @@ abstract class BiReducerRepo<T1 : Any, T2 : Any>(
     private val observable: Observable<T2>,
     d: T1? = null
 ) :
-    BehaviorSubjectRepo<T1>(d) {
+    StateFlowRepo<T1>(d) {
     override fun observe(): Observable<T1> {
         return Observable.combineLatest(
             observable,

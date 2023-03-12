@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.ui.menu.popups.rename
 import com.omar.retromp3recorder.bl.files.CanRenameName
 import com.omar.retromp3recorder.bl.files.RenameFileUC
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
-import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
+import com.omar.retromp3recorder.storage.repo.common.StateFlowRepo
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.mapToUsecase
 import com.omar.retromp3recorder.utils.domain.processIO
@@ -20,7 +20,7 @@ class RenameFileInteractor @Inject constructor(
     private val renameFileUC: RenameFileUC,
     private val scheduler: Scheduler
 ) {
-    private val canRenameFileRepo = BehaviorSubjectRepo(Pair<Boolean, String?>(false, null))
+    private val canRenameFileRepo = StateFlowRepo(Pair<Boolean, String?>(false, null))
     private val shouldDismiss = PublishSubject.create<Boolean>()
 
     fun processIO(): ObservableTransformer<RenameFileContract.Input, RenameFileContract.Output> =

@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.ui.menu.popups.crop.logic
 import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropContract
 import com.omar.retromp3recorder.bl.files.CanSaveAsName
 import com.omar.retromp3recorder.domain.NewNameSuggestion
-import com.omar.retromp3recorder.storage.repo.common.BehaviorSubjectRepo
+import com.omar.retromp3recorder.storage.repo.common.StateFlowRepo
 import com.omar.retromp3recorder.utils.domain.mapToUsecase
 import com.omar.retromp3recorder.utils.domain.processIO
 import io.reactivex.rxjava3.core.Completable
@@ -20,8 +20,8 @@ class CropInteractor @Inject constructor(
     private val nameUpdater: CropFileNameUpdater,
     private val scheduler: Scheduler
 ) {
-    private val canCropFileRepo = BehaviorSubjectRepo(false)
-    private val nameSuggestionRepo = BehaviorSubjectRepo(NewNameSuggestion())
+    private val canCropFileRepo = StateFlowRepo(false)
+    private val nameSuggestionRepo = StateFlowRepo(NewNameSuggestion())
     private val dismissBus = PublishSubject.create<Boolean>()
 
     fun processIO(): ObservableTransformer<CropContract.Input, CropContract.Output> =
