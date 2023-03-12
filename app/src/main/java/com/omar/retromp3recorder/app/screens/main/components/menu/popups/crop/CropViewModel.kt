@@ -2,7 +2,6 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop
 
 import androidx.lifecycle.ViewModel
 import com.omar.retromp3recorder.app.App
-import com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop.logic.CropInteractor
 import com.omar.retromp3recorder.utils.domain.disposedBy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject

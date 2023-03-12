@@ -12,5 +12,6 @@
 - refactor search toolbar
 - refactor search ui
 - order strings
+- add previews
 
 * means bug

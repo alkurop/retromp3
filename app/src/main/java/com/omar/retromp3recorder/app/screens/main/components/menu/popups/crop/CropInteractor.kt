@@ -1,9 +1,14 @@
-package com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop.logic
+package com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop
 
-import com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop.CropContract
+import com.github.alkurop.stringerbell.Stringer
+import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.bl.crop.CropFileNameUpdater
+import com.omar.retromp3recorder.bl.crop.CropInPlaceUC
+import com.omar.retromp3recorder.bl.crop.CropOutsideUC
 import com.omar.retromp3recorder.bl.files.CanSaveAsName
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.storage.repo.common.StateFlowRepo
+import com.omar.retromp3recorder.storage.repo.global.ToastRepo
 import com.omar.retromp3recorder.utils.domain.mapToUsecase
 import com.omar.retromp3recorder.utils.domain.processIO
 import io.reactivex.rxjava3.core.Completable
@@ -18,6 +23,7 @@ class CropInteractor @Inject constructor(
     private val cropInPlaceUC: CropInPlaceUC,
     private val cropOutsideUC: CropOutsideUC,
     private val nameUpdater: CropFileNameUpdater,
+    private val toastRepo: ToastRepo,
     private val scheduler: Scheduler
 ) {
     private val canCropFileRepo = StateFlowRepo(false)
@@ -67,8 +73,17 @@ class CropInteractor @Inject constructor(
                 },
                 input.mapToUsecase<CropContract.Input.CropOutside> {
                     cropOutsideUC.execute(it.nameSuggestion)
-                        .flatMapCompletable { Completable.complete() }
+                        .flatMapCompletable {
+                            Completable.fromAction {
+                                val toast =
+                                    if (it.value == null) Stringer(R.string.toast_crop_failed) else {
+                                        Stringer(R.string.toast_crop_success)
+                                    }
+                                toastRepo.onNext(toast)
+                            }
+                        }
                         .andThen { dismissBus.onNext(true) }
+
                 }
             )
         )

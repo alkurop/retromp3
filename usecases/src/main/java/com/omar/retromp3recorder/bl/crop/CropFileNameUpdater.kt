@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop.logic
+package com.omar.retromp3recorder.bl.crop
 
 import com.omar.retromp3recorder.bl.files.GetCropFileNameUC
 import com.omar.retromp3recorder.domain.NewNameSuggestion

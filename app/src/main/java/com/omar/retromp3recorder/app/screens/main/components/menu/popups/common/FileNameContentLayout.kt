@@ -13,15 +13,13 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.omar.retromp3recorder.app.R
 
-@Preview
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FileNameContentLayout(
-    value: String = "privet",
+    value: String,
     maxChar: Int = 40,
     label: String = stringResource(id = R.string.popup_label_filename),
     isError: Boolean = false,
