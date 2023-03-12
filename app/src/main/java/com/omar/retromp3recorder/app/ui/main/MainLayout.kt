@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.app.nav.AppDestination
 import com.omar.retromp3recorder.app.ui.audio_controls.compose.AudioControlsLayout
 import com.omar.retromp3recorder.app.ui.joined_progress.JoinedProgressLayout
 import com.omar.retromp3recorder.app.ui.log.compose.LogLayout
@@ -29,7 +30,8 @@ import com.omar.retromp3recorder.app.ui.visualizer.VisualizerLayout
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainLayout(
-    viewModel: MainViewModel = viewModel()
+    viewModel: MainViewModel = viewModel(),
+    onOpenDestination: (AppDestination) -> Unit,
 ) {
     Column {
         val state by viewModel.state.subscribeAsState(initial = MainView.State())
@@ -68,7 +70,7 @@ fun MainLayout(
             modifier = Modifier
                 .padding(horizontal = LocalSpacing.current.normal)
         )
-        MenuLayout()
+        MenuLayout(onOpenDestination)
         AudioControlsLayout(
             modifier = Modifier
                 .padding(

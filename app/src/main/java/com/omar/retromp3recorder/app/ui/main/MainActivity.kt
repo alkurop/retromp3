@@ -15,10 +15,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.*
+import androidx.navigation.compose.rememberNavController
 import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
 import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
 import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.app.nav.AppNavHost
+import com.omar.retromp3recorder.app.nav.navigate
 import com.omar.retromp3recorder.app.ui.settings.SettingsActivity
 import com.omar.retromp3recorder.app.ui.theme.RetroTheme
 import com.omar.retromp3recorder.app.uiutils.observe
@@ -41,7 +44,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             RetroTheme {
-                MainLayout()
+                val navController = rememberNavController()
+                AppNavHost(navController = navController)
             }
         }
     }

@@ -6,6 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
+import com.omar.retromp3recorder.app.ui.files.selector.layout.SearchScreenLayout
+import com.omar.retromp3recorder.app.ui.main.MainLayout
 import com.omar.retromp3recorder.app.ui.menu.popups.crop.CropPopupLayout
 import com.omar.retromp3recorder.app.ui.menu.popups.delete.DeletePopupLayout
 import com.omar.retromp3recorder.app.ui.menu.popups.rename.RenamePopupLayout
@@ -21,10 +23,10 @@ fun AppNavHost(
         modifier = modifier
     ) {
         composable(route = AppDestination.HomeScreen.route) {
-
+            MainLayout(onOpenDestination = { navController.navigate(it) })
         }
         composable(route = AppDestination.SettingScreen.route) {
-            TODO()
+            SearchScreenLayout()
         }
         composable(route = AppDestination.SearchScreen.route) {
             TODO()
@@ -41,13 +43,20 @@ fun AppNavHost(
     }
 }
 
-private fun NavHostController.navigate(destination: AppDestination) {
+fun NavHostController.navigate(destination: AppDestination) {
     when (val type = destination.type) {
         DestinationType.Popup -> this.navigatePopup(destination.route)
         DestinationType.Screen -> this.navigateScreen(destination.route)
     }
 }
 
-private fun NavHostController.navigatePopup(route: String) {}
+fun NavHostController.navigatePopup(route: String) {
+    this.navigate(route)
+}
 
-private fun NavHostController.navigateScreen(route: String) {}
+fun NavHostController.navigateScreen(route: String) {
+    this.navigate(route) {
+        launchSingleTop = true
+        restoreState = true
+    }
+}

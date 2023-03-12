@@ -44,6 +44,14 @@ android {
             keyPassword 'android'
         }
     }
+
+    // paging compose gives dependency to an alpha version of the compose libs
+    // this config strategy should be cleaned up when paging compose is in reals version
+    configurations.all {
+        resolutionStrategy.force "androidx.compose.foundation:foundation:$versions.compose"
+        resolutionStrategy.force "androidx.compose.ui:ui:$versions.compose"
+        resolutionStrategy.force "androidx.compose.runtime:runtime:$versions.compose"
+    }
 }
 
 dependencies {
