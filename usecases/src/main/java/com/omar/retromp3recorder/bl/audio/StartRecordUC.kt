@@ -8,7 +8,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
-import com.omar.retromp3recorder.utils.domain.takeOne
+import com.omar.retromp3recorder.utils.domain.takeObservableOne
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
@@ -25,7 +25,7 @@ class StartRecordUC @Inject constructor(
         fun executeMedia(source: Int) =
             Completable
                 .fromAction { serviceDealer.startMediaProjectionService() }
-                .andThen(projectionRepo.observe().takeOne())
+                .andThen(projectionRepo.observe().takeObservableOne())
                 .flatMapCompletable {
                     val projection = it.mediaProjection.value
                     if (projection != null) {
@@ -47,7 +47,7 @@ class StartRecordUC @Inject constructor(
             .execute()
             .andThen(
                 recorderPrefsRepo.observe()
-                    .takeOne()
+                    .takeObservableOne()
                     .map { it.audioSourcePref }
                     .flatMapCompletable {
                         @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")

@@ -9,7 +9,6 @@ import timber.log.Timber
 
 class App : Application() {
 
-
     override fun onCreate() {
         super.onCreate()
         appComponent = DaggerAppComponent.builder().androidModule(AndroidModule(this)).build()

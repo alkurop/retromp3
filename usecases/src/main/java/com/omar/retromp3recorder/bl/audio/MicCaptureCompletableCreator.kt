@@ -30,7 +30,7 @@ class MicCaptureCompletableCreator @Inject constructor(
         return Single
             .zip(
                 getNewFileNameUC.execute(),
-                recorderPrefsRepo.takeOne(),
+                recorderPrefsRepo.takeSingle(),
                 propsZipper
             )
 

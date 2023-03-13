@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.settings.components.components.checkbox_group
+package com.omar.retromp3recorder.app.screens.settings.components.checkbox_group
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

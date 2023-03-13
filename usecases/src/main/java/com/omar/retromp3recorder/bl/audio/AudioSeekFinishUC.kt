@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.audio
 
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
-import com.omar.retromp3recorder.utils.domain.takeOne
+import com.omar.retromp3recorder.utils.domain.takeObservableOne
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class AudioSeekFinishUC @Inject constructor(
 ) {
     fun execute(): Completable =
 
-        audioPlayer.observeState().takeOne().flatMapCompletable { state ->
+        audioPlayer.observeState().takeObservableOne().flatMapCompletable { state ->
             when (state) {
                 AudioPlayer.State.Playing,
                 AudioPlayer.State.PausedToSeek -> startPlaybackUC.execute()

@@ -8,7 +8,7 @@ class ActivateRangeUC @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo,
 ) {
     fun execute() =
-        playerControlsRepo.takeOne()
+        playerControlsRepo.takeSingle()
             .flatMapCompletable { features ->
                 Completable.fromAction {
                     val isActive = features.range.isActive.not()

@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.io.audiotransformer.CropRequest
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.domain.takeOne
+import com.omar.retromp3recorder.utils.domain.takeObservableOne
 import com.omar.retromp3recorder.utils.domain.toFromToMillis
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
@@ -18,8 +18,8 @@ class GatherCropRequestUC @Inject constructor(
 ) {
     fun execute(nameSuggestion: NewNameSuggestion): Single<CropRequest> {
         return Single.zip(
-            currentFileRepo.takeOne(),
-            joinedProgress.observe().takeOne()
+            currentFileRepo.takeSingle(),
+            joinedProgress.observe().takeObservableOne()
         ) { currentFile, progress ->
             val file = currentFile.value as ExistingFileWrapper
             val playerProgress = (progress as JoinedProgress.PlayerProgressShown).progress

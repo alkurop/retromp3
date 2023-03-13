@@ -15,7 +15,7 @@ class DeleteCurrentFileUC @Inject constructor(
     private val takeLastFileUC: TakeLastFileDbItemUC
 ) {
     fun execute(): Completable = currentFileRepo
-        .takeOne()
+        .takeSingle()
         .flatMapCompletable { optional ->
             val file = (optional.value as? ExistingFileWrapper)
 

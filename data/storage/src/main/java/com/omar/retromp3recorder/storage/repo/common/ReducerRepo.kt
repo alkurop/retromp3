@@ -21,13 +21,13 @@ open class ReducerRepo<In : Any, State : Any>(
 
     @Deprecated(
         level = DeprecationLevel.WARNING,
-        message = "Rx java is deprecated",
+        message = "RxJava is deprecated",
         replaceWith = ReplaceWith(
             "observeFlow()"
         )
     )
     open fun observe(): Observable<State> = stateKeeper.asObservable()
 
-    fun observeFlow(): Flow<State> = stateKeeper
+    fun flow(): Flow<State> = stateKeeper
 
 }

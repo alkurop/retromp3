@@ -7,7 +7,7 @@ import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.FileRenamer
 import com.omar.retromp3recorder.utils.domain.Mp3TagsEditor
-import com.omar.retromp3recorder.utils.domain.takeOne
+import com.omar.retromp3recorder.utils.domain.takeObservableOne
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class RenameFileUC @Inject constructor(
 ) {
     fun execute(newFileName: String): Completable =
         currentFileRepo.observe()
-            .takeOne()
+            .takeObservableOne()
             .flatMapCompletable { optional ->
                 val fileWrapper = (optional.value!! as ExistingFileWrapper)
                 Completable

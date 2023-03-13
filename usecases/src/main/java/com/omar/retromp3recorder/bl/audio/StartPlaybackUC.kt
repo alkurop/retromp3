@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.FromToMillis
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
-import com.omar.retromp3recorder.utils.domain.takeOne
+import com.omar.retromp3recorder.utils.domain.takeObservableOne
 import com.omar.retromp3recorder.utils.domain.toFromToMillis
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -22,7 +22,7 @@ class StartPlaybackUC @Inject constructor(
             currentFileRepo.observe(),
             playerProgressRepo.observe()
         ) { p1, p2 -> Pair(p1, p2) }
-            .takeOne()
+            .takeObservableOne()
             .flatMapCompletable { (file, progressState) ->
                 Completable.fromAction {
                     val existingFile = file.value as ExistingFileWrapper

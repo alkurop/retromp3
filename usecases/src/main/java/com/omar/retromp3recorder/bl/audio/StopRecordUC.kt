@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.Constants.MAIN_THREAD
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
-import com.omar.retromp3recorder.utils.domain.takeOne
+import com.omar.retromp3recorder.utils.domain.takeObservableOne
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class StopRecordUC @Inject constructor(
         .andThen(Completable.fromAction { serviceDealer.stopWakelockService() })
         .subscribeOn(mainThreadScheduler)
         .andThen(
-            currentFileRepo.observe().subscribeOn(scheduler).takeOne()
+            currentFileRepo.observe().subscribeOn(scheduler).takeObservableOne()
                 .flatMapCompletable { currentFileWrapper ->
                     //silly way to update current file preview and show wavetable of recently
                     //recorded file

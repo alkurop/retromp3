@@ -8,7 +8,7 @@ import javax.inject.Inject
 class DeactivatePlayerControlsUC @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo
 ) {
-    fun execute(): Completable = playerControlsRepo.takeOne()
+    fun execute(): Completable = playerControlsRepo.takeSingle()
         .flatMapCompletable { (loop, range, reverse, speed) ->
             Completable.fromAction {
                 playerControlsRepo.onNext(

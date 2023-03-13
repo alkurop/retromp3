@@ -1,6 +1,6 @@
-V Replace search screen with jpc
-V cleanup dependency
-V refactor permissions
+- V Replace search screen with jpc
+- V cleanup dependency
+- V refactor permissions
 - refactor main activity
 - replace dagger with hilt
 - progress issue *
@@ -24,5 +24,7 @@ V refactor permissions
 - add bit counter
 - figure out why need range bar reset
 - cleanup circleci script
+- what happens when app is killed by the system (Don't keep activity) in different screens? Is there a need to save state somewhere?
 
 * means bug
+* V means completed

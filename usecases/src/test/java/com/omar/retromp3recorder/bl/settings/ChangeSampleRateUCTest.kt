@@ -50,7 +50,7 @@ class ChangeSampleRateUCTest {
 
         useCase.execute(setting)
 
-        val first = repo.observeFlow().first().sampleRate
+        val first = repo.flow().first().sampleRate
         assertEquals(first, setting)
     }
 }

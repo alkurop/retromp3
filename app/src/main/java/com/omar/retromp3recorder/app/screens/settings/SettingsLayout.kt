@@ -17,8 +17,8 @@ import com.omar.retromp3recorder.app.BuildConfig
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.screens.settings.components.audio_source.AudioSourceLayout
 import com.omar.retromp3recorder.app.screens.settings.components.beat_rate.BitRateLayout
-import com.omar.retromp3recorder.app.screens.settings.components.components.checkbox_group.CheckboxGroup
-import com.omar.retromp3recorder.app.screens.settings.components.components.checkbox_group.CheckboxGroupData
+import com.omar.retromp3recorder.app.screens.settings.components.checkbox_group.CheckboxGroup
+import com.omar.retromp3recorder.app.screens.settings.components.checkbox_group.CheckboxGroupData
 import com.omar.retromp3recorder.app.screens.settings.components.sample_rate.SampleRateLayout
 import com.omar.retromp3recorder.app.screens.settings.flow.SettingsViewModelFlow
 import com.omar.retromp3recorder.domain.FeatureFlag

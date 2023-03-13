@@ -38,7 +38,7 @@ class SettingsFlowInteractor @Inject constructor(
 
     private fun listenToRepos(): Flow<SettingsContract.Output> {
         return listOf<Flow<SettingsContract.Output>>(
-            featureFlagRepo.observeFlow()
+            featureFlagRepo.flow()
                 .map { featureFlagsCollection ->
                     SettingsContract.Output.FlagsCollectionUpdate(
                         featureFlagsCollection

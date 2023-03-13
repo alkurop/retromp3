@@ -16,7 +16,7 @@ class CanRenameName @Inject constructor(
         canRenameFileRepo: StateFlowRepo<Pair<Boolean, String?>>
     ): Completable =
         currentFileRepo
-            .takeOne()
+            .takeSingle()
             .flatMapCompletable { optional ->
                 val fileWrapper = optional.value
                 Completable.fromAction {

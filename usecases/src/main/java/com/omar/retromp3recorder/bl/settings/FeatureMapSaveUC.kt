@@ -13,7 +13,7 @@ class FeatureMapSaveUC @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
     suspend fun execute(featureFlag: FeatureFlag, featureFlagSetting: FeatureFlagSetting) {
-        val features = featureFlagRepo.observeFlow().first()
+        val features = featureFlagRepo.flow().first()
         val intermediate = features.featuresMap.toMutableMap()
         intermediate[featureFlag] = featureFlagSetting
 

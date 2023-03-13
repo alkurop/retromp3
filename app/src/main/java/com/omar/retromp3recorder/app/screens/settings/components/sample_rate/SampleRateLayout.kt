@@ -9,8 +9,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.screens.settings.components.components.selection_group.SelectionGroup
-import com.omar.retromp3recorder.app.screens.settings.components.components.selection_group.SelectionGroupData
+import com.omar.retromp3recorder.app.screens.settings.components.selection_group.SelectionGroup
+import com.omar.retromp3recorder.app.screens.settings.components.selection_group.SelectionGroupData
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 
 @Composable

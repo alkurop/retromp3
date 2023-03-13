@@ -53,7 +53,7 @@ class FeatureMapSaveUCTest {
 
         useCase.execute(flag, setting)
 
-        val first = featureFlagRepo.observeFlow().first()
+        val first = featureFlagRepo.flow().first()
         assertEquals(first.featuresMap[flag], setting)
     }
 
@@ -68,7 +68,7 @@ class FeatureMapSaveUCTest {
 
         useCase.execute(flag, updateSetting)
 
-        val first = featureFlagRepo.observeFlow().first()
+        val first = featureFlagRepo.flow().first()
         assertEquals(first.featuresMap[flag], updateSetting)
     }
 

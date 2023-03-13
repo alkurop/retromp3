@@ -1,6 +1,6 @@
-package com.omar.retromp3recorder.app.screens.settings.components.sample_rate
+package com.omar.retromp3recorder.app.screens.settings.components.audio_source
 
-import com.omar.retromp3recorder.bl.settings.ChangeSampleRateUC
+import com.omar.retromp3recorder.bl.settings.ChangeAudioSourceUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,31 +14,31 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class SampleRateInteractorFlow @Inject constructor(
-    private val changeSampleRateUC: ChangeSampleRateUC,
-    private val recorderPrefsRepo: RecorderPrefsRepo,
-    dispatcher: CoroutineDispatcher,
+class AudioSourceInteractorFlow @Inject constructor(
+    private val repo: RecorderPrefsRepo,
+    private val changeAudioSourceUC: ChangeAudioSourceUC,
+    dispatcher: CoroutineDispatcher
 ) : CoroutineScope {
     override val coroutineContext: CoroutineContext = dispatcher + Job()
 
-    fun processIO(upstream: Flow<Mp3VoiceRecorder.SampleRate>): Flow<Mp3VoiceRecorder.SampleRate> {
+    fun processIO(upstream: Flow<Mp3VoiceRecorder.AudioSourcePref>): Flow<Mp3VoiceRecorder.AudioSourcePref> {
         return listOf(
             upstream.processInputs(),
             listenToRepos()
         ).merge()
     }
 
-    private fun Flow<Mp3VoiceRecorder.SampleRate>.processInputs(): Flow<Mp3VoiceRecorder.SampleRate> {
+    private fun Flow<Mp3VoiceRecorder.AudioSourcePref>.processInputs(): Flow<Mp3VoiceRecorder.AudioSourcePref> {
         return this.transform { event ->
             launch {
-                changeSampleRateUC.execute(event)
+                changeAudioSourceUC.execute(event)
             }
         }
     }
 
-    private fun listenToRepos(): Flow<Mp3VoiceRecorder.SampleRate> {
+    private fun listenToRepos(): Flow<Mp3VoiceRecorder.AudioSourcePref> {
         return listOf(
-            recorderPrefsRepo.flow().map { it.sampleRate }
+            repo.flow().map { it.audioSourcePref }
         ).merge()
     }
 }
