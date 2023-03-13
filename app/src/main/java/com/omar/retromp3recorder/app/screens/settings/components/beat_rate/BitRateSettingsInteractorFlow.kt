@@ -15,9 +15,9 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class BitRateSettingsInteractorFlow @Inject constructor(
-    private val recorderPrefsRepo: RecorderPrefsRepo,
     private val changeBitrateUC: ChangeBitrateUC,
-     dispatcher: CoroutineDispatcher,
+    private val recorderPrefsRepo: RecorderPrefsRepo,
+    dispatcher: CoroutineDispatcher,
 ) : CoroutineScope {
     override val coroutineContext: CoroutineContext = dispatcher + Job()
 
