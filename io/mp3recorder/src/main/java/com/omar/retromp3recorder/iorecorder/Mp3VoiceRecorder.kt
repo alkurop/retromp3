@@ -39,9 +39,9 @@ interface Mp3VoiceRecorder {
     }
 
     data class RecorderPrefs(
-        val sampleRate: SampleRate,
-        val bitRate: BitRate,
-        val audioSourcePref: AudioSourcePref
+        val sampleRate: SampleRate = SampleRate.values()[0],
+        val bitRate: BitRate = BitRate.values()[0],
+        val audioSourcePref: AudioSourcePref = AudioSourcePref.values()[0]
     )
 
     sealed class Event {
