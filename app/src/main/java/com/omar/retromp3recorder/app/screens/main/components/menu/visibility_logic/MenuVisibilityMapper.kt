@@ -9,5 +9,5 @@ interface MenuVisibilityMapper {
 
 @Suppress("UNCHECKED_CAST")
 fun Array<Any>.mapToMenuList(): List<MenuContract.Item> {
-   return this.map { it as List<MenuContract.Item> }.flatten()
+    return this.map { it as List<MenuContract.Item> }.flatten()
 }

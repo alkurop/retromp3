@@ -10,12 +10,11 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class MenuInteractorFlow @Inject constructor(
-    private val menuStateExcavator: MenuStateExcavator,
+    private val menuStateExcavator: MenuStateExcavatorFlow,
     private val eneblersSwitcher: EnablersSwitcher,
     dispatcher: CoroutineDispatcher,
 ) : CoroutineScope {
@@ -24,7 +23,7 @@ class MenuInteractorFlow @Inject constructor(
     fun processIO(upstream: Flow<MenuContract.Input>): Flow<MenuContract.State> {
         return listOf(
             upstream.processInputs(),
-            menuStateExcavator.observe().asFlow()
+            menuStateExcavator.flow()
         ).merge().distinctUntilChanged()
     }
 
