@@ -30,7 +30,7 @@ class FeatureMapSaveUCTest {
 
         every { sharedPreferences.edit() } returns editor
         every { editor.putBoolean(any(), any()) } returns editor
-        every { editor.commit() } returns true
+        every { editor.apply() } returns Unit
     }
 
     @Test
@@ -42,7 +42,7 @@ class FeatureMapSaveUCTest {
 
         verifyOrder {
             editor.putBoolean(FeatureFlag.LogView.key, true)
-            editor.commit()
+            editor.apply()
         }
     }
 

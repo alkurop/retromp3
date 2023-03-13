@@ -1,6 +1,5 @@
 package com.omar.retromp3recorder.bl.settings
 
-import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import com.omar.retromp3recorder.domain.FeatureFlag
 import com.omar.retromp3recorder.domain.FeatureFlagSetting
@@ -13,7 +12,6 @@ class FeatureMapSaveUC @Inject constructor(
     private val featureFlagRepo: FeatureFlagRepo,
     private val sharedPreferences: SharedPreferences
 ) {
-    @SuppressLint("ApplySharedPref")
     suspend fun execute(featureFlag: FeatureFlag, featureFlagSetting: FeatureFlagSetting) {
         val features = featureFlagRepo.observeFlow().first()
         val intermediate = features.featuresMap.toMutableMap()
@@ -24,6 +22,6 @@ class FeatureMapSaveUC @Inject constructor(
                 intermediate.toMap()
             )
         )
-        sharedPreferences.edit().putBoolean(featureFlag.key, featureFlagSetting.isEnabled).commit()
+        sharedPreferences.edit().putBoolean(featureFlag.key, featureFlagSetting.isEnabled).apply()
     }
 }
