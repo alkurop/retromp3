@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.settings.compose
+package com.omar.retromp3recorder.app.screens.settings
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -6,22 +6,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.BuildConfig
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.screens.settings.SettingsContract
-import com.omar.retromp3recorder.app.screens.settings.SettingsViewModel
-import com.omar.retromp3recorder.app.screens.settings.compose.audio_source.AudioSourceLayout
-import com.omar.retromp3recorder.app.screens.settings.compose.bit_rate.BitRateLayout
-import com.omar.retromp3recorder.app.screens.settings.compose.components.checkbox_group.CheckboxGroup
-import com.omar.retromp3recorder.app.screens.settings.compose.components.checkbox_group.CheckboxGroupData
-import com.omar.retromp3recorder.app.screens.settings.compose.sample_rate.SampleRateLayout
+import com.omar.retromp3recorder.app.screens.settings.components.audio_source.AudioSourceLayout
+import com.omar.retromp3recorder.app.screens.settings.components.beat_rate.BitRateLayout
+import com.omar.retromp3recorder.app.screens.settings.components.components.checkbox_group.CheckboxGroup
+import com.omar.retromp3recorder.app.screens.settings.components.components.checkbox_group.CheckboxGroupData
+import com.omar.retromp3recorder.app.screens.settings.components.sample_rate.SampleRateLayout
+import com.omar.retromp3recorder.app.screens.settings.flow.SettingsViewModelFlow
 import com.omar.retromp3recorder.domain.FeatureFlag
 import com.omar.retromp3recorder.domain.FeatureFlagSetting
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
@@ -31,9 +30,9 @@ import com.omar.retromp3recorder.domain.FeatureLevel
 @Composable
 fun SettingsLayout(
     onBack: () -> Unit,
-    viewModel: SettingsViewModel = viewModel(),
+    viewModel: SettingsViewModelFlow = viewModel(),
 ) {
-    val state by viewModel.state.subscribeAsState(initial = SettingsContract.State())
+    val state by viewModel.state.collectAsState()
 
     val featuremap = state.featureFlagsCollection
 
@@ -46,7 +45,7 @@ fun SettingsLayout(
 
     val onFlagChanged: (FeatureFlag, Boolean) -> Unit = remember {
         { flag, checked ->
-            viewModel.input.onNext(
+            viewModel.onEvent(
                 SettingsContract.Input.FlagSettingChanged(
                     flag,
                     FeatureFlagSetting(checked)

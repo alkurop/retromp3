@@ -11,7 +11,7 @@ import com.omar.retromp3recorder.app.screens.main.MainLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop.CropPopupLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.delete.DeletePopupLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.rename.RenamePopupLayout
-import com.omar.retromp3recorder.app.screens.settings.compose.SettingsLayout
+import com.omar.retromp3recorder.app.screens.settings.SettingsLayout
 
 @Composable
 fun AppNavHost(

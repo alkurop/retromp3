@@ -1,24 +1,17 @@
 package com.omar.retromp3recorder.app.screens.settings
 
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.functions.BiFunction
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.scan
 
 object SettingsViewOutputMapper {
-    fun mapOutputToState(): ObservableTransformer<SettingsContract.Output, SettingsContract.State> =
-        ObservableTransformer { upstream: Observable<SettingsContract.Output> ->
-            upstream.scan(
-                SettingsContract.State(),
-                getMapper()
-            )
-        }
-
-    private fun getMapper(): BiFunction<SettingsContract.State, SettingsContract.Output, SettingsContract.State> =
-        BiFunction { oldState: SettingsContract.State, output: SettingsContract.Output ->
+    fun Flow<SettingsContract.Output>.mapOutputToStateFlow(): Flow<SettingsContract.State> {
+        return this.scan(SettingsContract.State()) { oldState, output ->
             when (output) {
                 is SettingsContract.Output.FlagsCollectionUpdate -> oldState.copy(
                     featureFlagsCollection = output.featureFlagsCollection
                 )
             }
-        }
+        }.distinctUntilChanged()
+    }
 }

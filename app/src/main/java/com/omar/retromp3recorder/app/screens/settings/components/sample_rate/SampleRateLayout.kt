@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.settings.compose.sample_rate
+package com.omar.retromp3recorder.app.screens.settings.components.sample_rate
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -8,9 +8,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.screens.settings.components.sample_rate.SampleRateViewModel
-import com.omar.retromp3recorder.app.screens.settings.compose.components.selection_group.SelectionGroup
-import com.omar.retromp3recorder.app.screens.settings.compose.components.selection_group.SelectionGroupData
+import com.omar.retromp3recorder.app.screens.settings.components.components.selection_group.SelectionGroup
+import com.omar.retromp3recorder.app.screens.settings.components.components.selection_group.SelectionGroupData
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 
 @Composable

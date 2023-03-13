@@ -3,7 +3,9 @@ package com.omar.retromp3recorder.storage.repo.common
 import com.omar.retromp3recorder.utils.domain.takeOne
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.rx3.asObservable
 
 open class PublishSubjectRepo<T : Any> {
@@ -15,7 +17,26 @@ open class PublishSubjectRepo<T : Any> {
         state.tryEmit(next)
     }
 
-    fun observe(): Observable<T> = state.asObservable()
+    @Deprecated(
+        level = DeprecationLevel.WARNING,
+        message = "Rx java is deprecated",
+        replaceWith = ReplaceWith(
+            "observeFlow()"
+        )
+    )
+    open fun observe(): Observable<T> = state.asObservable()
 
+    fun observeFlow(): Flow<T> = state
+
+
+    fun takeOneFlow():Flow<T> = state.take(1)
+
+    @Deprecated(
+        level = DeprecationLevel.WARNING,
+        message = "Rx java is deprecated",
+        replaceWith = ReplaceWith(
+            "takeOneFlow()"
+        )
+    )
     fun takeOne(): Single<T> = state.asObservable().takeOne()
 }

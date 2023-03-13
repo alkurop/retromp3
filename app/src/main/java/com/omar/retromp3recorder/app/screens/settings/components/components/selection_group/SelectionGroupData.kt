@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.settings.compose.components.selection_group
+package com.omar.retromp3recorder.app.screens.settings.components.components.selection_group
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider

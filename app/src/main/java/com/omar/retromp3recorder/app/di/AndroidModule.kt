@@ -9,6 +9,8 @@ import dagger.Provides
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Named
 
 @Module
@@ -33,4 +35,7 @@ class AndroidModule(private val app: Application) {
     fun provideMainThreadScheduler(): Scheduler {
         return AndroidSchedulers.mainThread()
     }
+
+    @Provides
+    fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
 }

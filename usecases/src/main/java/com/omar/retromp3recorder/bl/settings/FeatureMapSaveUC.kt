@@ -6,8 +6,7 @@ import com.omar.retromp3recorder.domain.FeatureFlag
 import com.omar.retromp3recorder.domain.FeatureFlagSetting
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
-import com.omar.retromp3recorder.utils.domain.takeOne
-import io.reactivex.rxjava3.core.Completable
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class FeatureMapSaveUC @Inject constructor(
@@ -15,20 +14,16 @@ class FeatureMapSaveUC @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
     @SuppressLint("ApplySharedPref")
-    fun execute(featureFlag: FeatureFlag, featureFlagSetting: FeatureFlagSetting): Completable =
-        featureFlagRepo.observe().takeOne().flatMapCompletable { features ->
-            Completable.fromAction {
-                val intermediate = features.featuresMap.toMutableMap()
-                intermediate[featureFlag] = featureFlagSetting
+    suspend fun execute(featureFlag: FeatureFlag, featureFlagSetting: FeatureFlagSetting) {
+        val features = featureFlagRepo.observeFlow().first()
+        val intermediate = features.featuresMap.toMutableMap()
+        intermediate[featureFlag] = featureFlagSetting
 
-                featureFlagRepo.onNext(
-                    FeatureFlagsCollection(
-                        intermediate.toMap()
-                    )
-                )
-                sharedPreferences.edit()
-                    .putBoolean(featureFlag.key, featureFlagSetting.isEnabled)
-                    .commit()
-            }
-        }
+        featureFlagRepo.onNext(
+            FeatureFlagsCollection(
+                intermediate.toMap()
+            )
+        )
+        sharedPreferences.edit().putBoolean(featureFlag.key, featureFlagSetting.isEnabled).commit()
+    }
 }

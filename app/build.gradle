@@ -75,6 +75,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.composeViewModel"
     implementation "androidx.constraintlayout:constraintlayout-compose:$versions.composeConstraint"
     implementation "com.google.android.material:material:$versions.material"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"
 
     implementation "com.google.dagger:dagger:$versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
