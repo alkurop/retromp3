@@ -25,6 +25,7 @@
 - figure out why need range bar reset
 - cleanup circleci script
 - what happens when app is killed by the system (Don't keep activity) in different screens? Is there a need to save state somewhere?
+- add slider to settings instead of switch (like in one fit app)
 
 * means bug
 * V means completed

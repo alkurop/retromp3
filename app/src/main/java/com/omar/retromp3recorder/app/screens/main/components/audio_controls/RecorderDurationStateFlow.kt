@@ -8,10 +8,10 @@ import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
 class RecorderDurationStateFlow @Inject constructor(
-    private val joinedProgressRepo: JoinedProgressMapper,
+    private val joinedProgressMapper: JoinedProgressMapper,
 ) {
     fun flow(): Flow<AudioControlsView.Output.RecorderDurationState> =
-        joinedProgressRepo.observe().asFlow().map { joinedProgressState ->
+        joinedProgressMapper.observe().asFlow().map { joinedProgressState ->
             when (joinedProgressState) {
                 JoinedProgress.Hidden,
                 JoinedProgress.Intermediate,
