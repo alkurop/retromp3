@@ -10,6 +10,6 @@ class UpdatePlayerRangeUC @Inject constructor(
 ) {
     fun execute(range: PlayerRange): Completable =
         Completable.fromAction {
-            playerProgressRepo.onNext(PlayerProgressRepo.In.Range(range))
+            playerProgressRepo.emit(PlayerProgressRepo.In.Range(range))
         }
 }

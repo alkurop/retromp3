@@ -21,7 +21,7 @@ class PlayerProgressMapper @Inject constructor(
                     val mappedPosition = position.toSeekbarTime()
                     val mappedDuration = duration.toSeekbarTime()
                     val fixedPosition = if (mappedDuration == mappedPosition) 0 else position
-                    playerProgressRepo.onNext(
+                    playerProgressRepo.emit(
                         PlayerProgressRepo.In.Progress(
                             PlayerProgress(
                                 fixedPosition,

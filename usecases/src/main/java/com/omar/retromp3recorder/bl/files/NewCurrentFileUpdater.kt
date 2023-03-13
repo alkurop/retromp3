@@ -37,7 +37,7 @@ class NewCurrentFileUpdater @Inject constructor(
             .flatMapCompletable { progress ->
                 Completable
                     .fromAction {
-                        playerProgressRepo.onNext(progress)
+                        playerProgressRepo.emit(progress)
                         rangeBarResetBus.tryNext(Shell(0))
                     }
                     .andThen(deactivatePlayerControlsUC.execute())

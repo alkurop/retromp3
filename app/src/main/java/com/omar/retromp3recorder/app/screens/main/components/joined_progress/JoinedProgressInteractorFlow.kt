@@ -38,13 +38,13 @@ class JoinedProgressInteractorFlow @Inject constructor(
             launch {
                 when (event) {
                     is JoinedProgressView.In.SeekToPosition -> {
-                        audioSeekProgressUC.execute(event.position).blockingAwait()
+                        audioSeekProgressUC.execute(event.position)
                     }
                     is JoinedProgressView.In.SeekingStarted -> {
-                        audioSeekPauseUC.execute().blockingAwait()
+                        audioSeekPauseUC.execute()
                     }
                     is JoinedProgressView.In.SeekingFinished -> {
-                        audioSeekFinishUC.execute().blockingAwait()
+                        audioSeekFinishUC.execute()
                     }
                 }
             }
