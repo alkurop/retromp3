@@ -22,5 +22,6 @@ V refactor permissions
 - check main screen recomposition
 - design local progress and state of track
 - add bit counter
+- figure out why need range bar reset
 
 * means bug
