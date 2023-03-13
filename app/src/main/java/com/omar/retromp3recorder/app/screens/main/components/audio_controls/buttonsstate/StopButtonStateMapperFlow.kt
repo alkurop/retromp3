@@ -3,14 +3,16 @@ package com.omar.retromp3recorder.app.screens.main.components.audio_controls.but
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.InteractiveButtonState
 import com.omar.retromp3recorder.bl.audio.AudioState
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper
-import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
-class StopButtonStateMapper @Inject constructor(
+class StopButtonStateMapperFlow @Inject constructor(
     private val audioStateMapper: AudioStateMapper,
 ) {
-    fun observe(): Observable<InteractiveButtonState> =
-        audioStateMapper.observe().map { audioState ->
+    fun flow(): Flow<InteractiveButtonState> =
+        audioStateMapper.observe().asFlow().map { audioState ->
             when (audioState) {
                 is AudioState.Recording -> InteractiveButtonState.ENABLED
                 is AudioState.Playing -> InteractiveButtonState.ENABLED

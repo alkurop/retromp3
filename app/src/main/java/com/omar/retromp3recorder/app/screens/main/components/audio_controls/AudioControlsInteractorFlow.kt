@@ -1,0 +1,89 @@
+package com.omar.retromp3recorder.app.screens.main.components.audio_controls
+
+import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.PlayButtonStateFlow
+import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.RecordButtonStateFlow
+import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.ShareButtonStateFlow
+import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.StopButtonStateMapperFlow
+import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
+import com.omar.retromp3recorder.bl.audio.StartPlaybackUC
+import com.omar.retromp3recorder.bl.audio.StartRecordUC
+import com.omar.retromp3recorder.bl.audio.StopPlaybackAndRecordUC
+import com.omar.retromp3recorder.bl.system.ShareUC
+import com.omar.retromp3recorder.domain.JoinedProgress
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.asFlow
+import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
+
+class AudioControlsInteractorFlow @Inject constructor(
+    private val playButtonStateMapper: PlayButtonStateFlow,
+    private val joinedProgressMapper: JoinedProgressMapper,
+    private val recordButtonStateMapper: RecordButtonStateFlow,
+    private val recorderDurationStateMapper: RecorderDurationStateMapper,
+    private val shareButtonStateMapper: ShareButtonStateFlow,
+    private val stopButtonStateMapper: StopButtonStateMapperFlow,
+    private val startRecordUC: StartRecordUC,
+    private val shareUC: ShareUC,
+    private val startPlaybackUC: StartPlaybackUC,
+    private val stopPlaybackAndRecordUC: StopPlaybackAndRecordUC,
+    dispatcher: CoroutineDispatcher,
+) : CoroutineScope {
+    override val coroutineContext: CoroutineContext = dispatcher + Job()
+
+    fun processIO(upstream: Flow<AudioControlsView.Input>): Flow<AudioControlsView.Output> {
+        return listOf(
+            upstream.processInputs(),
+            listenToRepos()
+        ).merge()
+    }
+
+    private fun Flow<AudioControlsView.Input>.processInputs(): Flow<AudioControlsView.Output> {
+        return this.transform { event ->
+            launch {
+                when (event) {
+                    AudioControlsView.Input.Play -> {
+                        startPlaybackUC.execute().blockingAwait()
+                    }
+                    AudioControlsView.Input.Record -> {
+                        startRecordUC.execute().blockingAwait()
+                    }
+                    AudioControlsView.Input.Share -> {
+                        shareUC.execute().blockingAwait()
+                    }
+                    AudioControlsView.Input.Stop -> {
+                        stopPlaybackAndRecordUC.execute().blockingAwait()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun listenToRepos(): Flow<AudioControlsView.Output> {
+        return listOf(
+            playButtonStateMapper.flow()
+                .map { AudioControlsView.Output.PlayButtonState(it) },
+            recordButtonStateMapper.flow()
+                .map { AudioControlsView.Output.RecordButtonState(it) },
+            shareButtonStateMapper.flow()
+                .map { AudioControlsView.Output.ShareButtonState(it) },
+            stopButtonStateMapper.flow()
+                .map { AudioControlsView.Output.StopButtonState(it) },
+            recorderDurationStateMapper.flow(),
+            joinedProgressMapper.observe().asFlow()
+                .map {
+                    val progress = (it as? JoinedProgress.PlayerProgressShown)?.progress
+                    AudioControlsView.Output.PlayerProgressState(progress?.toProgressDisplay())
+                },
+        ).merge()
+    }
+}
+
+
+

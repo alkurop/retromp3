@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -15,24 +15,24 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsView
-import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsViewModel
+import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsViewModelFlow
 import com.omar.retromp3recorder.app.utils.TimeDisplay.toDisplayCompose
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun AudioControlsLayout(
     modifier: Modifier,
-    viewModel: AudioControlsViewModel = viewModel()
+    viewModel: AudioControlsViewModelFlow = viewModel()
 ) {
 
-    val state: AudioControlsView.State by viewModel.state.subscribeAsState(initial = AudioControlsView.State())
+    val state: AudioControlsView.State by viewModel.state.collectAsState()
 
     val textWidth = 64.dp
     val textPadding = 8.dp
     val buttonSize = 32.dp
     val spacerWeight = 0.1f
 
-    val sendInput: (AudioControlsView.Input) -> Unit = { viewModel.input.onNext(it) }
+    val sendInput: (AudioControlsView.Input) -> Unit = { viewModel.onEvent(it) }
 
     val mapVisibility: (Boolean) -> Float = { if (it) 1f else 0f }
 
