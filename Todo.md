@@ -1,6 +1,6 @@
 V Replace search screen with jpc
-- cleanup dependency
-- refactor permissions
+V cleanup dependency
+V refactor permissions
 - refactor main activity
 - replace dagger with hilt
 - progress issue *
