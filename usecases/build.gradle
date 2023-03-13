@@ -8,6 +8,8 @@ android {
     namespace "${applicationId}.usecase"
 }
 
+apply from: "$scripts.test_dependency"
+
 dependencies {
     implementation "androidx.appcompat:appcompat:$versions.support"
     implementation project(':utils:platform')
