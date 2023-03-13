@@ -3,6 +3,7 @@ package com.omar.retromp3recorder.app.screens.main.components.audio_controls
 import androidx.compose.runtime.Immutable
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.InteractiveButtonState
 import com.omar.retromp3recorder.domain.FromToMillis
+import com.omar.retromp3recorder.domain.PlayerProgress
 
 object AudioControlsView {
     sealed class Input {
@@ -17,7 +18,7 @@ object AudioControlsView {
         data class RecordButtonState(val state: InteractiveButtonState) : Output()
         data class ShareButtonState(val state: InteractiveButtonState) : Output()
         data class StopButtonState(val state: InteractiveButtonState) : Output()
-        data class PlayerProgressState(val state: ProgressDisplay?) : Output()
+        data class PlayerProgressState(val state: PlayerProgress?) : Output()
         data class RecorderDurationState(val duration: Long?) : Output()
     }
 

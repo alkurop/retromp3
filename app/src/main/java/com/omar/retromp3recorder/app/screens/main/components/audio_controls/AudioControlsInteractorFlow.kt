@@ -26,7 +26,7 @@ class AudioControlsInteractorFlow @Inject constructor(
     private val playButtonStateMapper: PlayButtonStateFlow,
     private val joinedProgressMapper: JoinedProgressMapper,
     private val recordButtonStateMapper: RecordButtonStateFlow,
-    private val recorderDurationStateMapper: RecorderDurationStateMapper,
+    private val recorderDurationStateFlow: RecorderDurationStateFlow,
     private val shareButtonStateMapper: ShareButtonStateFlow,
     private val stopButtonStateMapper: StopButtonStateMapperFlow,
     private val startRecordUC: StartRecordUC,
@@ -75,11 +75,11 @@ class AudioControlsInteractorFlow @Inject constructor(
                 .map { AudioControlsView.Output.ShareButtonState(it) },
             stopButtonStateMapper.flow()
                 .map { AudioControlsView.Output.StopButtonState(it) },
-            recorderDurationStateMapper.flow(),
+            recorderDurationStateFlow.flow(),
             joinedProgressMapper.observe().asFlow()
                 .map {
                     val progress = (it as? JoinedProgress.PlayerProgressShown)?.progress
-                    AudioControlsView.Output.PlayerProgressState(progress?.toProgressDisplay())
+                    AudioControlsView.Output.PlayerProgressState(progress)
                 },
         ).merge()
     }

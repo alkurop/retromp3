@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
-class RecorderDurationStateMapper @Inject constructor(
+class RecorderDurationStateFlow @Inject constructor(
     private val joinedProgressRepo: JoinedProgressMapper,
 ) {
     fun flow(): Flow<AudioControlsView.Output.RecorderDurationState> =
