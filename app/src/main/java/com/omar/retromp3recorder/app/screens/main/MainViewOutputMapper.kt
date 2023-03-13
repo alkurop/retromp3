@@ -18,9 +18,6 @@ object MainViewOutputMapper {
     private fun getMapper(): BiFunction<MainViewContract.State, MainViewContract.Output, MainViewContract.State> =
         BiFunction { oldState: MainViewContract.State, output: MainViewContract.Output ->
             when (output) {
-                is MainViewContract.Output.RequestPermissionsOutput -> oldState.copy(
-                    requestForPermissions = Shell(output.permissionsToRequest)
-                )
                 is MainViewContract.Output.RequestScreenCapture ->
                     oldState.copy(
                         requestForScreenCapture = Shell(output.shouldRequest)
@@ -39,7 +36,6 @@ object MainViewOutputMapper {
         }
 
     private fun getDefaultViewModel() = MainViewContract.State(
-        requestForPermissions = Shell.empty(),
         requestForScreenCapture = Shell.empty(),
     )
 }

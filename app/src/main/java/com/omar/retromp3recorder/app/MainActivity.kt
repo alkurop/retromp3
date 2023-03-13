@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
         actionBar?.hide()
 
         viewModel.state.observe(this, ::renderView)
-        viewModel.input.onNext(MainViewContract.Input.CheckAllPermisionsOnStartup)
         viewModel.toastRepo.observe().observe(this) { toast ->
             Toast.makeText(this, toast, Toast.LENGTH_SHORT).show()
         }

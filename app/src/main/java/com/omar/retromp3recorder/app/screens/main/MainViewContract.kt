@@ -8,7 +8,6 @@ import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 object MainViewContract {
     @Immutable
     data class State(
-        val requestForPermissions: Shell<Set<String>> = Shell.empty(),
         val requestForScreenCapture: Shell<Any> = Shell.empty(),
         val isNewLayout: Boolean = false,
         val isLogViewEnabled: Boolean = false,
@@ -17,12 +16,10 @@ object MainViewContract {
     )
 
     sealed class Input {
-        object CheckAllPermisionsOnStartup: Input()
         data class MediaProjectionUpdated(val mediaProjection: MediaProjection?) : Input()
     }
 
     sealed class Output {
-        data class RequestPermissionsOutput(val permissionsToRequest: Set<String>) : Output()
         data class RequestScreenCapture(val shouldRequest: Any) : Output()
         data class SettingsUpdated(val featureFlagsCollection: FeatureFlagsCollection) : Output()
     }
