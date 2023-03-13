@@ -1,0 +1,15 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+apply from: "$scripts.android_library"
+
+android {
+    namespace "${applicationId}.data.mock"
+}
+
+dependencies {
+    implementation project(':domain:platform')
+}
+

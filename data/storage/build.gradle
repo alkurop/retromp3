@@ -17,7 +17,7 @@ android {
         }
     }
 
-    namespace "${applicationId}.storage"
+    namespace "${applicationId}.data.storage"
 }
 
 dependencies {

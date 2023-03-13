@@ -90,6 +90,8 @@ dependencies {
     implementation project(':data:storage')
     implementation project(':domain:platform')
 
+    testImplementation project(':data:mock')
+
     // Import the BoM for the Firebase platform
     implementation platform("com.google.firebase:firebase-bom:$versions.firebase")
 
