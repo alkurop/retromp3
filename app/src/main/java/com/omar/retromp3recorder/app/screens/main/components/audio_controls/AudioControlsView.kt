@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.app.screens.main.components.audio_controls
 
+import androidx.compose.runtime.Immutable
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.InteractiveButtonState
 import com.omar.retromp3recorder.domain.FromToMillis
 
@@ -20,6 +21,7 @@ object AudioControlsView {
         data class RecorderDurationState(val duration: Long?) : Output()
     }
 
+    @Immutable
     data class State(
         val playButtonState: InteractiveButtonState = InteractiveButtonState.DISABLED,
         val playerProgressState: ProgressDisplay? = null,

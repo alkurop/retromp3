@@ -30,8 +30,9 @@ fun MainLayout(
     viewModel: MainViewModel = viewModel(),
     onOpenDestination: (AppDestination) -> Unit,
 ) {
+    val state by viewModel.state.subscribeAsState(initial = MainViewContract.State())
+
     Column {
-        val state by viewModel.state.subscribeAsState(initial = MainViewContract.State())
 
         TopAppBar(
             title = { Text(text = stringResource(id = R.string.app_name)) },

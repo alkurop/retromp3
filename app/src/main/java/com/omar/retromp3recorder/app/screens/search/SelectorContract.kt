@@ -1,11 +1,13 @@
 package com.omar.retromp3recorder.app.screens.search
 
+import androidx.compose.runtime.Stable
 import androidx.paging.PagingData
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.ItemsSource
 import kotlinx.coroutines.flow.Flow
 
 object SelectorContract {
+    @Stable
     data class State(
         val selectedFile: String? = null,
         val itemsPaging: Flow<PagingData<ExistingFileWrapper>>? = null,

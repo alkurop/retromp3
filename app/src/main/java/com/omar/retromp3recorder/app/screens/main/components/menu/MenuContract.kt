@@ -1,9 +1,11 @@
 package com.omar.retromp3recorder.app.screens.main.components.menu
 
+import androidx.compose.runtime.Immutable
 import com.omar.retromp3recorder.domain.MenuEnabler
 import com.omar.retromp3recorder.domain.MenuPopup
 
 interface MenuContract {
+    @Immutable
     data class State(
         val items: List<Item> = emptyList(),
         val isVisible: Boolean = true,

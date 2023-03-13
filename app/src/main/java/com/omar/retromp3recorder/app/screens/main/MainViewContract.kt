@@ -1,10 +1,12 @@
 package com.omar.retromp3recorder.app.screens.main
 
 import android.media.projection.MediaProjection
+import androidx.compose.runtime.Immutable
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 
 object MainViewContract {
+    @Immutable
     data class State(
         val requestForPermissions: Shell<Set<String>> = Shell.empty(),
         val requestForScreenCapture: Shell<Any> = Shell.empty(),

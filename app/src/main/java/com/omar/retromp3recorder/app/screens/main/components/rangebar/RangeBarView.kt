@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.app.screens.main.components.rangebar
 
+import androidx.compose.runtime.Immutable
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.domain.FromToMillis
 import com.omar.retromp3recorder.domain.PlayerRange
@@ -12,6 +13,7 @@ object RangeBarView {
 
     sealed class State {
         object Hidden : State()
+        @Immutable
         data class Visible(
             val range: PlayerRange,
             val fromToMillis: FromToMillis,

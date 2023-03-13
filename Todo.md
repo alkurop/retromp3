@@ -15,8 +15,9 @@ V Replace search screen with jpc
 - add previews
 - reanable log view *
 - fix search screen settings checkbox *
-- fix size jumping of waveform on main view *
+- fix size jumping of waveform on main view * ( should go away after migration to compose)
 - refactor getting audio projection
 - show snackbar instead of toast
+- fix control buttons ripple
 
 * means bug
