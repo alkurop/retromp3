@@ -20,5 +20,7 @@ V refactor permissions
 - show snackbar instead of toast
 - fix control buttons ripple
 - check main screen recomposition
+- design local progress and state of track
+- add bit counter
 
 * means bug
