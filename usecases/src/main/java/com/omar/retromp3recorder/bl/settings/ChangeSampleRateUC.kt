@@ -12,7 +12,7 @@ class ChangeSampleRateUC @Inject constructor(
 ) {
     suspend fun execute(sampleRate: Mp3VoiceRecorder.SampleRate) {
         val prefs = repo.first()
-        repo.onNext(prefs.copy(sampleRate = sampleRate))
+        repo.emit(prefs.copy(sampleRate = sampleRate))
         sharedPreferences.edit()
             .putInt(SharedPrefsKeys.SAMPLE_RATE, sampleRate.ordinal)
             .apply()

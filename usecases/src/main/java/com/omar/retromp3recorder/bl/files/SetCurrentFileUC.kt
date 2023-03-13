@@ -11,7 +11,7 @@ class SetCurrentFileUC @Inject constructor(
 ) {
     fun execute(file: ExistingFileWrapper): Completable {
         return Completable.fromAction {
-            currentFileRepo.onNext(Optional(file))
+            currentFileRepo.tryNext(Optional(file))
         }
     }
 }

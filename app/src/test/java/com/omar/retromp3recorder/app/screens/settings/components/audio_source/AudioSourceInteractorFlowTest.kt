@@ -1,7 +1,7 @@
-package com.omar.retromp3recorder.app.screens.settings.components.sample_rate
+package com.omar.retromp3recorder.app.screens.settings.components.audio_source
 
 import app.cash.turbine.test
-import com.omar.retromp3recorder.bl.settings.ChangeSampleRateUC
+import com.omar.retromp3recorder.bl.settings.ChangeAudioSourceUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import io.mockk.coEvery
@@ -16,23 +16,23 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SampleRateInteractorFlowTest {
+class AudioSourceInteractorFlowTest{
     @OptIn(ExperimentalCoroutinesApi::class)
     private val dispatcher = UnconfinedTestDispatcher()
-    private val usecase = mockk<ChangeSampleRateUC>()
+    private val usecase = mockk<ChangeAudioSourceUC>()
     private lateinit var repo: RecorderPrefsRepo
-    private lateinit var interactor: SampleRateInteractorFlow
+    private lateinit var interactor: AudioSourceInteractorFlow
 
     @Before
     fun setUp() {
         repo = RecorderPrefsRepo()
         coEvery { usecase.execute(any()) } returns Unit
-        interactor = SampleRateInteractorFlow(usecase, repo, dispatcher)
+        interactor = AudioSourceInteractorFlow(usecase, repo, dispatcher)
     }
 
     @Test
     fun `on input usecase executed`() = runTest {
-        val event = Mp3VoiceRecorder.SampleRate._44100
+        val event = Mp3VoiceRecorder.AudioSourcePref.Media
 
         interactor.processIO(flowOf(event)).test {
             expectNoEvents()
@@ -43,14 +43,13 @@ class SampleRateInteractorFlowTest {
 
     @Test
     fun `repo listened`() = runTest {
-        val event = Mp3VoiceRecorder.SampleRate._11025
+        val event = Mp3VoiceRecorder.AudioSourcePref.Media
 
         val settings = Mp3VoiceRecorder.RecorderPrefs(
-            event,
+            Mp3VoiceRecorder.SampleRate._44100,
             Mp3VoiceRecorder.BitRate._128,
-            Mp3VoiceRecorder.AudioSourcePref.Mic
+            event
         )
-
         repo.emit(
             settings
         )
@@ -58,6 +57,7 @@ class SampleRateInteractorFlowTest {
         interactor.processIO(flowOf()).test {
             val item = awaitItem()
             assertEquals(event, item)
+
         }
     }
 }

@@ -17,7 +17,7 @@ class FeatureMapSaveUC @Inject constructor(
         val intermediate = features.featuresMap.toMutableMap()
         intermediate[featureFlag] = featureFlagSetting
 
-        featureFlagRepo.onNext(
+        featureFlagRepo.emit(
             FeatureFlagsCollection(
                 intermediate.toMap()
             )

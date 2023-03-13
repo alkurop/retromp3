@@ -36,7 +36,7 @@ class MicCaptureCompletableCreator @Inject constructor(
 
             .flatMapCompletable { props: Mp3VoiceRecorder.RecorderProps ->
                 Completable.fromAction {
-                    currentFileRepo.onNext(Optional(props.filepath.toFutureFileWrapper()))
+                    currentFileRepo.tryNext(Optional(props.filepath.toFutureFileWrapper()))
                     voiceRecorder.recordWithProps(props)
                 }
             }

@@ -28,7 +28,7 @@ class StopRecordUC @Inject constructor(
                     //silly way to update current file preview and show wavetable of recently
                     //recorded file
                     Completable.fromAction {
-                        currentFileRepo.onNext(currentFileWrapper)
+                        currentFileRepo.tryNext(currentFileWrapper)
                     }
                 })
         .subscribeOn(scheduler)

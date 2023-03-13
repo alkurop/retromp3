@@ -53,7 +53,7 @@ class SettingsFlowInteractorTest {
                 FeatureFlag.LogView,
                 FeatureFlagSetting(true)
             )
-        repo.onNext(FeatureFlagsCollection(mapOf(event.flag to event.setting)))
+        repo.emit(FeatureFlagsCollection(mapOf(event.flag to event.setting)))
         interactor.processIO(flowOf()).test {
             val item = awaitItem() as SettingsContract.Output.FlagsCollectionUpdate
             assertEquals(

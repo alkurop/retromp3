@@ -29,6 +29,6 @@ class DeleteCurrentFileUC @Inject constructor(
         .andThen(
             takeLastFileUC.get()
                 .flatMapCompletable {
-                    Completable.fromAction { currentFileRepo.onNext(it) }
+                    Completable.fromAction { currentFileRepo.tryNext(it) }
                 })
 }

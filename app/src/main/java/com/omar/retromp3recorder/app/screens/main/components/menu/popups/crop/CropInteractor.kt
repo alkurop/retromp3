@@ -45,8 +45,8 @@ class CropInteractor @Inject constructor(
                 },
                 nameUpdater.observe().map {
                     val nameSuggestion =
-                        it.value?.apply { canCropFileRepo.onNext(true) } ?: NewNameSuggestion()
-                    nameSuggestionRepo.onNext(nameSuggestion)
+                        it.value?.apply { canCropFileRepo.tryNext(true) } ?: NewNameSuggestion()
+                    nameSuggestionRepo.tryNext(nameSuggestion)
                     CropContract.Output.FileNameUpdate(nameSuggestion)
                 },
                 nameSuggestionRepo.observe().map {
@@ -60,7 +60,7 @@ class CropInteractor @Inject constructor(
         Completable.merge(
             listOf(
                 input.mapToUsecase<CropContract.Input.CheckCanCrop> { action ->
-                    Completable.fromAction { nameSuggestionRepo.onNext(action.nameSuggestion) }
+                    Completable.fromAction { nameSuggestionRepo.tryNext(action.nameSuggestion) }
                         .andThen(
                             canSaveAs.execute(
                                 action.nameSuggestion.path,

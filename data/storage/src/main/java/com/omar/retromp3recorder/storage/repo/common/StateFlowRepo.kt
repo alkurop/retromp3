@@ -21,9 +21,15 @@ open class StateFlowRepo<T : Any>(default: T? = null) {
         }
     }
 
-    open fun onNext(next: T) {
+    open fun tryNext(next: T) {
         flow.tryEmit(next)
     }
+
+    suspend fun emit(next: T){
+        flow.emit(next)
+    }
+
+
 
     @Deprecated(
         level = DeprecationLevel.WARNING,

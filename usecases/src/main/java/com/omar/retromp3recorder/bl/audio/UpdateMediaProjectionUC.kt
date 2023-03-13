@@ -12,7 +12,7 @@ class UpdateMediaProjectionUC @Inject constructor(
     private val startRecordUC: StartRecordUC
 ) {
     fun execute(mediaProjection: MediaProjection?): Completable = Completable.fromAction {
-        mediaProjectionRepo.onNext(
+        mediaProjectionRepo.tryNext(
             com.omar.retromp3recorder.domain.platform.MediaProjectionState(
                 mediaProjection = mediaProjection.toOptional(),
                 stop = if (mediaProjection == null) {

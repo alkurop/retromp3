@@ -25,7 +25,7 @@ class FeatureMapLoadUC @Inject constructor(
                     featureFlag to FeatureFlagSetting(isEnabled = isEnabled)
                 }
                 .toMap()
-            featureFlagRepo.onNext(
+            featureFlagRepo.tryNext(
                 FeatureFlagsCollection(
                     featuresMap
                 )

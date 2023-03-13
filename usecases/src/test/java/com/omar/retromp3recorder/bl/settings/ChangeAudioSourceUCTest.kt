@@ -29,7 +29,7 @@ class ChangeAudioSourceUCTest {
     @Before
     fun setUp() {
         repo =
-            RecorderPrefsRepo().apply { this.onNext(Mp3VoiceRecorder.RecorderPrefs()) }
+            RecorderPrefsRepo().apply { this.tryNext(Mp3VoiceRecorder.RecorderPrefs()) }
         useCase = ChangeAudioSourceUC(repo, sharedPreferences, serviceDealer)
 
         every { sharedPreferences.edit() } returns editor

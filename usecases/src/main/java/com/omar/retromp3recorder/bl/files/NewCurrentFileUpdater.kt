@@ -38,7 +38,7 @@ class NewCurrentFileUpdater @Inject constructor(
                 Completable
                     .fromAction {
                         playerProgressRepo.onNext(progress)
-                        rangeBarResetBus.onNext(Shell(0))
+                        rangeBarResetBus.tryNext(Shell(0))
                     }
                     .andThen(deactivatePlayerControlsUC.execute())
             }

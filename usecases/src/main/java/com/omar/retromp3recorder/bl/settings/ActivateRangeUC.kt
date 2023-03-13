@@ -12,7 +12,7 @@ class ActivateRangeUC @Inject constructor(
             .flatMapCompletable { features ->
                 Completable.fromAction {
                     val isActive = features.range.isActive.not()
-                    playerControlsRepo.onNext(
+                    playerControlsRepo.tryNext(
                         features.copy(
                             range = features.range.copy(
                                 isActive = isActive

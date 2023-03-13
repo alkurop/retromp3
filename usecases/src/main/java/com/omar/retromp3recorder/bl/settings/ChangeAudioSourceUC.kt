@@ -14,7 +14,7 @@ class ChangeAudioSourceUC @Inject constructor(
 ) {
     suspend fun execute(audioSourcePref: Mp3VoiceRecorder.AudioSourcePref) {
         val prefs = repo.first()
-        repo.onNext(prefs.copy(audioSourcePref = audioSourcePref))
+        repo.emit(prefs.copy(audioSourcePref = audioSourcePref))
         sharedPreferences.edit()
             .putInt(SharedPrefsKeys.AUDIO_SOURCE, audioSourcePref.ordinal)
             .apply()

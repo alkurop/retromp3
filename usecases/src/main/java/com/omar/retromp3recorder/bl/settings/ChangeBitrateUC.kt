@@ -13,7 +13,7 @@ class ChangeBitrateUC @Inject constructor(
 ) {
     fun execute(bitRate: Mp3VoiceRecorder.BitRate): Completable =
         repo.takeSingle().flatMapCompletable { prefs ->
-            Completable.fromAction { repo.onNext(prefs.copy(bitRate = bitRate)) }
+            Completable.fromAction { repo.tryNext(prefs.copy(bitRate = bitRate)) }
                 .andThen(Completable
                     .fromAction {
                         sharedPreferences.edit()

@@ -11,6 +11,6 @@ class CanSaveAsName @Inject constructor(
     fun execute(path: String, canRenameFileRepo: StateFlowRepo<Boolean>): Completable =
 
         Completable.fromAction {
-            canRenameFileRepo.onNext(fileRenamer.exists(path).not())
+            canRenameFileRepo.tryNext(fileRenamer.exists(path).not())
         }
 }

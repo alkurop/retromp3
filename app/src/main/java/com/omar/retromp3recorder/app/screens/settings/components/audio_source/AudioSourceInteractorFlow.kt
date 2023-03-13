@@ -15,8 +15,8 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class AudioSourceInteractorFlow @Inject constructor(
-    private val repo: RecorderPrefsRepo,
     private val changeAudioSourceUC: ChangeAudioSourceUC,
+    private val repo: RecorderPrefsRepo,
     dispatcher: CoroutineDispatcher
 ) : CoroutineScope {
     override val coroutineContext: CoroutineContext = dispatcher + Job()

@@ -39,6 +39,6 @@ class LoadRecorderSettingsUC @Inject constructor(
 
                 Mp3VoiceRecorder.RecorderPrefs(sampleRate, bitRate, audioSource)
             }
-            .flatMapCompletable { Completable.fromAction { repo.onNext(it) } }
+            .flatMapCompletable { Completable.fromAction { repo.tryNext(it) } }
             .subscribeOn(scheduler)
 }

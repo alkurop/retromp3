@@ -20,11 +20,11 @@ class CanRenameName @Inject constructor(
             .flatMapCompletable { optional ->
                 val fileWrapper = optional.value
                 Completable.fromAction {
-                    canRenameFileRepo.onNext(false to null)
+                    canRenameFileRepo.tryNext(false to null)
                     val canRename =
                         if (path.isNotEmpty() && fileWrapper != null && fileWrapper is ExistingFileWrapper)
                             fileRenamer.canRename(fileWrapper, path) else false
-                    canRenameFileRepo.onNext(canRename to path)
+                    canRenameFileRepo.tryNext(canRename to path)
                 }
             }
 }

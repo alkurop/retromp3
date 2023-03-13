@@ -15,7 +15,7 @@ class CropInPlaceUC @Inject constructor(
             .flatMapCompletable {
                 Completable.fromAction {
                     it.value?.let { file ->
-                        currentFileRepo.onNext(file.toOptional())
+                        currentFileRepo.tryNext(file.toOptional())
                     }
                 }
             }

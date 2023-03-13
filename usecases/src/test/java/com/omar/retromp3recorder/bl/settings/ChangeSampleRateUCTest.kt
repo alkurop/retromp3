@@ -24,7 +24,7 @@ class ChangeSampleRateUCTest {
     @Before
     fun setUp() {
         repo =
-            RecorderPrefsRepo().apply { this.onNext(Mp3VoiceRecorder.RecorderPrefs()) }
+            RecorderPrefsRepo().apply { this.tryNext(Mp3VoiceRecorder.RecorderPrefs()) }
         useCase = ChangeSampleRateUC(repo, sharedPreferences)
 
         every { sharedPreferences.edit() } returns editor

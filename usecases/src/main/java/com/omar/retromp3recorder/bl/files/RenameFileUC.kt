@@ -36,7 +36,7 @@ class RenameFileUC @Inject constructor(
                         )
 
                         appDatabase.fileEntityDao().updateItem(copy.toDatabaseEntity())
-                        currentFileRepo.onNext(Optional(copy))
+                        currentFileRepo.tryNext(Optional(copy))
                     }
             }
             .subscribeOn(scheduler)

@@ -17,10 +17,10 @@ class FileRepoUpdaterUC @Inject constructor(
             val currentFile = currentFileRepo.observe().blockingFirst()
             val value = currentFile.value
             if (value == null) {
-                currentFileRepo.onNext(update.last().toOptional())
+                currentFileRepo.tryNext(update.last().toOptional())
             } else {
                 update.firstOrNull { it.path ==  value.path }?.let {
-                    currentFileRepo.onNext(Optional(it))
+                    currentFileRepo.tryNext(Optional(it))
                 }
             }
         }

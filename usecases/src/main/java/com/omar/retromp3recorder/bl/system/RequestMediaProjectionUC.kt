@@ -10,7 +10,7 @@ class RequestMediaProjectionUC @Inject constructor(
     private val busMediaProjection: MediaProjectionStateRepo
 ) {
     fun execute(): Completable = Completable.fromAction {
-        busMediaProjection.onNext(
+        busMediaProjection.tryNext(
             MediaProjectionState(
                 request = Shell(0)
             )

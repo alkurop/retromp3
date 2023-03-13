@@ -13,7 +13,7 @@ class RangeEnablerUC @Inject constructor(
                 Completable.fromAction {
                     val range = it.range.copy(isVisible = isEnabled, isActive = false)
                     val updatedSettings = it.copy(range = range)
-                    playerControlsRepo.onNext(updatedSettings)
+                    playerControlsRepo.tryNext(updatedSettings)
                 }
             }
 }

@@ -11,7 +11,7 @@ class DeactivatePlayerControlsUC @Inject constructor(
     fun execute(): Completable = playerControlsRepo.takeSingle()
         .flatMapCompletable { (loop, range, reverse, speed) ->
             Completable.fromAction {
-                playerControlsRepo.onNext(
+                playerControlsRepo.tryNext(
                     PlayerControls(
                         loop.copy(isEnabled = false),
                         range.copy(isVisible = false),
