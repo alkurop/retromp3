@@ -6,8 +6,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,8 +23,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 @Composable
-fun JoinedProgressLayout(viewModel: JoinedProgressViewModel = viewModel(), modifier: Modifier) {
-    val viewState: JoinedProgressView.State by viewModel.state.subscribeAsState(initial = JoinedProgressView.State())
+fun JoinedProgressLayout(viewModel: JoinedProgressViewModelFlow = viewModel(), modifier: Modifier) {
+    val viewState: JoinedProgressView.State by viewModel.state.collectAsState()
 
     Surface(modifier = modifier) {
         when (val progress = viewState.joinedProgress) {
@@ -33,7 +33,7 @@ fun JoinedProgressLayout(viewModel: JoinedProgressViewModel = viewModel(), modif
             }
             is JoinedProgress.PlayerProgressShown -> {
                 BuildSeek(progress = progress) {
-                    viewModel.input.onNext(it)
+                    viewModel.onEvent(it)
                 }
             }
             JoinedProgress.Hidden -> {
