@@ -31,7 +31,7 @@ class SampleRateInteractorFlow @Inject constructor(
     private fun Flow<Mp3VoiceRecorder.SampleRate>.processInputs(): Flow<Mp3VoiceRecorder.SampleRate> {
         return this.transform { event ->
             launch {
-                changeSampleRateUC.execute(event).blockingAwait()
+                changeSampleRateUC.execute(event)
             }
         }
     }

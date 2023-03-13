@@ -12,11 +12,10 @@ import com.omar.retromp3recorder.app.screens.main.components.menu.views.MenuView
 import com.omar.retromp3recorder.app.screens.main.components.rangebar.RangeBarViewModel
 import com.omar.retromp3recorder.app.screens.main.components.visualizer.VisualizerViewModel
 import com.omar.retromp3recorder.app.screens.search.SelectorViewModel
-import com.omar.retromp3recorder.app.screens.settings.flow.SettingsViewModelFlow
 import com.omar.retromp3recorder.app.screens.settings.components.audio_source.AudioSourceViewModel
 import com.omar.retromp3recorder.app.screens.settings.components.beat_rate.BitRateSettingsViewModel
-import com.omar.retromp3recorder.app.screens.settings.components.sample_rate.SampleRateViewModel
 import com.omar.retromp3recorder.app.screens.settings.components.sample_rate.SampleRateViewModelFlow
+import com.omar.retromp3recorder.app.screens.settings.flow.SettingsViewModelFlow
 import com.omar.retromp3recorder.storage.StorageModule
 import com.omar.retromp3recorder.utils.domain.Track
 import dagger.Component
@@ -47,7 +46,6 @@ abstract class AppComponent {
     abstract fun inject(mediaProjectionService: MediaProjectionService)
     abstract fun inject(logViewModel: LogViewModel)
     abstract fun inject(bitRateSettingsViewModel: BitRateSettingsViewModel)
-    abstract fun inject(sampleRateViewModel: SampleRateViewModel)
     abstract fun inject(audioSourceViewModel: AudioSourceViewModel)
     abstract fun inject(settingsViewModelFlow: SettingsViewModelFlow)
     abstract fun inject(sampleRateViewModelFlow: SampleRateViewModelFlow)
