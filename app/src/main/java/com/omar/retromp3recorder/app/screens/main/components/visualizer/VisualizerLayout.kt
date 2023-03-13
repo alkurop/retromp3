@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -14,8 +14,8 @@ import com.omar.retromp3recorder.bl.audio.AudioState
 import timber.log.Timber
 
 @Composable
-fun VisualizerLayout(viewModel: VisualizerViewModel = viewModel(), modifier: Modifier) {
-    val state: VisualizerView.State by viewModel.state.subscribeAsState(VisualizerView.State())
+fun VisualizerLayout(viewModel: VisualizerViewModelFlow = viewModel(), modifier: Modifier) {
+    val state: VisualizerView.State by viewModel.state.collectAsState()
     var visualizer: Visualizer? = null
     fun stopVisualizer(){
         visualizer?.enabled = false

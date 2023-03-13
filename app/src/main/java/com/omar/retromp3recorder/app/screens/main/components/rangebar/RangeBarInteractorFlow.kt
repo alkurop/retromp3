@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
@@ -24,7 +25,7 @@ class RangeBarInteractorFlow @Inject constructor(
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge()
+        ).merge().distinctUntilChanged()
     }
 
     private fun Flow<RangeBarView.Input>.processInputs(): Flow<RangeBarView.State> {

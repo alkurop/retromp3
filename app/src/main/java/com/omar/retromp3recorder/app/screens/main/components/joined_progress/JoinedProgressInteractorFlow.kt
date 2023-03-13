@@ -8,10 +8,7 @@ import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
@@ -30,7 +27,7 @@ class JoinedProgressInteractorFlow @Inject constructor(
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge()
+        ).merge().distinctUntilChanged()
     }
 
     private fun Flow<JoinedProgressView.In>.processInputs(): Flow<JoinedProgressView.Output> {

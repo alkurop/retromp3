@@ -4,10 +4,7 @@ import com.omar.retromp3recorder.app.screens.settings.SettingsContract
 import com.omar.retromp3recorder.bl.settings.FeatureMapSaveUC
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -22,7 +19,7 @@ class SettingsFlowInteractor @Inject constructor(
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge()
+        ).merge().distinctUntilChanged()
     }
 
     private fun Flow<SettingsContract.Input>.processInputs(): Flow<SettingsContract.Output> {

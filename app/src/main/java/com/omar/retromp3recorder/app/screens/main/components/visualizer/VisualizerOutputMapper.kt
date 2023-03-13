@@ -1,17 +1,11 @@
 package com.omar.retromp3recorder.app.screens.main.components.visualizer
 
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.functions.BiFunction
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.scan
 
 object VisualizerOutputMapper {
-    internal fun mapOutputToState(): ObservableTransformer<VisualizerView.Output, VisualizerView.State> =
-        ObservableTransformer { upstream: Observable<VisualizerView.Output> ->
-            upstream.scan(defaultViewModel, mapper)
-        }
-
-    private val mapper: BiFunction<VisualizerView.State, VisualizerView.Output, VisualizerView.State> =
-        BiFunction { oldState: VisualizerView.State, result: VisualizerView.Output ->
+    fun Flow<VisualizerView.Output>.mapOutputToStateFlow(): Flow<VisualizerView.State> {
+        return this.scan(VisualizerView.State()){ oldState, result ->
             when (result) {
                 is VisualizerView.Output.AudioStateChanged -> oldState.copy(
                     audioState = result.state
@@ -21,5 +15,5 @@ object VisualizerOutputMapper {
                 )
             }
         }
-    private val defaultViewModel = VisualizerView.State()
+    }
 }
