@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -17,11 +16,11 @@ import com.omar.retromp3recorder.domain.PlayerRange
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RangeBarLayout(
-    viewModel: RangeBarViewModel = viewModel(),
+    viewModel: RangeBarViewModelFlow = viewModel(),
     modifier: Modifier
 ) {
 
-    val state by viewModel.state.subscribeAsState(initial = RangeBarView.State.Hidden)
+    val state by viewModel.state.collectAsState()
     if (state is RangeBarView.State.Visible) {
         val visibleState = state as RangeBarView.State.Visible
         val range = visibleState.range
@@ -34,7 +33,7 @@ fun RangeBarLayout(
 
         val sendRangeUpdate: (ClosedFloatingPointRange<Float>) -> Unit = {
             rangeState = it
-            viewModel.input.onNext(
+            viewModel.onEvent(
                 RangeBarView.Input.RangeSet(
                     range.copeWithUpdate(it)
                 )
@@ -63,7 +62,7 @@ fun RangeBarLayout(
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .clickable {
-                        viewModel.input.onNext(RangeBarView.Input.Enable)
+                        viewModel.onEvent(RangeBarView.Input.Enable)
                     }
                     .padding(horizontal = 8.dp)
                     .padding(bottom = 4.dp),
