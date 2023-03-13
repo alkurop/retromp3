@@ -14,7 +14,7 @@ import kotlin.coroutines.CoroutineContext
 class SettingsFlowInteractor @Inject constructor(
     private val featureMapSaveUC: FeatureMapSaveUC,
     private val featureFlagRepo: FeatureFlagRepo,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    dispatcher: CoroutineDispatcher
 ) : CoroutineScope {
     override val coroutineContext: CoroutineContext = dispatcher + Job()
 
