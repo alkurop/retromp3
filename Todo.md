@@ -19,5 +19,6 @@ V Replace search screen with jpc
 - refactor getting audio projection
 - show snackbar instead of toast
 - fix control buttons ripple
+- check main screen recomposition
 
 * means bug

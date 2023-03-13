@@ -12,10 +12,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsView
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsViewModel
 import com.omar.retromp3recorder.app.utils.TimeDisplay.toDisplayCompose
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun AudioControlsLayout(
     modifier: Modifier,
@@ -32,6 +35,13 @@ fun AudioControlsLayout(
     val sendInput: (AudioControlsView.Input) -> Unit = { viewModel.input.onNext(it) }
 
     val mapVisibility: (Boolean) -> Float = { if (it) 1f else 0f }
+
+    val permissionsState =
+        rememberPermissionState(permission = "android.permission.RECORD_AUDIO") { granted ->
+            if (granted) {
+                sendInput(AudioControlsView.Input.Record)
+            }
+        }
 
     Card(
         modifier = modifier
@@ -61,7 +71,9 @@ fun AudioControlsLayout(
                 )
                 RecordButton(
                     state = state.recordButtonState,
-                    onClick = { sendInput(AudioControlsView.Input.Record) },
+                    onClick = {
+                        permissionsState.launchPermissionRequest()
+                    },
                     Modifier.width(buttonSize)
                 )
                 StopButton(
