@@ -22,6 +22,7 @@ import com.omar.retromp3recorder.app.screens.main.components.log.LogLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuView
 import com.omar.retromp3recorder.app.screens.main.components.rangebar.RangeBarLayout
 import com.omar.retromp3recorder.app.screens.main.components.visualizer.VisualizerLayout
+import com.omar.retromp3recorder.app.utils.RequestPermissionsLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,5 +78,10 @@ fun MainLayout(
                 .height(60.dp)
                 .padding(horizontal = 8.dp)
         )
+        state.requestForPermissions.ghost?.let {
+            RequestPermissionsLayout(permissions = it.toList()) {
+                // noop here. Just wait until user does something
+            }
+        }
     }
 }

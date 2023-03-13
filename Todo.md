@@ -16,5 +16,7 @@ V Replace search screen with jpc
 - reanable log view *
 - fix search screen settings checkbox *
 - fix size jumping of waveform on main view *
+- refactor getting audio projection
+- show snackbar instead of toast
 
 * means bug

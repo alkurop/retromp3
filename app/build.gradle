@@ -53,7 +53,6 @@ dependencies {
     implementation "com.google.accompanist:accompanist-permissions:$versions.accompanist_permissions"
     implementation "com.squareup.picasso:picasso:$versions.picasso"
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
-    implementation "com.github.alkurop:Android-Runtime-Permission-Manager:$versions.permission"
 
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
 

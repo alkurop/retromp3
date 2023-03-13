@@ -1,6 +1,5 @@
 package com.omar.retromp3recorder.app
 
-import android.Manifest
 import android.content.Intent
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
@@ -13,17 +12,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.navigation.compose.rememberNavController
-import com.github.alkurop.jpermissionmanager.PermissionOptionalDetails
-import com.github.alkurop.jpermissionmanager.PermissionRequiredDetails
-import com.github.alkurop.jpermissionmanager.PermissionsManager
 import com.omar.retromp3recorder.app.nav.AppNavHost
 import com.omar.retromp3recorder.app.screens.main.MainViewContract
 import com.omar.retromp3recorder.app.screens.main.MainViewModel
 import com.omar.retromp3recorder.app.utils.observe
 
 class MainActivity : ComponentActivity() {
-    private val permissionsManager: PermissionsManager by lazy { PermissionsManager(this) }
-    private val permissionsMap = createPermissionsMap()
     private val viewModel by viewModels<MainViewModel>()
     private val mediaProjectionManager by lazy { getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
 
@@ -52,7 +46,6 @@ class MainActivity : ComponentActivity() {
             } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
-            requestForPermissions.ghost?.let { makePermissionsRequest(it) }
             requestForScreenCapture.ghost?.let { makeScreenCaptureRequest() }
         }
     }
@@ -62,41 +55,6 @@ class MainActivity : ComponentActivity() {
         startActivityForResult(
             mediaProjectionManager.createScreenCaptureIntent(),
             MEDIA_PROJECTION_REQUEST_CODE
-        )
-    }
-
-    private fun createPermissionsMap(): () -> Map<String, PermissionOptionalDetails> = {
-        listOf(
-            Pair(
-                Manifest.permission.RECORD_AUDIO,
-                PermissionRequiredDetails(
-                    getString(R.string.record_permission_title),
-                    getString(R.string.record_permission_message),
-                    getString(R.string.record_required_message)
-                )
-            )
-        ).toMap()
-    }
-
-    private fun makePermissionsRequest(requestForPermissions: Set<String>) {
-        val permissionRequests = HashMap<String, PermissionOptionalDetails?>()
-        for (permissionName in requestForPermissions) {
-            permissionRequests[permissionName] = permissionsMap()[permissionName]
-        }
-        permissionsManager.addPermissions(permissionRequests)
-        permissionsManager.makePermissionRequest(true)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionsManager.onRequestPermissionsResult(
-            requestCode,
-            permissions,
-            grantResults
         )
     }
 
