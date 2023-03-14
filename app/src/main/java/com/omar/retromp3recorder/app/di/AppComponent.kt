@@ -65,6 +65,5 @@ interface TrackComponent {
     fun inject(audioControlsViewModelFlow: AudioControlsViewModelFlow)
     fun inject(joinedProgressViewModelFlow: JoinedProgressViewModelFlow)
     fun inject(rangeBarViewModelFlow: RangeBarViewModelFlow)
-    fun inject(visualizerViewModelFlow: VisualizerViewModelFlow)
     fun inject(menuViewModelFlow: MenuViewModelFlow)
 }

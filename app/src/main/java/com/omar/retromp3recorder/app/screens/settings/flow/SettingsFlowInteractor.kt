@@ -29,6 +29,7 @@ class SettingsFlowInteractor @Inject constructor(
                     launch {
                         featureMapSaveUC.execute(event.flag, event.setting)
                     }
+
             }
         }
     }
