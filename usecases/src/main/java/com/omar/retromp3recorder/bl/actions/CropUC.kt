@@ -32,20 +32,20 @@ class CropUC @Inject constructor(
         return if (cropResponse.isSuccess.not()) {
             Optional.empty()
         } else {
-            val tags = mp3TagsEditor.getTags(request.original.path)
-                .copy(title = request.newFileNameSuggestion.name)
-
-            mp3TagsEditor.setTags(request.newFileNameSuggestion.path, tags)
+            mp3TagsEditor.getTags(request.original.path)
+                ?.copy(title = request.newFileNameSuggestion.name)
+                ?.let { tags ->
+                    mp3TagsEditor.setTags(request.newFileNameSuggestion.path, tags)
+                }
 
             val discoveredFile = fileLister.discoverFile(request.newFileNameSuggestion.path)
 
             val fileWithWaveform = waveformScanner.execute(
                 discoveredFile,
-                amplitudaDealer.createAmplituda()
-            ).blockingGet()
+                amplitudaDealer
+             ).blockingGet()
 
-            val id = appDatabase.fileEntityDao()
-                .insert(fileWithWaveform.toDatabaseEntity())
+            val id = appDatabase.fileEntityDao().insert(fileWithWaveform.toDatabaseEntity())
 
             fileWithWaveform.copy(id = id).toOptional()
         }

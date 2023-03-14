@@ -4,14 +4,14 @@ import com.omar.retromp3recorder.bl.waveform.WavetableSummer.Companion.MAX_SIZE
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.Wavetable
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
+import com.omar.retromp3recorder.utils.domain.AmplitudaDealer
 import io.reactivex.rxjava3.core.Single
-import linc.com.amplituda.Amplituda
 import linc.com.amplituda.Compress
 import linc.com.amplituda.Compress.SKIP
 import javax.inject.Inject
 
 class WaveformScanner @Inject constructor() {
-    fun execute(file: ExistingFileWrapper, amplituda: Amplituda): Single<ExistingFileWrapper> {
+    fun execute(file: ExistingFileWrapper, amplitudaDealer: AmplitudaDealer): Single<ExistingFileWrapper> {
 
         return Single.create { source ->
             val lengthMillis = file.length!!
@@ -24,7 +24,7 @@ class WaveformScanner @Inject constructor() {
                     MAX_SIZE / lengthSeconds // between 100 seconds and 10000 seconds variable, max 1 sample per second, 1000 seconds
                 }
             }.toInt()
-            amplituda.processAudio(
+            amplitudaDealer.createAmplituda().processAudio(
                 file.path, Compress.withParams(
                     SKIP,
                     takesPerSecond,

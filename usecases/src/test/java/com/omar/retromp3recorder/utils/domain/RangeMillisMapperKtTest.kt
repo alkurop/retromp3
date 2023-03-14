@@ -1,9 +1,9 @@
-package com.omar.retromp3recorder.bl.crop
+package com.omar.retromp3recorder.utils.domain
 
 import org.junit.Assert.*
 import org.junit.Test
 
-class CropFileNameUpdaterTest {
+class RangeMillisMapperKtTest {
     @Test
     fun stub() = fail()
 }

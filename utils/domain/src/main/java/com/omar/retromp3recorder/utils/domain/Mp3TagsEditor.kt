@@ -46,17 +46,22 @@ class Mp3TagsEditor @Inject constructor(
         return filePath.split("/").last().split("-").last().split(".").first()
     }
 
-    fun getTags(filepath: String): RecordingTags {
+    fun getTags(filepath: String): RecordingTags? {
         val defaults = recordingTagsDefaultsProvider.provideDefaults()
         val titleFromFileName = getFilenameFromPath(filepath)
         return if (isTagsWork() && fileEmptyChecker.isFileEmpty(filepath).not()) {
-            val id3v1Tag = Mp3File(filepath).id3v1Tag ?: ID3v1Tag()
-            id3v1Tag.run {
-                RecordingTags(
-                    year = year ?: defaults.year,
-                    artist = artist ?: defaults.artist,
-                    title = title ?: titleFromFileName
-                )
+            try {
+                val id3v1Tag = Mp3File(filepath).id3v1Tag ?: ID3v1Tag()
+                id3v1Tag.run {
+                    RecordingTags(
+                        year = year ?: defaults.year,
+                        artist = artist ?: defaults.artist,
+                        title = title ?: titleFromFileName
+                    )
+                }
+            } catch (e: Throwable) {
+                Timber.e(e)
+                null
             }
         } else defaults.copy(title = titleFromFileName)
     }

@@ -25,7 +25,7 @@ class WaveformScanUpdaterUC @Inject constructor(
             waveformScanner
                 .execute(
                     existingFileWrapper,
-                    amplitudaDealer.createAmplituda()
+                    amplitudaDealer
                 )
                 .flatMapCompletable {
                     Completable.merge(

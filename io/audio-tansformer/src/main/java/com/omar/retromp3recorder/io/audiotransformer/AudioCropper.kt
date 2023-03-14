@@ -2,9 +2,8 @@ package com.omar.retromp3recorder.io.audiotransformer
 
 import com.arthenica.mobileffmpeg.Config
 import com.arthenica.mobileffmpeg.FFmpeg
-import com.omar.retromp3recorder.domain.ExistingFileWrapper
-import com.omar.retromp3recorder.domain.FromToMillis
-import com.omar.retromp3recorder.domain.NewNameSuggestion
+import com.omar.retromp3recorder.domain.CropRequest
+import com.omar.retromp3recorder.domain.CropResponse
 import javax.inject.Inject
 
 
@@ -19,12 +18,3 @@ class AudioCropper @Inject constructor() {
     }
 }
 
-data class CropRequest(
-    val range: FromToMillis,
-    val original: ExistingFileWrapper,
-    val newFileNameSuggestion: NewNameSuggestion
-)
-
-data class CropResponse(
-    val isSuccess: Boolean
-)

@@ -19,9 +19,13 @@ class RenameFileUC @Inject constructor(
         val file = currentFileRepo.first()
         val fileWrapper = (file.value!! as ExistingFileWrapper)
         val newPath = fileRenamer.renameFile(fileWrapper, newFileName)
-        val tags = mp3TagsEditor.getTags(newPath)
-            .copy(title = mp3TagsEditor.getFilenameFromPath(newFileName))
-        mp3TagsEditor.setTags(newPath, tags)
+
+        mp3TagsEditor.getTags(newPath)
+            ?.copy(title = mp3TagsEditor.getFilenameFromPath(newFileName))
+            ?.let { tags ->
+                mp3TagsEditor.setTags(newPath, tags)
+            }
+
         val copy = fileWrapper.copy(
             path = newPath,
             modifiedTimestamp = System.currentTimeMillis()
