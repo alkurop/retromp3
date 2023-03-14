@@ -1,7 +1,49 @@
 package com.omar.retromp3recorder.bl.crop
 
+import com.omar.retromp3recorder.bl.actions.CropUC
+import com.omar.retromp3recorder.data.mock.MockFileFactory
+import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.utils.platform.Optional
+import com.omar.retromp3recorder.utils.platform.toOptional
+import io.mockk.coEvery
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 
-class CropInPlaceUCTest{@Test
-fun stub()= fail() }
+@OptIn(ExperimentalCoroutinesApi::class)
+class CropInPlaceUCTest {
+    private lateinit var currentFileRepo: CurrentFileRepo
+    private val cropOutsideUC = mockk<CropUC>()
+    private lateinit var tested: CropInPlaceUC
+
+    private val suggestion = MockSuggestionFactory.giveTestSuggestion()
+
+    @Before
+    fun setUp() {
+        currentFileRepo = CurrentFileRepo()
+        tested = CropInPlaceUC(cropOutsideUC, currentFileRepo)
+    }
+
+    @Test
+    fun `when crop outside failed THEN crop repo NOT updated`() = runTest {
+        coEvery { cropOutsideUC.execute(any()) } returns Optional.empty()
+        tested.execute(suggestion)
+
+        assertNull(currentFileRepo.first().value)
+    }
+
+    @Test
+    fun `when crop outside success THEN crop repo IS updated`() = runTest {
+        val file = MockFileFactory.giveFile()
+
+        coEvery { cropOutsideUC.execute(any()) } returns file.toOptional()
+        tested.execute(suggestion)
+
+        val result = currentFileRepo.first().value
+        assertEquals(file, result)
+    }
+}
