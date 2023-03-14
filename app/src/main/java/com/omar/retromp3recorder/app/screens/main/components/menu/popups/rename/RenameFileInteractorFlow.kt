@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.app.screens.main.components.menu.popups.rename
 
-import com.omar.retromp3recorder.bl.files.CanRenameName
+import com.omar.retromp3recorder.bl.files.CanRenameNameUC
 import com.omar.retromp3recorder.bl.files.RenameFileUC
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
@@ -13,7 +13,7 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class RenameFileInteractorFlow @Inject constructor(
-    private val canRenameNameUC: CanRenameName,
+    private val canRenameNameUC: CanRenameNameUC,
     private val currentFileRepo: CurrentFileRepo,
     private val renameFileUC: RenameFileUC,
     dispatcher: CoroutineDispatcher

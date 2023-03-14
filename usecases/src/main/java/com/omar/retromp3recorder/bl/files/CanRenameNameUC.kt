@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.FileRenamer
 import javax.inject.Inject
 
-class CanRenameName @Inject constructor(
+class CanRenameNameUC @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
     private val fileRenamer: FileRenamer
 ) {
