@@ -14,9 +14,8 @@ class RangeBarStateMapperFlow @Inject constructor(
     private val joinedProgressRepo: JoinedProgressMapper,
     private val playerControlsRepo: PlayerControlsRepo,
     private val rangeBarResetBus: RangeBarResetBus,
-
-    ) {
-    fun observe(): Flow<RangeBarView.State> {
+) {
+    fun flow(): Flow<RangeBarView.State> {
         return combine(
             joinedProgressRepo.observe().asFlow(),
             playerControlsRepo.flow(),

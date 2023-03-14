@@ -45,6 +45,6 @@ class RangeBarInteractorFlow @Inject constructor(
 
 
     private fun listenToRepos(): Flow<RangeBarView.State> {
-        return rangeStateMapper.observe()
+        return rangeStateMapper.flow()
     }
 }
