@@ -21,7 +21,6 @@ class CropFileNameUpdater @Inject constructor(
                         .execute(fileWrapper.path)
                         .map { suggestedName -> suggestedName.toOptional() }.blockingGet()
                 } ?: Optional.empty()
-
             }
     }
 }
