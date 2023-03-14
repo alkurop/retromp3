@@ -16,6 +16,7 @@ dependencies {
 
     implementation project(':utils:platform')
     implementation project(':utils:domain')
+    testImplementation project(':data:mock')
 
     implementation project(':domain:platform')
     implementation project(':io:mp3recorder')
