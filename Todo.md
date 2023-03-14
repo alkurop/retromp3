@@ -1,3 +1,6 @@
+## TODO's ##
+In order of appearance
+
 - V Replace search screen with jpc
 - V cleanup dependency
 - V refactor permissions
@@ -13,7 +16,7 @@
 - refactor search ui
 - order strings
 - add previews
-- reanable log view *
+- re-enable log view *
 - V fix search screen settings checkbox *
 - fix size jumping of waveform on main view * ( should go away after migration to compose)
 - refactor getting audio projection
@@ -40,7 +43,7 @@
 - move open file to tool bar
 - fix circle ci
 - cleanup and refactor search paging, cover with tests. Filtering should happen on data side, not on view
-
+- for popups move dismiss state to composable
 
 
 * means bug

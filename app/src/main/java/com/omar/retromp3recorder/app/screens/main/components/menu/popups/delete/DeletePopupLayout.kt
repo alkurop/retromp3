@@ -3,8 +3,8 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.popups.delete
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.R
@@ -13,8 +13,8 @@ import com.omar.retromp3recorder.app.screens.main.components.menu.views.PopupCom
 import com.omar.retromp3recorder.app.utils.toFileName
 
 @Composable
-fun DeletePopupLayout(viewModel: DeleteFileViewModel = viewModel(), onDismiss: () -> Unit) {
-    val state by viewModel.state.subscribeAsState(initial = DeleteFileContract.State())
+fun DeletePopupLayout(viewModel: DeleteFileViewModelFlow = viewModel(), onDismiss: () -> Unit) {
+    val state by viewModel.state.collectAsState()
     if (state.shouldDismiss) {
         SideEffect {
             onDismiss.invoke()
@@ -29,7 +29,7 @@ fun DeletePopupLayout(viewModel: DeleteFileViewModel = viewModel(), onDismiss: (
         buttonList = listOf(
             PopupButtonData(isEnabled = true,
                 text = stringResource(id = R.string.yes),
-                onClick = { viewModel.input.onNext(DeleteFileContract.Input.DeleteFile) }),
+                onClick = { viewModel.emit(DeleteFileContract.Input.DeleteFile) }),
         )
     )
 }
