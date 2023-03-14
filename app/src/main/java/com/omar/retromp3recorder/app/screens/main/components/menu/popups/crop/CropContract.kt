@@ -1,9 +1,8 @@
 package com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop
 
 import com.omar.retromp3recorder.domain.NewNameSuggestion
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.functions.BiFunction
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.scan
 
 class CropContract {
     sealed class Input {
@@ -26,18 +25,14 @@ class CropContract {
 }
 
 object CropMapper {
-    fun mapState(): ObservableTransformer<CropContract.Output, CropContract.State> =
-        ObservableTransformer { upstream: Observable<CropContract.Output> ->
-            upstream.scan(CropContract.State(), getMapper())
-        }
-
-    private fun getMapper(): BiFunction<CropContract.State, CropContract.Output, CropContract.State> =
-        BiFunction { oldState, output ->
+    fun Flow<CropContract.Output>.mapToState(): Flow<CropContract.State> {
+        return this.scan(CropContract.State()) { oldState, output ->
             when (output) {
                 is CropContract.Output.IsActionEnabled -> oldState.copy(isOkEnabled = output.isEnabled)
                 is CropContract.Output.Dismiss -> oldState.copy(dismiss = true)
                 is CropContract.Output.FileNameUpdate -> oldState.copy(nameSuggestion = output.nameSuggestion)
             }
         }
+    }
 }
 

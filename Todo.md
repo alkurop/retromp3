@@ -46,6 +46,7 @@ In order of appearance
 - for popups move dismiss state to composable
 - rename popup remove name state from interactor, retain name in composable
 - add coroutines to database
+- cleanup toast repo
 
 * means bug
 V means completed
