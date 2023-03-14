@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.bl.actions.CropUC
 import com.omar.retromp3recorder.bl.crop.CropFileNameUpdater
 import com.omar.retromp3recorder.bl.crop.CropInPlaceUC
-import com.omar.retromp3recorder.bl.files.CanSaveAsName
+import com.omar.retromp3recorder.bl.files.CanSaveAsNameUC
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.storage.repo.common.StateFlowRepo
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
@@ -18,7 +18,7 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class CropInteractorFlow @Inject constructor(
-    private val canSaveAs: CanSaveAsName,
+    private val canSaveAs: CanSaveAsNameUC,
     private val cropInPlaceUC: CropInPlaceUC,
     private val cropOutsideUC: CropUC,
     private val nameUpdater: CropFileNameUpdater,
