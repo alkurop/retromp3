@@ -28,6 +28,17 @@
 - V merge view model and interactor, by introducing a base vm class
 - merge all interactors with view models
 - do we still need RangeBarResetBus? If it is removed, will there be bugs? *
-
+- convert player and recorder to flow
+- properly manual tests before releasing
+- cover buttons with ui automation
+- check low storage
+- zoom in waveform mode
+- add mp3 tags to a cropped file
+- add search
+- V reassamble delete rename popups in JPC, add to menu
+- add settings to bottom menu
+- move open file to tool bar
+- fix circle ci
+- 
 * means bug
-* V means completed
+V means completed
