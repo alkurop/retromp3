@@ -39,6 +39,9 @@
 - add settings to bottom menu
 - move open file to tool bar
 - fix circle ci
-- cleanup and refactor search paging, cover with tests
+- cleanup and refactor search paging, cover with tests. Filtering should happen on data side, not on view
+
+
+
 * means bug
 V means completed

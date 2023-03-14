@@ -2,8 +2,8 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.popups.rename
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.R
@@ -14,14 +14,14 @@ import com.omar.retromp3recorder.app.utils.toFileName
 
 @Composable
 fun RenamePopupLayout(
-    viewModel: RenameFileViewModel = viewModel(),
+    viewModel: RenameFileViewModelFlow = viewModel(),
     onDismiss: () -> Unit
 ) {
-    val state by viewModel.state.subscribeAsState(initial = RenameFileContract.State())
+    val state by viewModel.state.collectAsState(initial = RenameFileContract.State())
     val name =
         state.fileWrapper?.path?.toFileName() ?: ""
     val onValueChanged: (String) -> Unit = {
-        viewModel.input.onNext(RenameFileContract.Input.CheckCanRename(newName = it))
+        viewModel.onEvent(RenameFileContract.Input.CheckCanRename(newName = it))
     }
     if (state.dismiss) {
         SideEffect {
@@ -41,7 +41,7 @@ fun RenamePopupLayout(
             PopupButtonData(isEnabled = state.isOkButtonEnabled,
                 text = stringResource(id = R.string.yes),
                 onClick = {
-                    viewModel.input.onNext(
+                    viewModel.onEvent(
                         RenameFileContract.Input.Rename(
                             newName = state.newName!!
                         )

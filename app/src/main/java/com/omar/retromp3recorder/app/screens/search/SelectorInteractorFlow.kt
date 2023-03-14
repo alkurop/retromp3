@@ -32,7 +32,7 @@ class SelectorInteractorFlow @Inject constructor(
             launch {
                 when (event) {
                     is SelectorContract.Input.ItemSelected -> {
-                        setCurrentFileUC.execute(event.item).blockingAwait()
+                        setCurrentFileUC.execute(event.item)
                     }
                 }
             }

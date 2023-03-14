@@ -1,9 +1,8 @@
 package com.omar.retromp3recorder.app.screens.main.components.menu.popups.rename
 
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.functions.BiFunction
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.scan
 
 object RenameFileContract {
     data class State(
@@ -26,16 +25,8 @@ object RenameFileContract {
 }
 
 object RenameFileOutputMapper {
-    fun mapOutputToState(): ObservableTransformer<RenameFileContract.Output, RenameFileContract.State> =
-        ObservableTransformer { upstream: Observable<RenameFileContract.Output> ->
-            upstream.scan(
-                RenameFileContract.State(),
-                getMapper()
-            )
-        }
-
-    private fun getMapper(): BiFunction<RenameFileContract.State, RenameFileContract.Output, RenameFileContract.State> =
-        BiFunction { oldState: RenameFileContract.State, output: RenameFileContract.Output ->
+    fun Flow<RenameFileContract.Output>.mapToState(): Flow<RenameFileContract.State> {
+        return this.scan(RenameFileContract.State()) { oldState, output ->
             when (output) {
                 is RenameFileContract.Output.OkButtonState -> oldState.copy(
                     isOkButtonEnabled = output.isEnabled,
@@ -45,4 +36,5 @@ object RenameFileOutputMapper {
                 is RenameFileContract.Output.Dismiss -> oldState.copy(dismiss = true)
             }
         }
+    }
 }
