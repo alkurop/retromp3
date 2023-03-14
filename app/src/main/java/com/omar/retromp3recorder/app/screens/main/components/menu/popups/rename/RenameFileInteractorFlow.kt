@@ -3,9 +3,7 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.popups.rename
 import com.omar.retromp3recorder.bl.files.CanRenameName
 import com.omar.retromp3recorder.bl.files.RenameFileUC
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
-import com.omar.retromp3recorder.storage.repo.common.StateFlowRepo
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -22,9 +20,8 @@ class RenameFileInteractorFlow @Inject constructor(
     private val renameFileUC: RenameFileUC,
     dispatcher: CoroutineDispatcher
 ) : CoroutineScope {
-    override val coroutineContext: CoroutineContext = SupervisorJob() + dispatcher
 
-    private val canRenameFileRepo = StateFlowRepo(Pair<Boolean, String?>(false, null))
+    override val coroutineContext: CoroutineContext = SupervisorJob() + dispatcher
     private val shouldDismiss = PublishSubject.create<Boolean>()
 
     fun processIO(upstream: Flow<RenameFileContract.Input>): Flow<RenameFileContract.Output> {
@@ -39,16 +36,15 @@ class RenameFileInteractorFlow @Inject constructor(
         return this.transform { input ->
             launch {
                 when (input) {
-                    is RenameFileContract.Input.Rename ->{
-                        renameFileUC.execute(input.newName).andThen(Completable.fromAction {
-                            shouldDismiss.onNext(true)
-                        }).blockingAwait()
+                    is RenameFileContract.Input.Rename -> {
+                        renameFileUC.execute(input.newName)
+                        shouldDismiss.onNext(true)
                     }
-                    is RenameFileContract.Input.CheckCanRename-> {
-                        canRenameNameUC.execute(
+                    is RenameFileContract.Input.CheckCanRename -> {
+                        val canRename = canRenameNameUC.execute(
                             input.newName,
-                            canRenameFileRepo = canRenameFileRepo
-                        ).blockingAwait()
+                        )
+                        emit(RenameFileContract.Output.OkButtonState(canRename, input.newName))
                     }
                 }
             }
@@ -60,8 +56,6 @@ class RenameFileInteractorFlow @Inject constructor(
             shouldDismiss.asFlow().map { RenameFileContract.Output.Dismiss },
             currentFileRepo.flow()
                 .map { RenameFileContract.Output.CurrentFile(it.value as ExistingFileWrapper) },
-            canRenameFileRepo.flow()
-                .map { RenameFileContract.Output.OkButtonState(it.first, it.second) },
         ).merge()
     }
 }

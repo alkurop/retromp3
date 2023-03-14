@@ -44,7 +44,9 @@ In order of appearance
 - fix circle ci
 - cleanup and refactor search paging, cover with tests. Filtering should happen on data side, not on view
 - for popups move dismiss state to composable
-
+- rename popup remove name state from interactor, retain name in composable
+- add coroutines to database
 
 * means bug
 V means completed
+X means can't be done (please provide explanation)
