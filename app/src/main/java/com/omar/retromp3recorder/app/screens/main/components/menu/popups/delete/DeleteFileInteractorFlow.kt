@@ -32,7 +32,7 @@ class DeleteFileInteractorFlow @Inject constructor(
             launch {
                 when (input) {
                     is DeleteFileContract.Input.DeleteFile -> {
-                        deleteCurrentFileUC.execute().blockingAwait()
+                        deleteCurrentFileUC.execute()
                         shouldDismiss.emit(false)
                     }
                 }
