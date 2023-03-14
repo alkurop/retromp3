@@ -38,7 +38,7 @@ class CropInPlaceUCTest {
 
     @Test
     fun `when crop outside success THEN crop repo IS updated`() = runTest {
-        val file = MockFileFactory.giveFile()
+        val file = MockFileFactory.giveExistingFile()
 
         coEvery { cropOutsideUC.execute(any()) } returns file.toOptional()
         tested.execute(suggestion)

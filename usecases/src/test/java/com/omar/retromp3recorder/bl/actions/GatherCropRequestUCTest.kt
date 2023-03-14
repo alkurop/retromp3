@@ -49,7 +49,7 @@ class GatherCropRequestUCTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `WHEN player NOT in progress THEN crash`() = runTest {
-        currentFileRepo.emit(MockFileFactory.giveFile().toOptional())
+        currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
         every { joinedProgress.observe() } returns Observable.just(
             JoinedProgress.Intermediate
         )
@@ -60,7 +60,7 @@ class GatherCropRequestUCTest {
     fun `WHEN has file and has player progress THEN happy path`() = runTest {
         val progress = MockPlayerProgressFactory.givePlayerProgress()
 
-        currentFileRepo.emit(MockFileFactory.giveFile().toOptional())
+        currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
         every { joinedProgress.observe() } returns Observable.just(
             JoinedProgress.PlayerProgressShown(progress, null)
         )

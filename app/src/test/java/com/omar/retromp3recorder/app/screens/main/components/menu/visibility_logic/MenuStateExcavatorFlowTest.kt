@@ -111,7 +111,7 @@ class MenuStateExcavatorFlowTest {
 
     @Test
     fun `WHEN has file THEN Search popup enabled`() = runTest {
-        currentFileRepo.emit(MockFileFactory.giveFile().toOptional())
+        currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
         every { audioStateMapper.observe() } returns Observable.just(AudioState.Idle)
         tested.flow().test {
             val item = awaitItem()

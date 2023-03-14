@@ -59,7 +59,7 @@ class JoinedProgressInteractorFlowTest {
 
     @Test
     fun `listen joined currentFileRepo default event`() = runTest {
-        val fileWrapper = MockFileFactory.giveFile()
+        val fileWrapper = MockFileFactory.giveExistingFile()
         currentFileRepo.emit(Optional(fileWrapper))
         tested.processIO(flowOf()).test {
             val output = awaitItem() as JoinedProgressView.Output.CurrentFileChanged

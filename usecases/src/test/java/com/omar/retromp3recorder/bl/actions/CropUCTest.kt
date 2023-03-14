@@ -32,7 +32,7 @@ class CropUCTest {
     private val appDatabase = mockk<AppDatabase>()
     private val dao = mockk<FileDbEntityDao>(relaxed = true)
 
-    private val mockFile = MockFileFactory.giveFile()
+    private val mockFile = MockFileFactory.giveExistingFile()
     private val mockTags = MockTagsFactory.giveTags()
     private val mockCropRequest = MockCropRequestFactory.giveCropRequest()
     private val mockSuggestion = MockSuggestionFactory.giveTestSuggestion()

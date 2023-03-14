@@ -40,7 +40,7 @@ class CropFileNameUpdaterTest {
         val suggestion = MockSuggestionFactory.giveTestSuggestion()
 
         every { cropGeneratorUC.execute(any()) } returns Single.just(suggestion)
-        currentFileRepo.emit(MockFileFactory.giveFile().toOptional())
+        currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
 
         tested.flow().test {
             val item = awaitItem()

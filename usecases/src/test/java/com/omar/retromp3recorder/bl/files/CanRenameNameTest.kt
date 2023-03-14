@@ -44,7 +44,7 @@ class CanRenameNameTest {
 
     @Test
     fun `WHEN file renamer return False then can rename false`() = runTest {
-        currentFileRepo.emit(MockFileFactory.giveFile().toOptional())
+        currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
 
         every { fileRenamer.canRename(any(), any()) } returns false
 
@@ -53,7 +53,7 @@ class CanRenameNameTest {
 
     @Test
     fun `WHEN file renamer return true then can rename true`() = runTest {
-        currentFileRepo.emit(MockFileFactory.giveFile().toOptional())
+        currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
 
         every { fileRenamer.canRename(any(), any()) } returns true
 

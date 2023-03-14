@@ -1,10 +1,11 @@
 package com.omar.retromp3recorder.data.mock
 
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
+import com.omar.retromp3recorder.domain.FutureFileWrapper
 import java.util.Random
 
 object MockFileFactory {
-    fun giveFile(): ExistingFileWrapper {
+    fun giveExistingFile(): ExistingFileWrapper {
         val id = Random().nextLong()
         return ExistingFileWrapper(
             id = id,
@@ -14,6 +15,11 @@ object MockFileFactory {
             wavetable = null,
             length = id
         )
+    }
+
+    fun giveFutureFile(): FutureFileWrapper {
+        val id = Random().nextLong()
+        return FutureFileWrapper(path = "$id.path")
     }
 
 }

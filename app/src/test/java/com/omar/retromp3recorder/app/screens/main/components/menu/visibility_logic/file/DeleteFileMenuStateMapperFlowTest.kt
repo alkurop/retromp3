@@ -31,7 +31,7 @@ class DeleteFileMenuStateMapperFlowTest {
 
     @Test
     fun `WHEN audio state idle and has current file Then enabled`() = runTest {
-        repo.emit(Optional(MockFileFactory.giveFile()))
+        repo.emit(Optional(MockFileFactory.giveExistingFile()))
         every { audioStateMapper.observe() } returns Observable.just(AudioState.Idle)
 
         tested.flow().test {
@@ -56,7 +56,7 @@ class DeleteFileMenuStateMapperFlowTest {
 
     @Test
     fun `WHEN audio state Playing THEN file Then disabled`() = runTest {
-        repo.emit(Optional(MockFileFactory.giveFile()))
+        repo.emit(Optional(MockFileFactory.giveExistingFile()))
         every { audioStateMapper.observe() } returns Observable.just(AudioState.Playing)
 
         tested.flow().test {
@@ -67,7 +67,7 @@ class DeleteFileMenuStateMapperFlowTest {
 
     @Test
     fun `WHEN audio state Seek_Paused THEN file Then disabled`() = runTest {
-        repo.emit(Optional(MockFileFactory.giveFile()))
+        repo.emit(Optional(MockFileFactory.giveExistingFile()))
         every { audioStateMapper.observe() } returns Observable.just(AudioState.Seek_Paused)
 
         tested.flow().test {
@@ -78,7 +78,7 @@ class DeleteFileMenuStateMapperFlowTest {
 
     @Test
     fun `WHEN audio state Recording THEN file Then disabled`() = runTest {
-        repo.emit(Optional(MockFileFactory.giveFile()))
+        repo.emit(Optional(MockFileFactory.giveExistingFile()))
         every { audioStateMapper.observe() } returns Observable.just(AudioState.Recording)
 
         tested.flow().test {

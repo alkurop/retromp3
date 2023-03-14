@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.domain.FromToMillis
 object MockCropRequestFactory {
     fun giveCropRequest() = CropRequest(
         range = FromToMillis(10, 20),
-        original = MockFileFactory.giveFile(),
+        original = MockFileFactory.giveExistingFile(),
         newFileNameSuggestion = MockSuggestionFactory.giveTestSuggestion()
     )
 }
