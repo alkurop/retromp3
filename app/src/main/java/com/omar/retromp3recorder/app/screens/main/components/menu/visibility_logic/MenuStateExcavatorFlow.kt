@@ -12,10 +12,7 @@ import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
 import com.omar.retromp3recorder.utils.platform.Optional
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
@@ -28,14 +25,16 @@ class MenuStateExcavatorFlow @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     fun flow(): Flow<MenuContract.State> {
         return combine(
-            currentFileRepo.flow().flatMapLatest { file ->
-                combine(
-                    listOf(
-                        playerControlsRepo.flow().toMenuItems(file),
-                        fileActionsStateMapper.flow()
-                    )
-                ) { it.toList().flatten()  }
-            },
+            currentFileRepo
+                .flow()
+                .flatMapLatest { file ->
+                    combine(
+                        listOf(
+                            playerControlsRepo.flow().toMenuItems(file),
+                            fileActionsStateMapper.flow()
+                        )
+                    ) { it.toList().flatten() }
+                },
             audioStateMapper.observe().asFlow()
         ) { menu, audioState ->
             MenuContract.State(
@@ -51,11 +50,11 @@ private fun Flow<PlayerControls>.toMenuItems(file: Optional<out FileWrapper>): F
         listOfNotNull(
             MenuContract.Item.Enable(
                 VisibilityEnabler.RangeBar,
-                range.isVisible
+                isEnabled = range.isVisible
             ),
             MenuContract.Item.Popup(
                 MenuPopup.Crop,
-                range.isVisible
+                isEnabled = range.isVisible
             ),
             MenuContract.Item.Popup(
                 MenuPopup.Search,

@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.bl.audio.AudioSeekFinishUC
 import com.omar.retromp3recorder.bl.audio.AudioSeekPauseUC
 import com.omar.retromp3recorder.bl.audio.AudioSeekProgressUC
 import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
-import com.omar.retromp3recorder.data.mock.MockExistingFileFactory
+import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.platform.Optional
@@ -59,7 +59,7 @@ class JoinedProgressInteractorFlowTest {
 
     @Test
     fun `listen joined currentFileRepo default event`() = runTest {
-        val fileWrapper = MockExistingFileFactory.giveFile()
+        val fileWrapper = MockFileFactory.giveFile()
         currentFileRepo.emit(Optional(fileWrapper))
         tested.processIO(flowOf()).test {
             val output = awaitItem() as JoinedProgressView.Output.CurrentFileChanged

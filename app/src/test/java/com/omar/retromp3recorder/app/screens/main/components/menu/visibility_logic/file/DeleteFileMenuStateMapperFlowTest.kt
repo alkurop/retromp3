@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
 import com.omar.retromp3recorder.bl.audio.AudioState
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper
-import com.omar.retromp3recorder.data.mock.MockExistingFileFactory
+import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.platform.Optional
@@ -31,7 +31,7 @@ class DeleteFileMenuStateMapperFlowTest {
 
     @Test
     fun `WHEN audio state idle and has current file Then enabled`() = runTest {
-        repo.emit(Optional(MockExistingFileFactory.giveFile()))
+        repo.emit(Optional(MockFileFactory.giveFile()))
         every { audioStateMapper.observe() } returns Observable.just(AudioState.Idle)
 
         tested.flow().test {
@@ -56,7 +56,7 @@ class DeleteFileMenuStateMapperFlowTest {
 
     @Test
     fun `WHEN audio state Playing THEN file Then disabled`() = runTest {
-        repo.emit(Optional(MockExistingFileFactory.giveFile()))
+        repo.emit(Optional(MockFileFactory.giveFile()))
         every { audioStateMapper.observe() } returns Observable.just(AudioState.Playing)
 
         tested.flow().test {
@@ -67,7 +67,7 @@ class DeleteFileMenuStateMapperFlowTest {
 
     @Test
     fun `WHEN audio state Seek_Paused THEN file Then disabled`() = runTest {
-        repo.emit(Optional(MockExistingFileFactory.giveFile()))
+        repo.emit(Optional(MockFileFactory.giveFile()))
         every { audioStateMapper.observe() } returns Observable.just(AudioState.Seek_Paused)
 
         tested.flow().test {
@@ -78,7 +78,7 @@ class DeleteFileMenuStateMapperFlowTest {
 
     @Test
     fun `WHEN audio state Recording THEN file Then disabled`() = runTest {
-        repo.emit(Optional(MockExistingFileFactory.giveFile()))
+        repo.emit(Optional(MockFileFactory.giveFile()))
         every { audioStateMapper.observe() } returns Observable.just(AudioState.Recording)
 
         tested.flow().test {
