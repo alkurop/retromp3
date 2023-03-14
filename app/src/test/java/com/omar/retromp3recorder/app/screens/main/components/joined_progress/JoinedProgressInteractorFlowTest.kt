@@ -23,7 +23,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class JoinedProgressInteractorFlowTest {
-    private val currentFileRepo = CurrentFileRepo()
+    private lateinit var currentFileRepo: CurrentFileRepo
     private val audioSeekProgressUC = mockk<AudioSeekProgressUC>(relaxed = true)
     private val audioSeekPauseUC = mockk<AudioSeekPauseUC>(relaxed = true)
     private val audioSeekFinishUC = mockk<AudioSeekFinishUC>(relaxed = true)
@@ -33,6 +33,7 @@ class JoinedProgressInteractorFlowTest {
 
     @Before
     fun setUp() {
+        currentFileRepo = CurrentFileRepo()
         tested = JoinedProgressInteractorFlow(
             currentFileRepo,
             audioSeekProgressUC,

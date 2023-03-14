@@ -13,7 +13,8 @@ import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
 class RenameFileMenuStateMapperFlow @Inject constructor(
-    private val audioStateMapper: AudioStateMapper, private val currentFileRepo: CurrentFileRepo
+    private val audioStateMapper: AudioStateMapper,
+    private val currentFileRepo: CurrentFileRepo
 ) : MenuVisibilityMapperFlow {
     override fun flow(): Flow<List<MenuContract.Item>> {
         return combine(
