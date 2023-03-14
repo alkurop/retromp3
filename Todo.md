@@ -47,6 +47,7 @@ In order of appearance
 - rename popup remove name state from interactor, retain name in composable
 - add coroutines to database
 - cleanup toast repo
+- Crop interactor - fix unclear flow with canCropFileRepo flow
 
 * means bug
 V means completed

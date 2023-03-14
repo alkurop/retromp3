@@ -14,7 +14,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -44,17 +43,15 @@ class CropInteractorFlow @Inject constructor(
                 when (input) {
                     is CropContract.Input.CheckCanCrop -> {
                         nameSuggestionRepo.emit(input.nameSuggestion)
-                        canSaveAs.execute(
-                            input.nameSuggestion.path,
-                            canCropFileRepo
-                        ).blockingAwait()
+                        val canRename = canSaveAs.execute(input.nameSuggestion.path)
+                        emit(CropContract.Output.IsActionEnabled(canRename))
                     }
                     is CropContract.Input.CropInPlace -> {
-                        cropInPlaceUC.execute(input.nameSuggestion).blockingAwait()
+                        cropInPlaceUC.execute(input.nameSuggestion)
                         dismissBus.emit(true)
                     }
                     is CropContract.Input.CropOutside -> {
-                        val result = cropOutsideUC.execute(input.nameSuggestion).blockingGet()
+                        val result = cropOutsideUC.execute(input.nameSuggestion)
                         val toast =
                             if (result.value == null) Stringer(R.string.toast_crop_failed) else {
                                 Stringer(R.string.toast_crop_success)
@@ -73,7 +70,7 @@ class CropInteractorFlow @Inject constructor(
             canCropFileRepo.flow().map {
                 CropContract.Output.IsActionEnabled(it)
             },
-            nameUpdater.observe().asFlow().map {
+            nameUpdater.flow().map {
                 val nameSuggestion =
                     it.value?.apply { canCropFileRepo.tryNext(true) } ?: NewNameSuggestion()
                 nameSuggestionRepo.tryNext(nameSuggestion)
