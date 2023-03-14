@@ -14,19 +14,20 @@
 - order strings
 - add previews
 - reanable log view *
-- fix search screen settings checkbox *
+- V fix search screen settings checkbox *
 - fix size jumping of waveform on main view * ( should go away after migration to compose)
 - refactor getting audio projection
 - show snackbar instead of toast
-- fix control buttons ripple
+- fix control buttons ripple *
 - check main screen recomposition
 - design local progress and state of track
 - add bit counter
-- figure out why need range bar reset
 - cleanup circleci script
 - what happens when app is killed by the system (Don't keep activity) in different screens? Is there a need to save state somewhere?
 - add slider to settings instead of switch (like in one fit app)
-- merge view model and interactor, by introducing a base vm class
+- V merge view model and interactor, by introducing a base vm class
+- merge all interactors with view models
+- do we still need RangeBarResetBus? If it is removed, will there be bugs? *
 
 * means bug
 * V means completed
