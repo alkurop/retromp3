@@ -15,7 +15,7 @@ import kotlin.coroutines.CoroutineContext
 
 class MenuInteractorFlow @Inject constructor(
     private val menuStateExcavator: MenuStateExcavatorFlow,
-    private val eneblersSwitcher: EnablersSwitcher,
+    private val enablersSwitcher: EnablersSwitcher,
     dispatcher: CoroutineDispatcher,
 ) : CoroutineScope {
     override val coroutineContext: CoroutineContext = dispatcher + Job()
@@ -33,7 +33,7 @@ class MenuInteractorFlow @Inject constructor(
             launch {
                 when (input) {
                     is MenuContract.Input.Enable -> {
-                        eneblersSwitcher.execute(input.enabler, input.isEnabled).blockingAwait()
+                        enablersSwitcher.execute(input.enabler, input.isEnabled).blockingAwait()
                     }
                 }
             }
