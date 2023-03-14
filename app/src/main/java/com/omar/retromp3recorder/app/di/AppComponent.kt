@@ -10,8 +10,7 @@ import com.omar.retromp3recorder.app.screens.main.components.menu.popups.delete.
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.rename.RenameFileViewModel
 import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.MenuViewModelFlow
 import com.omar.retromp3recorder.app.screens.main.components.rangebar.RangeBarViewModelFlow
-import com.omar.retromp3recorder.app.screens.main.components.visualizer.VisualizerViewModelFlow
-import com.omar.retromp3recorder.app.screens.search.SelectorViewModel
+import com.omar.retromp3recorder.app.screens.search.SelectorViewModelFlow
 import com.omar.retromp3recorder.app.screens.settings.components.audio_source.AudioSourceViewModelFlow
 import com.omar.retromp3recorder.app.screens.settings.components.beat_rate.BitRateSettingsViewModelFlow
 import com.omar.retromp3recorder.app.screens.settings.components.sample_rate.SampleRateViewModelFlow
@@ -58,7 +57,6 @@ abstract class AppComponent {
 )
 interface TrackComponent {
     fun inject(mainViewModel: MainViewModel)
-    fun inject(fileSelectorViewModel: SelectorViewModel)
     fun inject(deleteFileViewModel: DeleteFileViewModel)
     fun inject(renameFileViewModel: RenameFileViewModel)
     fun inject(cropViewModel: CropViewModel)
@@ -66,4 +64,5 @@ interface TrackComponent {
     fun inject(joinedProgressViewModelFlow: JoinedProgressViewModelFlow)
     fun inject(rangeBarViewModelFlow: RangeBarViewModelFlow)
     fun inject(menuViewModelFlow: MenuViewModelFlow)
+    fun inject(selectorViewModelFlow: SelectorViewModelFlow)
 }

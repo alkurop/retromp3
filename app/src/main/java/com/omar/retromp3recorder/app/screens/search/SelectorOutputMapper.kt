@@ -7,22 +7,12 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import com.omar.retromp3recorder.storage.db.ItemsLoadRequest
 import com.omar.retromp3recorder.storage.db.ItemsSource
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.functions.BiFunction
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.scan
 
 object SelectorOutputMapper {
-    fun mapOutputToState(): ObservableTransformer<SelectorContract.Output, SelectorContract.State> =
-        ObservableTransformer { upstream: Observable<SelectorContract.Output> ->
-            upstream.scan(
-                getDefaultViewModel(),
-                getMapper()
-            )
-        }
-
-    private fun getMapper(): BiFunction<SelectorContract.State, SelectorContract.Output, SelectorContract.State> =
-        BiFunction { oldState: SelectorContract.State, output: SelectorContract.Output ->
+    fun Flow<SelectorContract.Output>.mapToState(): Flow<SelectorContract.State> {
+        return this.scan(SelectorContract.State()) { oldState, output ->
             when (output) {
                 is SelectorContract.Output.FileListNew -> {
                     oldState.copy(
@@ -38,8 +28,8 @@ object SelectorOutputMapper {
                 }
             }
         }
+    }
 
-    private fun getDefaultViewModel() = SelectorContract.State()
 }
 
 //JPC does not like changing source of data, so I'm filtering on the view side.

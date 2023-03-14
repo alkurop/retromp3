@@ -39,6 +39,6 @@
 - add settings to bottom menu
 - move open file to tool bar
 - fix circle ci
-- 
+- cleanup and refactor search paging, cover with tests
 * means bug
 V means completed
