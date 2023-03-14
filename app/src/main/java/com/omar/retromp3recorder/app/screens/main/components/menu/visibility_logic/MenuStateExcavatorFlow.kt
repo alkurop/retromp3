@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic
 
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
-import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.merged.FileActionsStateMapper
+import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.merged.FileActionsStateMapperFlow
 import com.omar.retromp3recorder.bl.audio.AudioState
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper
 import com.omar.retromp3recorder.domain.FileWrapper
@@ -23,7 +23,7 @@ class MenuStateExcavatorFlow @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo,
     private val audioStateMapper: AudioStateMapper,
     private val currentFileRepo: CurrentFileRepo,
-    private val fileActionsStateMapper: FileActionsStateMapper
+    private val fileActionsStateMapper: FileActionsStateMapperFlow
 ) {
     @OptIn(ExperimentalCoroutinesApi::class)
     fun flow(): Flow<MenuContract.State> {
@@ -32,7 +32,7 @@ class MenuStateExcavatorFlow @Inject constructor(
                 combine(
                     listOf(
                         playerControlsRepo.flow().toMenuItems(file),
-                        fileActionsStateMapper.observe().asFlow()
+                        fileActionsStateMapper.flow()
                     )
                 ) { it.toList().flatten()  }
             },

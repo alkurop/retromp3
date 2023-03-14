@@ -1,22 +1,24 @@
 package com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.file
 
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
-import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.MenuVisibilityMapper
+import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.MenuVisibilityMapperFlow
 import com.omar.retromp3recorder.bl.audio.AudioState
 import com.omar.retromp3recorder.bl.audio.AudioStateMapper
 import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
-class DeleteFileMenuStateMapper @Inject constructor(
-    private val audioStateMapper: AudioStateMapper,
-    private val currentFileRepo: CurrentFileRepo
-) : MenuVisibilityMapper {
-    override fun observe(): Observable<List<MenuContract.Item>> {
-        return Observable.combineLatest(
-            currentFileRepo.observe(),
-            audioStateMapper.observe()
+class RenameFileMenuStateMapperFlow @Inject constructor(
+    private val audioStateMapper: AudioStateMapper, private val currentFileRepo: CurrentFileRepo
+) : MenuVisibilityMapperFlow {
+    override fun flow(): Flow<List<MenuContract.Item>> {
+        return combine(
+            currentFileRepo.flow(),
+            audioStateMapper.observe().asFlow()
         ) { currentFile, audioState ->
             when (audioState) {
                 is AudioState.Idle -> currentFile.value != null
@@ -25,7 +27,7 @@ class DeleteFileMenuStateMapper @Inject constructor(
         }.map {
             listOf(
                 MenuContract.Item.Popup(
-                    menuPopup = MenuPopup.Delete,
+                    menuPopup = MenuPopup.Rename,
                     isEnabled = it
                 )
             )
