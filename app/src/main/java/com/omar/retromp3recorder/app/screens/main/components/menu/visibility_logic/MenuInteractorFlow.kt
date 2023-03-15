@@ -2,14 +2,12 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.visibility_lo
 
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
 import com.omar.retromp3recorder.bl.enablers.EnablersSwitcher
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
+@OptIn(FlowPreview::class)
 class MenuInteractorFlow @Inject constructor(
     private val menuStateExcavator: MenuStateExcavatorFlow,
     private val enablersSwitcher: EnablersSwitcher,
@@ -26,10 +24,10 @@ class MenuInteractorFlow @Inject constructor(
 
 
     private fun Flow<MenuContract.Input>.processInputs(): Flow<MenuContract.State> {
-        return this.transform { input ->
-            when (input) {
-                is MenuContract.Input.Enable -> {
-                    launch {
+        return this.flatMapMerge { input ->
+            flow {
+                when (input) {
+                    is MenuContract.Input.Enable -> {
                         enablersSwitcher.execute(input.enabler, input.isEnabled).blockingAwait()
                     }
                 }

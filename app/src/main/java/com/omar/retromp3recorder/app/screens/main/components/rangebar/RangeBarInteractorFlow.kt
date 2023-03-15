@@ -4,12 +4,13 @@ import com.omar.retromp3recorder.bl.audio.UpdatePlayerRangeUC
 import com.omar.retromp3recorder.bl.settings.ActivateRangeUC
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
+@OptIn(FlowPreview::class)
 class RangeBarInteractorFlow @Inject constructor(
     private val rangeStateMapper: RangeBarStateMapperFlow,
     private val updatePlayerRangeUC: UpdatePlayerRangeUC,
@@ -26,8 +27,8 @@ class RangeBarInteractorFlow @Inject constructor(
     }
 
     private fun Flow<RangeBarView.Input>.processInputs(): Flow<RangeBarView.State> {
-        return this.transform { input ->
-            launch {
+        return this.flatMapMerge { input ->
+            flow {
                 when (input) {
                     is RangeBarView.Input.RangeSet -> {
                         updatePlayerRangeUC.execute(input.range)

@@ -10,14 +10,12 @@ import com.omar.retromp3recorder.bl.audio.StartRecordUC
 import com.omar.retromp3recorder.bl.audio.StopPlaybackAndRecordUC
 import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 class AudioControlsInteractorFlow @Inject constructor(
     private val playButtonStateMapper: PlayButtonStateFlow,
     private val joinedProgressMapper: JoinedProgressMapper,
@@ -31,18 +29,16 @@ class AudioControlsInteractorFlow @Inject constructor(
     private val stopPlaybackAndRecordUC: StopPlaybackAndRecordUC,
     private val dispatcher: CoroutineDispatcher,
 ) {
-
-    private val context = CoroutineScope(Job() + dispatcher)
     fun processIO(upstream: Flow<AudioControlsView.Input>): Flow<AudioControlsView.Output> {
         return listOf(
-            upstream.processInputs(),
+            upstream.processInputs().flowOn(dispatcher),
             listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 
     private fun Flow<AudioControlsView.Input>.processInputs(): Flow<AudioControlsView.Output> {
-        return this.transform { event ->
-            context.launch {
+        return this.flatMapMerge { event ->
+            flow {
                 when (event) {
                     AudioControlsView.Input.Play -> {
                         startPlaybackUC.execute().blockingAwait()

@@ -6,14 +6,12 @@ import com.omar.retromp3recorder.bl.audio.AudioSeekProgressUC
 import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
+@OptIn(FlowPreview::class)
 class JoinedProgressInteractorFlow @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
     private val audioSeekProgressUC: AudioSeekProgressUC,
@@ -21,18 +19,17 @@ class JoinedProgressInteractorFlow @Inject constructor(
     private val audioSeekFinishUC: AudioSeekFinishUC,
     private val joinedProgressRepo: JoinedProgressMapper,
     private val dispatcher: CoroutineDispatcher,
-) : CoroutineScope {
-    override val coroutineContext: CoroutineContext = dispatcher + Job()
+) {
     fun processIO(upstream: Flow<JoinedProgressView.In>): Flow<JoinedProgressView.Output> {
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge().flowOn(dispatcher).distinctUntilChanged()
+        ).merge().flowOn(dispatcher)
     }
 
     private fun Flow<JoinedProgressView.In>.processInputs(): Flow<JoinedProgressView.Output> {
-        return this.transform { event ->
-            launch {
+        return this.flatMapMerge { event ->
+            flow {
                 when (event) {
                     is JoinedProgressView.In.SeekToPosition -> {
                         audioSeekProgressUC.execute(event.position)

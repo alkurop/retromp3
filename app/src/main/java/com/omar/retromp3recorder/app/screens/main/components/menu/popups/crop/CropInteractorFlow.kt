@@ -8,11 +8,12 @@ import com.omar.retromp3recorder.bl.crop.GenerateFileNameUC
 import com.omar.retromp3recorder.bl.files.CanSaveAsNameUC
 import com.omar.retromp3recorder.storage.repo.common.StateFlowRepo
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
+@OptIn(FlowPreview::class)
 class CropInteractorFlow @Inject constructor(
     private val canSaveAs: CanSaveAsNameUC,
     private val cropInPlaceUC: CropInPlaceUC,
@@ -20,8 +21,7 @@ class CropInteractorFlow @Inject constructor(
     private val nameGenerator: GenerateFileNameUC,
     private val toastRepo: ToastRepo,
     private val dispatcher: CoroutineDispatcher
-) : CoroutineScope {
-    override val coroutineContext: CoroutineContext = SupervisorJob() + dispatcher
+) {
     private val canCropFileRepo = StateFlowRepo(false)
     private val dismissBus = MutableSharedFlow<Boolean>()
 
@@ -36,20 +36,18 @@ class CropInteractorFlow @Inject constructor(
     }
 
     private fun Flow<CropContract.Input>.processInputs(): Flow<CropContract.Output> {
-        return this.transform { input ->
-            when (input) {
-                is CropContract.Input.CheckCanCrop -> {
-                    val canRename = canSaveAs.execute(input.nameSuggestion.path)
-                    emit(CropContract.Output.IsActionEnabled(canRename))
-                }
-                is CropContract.Input.CropInPlace -> {
-                    launch {
+        return this.flatMapMerge { input ->
+            flow {
+                when (input) {
+                    is CropContract.Input.CheckCanCrop -> {
+                        val canRename = canSaveAs.execute(input.nameSuggestion.path)
+                        emit(CropContract.Output.IsActionEnabled(canRename))
+                    }
+                    is CropContract.Input.CropInPlace -> {
                         cropInPlaceUC.execute(input.nameSuggestion)
                         dismissBus.emit(true)
                     }
-                }
-                is CropContract.Input.CropOutside -> {
-                    launch {
+                    is CropContract.Input.CropOutside -> {
                         val result = cropOutsideUC.execute(input.nameSuggestion)
                         val toast =
                             if (result.value == null) Stringer(R.string.toast_crop_failed) else {

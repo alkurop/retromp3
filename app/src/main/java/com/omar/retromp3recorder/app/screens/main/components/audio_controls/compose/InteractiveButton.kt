@@ -40,7 +40,7 @@ fun InteractiveButton(
         modifier
             .aspectRatio(1f)
             .clickable(
-                enabled = state != InteractiveButtonState.DISABLED,
+                enabled = state == InteractiveButtonState.ENABLED,
                 onClick = onClick
             )
             .alpha(alpha = alpha)

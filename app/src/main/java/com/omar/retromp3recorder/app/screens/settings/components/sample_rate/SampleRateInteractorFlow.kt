@@ -4,9 +4,11 @@ import com.omar.retromp3recorder.bl.settings.ChangeSampleRateUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 class SampleRateInteractorFlow @Inject constructor(
     private val changeSampleRateUC: ChangeSampleRateUC,
     private val recorderPrefsRepo: RecorderPrefsRepo,
@@ -21,8 +23,10 @@ class SampleRateInteractorFlow @Inject constructor(
     }
 
     private fun Flow<Mp3VoiceRecorder.SampleRate>.processInputs(): Flow<Mp3VoiceRecorder.SampleRate> {
-        return this.transform { event ->
-            changeSampleRateUC.execute(event)
+        return this.flatMapMerge { event ->
+            flow {
+                changeSampleRateUC.execute(event)
+            }
         }
     }
 

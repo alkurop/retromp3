@@ -4,9 +4,11 @@ import com.omar.retromp3recorder.bl.settings.ChangeAudioSourceUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 class AudioSourceInteractorFlow @Inject constructor(
     private val changeAudioSourceUC: ChangeAudioSourceUC,
     private val repo: RecorderPrefsRepo,
@@ -21,8 +23,10 @@ class AudioSourceInteractorFlow @Inject constructor(
     }
 
     private fun Flow<Mp3VoiceRecorder.AudioSourcePref>.processInputs(): Flow<Mp3VoiceRecorder.AudioSourcePref> {
-        return this.transform { event ->
-            changeAudioSourceUC.execute(event)
+        return this.flatMapMerge { event ->
+            flow {
+                changeAudioSourceUC.execute(event)
+            }
         }
     }
 
