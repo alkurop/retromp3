@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -31,7 +32,6 @@ fun MainLayout(
     val state by viewModel.state.subscribeAsState(initial = MainViewContract.State())
 
     Column {
-
         TopAppBar(
             title = { Text(text = stringResource(id = R.string.app_name)) },
             actions = {
@@ -47,6 +47,39 @@ fun MainLayout(
                 }
             }
         )
+        Column(
+            Modifier
+                .weight(1f)
+        ) {
+            TrackLayout(
+                modifier = Modifier.padding(top = 16.dp),
+                onOpenDestination = onOpenDestination
+            )
+        }
+        Column {
+            AudioControlsLayout(
+                modifier = Modifier
+                    .padding(
+                        horizontal = 12.dp,
+                        vertical = 8.dp
+                    )
+            )
+            LogLayout(
+                modifier = Modifier
+                    .alpha(if (state.isLogViewEnabled) 0.6f else 0.0f)
+                    .height(60.dp)
+                    .padding(horizontal = 8.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun TrackLayout(
+    onOpenDestination: (AppDestination) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier.fillMaxWidth()) {
         JoinedProgressLayout(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
@@ -57,18 +90,5 @@ fun MainLayout(
                 .padding(horizontal = 16.dp)
         )
         MenuView(onOpenDestination)
-        AudioControlsLayout(
-            modifier = Modifier
-                .padding(
-                    horizontal = 12.dp,
-                    vertical = 8.dp
-                )
-        )
-        LogLayout(
-            modifier = Modifier
-                .alpha(if (state.isLogViewEnabled) 0.6f else 0.0f)
-                .height(60.dp)
-                .padding(horizontal = 8.dp)
-        )
     }
 }
