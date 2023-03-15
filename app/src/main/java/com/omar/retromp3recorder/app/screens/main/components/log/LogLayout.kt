@@ -22,19 +22,19 @@ fun LogLayout(
     val listState = rememberLazyListState()
     val messages = state.messages
 
-    if(messages.isNotEmpty()) {
-        LazyColumn(modifier, state = listState) {
-            items(messages.size, { it }) { index ->
-                when (val item = messages[index]) {
-                    is LogView.Output.ErrorLogOutput -> {
-                        ErrorLog(data = item)
-                    }
-                    is LogView.Output.MessageLogOutput -> {
-                        MessageLog(data = item)
-                    }
+    LazyColumn(modifier, state = listState) {
+        items(messages.size, { it }) { index ->
+            when (val item = messages[index]) {
+                is LogView.Output.ErrorLogOutput -> {
+                    ErrorLog(data = item)
+                }
+                is LogView.Output.MessageLogOutput -> {
+                    MessageLog(data = item)
                 }
             }
         }
+    }
+    if (messages.isNotEmpty()) {
         LaunchedEffect(messages.size) {
             listState.animateScrollToItem(messages.size - 1)
         }
