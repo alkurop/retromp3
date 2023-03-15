@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -66,13 +63,20 @@ private fun BuildSeek(
     callback: (JoinedProgressView.In) -> Unit,
 ) {
     val compositeDisposable = CompositeDisposable()
+    val f:  (JoinedProgressView.In) -> Unit = remember {
+        {}
+    }
     AndroidView(modifier = modifier.then(Modifier.fillMaxSize()),
-        factory = { context -> WavetableSeekbarPreview(context) },
+        factory = { context ->
+            val view = WavetableSeekbarPreview(context)
+            view
+                  },
         update = { view ->
             view.update(progress)
             compositeDisposable.clear()
             compositeDisposable += view.observeIsSeeking().subscribe {
-                callback.invoke(it.mapToEvent())
+                f.invoke(it.mapToEvent())
+//                callback.invoke(it.mapToEvent())
             }
         })
 
