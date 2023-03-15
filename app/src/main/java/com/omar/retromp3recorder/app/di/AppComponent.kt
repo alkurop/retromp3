@@ -4,7 +4,6 @@ import com.omar.retromp3recorder.app.MediaProjectionService
 import com.omar.retromp3recorder.app.screens.main.MainViewModel
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsViewModelFlow
 import com.omar.retromp3recorder.app.screens.main.components.joined_progress.JoinedProgressViewModelFlow
-import com.omar.retromp3recorder.app.screens.main.components.log.LogViewModel
 import com.omar.retromp3recorder.app.screens.main.components.log.LogViewModelFlow
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop.CropViewModelFlow
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.delete.DeleteFileViewModelFlow
@@ -45,7 +44,6 @@ abstract class AppComponent {
     abstract fun plus(): TrackComponent
 
     abstract fun inject(mediaProjectionService: MediaProjectionService)
-    abstract fun inject(logViewModel: LogViewModel)
     abstract fun inject(settingsViewModelFlow: SettingsViewModelFlow)
     abstract fun inject(sampleRateViewModelFlow: SampleRateViewModelFlow)
     abstract fun inject(audioSourceViewModelFlow: AudioSourceViewModelFlow)
