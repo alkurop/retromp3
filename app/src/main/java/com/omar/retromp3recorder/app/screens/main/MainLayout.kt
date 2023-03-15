@@ -21,7 +21,6 @@ import com.omar.retromp3recorder.app.screens.main.components.joined_progress.Joi
 import com.omar.retromp3recorder.app.screens.main.components.log.LogLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuView
 import com.omar.retromp3recorder.app.screens.main.components.rangebar.RangeBarLayout
-import com.omar.retromp3recorder.app.screens.main.components.visualizer.VisualizerLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,13 +46,6 @@ fun MainLayout(
                     )
                 }
             }
-        )
-        VisualizerLayout(
-            modifier = Modifier
-                .padding(top = 32.dp)
-                .height(60.dp)
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp)
         )
         JoinedProgressLayout(
             modifier = Modifier
