@@ -17,7 +17,11 @@ class RenameFileUC @Inject constructor(
 ) {
     suspend fun execute(newFileName: String) {
         val file = currentFileRepo.first()
-        val fileWrapper = (file.value!! as ExistingFileWrapper)
+
+        val fileWrapper = requireNotNull(file.value as? ExistingFileWrapper) {
+            "Current file is not and existing file ${file.value}"
+        }
+
         val newPath = fileRenamer.renameFile(fileWrapper, newFileName)
 
         mp3TagsEditor.getTags(newPath)
