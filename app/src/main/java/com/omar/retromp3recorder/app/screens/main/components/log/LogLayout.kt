@@ -6,8 +6,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -15,9 +15,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LogLayout(
-    modifier: Modifier = Modifier, viewModel: LogViewModel = viewModel()
+    modifier: Modifier = Modifier, viewModel: LogViewModelFlow = viewModel()
 ) {
-    val state by viewModel.state.subscribeAsState(initial = LogView.State())
+    val state by viewModel.state.collectAsState()
 
     val listState = rememberLazyListState()
     val messages = state.messages

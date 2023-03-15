@@ -5,15 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.omar.retromp3recorder.app.App
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsOutputMapper.mapOutputToStateFlow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AudioControlsViewModelFlow : ViewModel() {
-    private val _state = MutableStateFlow(AudioControlsView.State())
-    val state = _state.asStateFlow()
-
+    val state: StateFlow<AudioControlsView.State>
     private val inputFlow = MutableSharedFlow<AudioControlsView.Input>()
 
     @Inject
@@ -21,12 +20,9 @@ class AudioControlsViewModelFlow : ViewModel() {
 
     init {
         App.appComponent.getComponent().inject(this)
-        viewModelScope.launch {
-            interactor.processIO(inputFlow)
-                .mapOutputToStateFlow()
-                .collect { _state.value = it }
-
-        }
+        state = interactor.processIO(inputFlow)
+            .mapOutputToStateFlow()
+            .stateIn(viewModelScope, SharingStarted.Lazily, AudioControlsView.State())
     }
 
     fun onEvent(event: AudioControlsView.Input) {

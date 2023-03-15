@@ -5,6 +5,7 @@ import com.omar.retromp3recorder.app.screens.main.MainViewModel
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsViewModelFlow
 import com.omar.retromp3recorder.app.screens.main.components.joined_progress.JoinedProgressViewModelFlow
 import com.omar.retromp3recorder.app.screens.main.components.log.LogViewModel
+import com.omar.retromp3recorder.app.screens.main.components.log.LogViewModelFlow
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop.CropViewModelFlow
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.delete.DeleteFileViewModelFlow
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.rename.RenameFileViewModelFlow
@@ -49,6 +50,7 @@ abstract class AppComponent {
     abstract fun inject(sampleRateViewModelFlow: SampleRateViewModelFlow)
     abstract fun inject(audioSourceViewModelFlow: AudioSourceViewModelFlow)
     abstract fun inject(bitRateViewModelFlow: BitRateSettingsViewModelFlow)
+    abstract fun inject(logViewModelFlow: LogViewModelFlow)
 }
 
 
@@ -67,4 +69,5 @@ interface TrackComponent {
     fun inject(renameFileViewModelFlow: RenameFileViewModelFlow)
     fun inject(deleteFileViewModelFlow: DeleteFileViewModelFlow)
     fun inject(cropViewModelFlow: CropViewModelFlow)
+    fun inject(logViewModelFlow: LogViewModelFlow)
 }

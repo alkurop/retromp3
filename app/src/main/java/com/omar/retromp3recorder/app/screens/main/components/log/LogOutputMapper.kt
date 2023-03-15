@@ -3,8 +3,19 @@ package com.omar.retromp3recorder.app.screens.main.components.log
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.functions.BiFunction
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.scan
 
 object LogOutputMapper {
+
+    fun Flow<LogView.Output>.mapOutputToState(): Flow<LogView.State> {
+        return this.scan(LogView.State()) { oldState, output ->
+            oldState.copy(
+                messages = oldState.messages.takeLast(LOG_MEMORY_SIZE) + output,
+            )
+        }
+    }
+
     fun mapOutputToState(): ObservableTransformer<LogView.Output, LogView.State> =
         ObservableTransformer { upstream: Observable<LogView.Output> ->
             upstream.scan(
