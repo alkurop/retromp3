@@ -5,10 +5,7 @@ import com.omar.retromp3recorder.bl.enablers.EnablersSwitcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -16,7 +13,7 @@ import kotlin.coroutines.CoroutineContext
 class MenuInteractorFlow @Inject constructor(
     private val menuStateExcavator: MenuStateExcavatorFlow,
     private val enablersSwitcher: EnablersSwitcher,
-    dispatcher: CoroutineDispatcher,
+    private val dispatcher: CoroutineDispatcher,
 ) : CoroutineScope {
     override val coroutineContext: CoroutineContext = dispatcher + Job()
 
@@ -24,15 +21,15 @@ class MenuInteractorFlow @Inject constructor(
         return listOf(
             upstream.processInputs(),
             menuStateExcavator.flow()
-        ).merge().distinctUntilChanged()
+        ).merge().flowOn(dispatcher).distinctUntilChanged()
     }
 
 
     private fun Flow<MenuContract.Input>.processInputs(): Flow<MenuContract.State> {
         return this.transform { input ->
-            launch {
-                when (input) {
-                    is MenuContract.Input.Enable -> {
+            when (input) {
+                is MenuContract.Input.Enable -> {
+                    launch {
                         enablersSwitcher.execute(input.enabler, input.isEnabled).blockingAwait()
                     }
                 }

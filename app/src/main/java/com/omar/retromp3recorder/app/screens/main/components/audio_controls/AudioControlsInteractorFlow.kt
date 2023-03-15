@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 class AudioControlsInteractorFlow @Inject constructor(
     private val playButtonStateMapper: PlayButtonStateFlow,
@@ -30,20 +29,20 @@ class AudioControlsInteractorFlow @Inject constructor(
     private val shareUC: ShareUC,
     private val startPlaybackUC: StartPlaybackUC,
     private val stopPlaybackAndRecordUC: StopPlaybackAndRecordUC,
-    dispatcher: CoroutineDispatcher,
-) : CoroutineScope {
-    override val coroutineContext: CoroutineContext = dispatcher + Job()
+    private val dispatcher: CoroutineDispatcher,
+) {
 
+    private val context = CoroutineScope(Job() + dispatcher)
     fun processIO(upstream: Flow<AudioControlsView.Input>): Flow<AudioControlsView.Output> {
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge().distinctUntilChanged()
+        ).merge().flowOn(dispatcher)
     }
 
     private fun Flow<AudioControlsView.Input>.processInputs(): Flow<AudioControlsView.Output> {
         return this.transform { event ->
-            launch {
+            context.launch {
                 when (event) {
                     AudioControlsView.Input.Play -> {
                         startPlaybackUC.execute().blockingAwait()

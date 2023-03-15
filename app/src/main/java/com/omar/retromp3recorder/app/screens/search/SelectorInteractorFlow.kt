@@ -15,23 +15,22 @@ class SelectorInteractorFlow @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
     private val pagingProvider: DatabasePagingProvider,
     private val setCurrentFileUC: SetCurrentFileUC,
-    dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher
 ) : CoroutineScope {
     override val coroutineContext: CoroutineContext = dispatcher + Job()
-
 
     fun processIO(upstream: Flow<SelectorContract.Input>): Flow<SelectorContract.Output> {
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge().distinctUntilChanged()
+        ).merge().flowOn(dispatcher)
     }
 
     private fun Flow<SelectorContract.Input>.processInputs(): Flow<SelectorContract.Output> {
         return this.transform { event ->
-            launch {
-                when (event) {
-                    is SelectorContract.Input.ItemSelected -> {
+            when (event) {
+                is SelectorContract.Input.ItemSelected -> {
+                    launch {
                         setCurrentFileUC.execute(event.item)
                     }
                 }

@@ -14,7 +14,7 @@ import kotlin.coroutines.CoroutineContext
 class DeleteFileInteractorFlow @Inject constructor(
     private val deleteCurrentFileUC: DeleteCurrentFileUC,
     private val currentFileMapper: CurrentFileRepo,
-    dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher
 ) : CoroutineScope {
 
     override val coroutineContext: CoroutineContext = SupervisorJob() + dispatcher
@@ -24,14 +24,14 @@ class DeleteFileInteractorFlow @Inject constructor(
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge().distinctUntilChanged()
+        ).merge().flowOn(dispatcher)
     }
 
     private fun Flow<DeleteFileContract.Input>.processInputs(): Flow<DeleteFileContract.Output> {
         return this.transform { input ->
-            launch {
-                when (input) {
-                    is DeleteFileContract.Input.DeleteFile -> {
+            when (input) {
+                is DeleteFileContract.Input.DeleteFile -> {
+                    launch {
                         deleteCurrentFileUC.execute()
                         shouldDismiss.emit(false)
                     }
@@ -40,7 +40,7 @@ class DeleteFileInteractorFlow @Inject constructor(
         }
     }
 
-    private fun listenToRepos():Flow<DeleteFileContract.Output> =
+    private fun listenToRepos(): Flow<DeleteFileContract.Output> =
         listOf(
             shouldDismiss.map { DeleteFileContract.Output.Dismiss },
             currentFileMapper.flow().map {

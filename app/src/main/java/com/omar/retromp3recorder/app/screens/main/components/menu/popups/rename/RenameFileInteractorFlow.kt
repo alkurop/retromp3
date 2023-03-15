@@ -16,7 +16,7 @@ class RenameFileInteractorFlow @Inject constructor(
     private val canRenameNameUC: CanRenameNameUC,
     private val currentFileRepo: CurrentFileRepo,
     private val renameFileUC: RenameFileUC,
-    dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher
 ) : CoroutineScope {
 
     override val coroutineContext: CoroutineContext = SupervisorJob() + dispatcher
@@ -26,25 +26,27 @@ class RenameFileInteractorFlow @Inject constructor(
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge().distinctUntilChanged()
+        ).merge().flowOn(dispatcher)
     }
 
 
     private fun Flow<RenameFileContract.Input>.processInputs(): Flow<RenameFileContract.Output> {
         return this.transform { input ->
-            launch {
-                when (input) {
-                    is RenameFileContract.Input.Rename -> {
+
+            when (input) {
+                is RenameFileContract.Input.Rename -> {
+                    launch {
                         renameFileUC.execute(input.newName)
                         shouldDismiss.emit(true)
                     }
-                    is RenameFileContract.Input.CheckCanRename -> {
-                        val canRename = canRenameNameUC.execute(
-                            input.newName,
-                        )
-                        emit(RenameFileContract.Output.OkButtonState(canRename, input.newName))
-                    }
                 }
+                is RenameFileContract.Input.CheckCanRename -> {
+                    val canRename = canRenameNameUC.execute(
+                        input.newName,
+                    )
+                    emit(RenameFileContract.Output.OkButtonState(canRename, input.newName))
+                }
+
             }
         }
     }

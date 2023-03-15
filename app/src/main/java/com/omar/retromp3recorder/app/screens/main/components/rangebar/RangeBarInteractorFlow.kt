@@ -5,10 +5,7 @@ import com.omar.retromp3recorder.bl.settings.ActivateRangeUC
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -17,7 +14,7 @@ class RangeBarInteractorFlow @Inject constructor(
     private val rangeStateMapper: RangeBarStateMapperFlow,
     private val updatePlayerRangeUC: UpdatePlayerRangeUC,
     private val rangeEnableRangeUC: ActivateRangeUC,
-    dispatcher: CoroutineDispatcher,
+    private val dispatcher: CoroutineDispatcher,
 ) : CoroutineScope {
     override val coroutineContext: CoroutineContext = dispatcher + Job()
 
@@ -25,7 +22,7 @@ class RangeBarInteractorFlow @Inject constructor(
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge().distinctUntilChanged()
+        ).merge().flowOn(dispatcher)
     }
 
     private fun Flow<RangeBarView.Input>.processInputs(): Flow<RangeBarView.State> {

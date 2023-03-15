@@ -6,11 +6,7 @@ import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.transform
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -25,14 +21,12 @@ class BitRateSettingsInteractorFlow @Inject constructor(
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge()
+        ).merge().flowOn(coroutineContext).distinctUntilChanged()
     }
 
     private fun Flow<Mp3VoiceRecorder.BitRate>.processInputs(): Flow<Mp3VoiceRecorder.BitRate> {
         return this.transform { event ->
-            launch {
-                changeBitrateUC.execute(event)
-            }
+            changeBitrateUC.execute(event)
         }
     }
 

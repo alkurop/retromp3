@@ -23,6 +23,7 @@ class SettingsViewModelFlow : ViewModel() {
         viewModelScope.launch {
             interactor.processIO(inputFlow)
                 .mapOutputToStateFlow()
+                .distinctUntilChanged()
                 .collect { _state.value = it }
 
         }

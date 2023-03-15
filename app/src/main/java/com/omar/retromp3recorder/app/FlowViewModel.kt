@@ -3,13 +3,12 @@ package com.omar.retromp3recorder.app
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 abstract class FlowViewModel<Input, Output, State>(
     val dispatcher: CoroutineDispatcher
-) : ViewModel(), CoroutineScope {
+) : ViewModel() {
 
     protected abstract val defaultState: State
 
@@ -36,14 +35,12 @@ abstract class FlowViewModel<Input, Output, State>(
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge().distinctUntilChanged()
+        ).merge().flowOn(dispatcher)
     }
 
     private fun Flow<Input>.processInputs(): Flow<Output> {
         return this.transform { event ->
-            launch {
-                getUsecase(event)
-            }
+            getUsecase(event)
         }
     }
 

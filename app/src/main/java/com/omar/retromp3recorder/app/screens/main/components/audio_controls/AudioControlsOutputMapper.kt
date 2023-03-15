@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.app.screens.main.components.audio_controls
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.scan
 
 object AudioControlsOutputMapper {
@@ -16,6 +15,6 @@ object AudioControlsOutputMapper {
                 is AudioControlsView.Output.PlayerProgressState -> oldState.copy(playerProgressState = output.state?.toProgressDisplay())
                 is AudioControlsView.Output.RecorderDurationState -> oldState.copy(recordingDuration = output.duration)
             }
-        }.distinctUntilChanged()
+        }
     }
 }

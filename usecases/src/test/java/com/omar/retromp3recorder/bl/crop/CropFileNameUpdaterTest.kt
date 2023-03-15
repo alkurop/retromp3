@@ -47,4 +47,7 @@ class CropFileNameUpdaterTest {
             assertEquals(suggestion, item.value)
         }
     }
+
+    @Test
+    fun `file to be removed`() = fail()
 }

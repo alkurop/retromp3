@@ -3,33 +3,27 @@ package com.omar.retromp3recorder.app.screens.settings.flow
 import com.omar.retromp3recorder.app.screens.settings.SettingsContract
 import com.omar.retromp3recorder.bl.settings.FeatureMapSaveUC
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 class SettingsFlowInteractor @Inject constructor(
     private val featureMapSaveUC: FeatureMapSaveUC,
     private val featureFlagRepo: FeatureFlagRepo,
-    dispatcher: CoroutineDispatcher
-) : CoroutineScope {
-    override val coroutineContext: CoroutineContext = dispatcher + Job()
-
+    private val dispatcher: CoroutineDispatcher
+) {
     fun processIO(upstream: Flow<SettingsContract.Input>): Flow<SettingsContract.Output> {
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge().distinctUntilChanged()
+        ).merge().flowOn(dispatcher)
     }
 
     private fun Flow<SettingsContract.Input>.processInputs(): Flow<SettingsContract.Output> {
         return this.transform { event ->
             when (event) {
                 is SettingsContract.Input.FlagSettingChanged ->
-                    launch {
-                        featureMapSaveUC.execute(event.flag, event.setting)
-                    }
-
+                    featureMapSaveUC.execute(event.flag, event.setting)
             }
         }
     }

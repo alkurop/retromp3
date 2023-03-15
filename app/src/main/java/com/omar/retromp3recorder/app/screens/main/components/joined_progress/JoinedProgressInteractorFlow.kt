@@ -20,14 +20,14 @@ class JoinedProgressInteractorFlow @Inject constructor(
     private val audioSeekPauseUC: AudioSeekPauseUC,
     private val audioSeekFinishUC: AudioSeekFinishUC,
     private val joinedProgressRepo: JoinedProgressMapper,
-    dispatcher: CoroutineDispatcher,
+    private val dispatcher: CoroutineDispatcher,
 ) : CoroutineScope {
     override val coroutineContext: CoroutineContext = dispatcher + Job()
     fun processIO(upstream: Flow<JoinedProgressView.In>): Flow<JoinedProgressView.Output> {
         return listOf(
             upstream.processInputs(),
             listenToRepos()
-        ).merge().distinctUntilChanged()
+        ).merge().flowOn(dispatcher).distinctUntilChanged()
     }
 
     private fun Flow<JoinedProgressView.In>.processInputs(): Flow<JoinedProgressView.Output> {
