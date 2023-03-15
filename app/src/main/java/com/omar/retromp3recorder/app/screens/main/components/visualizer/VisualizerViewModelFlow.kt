@@ -1,12 +1,10 @@
 package com.omar.retromp3recorder.app.screens.main.components.visualizer
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.omar.retromp3recorder.app.App
 import com.omar.retromp3recorder.app.screens.main.components.visualizer.VisualizerOutputMapper.mapOutputToStateFlow
-import kotlinx.coroutines.flow.SharingStarted
+import com.omar.retromp3recorder.app.utils.stateInViewModel
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 class VisualizerViewModelFlow : ViewModel() {
@@ -19,6 +17,6 @@ class VisualizerViewModelFlow : ViewModel() {
         App.appComponent.getComponent().inject(this)
         state = interactor.processIO()
             .mapOutputToStateFlow()
-            .stateIn(viewModelScope, SharingStarted.Lazily, VisualizerView.State())
+            .stateInViewModel(this, VisualizerView.State())
     }
 }

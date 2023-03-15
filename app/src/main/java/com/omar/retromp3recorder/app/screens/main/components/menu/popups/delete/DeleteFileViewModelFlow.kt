@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.omar.retromp3recorder.app.App
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.delete.DeleteFileOutputMapper.mapToState
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.SharingStarted.Companion.Lazily
+import com.omar.retromp3recorder.app.utils.stateInViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +23,7 @@ class DeleteFileViewModelFlow : ViewModel() {
         App.appComponent.getComponent().inject(this)
         state = interactor.processIO(inputFlow)
             .mapToState()
-            .stateIn(viewModelScope, Lazily, DeleteFileContract.State())
+            .stateInViewModel(this,  DeleteFileContract.State())
     }
 
     fun emit(event: DeleteFileContract.Input) {

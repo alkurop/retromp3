@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.omar.retromp3recorder.app.App
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.SharingStarted.Companion.Lazily
+import com.omar.retromp3recorder.app.utils.stateInViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ class MenuViewModelFlow : ViewModel() {
     init {
         App.appComponent.getComponent().inject(this)
         state = interactor.processIO(inputFlow)
-            .stateIn(viewModelScope, Lazily, MenuContract.State())
+            .stateInViewModel(this, MenuContract.State())
     }
 
     fun onEvent(event: MenuContract.Input) {
