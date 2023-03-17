@@ -6,10 +6,12 @@ import com.omar.retromp3recorder.bl.actions.CropUC
 import com.omar.retromp3recorder.bl.crop.CropInPlaceUC
 import com.omar.retromp3recorder.bl.crop.GenerateFileNameUC
 import com.omar.retromp3recorder.bl.files.CanSaveAsNameUC
-import com.omar.retromp3recorder.storage.repo.common.StateFlowRepo
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
+import com.omar.retromp3recorder.utils.platform.Optional
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -22,17 +24,19 @@ class CropInteractorFlow @Inject constructor(
     private val toastRepo: ToastRepo,
     private val dispatcher: CoroutineDispatcher
 ) {
-    private val canCropFileRepo = StateFlowRepo(false)
-    private val dismissBus = MutableSharedFlow<Boolean>()
+    private val dismissBus = MutableSharedFlow<Boolean>(
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+        extraBufferCapacity = 1
+    )
 
     fun processIO(upstream: Flow<CropContract.Input>): Flow<CropContract.Output> {
         return listOf(
             flow {
                 emit(CropContract.Output.FileNameUpdate(nameGenerator.execute()))
             },
+            listenToRepos(),
             upstream.processInputs(),
-            listenToRepos()
-        ).merge().flowOn(dispatcher).distinctUntilChanged()
+        ).merge().flowOn(dispatcher)
     }
 
     private fun Flow<CropContract.Input>.processInputs(): Flow<CropContract.Output> {
@@ -44,29 +48,30 @@ class CropInteractorFlow @Inject constructor(
                         emit(CropContract.Output.IsActionEnabled(canRename))
                     }
                     is CropContract.Input.CropInPlace -> {
-                        cropInPlaceUC.execute(input.nameSuggestion)
-                        dismissBus.emit(true)
+                        val result = cropInPlaceUC.execute(input.nameSuggestion)
+                        emitOnCropResult(result)
                     }
                     is CropContract.Input.CropOutside -> {
                         val result = cropOutsideUC.execute(input.nameSuggestion)
-                        val toast =
-                            if (result.value == null) Stringer(R.string.toast_crop_failed) else {
-                                Stringer(R.string.toast_crop_success)
-                            }
-                        toastRepo.onNext(toast)
-                        dismissBus.emit(true)
+                        emitOnCropResult(result)
                     }
                 }
             }
         }
     }
 
+    private suspend fun emitOnCropResult(result: Optional<ExistingFileWrapper>) {
+        val toast =
+            if (result.hasValue()) Stringer(R.string.toast_crop_failed) else {
+                Stringer(R.string.toast_crop_success)
+            }
+        toastRepo.emit(toast)
+        dismissBus.emit(true)
+    }
+
     private fun listenToRepos(): Flow<CropContract.Output> {
         return listOf(
-            dismissBus.map { CropContract.Output.Dismiss },
-            canCropFileRepo.flow().map {
-                CropContract.Output.IsActionEnabled(it)
-            },
+            dismissBus.map { CropContract.Output.Dismiss }
         ).merge()
     }
 }

@@ -28,8 +28,8 @@ class MediaProjectionStateRepo @Inject constructor() :
 class LogsRepo @Inject constructor() : PublishSubjectRepo<LogEvent>()
 
 @Singleton
-class ToastRepo @Inject constructor(private val context: Context) : PublishSubjectRepo<String>() {
-    fun onNext(stringer: Stringer) {
-        onNext(stringer.bell(context))
+class ToastRepo @Inject constructor(private val context: Context) :  StateFlowRepo<String>() {
+    suspend fun emit(stringer: Stringer) {
+        emit(stringer.bell(context))
     }
 }

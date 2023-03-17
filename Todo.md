@@ -49,6 +49,7 @@ In order of appearance
 - cleanup toast repo
 - Crop interactor - fix unclear flow with canCropFileRepo flow
 - player recorder flow api
+- fix cropping *
 
 * means bug
 V means completed
