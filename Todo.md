@@ -48,6 +48,7 @@ In order of appearance
 - add coroutines to database
 - cleanup toast repo
 - Crop interactor - fix unclear flow with canCropFileRepo flow
+- player recorder flow api
 
 * means bug
 V means completed
