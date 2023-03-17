@@ -16,7 +16,6 @@ class RenameFileInteractorFlow @Inject constructor(
     private val renameFileUC: RenameFileUC,
     private val dispatcher: CoroutineDispatcher
 ) {
-
     private val shouldDismiss = MutableSharedFlow<Boolean>()
 
     fun processIO(upstream: Flow<RenameFileContract.Input>): Flow<RenameFileContract.Output> {
@@ -49,7 +48,11 @@ class RenameFileInteractorFlow @Inject constructor(
         return listOf(
             shouldDismiss.map { RenameFileContract.Output.Dismiss },
             currentFileRepo.flow()
-                .map { RenameFileContract.Output.CurrentFile(it.value as ExistingFileWrapper) },
+                .map {
+                    RenameFileContract.Output.CurrentFile(requireNotNull(it.value as? ExistingFileWrapper) {
+                        "current file is not ExistingFileWrapper but ${it.value}"
+                    })
+                },
         ).merge()
     }
 }

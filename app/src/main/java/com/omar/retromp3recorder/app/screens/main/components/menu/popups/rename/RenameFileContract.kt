@@ -20,7 +20,7 @@ object RenameFileContract {
     sealed class Output {
         object Dismiss : Output()
         data class OkButtonState(val isEnabled: Boolean, val newName: String?) : Output()
-        data class CurrentFile(val fileWrapper: ExistingFileWrapper?) : Output()
+        data class CurrentFile(val fileWrapper: ExistingFileWrapper) : Output()
     }
 }
 
