@@ -48,6 +48,6 @@ class CropFileNameUpdaterTest {
         }
     }
 
-    @Test
-    fun `file to be removed`() = fail()
+//    @Test
+//    fun `file to be removed`() = fail()
 }

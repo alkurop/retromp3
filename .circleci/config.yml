@@ -5,8 +5,7 @@ orbs:
 jobs:
   unit-test:
     executor:
-      name: android/android-machine
-      resource-class: large
+      name: android/android-docker
       tag: 2021.10.1
     steps:
       - checkout
