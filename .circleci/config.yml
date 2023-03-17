@@ -28,7 +28,8 @@ jobs:
   android-test:
     executor:
       name: android/android-machine
-      resource-class: xlarge
+      tag: 2021.10.1
+      resource-class: large
     steps:
       - checkout
       - android/start-emulator-and-run-tests:
