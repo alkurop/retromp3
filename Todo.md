@@ -8,7 +8,7 @@ In order of appearance
 - replace dagger with hilt
 - progress issue *
 - search activity toolbar color * 
-- convert to flow and write tests one by one
+- V convert to flow and write tests one by one
 - add some UI tests
 - try to add second track
 - convert wavebar to compose
@@ -51,6 +51,7 @@ In order of appearance
 - player recorder flow api
 - fix cropping *
 - fix logs *
+- convert remaining classes to flow
 
 * means bug
 V means completed

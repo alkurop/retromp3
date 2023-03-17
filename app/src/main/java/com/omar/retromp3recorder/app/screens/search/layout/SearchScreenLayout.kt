@@ -27,10 +27,14 @@ fun SearchScreenLayout(
     val lambdaClick: (ExistingFileWrapper) -> Unit = remember {
         {
             viewModel.onEvent(SelectorContract.Input.ItemSelected(it))
+        }
+
+    }
+    if (state.shouldDismiss) {
+        SideEffect {
             onBack()
         }
     }
-
     RetroTheme {
         Column(
             modifier = Modifier

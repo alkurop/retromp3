@@ -26,6 +26,9 @@ object SelectorOutputMapper {
                         selectedFile = selectedFile
                     )
                 }
+                SelectorContract.Output.Dismiss -> {
+                    oldState.copy(shouldDismiss = true)
+                }
             }
         }
     }

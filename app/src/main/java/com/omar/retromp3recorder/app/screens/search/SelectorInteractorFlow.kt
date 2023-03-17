@@ -3,21 +3,18 @@ package com.omar.retromp3recorder.app.screens.search
 import com.omar.retromp3recorder.bl.files.SetCurrentFileUC
 import com.omar.retromp3recorder.storage.db.DatabasePagingProvider
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
+@OptIn(FlowPreview::class)
 class SelectorInteractorFlow @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
     private val pagingProvider: DatabasePagingProvider,
     private val setCurrentFileUC: SetCurrentFileUC,
     private val dispatcher: CoroutineDispatcher
-) : CoroutineScope {
-    override val coroutineContext: CoroutineContext = dispatcher + Job()
+) {
+    private val shouldDismiss = MutableSharedFlow<Boolean>()
 
     fun processIO(upstream: Flow<SelectorContract.Input>): Flow<SelectorContract.Output> {
         return listOf(
@@ -27,11 +24,12 @@ class SelectorInteractorFlow @Inject constructor(
     }
 
     private fun Flow<SelectorContract.Input>.processInputs(): Flow<SelectorContract.Output> {
-        return this.transform { event ->
-            when (event) {
-                is SelectorContract.Input.ItemSelected -> {
-                    launch {
+        return this.flatMapMerge { event ->
+            flow {
+                when (event) {
+                    is SelectorContract.Input.ItemSelected -> {
                         setCurrentFileUC.execute(event.item)
+                        shouldDismiss.emit(true)
                     }
                 }
             }
@@ -40,8 +38,12 @@ class SelectorInteractorFlow @Inject constructor(
 
     private fun listenToRepos(): Flow<SelectorContract.Output> {
         return listOf(
+            shouldDismiss.map { SelectorContract.Output.Dismiss },
             currentFileRepo.flow().map {
-                SelectorContract.Output.CurrentFile(it.value!!.path)
+                val filePath = requireNotNull(it.value?.path) {
+                    "path cannot be null"
+                }
+                SelectorContract.Output.CurrentFile(filePath)
             },
             flowOf(pagingProvider.provideItemSource()).map {
                 SelectorContract.Output.FileListNew(itemsSource = it)
