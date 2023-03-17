@@ -1,11 +1,46 @@
 package com.omar.retromp3recorder.app.screens.main.components.log
 
+import app.cash.turbine.test
+import com.omar.retromp3recorder.domain.platform.LogEvent
+import com.omar.retromp3recorder.bl.system.LogMapperFlow
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 
-class LogInteractorFlowTest{
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Test fun stub() = runTest { fail() }
+@OptIn(ExperimentalCoroutinesApi::class)
+class LogInteractorFlowTest {
+    private val dispatcher = UnconfinedTestDispatcher()
+    private val mapper = mockk<LogMapperFlow>()
+    private lateinit var tested: LogInteractorFlow
+
+    @Before
+    fun setUp() {
+        tested = LogInteractorFlow(mapper, dispatcher)
+    }
+
+    @Test
+    fun `listen log mapper error events SENDS error output`() = runTest {
+        every { mapper.flow() } returns flowOf(LogEvent.Error(mockk()))
+        tested.processIO().test {
+            val item = awaitItem()
+            awaitComplete()
+            assert(item is LogView.Output.ErrorLogOutput)
+        }
+    }
+
+    @Test
+    fun `listen log mapper message events SENDS message output`() = runTest {
+        every { mapper.flow() } returns flowOf(LogEvent.Message(mockk()))
+        tested.processIO().test {
+            val item = awaitItem()
+            awaitComplete()
+            assert(item is LogView.Output.MessageLogOutput)
+        }
+    }
 }
