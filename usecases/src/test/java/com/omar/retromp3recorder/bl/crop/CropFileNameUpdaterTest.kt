@@ -6,6 +6,7 @@ import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.platform.toOptional
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.rxjava3.core.Single
@@ -39,7 +40,7 @@ class CropFileNameUpdaterTest {
     fun `when file NOT empty returns generated suggestion`() = runTest {
         val suggestion = MockSuggestionFactory.giveTestSuggestion()
 
-        every { cropGeneratorUC.execute(any()) } returns Single.just(suggestion)
+        coEvery { cropGeneratorUC.execute(any()) } returns suggestion
         currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
 
         tested.flow().test {
@@ -47,7 +48,4 @@ class CropFileNameUpdaterTest {
             assertEquals(suggestion, item.value)
         }
     }
-
-    @Test
-    fun `file to be removed`() = fail()
 }

@@ -17,6 +17,5 @@ class GenerateFileNameUC @Inject constructor(
         }
         return cropGeneratorUC
             .execute(fileWrapper.path)
-            .blockingGet()
     }
 }

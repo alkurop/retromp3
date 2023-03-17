@@ -50,6 +50,7 @@ In order of appearance
 - Crop interactor - fix unclear flow with canCropFileRepo flow
 - player recorder flow api
 - fix cropping *
+- fix logs *
 
 * means bug
 V means completed

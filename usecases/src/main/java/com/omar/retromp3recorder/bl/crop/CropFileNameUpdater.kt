@@ -19,7 +19,7 @@ class CropFileNameUpdater @Inject constructor(
                 file.value?.let { fileWrapper ->
                     cropGeneratorUC
                         .execute(fileWrapper.path)
-                        .map { suggestedName -> suggestedName.toOptional() }.blockingGet()
+                        .toOptional()
                 } ?: Optional.empty()
             }
     }
