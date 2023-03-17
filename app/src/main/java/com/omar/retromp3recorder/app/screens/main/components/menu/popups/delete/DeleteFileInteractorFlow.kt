@@ -10,7 +10,7 @@ import javax.inject.Inject
 @OptIn(FlowPreview::class)
 class DeleteFileInteractorFlow @Inject constructor(
     private val deleteCurrentFileUC: DeleteCurrentFileUC,
-    private val currentFileMapper: CurrentFileRepo,
+    private val currentFileRepo: CurrentFileRepo,
     private val dispatcher: CoroutineDispatcher
 ) {
     private val shouldDismiss = MutableSharedFlow<Boolean>()
@@ -24,7 +24,7 @@ class DeleteFileInteractorFlow @Inject constructor(
 
     private fun Flow<DeleteFileContract.Input>.processInputs(): Flow<DeleteFileContract.Output> {
         return this.flatMapMerge { input ->
-            channelFlow {
+            flow {
                 when (input) {
                     is DeleteFileContract.Input.DeleteFile -> {
                         deleteCurrentFileUC.execute()
@@ -38,7 +38,7 @@ class DeleteFileInteractorFlow @Inject constructor(
     private fun listenToRepos(): Flow<DeleteFileContract.Output> =
         listOf(
             shouldDismiss.map { DeleteFileContract.Output.Dismiss },
-            currentFileMapper.flow().map {
+            currentFileRepo.flow().map {
                 DeleteFileContract.Output.CurrentFile(
                     it.value as? ExistingFileWrapper
                 )
