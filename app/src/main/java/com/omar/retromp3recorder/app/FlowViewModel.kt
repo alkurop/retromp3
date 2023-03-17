@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 abstract class FlowViewModel<Input, Output, State>(
-    val dispatcher: CoroutineDispatcher
+    protected val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     protected abstract val defaultState: State
@@ -34,10 +34,7 @@ abstract class FlowViewModel<Input, Output, State>(
     }
 
     private fun processIO(upstream: Flow<Input>): Flow<Output> {
-        return listOf(
-            listenToRepos(),
-            upstream.processInputs(),
-        ).merge().flowOn(dispatcher)
+        return (listenToRepos() + upstream.processInputs()).merge().flowOn(dispatcher)
     }
 
     private fun Flow<Input>.processInputs(): Flow<Output> {
@@ -48,7 +45,7 @@ abstract class FlowViewModel<Input, Output, State>(
         }
     }
 
-    protected abstract fun listenToRepos(): Flow<Output>
+    protected abstract fun listenToRepos(): List<Flow<Output>>
 
     protected abstract fun Flow<Output>.mapToState(): Flow<State>
 

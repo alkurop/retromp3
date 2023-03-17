@@ -27,10 +27,14 @@ fun AppNavHost(
             MainLayout(onOpenDestination = { navController.navigate(it) })
         }
         composable(route = AppDestination.SettingScreen.route) {
-            SettingsLayout(onBack = { navController.popBackStack() })
+            SettingsLayout(onBack = {
+                navController.popBackStack()
+            })
         }
         composable(route = AppDestination.SearchScreen.route) {
-            SearchScreenLayout(onBack = { navController.popBackStack() })
+            SearchScreenLayout(onBack = {
+                navController.popBackStack()
+            })
         }
         dialog(AppDestination.CropPopup.route) {
             CropPopupLayout(onDismiss = { navController.popBackStack() })

@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.BuildConfig
 import com.omar.retromp3recorder.app.R
@@ -30,8 +31,9 @@ import com.omar.retromp3recorder.domain.FeatureLevel
 @Composable
 fun SettingsLayout(
     onBack: () -> Unit,
-    viewModel: SettingsViewModelFlow = viewModel(),
+
 ) {
+    val  viewModel: SettingsViewModelFlow = hiltViewModel()
     val state by viewModel.state.collectAsState()
 
     val featuremap = state.featureFlagsCollection

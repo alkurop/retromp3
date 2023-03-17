@@ -1,8 +1,5 @@
 package com.omar.retromp3recorder.app.screens.search.layout
 
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -43,13 +40,11 @@ import com.omar.retromp3recorder.app.R
 @Preview
 @Composable
 fun SearchToolbar(
-    onSearch: (String) -> Unit = {}
+    onSearch: (String) -> Unit = {},
+    onBack: () -> Unit = {}
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    val onBackPressed: OnBackPressedDispatcher =
-        LocalOnBackPressedDispatcherOwner.current!!.onBackPressedDispatcher
 
     var isFocused by remember { mutableStateOf(true) }
     var textFileValue by remember {
@@ -64,24 +59,14 @@ fun SearchToolbar(
     }
 
     val backCallback = remember {
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (!isFocused) {
-                    isEnabled = false
-                    onBackPressed.onBackPressed()
-                } else {
-                    isFocused = false
-                    focusManager.clearFocus()
-                    keyboardController?.hide()
-                }
+        {
+            if (!isFocused) {
+                onBack()
+            } else {
+                isFocused = false
+                focusManager.clearFocus()
             }
-        }
-    }
-
-    DisposableEffect(onBackPressed) { // dispose/relaunch if dispatcher changes
-        onBackPressed.addCallback(backCallback)
-        onDispose {
-            backCallback.remove() // avoid leaks!
+            keyboardController?.hide()
         }
     }
 
@@ -97,7 +82,7 @@ fun SearchToolbar(
             // Back button
             IconButton(
                 modifier = Modifier.padding(start = 2.dp),
-                onClick = { onBackPressed.onBackPressed() }) {
+                onClick = { backCallback() }) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
             }
 
@@ -116,7 +101,7 @@ fun SearchToolbar(
                         .onFocusChanged { isFocused = it.isFocused }
                         .focusRequester(focusRequester),
                     singleLine = true,
-                    keyboardActions = KeyboardActions(onDone = { onBackPressed.onBackPressed() }),
+                    keyboardActions = KeyboardActions(onDone = { onBack() }),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.Uri,

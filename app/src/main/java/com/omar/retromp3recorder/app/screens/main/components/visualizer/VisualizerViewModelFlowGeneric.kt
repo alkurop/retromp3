@@ -8,7 +8,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
@@ -20,13 +19,13 @@ class VisualizerViewModelFlowGeneric @Inject constructor(
 
     override val defaultState: VisualizerView.State = VisualizerView.State()
 
-    override fun listenToRepos(): Flow<VisualizerView.Output> {
+    override fun listenToRepos(): List<Flow<VisualizerView.Output>> {
         return listOf(
             audioStateMapper.observe().asFlow()
                 .map { state -> VisualizerView.Output.AudioStateChanged(state) },
             playerIdMapper.flow()
                 .map { playerId -> VisualizerView.Output.PlayerIdOutput(playerId) }
-        ).merge()
+        )
     }
 
     override suspend fun FlowCollector<VisualizerView.Output>.getUsecase(event: Unit) {

@@ -12,10 +12,12 @@ import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import com.omar.retromp3recorder.app.WakelockService.Companion.WAKELOCK_SERVICE_CHANNEL
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.domain.disposedBy
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MediaProjectionService : Service() {
     @Inject
     lateinit var mediaProjectionRepo: MediaProjectionStateRepo

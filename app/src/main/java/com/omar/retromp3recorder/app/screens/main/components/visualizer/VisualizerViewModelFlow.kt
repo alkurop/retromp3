@@ -9,10 +9,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VisualizerViewModelFlow @Inject constructor(
-     interactor: VisualizerInteractorFlow
+    interactor: VisualizerInteractorFlow
 ) : ViewModel() {
     val state: StateFlow<VisualizerView.State> = interactor.processIO()
         .mapOutputToStateFlow()
         .stateInViewModel(this, VisualizerView.State())
-
 }

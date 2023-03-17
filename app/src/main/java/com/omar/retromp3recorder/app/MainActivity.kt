@@ -11,12 +11,13 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import com.omar.retromp3recorder.app.nav.AppNavHost
 import com.omar.retromp3recorder.app.screens.main.MainViewContract
 import com.omar.retromp3recorder.app.screens.main.MainViewModel
-import com.omar.retromp3recorder.app.utils.observe
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -26,10 +27,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
-
-        viewModel.state.observe(this, ::renderView)
-        viewModel.toastRepo.observe().observe(this) { toast ->
-            Toast.makeText(this, toast, Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            viewModel.state.collect { state ->
+                this@MainActivity.renderView(state)
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.toastRepo.flow().collect { toast ->
+                Toast.makeText(this@MainActivity, toast, Toast.LENGTH_SHORT).show()
+            }
         }
 
         setContent {
@@ -63,14 +69,14 @@ class MainActivity : ComponentActivity() {
         if (requestCode == MEDIA_PROJECTION_REQUEST_CODE) {
             if (resultCode == RESULT_OK && data != null) {
                 val projection = mediaProjectionManager.getMediaProjection(resultCode, data)
-                viewModel.input.onNext(MainViewContract.Input.MediaProjectionUpdated(projection))
+                viewModel.emit(MainViewContract.Input.MediaProjectionUpdated(projection))
                 projection.registerCallback(object : MediaProjection.Callback() {
                     override fun onStop() {
-                        viewModel.input.onNext(MainViewContract.Input.MediaProjectionUpdated(null))
+                        viewModel.emit(MainViewContract.Input.MediaProjectionUpdated(null))
                     }
                 }, Handler(Looper.myLooper()!!))
             } else {
-                viewModel.input.onNext(MainViewContract.Input.MediaProjectionUpdated(null))
+                viewModel.emit(MainViewContract.Input.MediaProjectionUpdated(null))
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)

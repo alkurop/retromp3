@@ -12,8 +12,10 @@ import android.os.PowerManager
 import androidx.annotation.Keep
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
+@AndroidEntryPoint
 class WakelockService : Service() {
     private val compositeDisposable = CompositeDisposable()
     private val notificationManager: NotificationManager by lazy {

@@ -8,13 +8,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.nav.AppDestination
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.AudioControlsLayout
@@ -26,10 +26,10 @@ import com.omar.retromp3recorder.app.screens.main.components.rangebar.RangeBarLa
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainLayout(
-    viewModel: MainViewModel = viewModel(),
+    viewModel: MainViewModel = hiltViewModel(),
     onOpenDestination: (AppDestination) -> Unit,
 ) {
-    val state by viewModel.state.subscribeAsState(initial = MainViewContract.State())
+    val state by viewModel.state.collectAsState()
 
     Column {
         TopAppBar(
