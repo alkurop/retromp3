@@ -31,10 +31,10 @@ class CropInteractorFlow @Inject constructor(
 
     fun processIO(upstream: Flow<CropContract.Input>): Flow<CropContract.Output> {
         return listOf(
+            listenToRepos(),
             flow {
                 emit(CropContract.Output.FileNameUpdate(nameGenerator.execute()))
             },
-            listenToRepos(),
             upstream.processInputs(),
         ).merge().flowOn(dispatcher)
     }

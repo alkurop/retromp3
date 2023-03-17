@@ -35,8 +35,8 @@ abstract class FlowViewModel<Input, Output, State>(
 
     private fun processIO(upstream: Flow<Input>): Flow<Output> {
         return listOf(
+            listenToRepos(),
             upstream.processInputs(),
-            listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 

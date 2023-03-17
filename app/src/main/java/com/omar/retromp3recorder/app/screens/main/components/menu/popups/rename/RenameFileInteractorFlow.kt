@@ -21,8 +21,8 @@ class RenameFileInteractorFlow @Inject constructor(
 
     fun processIO(upstream: Flow<RenameFileContract.Input>): Flow<RenameFileContract.Output> {
         return listOf(
+            listenToRepos(),
             upstream.processInputs(),
-            listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 
@@ -31,8 +31,8 @@ class RenameFileInteractorFlow @Inject constructor(
             flow {
                 when (input) {
                     is RenameFileContract.Input.Rename -> {
-                            renameFileUC.execute(input.newName)
-                            shouldDismiss.emit(true)
+                        renameFileUC.execute(input.newName)
+                        shouldDismiss.emit(true)
                     }
                     is RenameFileContract.Input.CheckCanRename -> {
                         val canRename = canRenameNameUC.execute(

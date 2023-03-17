@@ -22,8 +22,8 @@ class JoinedProgressInteractorFlow @Inject constructor(
 ) {
     fun processIO(upstream: Flow<JoinedProgressView.In>): Flow<JoinedProgressView.Output> {
         return listOf(
+            listenToRepos(),
             upstream.processInputs(),
-            listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 

@@ -21,8 +21,8 @@ class SelectorInteractorFlow @Inject constructor(
 
     fun processIO(upstream: Flow<SelectorContract.Input>): Flow<SelectorContract.Output> {
         return listOf(
+            listenToRepos(),
             upstream.processInputs(),
-            listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 

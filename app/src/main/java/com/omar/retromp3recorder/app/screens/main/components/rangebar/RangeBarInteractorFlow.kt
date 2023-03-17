@@ -21,8 +21,8 @@ class RangeBarInteractorFlow @Inject constructor(
 
     fun processIO(upstream: Flow<RangeBarView.Input>): Flow<RangeBarView.State> {
         return listOf(
+            listenToRepos(),
             upstream.processInputs(),
-            listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 

@@ -31,8 +31,8 @@ class AudioControlsInteractorFlow @Inject constructor(
 ) {
     fun processIO(upstream: Flow<AudioControlsView.Input>): Flow<AudioControlsView.Output> {
         return listOf(
+            listenToRepos(),
             upstream.processInputs().flowOn(dispatcher),
-            listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 

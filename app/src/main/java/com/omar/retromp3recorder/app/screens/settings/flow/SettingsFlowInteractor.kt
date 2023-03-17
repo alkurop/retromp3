@@ -14,8 +14,8 @@ class SettingsFlowInteractor @Inject constructor(
 ) {
     fun processIO(upstream: Flow<SettingsContract.Input>): Flow<SettingsContract.Output> {
         return listOf(
-            upstream.processInputs(),
-            listenToRepos()
+            listenToRepos(),
+            upstream.processInputs()
         ).merge().flowOn(dispatcher)
     }
 

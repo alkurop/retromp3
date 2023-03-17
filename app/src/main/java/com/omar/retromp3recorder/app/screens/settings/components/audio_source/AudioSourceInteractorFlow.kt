@@ -17,8 +17,8 @@ class AudioSourceInteractorFlow @Inject constructor(
 
     fun processIO(upstream: Flow<Mp3VoiceRecorder.AudioSourcePref>): Flow<Mp3VoiceRecorder.AudioSourcePref> {
         return listOf(
+            listenToRepos(),
             upstream.processInputs(),
-            listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 

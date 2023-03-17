@@ -17,8 +17,8 @@ class DeleteFileInteractorFlow @Inject constructor(
 
     fun processIO(upstream: Flow<DeleteFileContract.Input>): Flow<DeleteFileContract.Output> {
         return listOf(
+            listenToRepos(),
             upstream.processInputs(),
-            listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 

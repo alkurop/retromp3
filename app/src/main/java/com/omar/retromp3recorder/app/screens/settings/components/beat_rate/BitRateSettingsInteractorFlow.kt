@@ -16,8 +16,8 @@ class BitRateSettingsInteractorFlow @Inject constructor(
 ) {
     fun processIO(upstream: Flow<Mp3VoiceRecorder.BitRate>): Flow<Mp3VoiceRecorder.BitRate> {
         return listOf(
+            listenToRepos(),
             upstream.processInputs(),
-            listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 

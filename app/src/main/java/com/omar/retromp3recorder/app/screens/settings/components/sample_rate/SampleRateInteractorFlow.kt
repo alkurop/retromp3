@@ -17,8 +17,8 @@ class SampleRateInteractorFlow @Inject constructor(
 
     fun processIO(upstream: Flow<Mp3VoiceRecorder.SampleRate>): Flow<Mp3VoiceRecorder.SampleRate> {
         return listOf(
+            listenToRepos(),
             upstream.processInputs(),
-            listenToRepos()
         ).merge().flowOn(dispatcher)
     }
 
