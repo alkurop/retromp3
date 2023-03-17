@@ -12,43 +12,34 @@ abstract class FlowViewModel<Input, Output, State>(
     protected val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    protected abstract val defaultState: State
+    val inputFlow = MutableSharedFlow<Input>()
 
-    private val inputFlow = MutableSharedFlow<Input>()
-
-    //lazy to use open val in constructor
-    private val _state by lazy { MutableStateFlow(defaultState) }
-    val state by lazy { _state.asStateFlow() }
+    abstract val initialState: State
 
     fun emit(input: Input) {
         viewModelScope.launch { inputFlow.emit(input) }
     }
 
-    init {
-        viewModelScope.launch {
-            processIO(inputFlow)
-                .mapToState()
-                .collect { _state.value = it }
-
-        }
-    }
-
-    private fun processIO(upstream: Flow<Input>): Flow<Output> {
-        return (listenToRepos() + upstream.processInputs()).merge().flowOn(dispatcher)
+    fun processIO(upstream: Flow<Input>): Flow<Output> {
+        return (repos + upstream.processInputs()).merge().flowOn(dispatcher)
     }
 
     private fun Flow<Input>.processInputs(): Flow<Output> {
         return this.flatMapMerge { event ->
             flow {
-                getUsecase(event)
+                launchUsecase(event)
             }
         }
     }
 
-    protected abstract fun listenToRepos(): List<Flow<Output>>
+    abstract val repos: List<Flow<Output>>
 
-    protected abstract fun Flow<Output>.mapToState(): Flow<State>
+    abstract val stateMapper: (State, Output) -> State
 
-    protected abstract suspend fun FlowCollector<Output>.getUsecase(event: Input)
+    protected fun Flow<Output>.mapToState(): Flow<State> {
+        return this.scan(initialState) { oldState, output -> stateMapper(oldState, output) }
+    }
+
+    abstract val launchUsecase: FlowCollector<Output>.(Input) -> Unit
 
 }

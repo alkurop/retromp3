@@ -16,14 +16,17 @@ import androidx.navigation.compose.rememberNavController
 import com.omar.retromp3recorder.app.nav.AppNavHost
 import com.omar.retromp3recorder.app.screens.main.MainViewContract
 import com.omar.retromp3recorder.app.screens.main.MainViewModel
+import com.omar.retromp3recorder.storage.repo.global.ToastRepo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private val mediaProjectionManager by lazy { getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
 
+    @Inject lateinit var toastRepo: ToastRepo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
@@ -33,7 +36,7 @@ class MainActivity : ComponentActivity() {
             }
         }
         lifecycleScope.launch {
-            viewModel.toastRepo.flow().collect { toast ->
+            toastRepo.flow().collect { toast ->
                 Toast.makeText(this@MainActivity, toast, Toast.LENGTH_SHORT).show()
             }
         }

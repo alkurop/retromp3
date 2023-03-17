@@ -1,70 +1,75 @@
 package com.omar.retromp3recorder.app.screens.main
 
+import androidx.lifecycle.viewModelScope
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.app.FlowViewModel
 import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
 import com.omar.retromp3recorder.domain.FeatureFlag
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
-import com.omar.retromp3recorder.storage.repo.global.ToastRepo
 import com.omar.retromp3recorder.utils.domain.shellUnwrap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val mediaProjectionRequestBus: MediaProjectionStateRepo,
+    mediaProjectionRequestBus: MediaProjectionStateRepo,
     private val updateMediaProjectionUC: UpdateMediaProjectionUC,
-    private val featureFlagRepo: FeatureFlagRepo,
-    val toastRepo: ToastRepo,
+    featureFlagRepo: FeatureFlagRepo,
     dispatcher: CoroutineDispatcher
-
 ) : FlowViewModel<MainViewContract.Input, MainViewContract.Output, MainViewContract.State>(
     dispatcher
 ) {
-    override val defaultState: MainViewContract.State = MainViewContract.State()
-    override fun listenToRepos(): List<Flow<MainViewContract.Output>> {
-        return listOf(
-            featureFlagRepo.flow()
-                .map { features -> MainViewContract.Output.SettingsUpdated(features) },
-            mediaProjectionRequestBus.flow()
-                .map { it.request }
-                .shellUnwrap()
-                .map { request -> MainViewContract.Output.RequestScreenCapture(request) }
-        )
-    }
+    override val initialState: MainViewContract.State = MainViewContract.State()
 
-    override suspend fun FlowCollector<MainViewContract.Output>.getUsecase(event: MainViewContract.Input) {
-        when (event) {
-            is MainViewContract.Input.MediaProjectionUpdated -> {
-                updateMediaProjectionUC.execute(event.mediaProjection).blockingAwait()
-            }
-        }
-    }
+    private val _state = MutableStateFlow(initialState)
+    val state by lazy { _state.asStateFlow() }
 
-    override fun Flow<MainViewContract.Output>.mapToState(): Flow<MainViewContract.State> {
-        return this.scan(defaultState) { oldState, output ->
+    override val repos = listOf(
+        featureFlagRepo.flow()
+            .map { features -> MainViewContract.Output.SettingsUpdated(features) },
+        mediaProjectionRequestBus.flow().map { it.request }.shellUnwrap()
+            .map { request -> MainViewContract.Output.RequestScreenCapture(request) }
+    )
+
+    override val stateMapper: (MainViewContract.State, MainViewContract.Output) -> MainViewContract.State =
+        { oldState, output ->
             when (output) {
-                is MainViewContract.Output.RequestScreenCapture ->
-                    oldState.copy(
-                        requestForScreenCapture = Shell(output.shouldRequest)
-                    )
+                is MainViewContract.Output.RequestScreenCapture -> oldState.copy(
+                    requestForScreenCapture = Shell(output.shouldRequest)
+                )
                 is MainViewContract.Output.SettingsUpdated -> {
                     val isLogViewEnabled =
                         output.featureFlagsCollection.isEnabled(FeatureFlag.LogView)
                     val shouldKeepScreenOn =
                         output.featureFlagsCollection.isEnabled(FeatureFlag.KeepScreenOn)
                     oldState.copy(
-                        isLogViewEnabled = isLogViewEnabled,
-                        shouldKeepScreenOn = shouldKeepScreenOn
+                        isLogViewEnabled = isLogViewEnabled, shouldKeepScreenOn = shouldKeepScreenOn
                     )
                 }
             }
         }
+
+
+    override val launchUsecase: FlowCollector<MainViewContract.Output>.(MainViewContract.Input) -> Unit =
+        {
+            when (it) {
+                is MainViewContract.Input.MediaProjectionUpdated -> {
+                    updateMediaProjectionUC.execute(it.mediaProjection).blockingAwait()
+                }
+            }
+        }
+
+    init {
+        viewModelScope.launch {
+            processIO(inputFlow).mapToState().collect { _state.value = it }
+        }
     }
+
 }

@@ -29,8 +29,6 @@ open class StateFlowRepo<T : Any>(default: T? = null) {
         flow.emit(next)
     }
 
-
-
     @Deprecated(
         level = DeprecationLevel.WARNING,
         message = "RxJava is deprecated",
