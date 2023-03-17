@@ -25,7 +25,7 @@ class MediaProjectionStateRepo @Inject constructor() :
     StateFlowRepo<MediaProjectionState>(MediaProjectionState())
 
 @Singleton
-class LogsRepo @Inject constructor() : PublishSubjectRepo<LogEvent>()
+class LogRepo @Inject constructor() : PublishSubjectRepo<LogEvent>(30)
 
 @Singleton
 class ToastRepo @Inject constructor(private val context: Context) :  StateFlowRepo<String>() {

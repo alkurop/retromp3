@@ -5,25 +5,22 @@ import com.omar.retromp3recorder.audioplayer.observeEvents
 import com.omar.retromp3recorder.domain.platform.LogEvent
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.share.Sharer
-import com.omar.retromp3recorder.storage.repo.global.LogsRepo
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
+import com.omar.retromp3recorder.storage.repo.global.LogRepo
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
 class LogMapperFlow @Inject constructor(
     private val recorder: Mp3VoiceRecorder,
     private val sharer: Sharer,
-    private val logsRepo: LogsRepo
+    private val logRepo: LogRepo,
 ) {
 
     fun flow(): Flow<LogEvent> = merge(
-        recorder.createLogs(),
-        sharer.createLogs(),
-        logsRepo.flow()
-    )
+            recorder.createLogs(),
+            sharer.createLogs(),
+            logRepo.flow()
+        )
 
     private companion object {
         private fun Mp3VoiceRecorder.createLogs(): Flow<LogEvent> {
@@ -65,7 +62,7 @@ class LogMapperFlow @Inject constructor(
             val error = this
                 .observeEvents()
                 .asFlow()
-                .filterIsInstance<LogEvent.Error>()
+                .filterIsInstance<Sharer.Event.Error>()
                 .map { answer -> LogEvent.Error(answer.error) }
             return merge(message, error)
         }
