@@ -1,11 +1,11 @@
 package com.omar.retromp3recorder.app.di
 
-import android.app.Application
-import android.content.Context
 import com.omar.retromp3recorder.utils.domain.Constants
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -13,13 +13,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Named
 
+@InstallIn(SingletonComponent::class)
 @Module
-class AndroidModule(private val app: Application) {
-
-    @Provides
-    fun context(): Context {
-        return app
-    }
+class AndroidModule {
 
     @Provides
     fun provideWakelockDealer(serviceDealerImpl: ServiceDealerImpl): ServiceDealer =
@@ -38,4 +34,5 @@ class AndroidModule(private val app: Application) {
 
     @Provides
     fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
 }

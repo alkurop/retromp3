@@ -8,6 +8,7 @@ import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.share.Sharer.Event.Error
 import com.omar.retromp3recorder.utils.domain.Constants.MAIN_THREAD
 import com.omar.retromp3recorder.utils.domain.FileUriCreator
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Scheduler
@@ -21,7 +22,7 @@ import javax.inject.Singleton
 @Singleton
 class SharerImpl @Inject internal constructor(
     private val fileUriCreator: FileUriCreator,
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     @param:Named(MAIN_THREAD) private val mainThreadScheduler: Scheduler
 ) : Sharer {
     private val events = PublishSubject.create<Sharer.Event>()

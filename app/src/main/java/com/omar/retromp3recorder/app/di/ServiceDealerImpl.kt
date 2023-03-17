@@ -5,10 +5,11 @@ import android.content.Intent
 import com.omar.retromp3recorder.app.MediaProjectionService
 import com.omar.retromp3recorder.app.WakelockService
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class ServiceDealerImpl @Inject constructor(
-    private val context: Context
+   @ApplicationContext private val context: Context
 ) : ServiceDealer {
     override fun startWakelockService() {
         with(context) {

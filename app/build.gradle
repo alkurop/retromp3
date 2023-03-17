@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'com.google.dagger.hilt.android'
 }
 
 apply from: "$scripts.android_common"
@@ -76,9 +77,10 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout-compose:$versions.composeConstraint"
     implementation "com.google.android.material:material:$versions.material"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"
-
-    implementation "com.google.dagger:dagger:$versions.dagger"
-    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+//hilt
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
+    implementation "androidx.hilt:hilt-navigation-compose:$versions.hilt_compose"
+    kapt "com.google.dagger:hilt-compiler:$versions.hilt"
 
     implementation project(':utils:domain')
     implementation project(':io:mp3recorder')

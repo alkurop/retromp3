@@ -6,12 +6,13 @@ import androidx.annotation.ChecksSdkIntAtLeast
 import com.mpatric.mp3agic.ID3v1Tag
 import com.mpatric.mp3agic.Mp3File
 import com.omar.retromp3recorder.domain.RecordingTags
+import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
 class Mp3TagsEditor @Inject constructor(
-    private val context: Context,
+   @ApplicationContext private val context: Context,
     private val recordingTagsDefaultsProvider: RecordingTagsDefaultProvider,
     private val fileEmptyChecker: FileEmptyChecker
 ) {

@@ -7,16 +7,16 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.omar.retromp3recorder.app.screens.search.SelectorContract
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.RetroTheme
+import com.omar.retromp3recorder.app.screens.search.SelectorContract
 import com.omar.retromp3recorder.app.screens.search.SelectorViewModelFlow
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SearchScreenLayout(
-    viewModel: SelectorViewModelFlow = viewModel(),
+    viewModel: SelectorViewModelFlow = hiltViewModel(),
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()

@@ -7,7 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.utils.TimeDisplay.toDisplayCompose
 import com.omar.retromp3recorder.domain.PlayerRange
@@ -16,7 +16,7 @@ import com.omar.retromp3recorder.domain.PlayerRange
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RangeBarLayout(
-    viewModel: RangeBarViewModelFlow = viewModel(),
+    viewModel: RangeBarViewModelFlow = hiltViewModel(),
     modifier: Modifier
 ) {
 

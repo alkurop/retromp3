@@ -18,6 +18,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.CHANNEL_P
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.QUALITY_PRESETS
 import com.omar.retromp3recorder.iorecorder.RecorderObserver.sendFinishLog
 import com.omar.retromp3recorder.utils.domain.disposedBy
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
@@ -34,7 +35,7 @@ import javax.inject.Singleton
 @Singleton
 class Mp3VoiceRecorderImpl @Inject internal constructor(
     private val scheduler: Scheduler,
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : Mp3VoiceRecorder {
     private val events: Subject<Mp3VoiceRecorder.Event> = PublishSubject.create()
     private val elapsed = AtomicLong(0)

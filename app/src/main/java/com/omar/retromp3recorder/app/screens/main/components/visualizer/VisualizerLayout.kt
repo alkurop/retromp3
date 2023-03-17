@@ -9,12 +9,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.bl.audio.AudioState
 import timber.log.Timber
 
 @Composable
-fun VisualizerLayout(viewModel: VisualizerViewModelFlow = viewModel(), modifier: Modifier) {
+fun VisualizerLayout(viewModel: VisualizerViewModelFlow = hiltViewModel(), modifier: Modifier) {
     val state: VisualizerView.State by viewModel.state.collectAsState()
     var visualizer: Visualizer? = null
     fun stopVisualizer(){

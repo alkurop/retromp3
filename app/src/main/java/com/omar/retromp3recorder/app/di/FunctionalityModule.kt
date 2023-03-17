@@ -6,11 +6,14 @@ import com.omar.retromp3recorder.share.Sharer
 import com.omar.retromp3recorder.share.SharerImpl
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
+@InstallIn(SingletonComponent::class)
 @Module
 internal interface FunctionalityModule {
     @Binds
-    fun provideVoiceRecorderBase(clazz: Mp3VoiceRecorderImpl): Mp3VoiceRecorder
+    fun provideVoiceRecorderBase(instance: Mp3VoiceRecorderImpl): Mp3VoiceRecorder
 
     @Binds
     fun provideSharingModuleBase(clazz: SharerImpl): Sharer

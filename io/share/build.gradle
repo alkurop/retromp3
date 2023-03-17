@@ -13,5 +13,5 @@ dependencies {
     implementation project(':domain:platform')
     implementation project(':utils:domain')
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
-    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
 }

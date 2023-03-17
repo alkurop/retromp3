@@ -11,11 +11,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun LogLayout(
-    modifier: Modifier = Modifier, viewModel: LogViewModelFlow = viewModel()
+    modifier: Modifier = Modifier,
+    viewModel: LogViewModelFlow = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 

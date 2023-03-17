@@ -7,7 +7,7 @@ import android.os.Looper
 import com.github.alkurop.stringerbell.Stringer
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.Player.STATE_ENDED
-import com.omar.retromp3recorder.utils.domain.Track
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -18,9 +18,8 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-@Track
 class AudioPlayerExoImpl @Inject constructor(
-    val context: Context
+    @ApplicationContext val context: Context
 ) : AudioPlayer {
     private val events = PublishSubject.create<AudioPlayer.Output.Event>()
     private val state = BehaviorSubject.createDefault(AudioPlayer.State.Idle)

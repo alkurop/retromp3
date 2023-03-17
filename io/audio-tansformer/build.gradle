@@ -15,5 +15,4 @@ dependencies {
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.google.dagger:dagger:$versions.dagger"
     implementation "com.arthenica:mobile-ffmpeg-min:$versions.ffmpegKit"
-
 }

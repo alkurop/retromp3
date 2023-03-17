@@ -16,7 +16,9 @@ import com.omar.retromp3recorder.app.nav.AppNavHost
 import com.omar.retromp3recorder.app.screens.main.MainViewContract
 import com.omar.retromp3recorder.app.screens.main.MainViewModel
 import com.omar.retromp3recorder.app.utils.observe
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private val mediaProjectionManager by lazy { getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }

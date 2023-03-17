@@ -8,6 +8,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.common.StateFlowRepo
 import com.omar.retromp3recorder.storage.repo.common.PublishSubjectRepo
 import com.omar.retromp3recorder.domain.platform.LogEvent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,7 +29,7 @@ class MediaProjectionStateRepo @Inject constructor() :
 class LogRepo @Inject constructor() : PublishSubjectRepo<LogEvent>(30)
 
 @Singleton
-class ToastRepo @Inject constructor(private val context: Context) :  StateFlowRepo<String>() {
+class ToastRepo @Inject constructor(@ApplicationContext  val context: Context) :  StateFlowRepo<String>() {
     suspend fun emit(stringer: Stringer) {
         emit(stringer.bell(context))
     }

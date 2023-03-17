@@ -25,7 +25,7 @@ dependencies {
     implementation project(':io:share')
     implementation project(':data:storage')
 
-    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
 }

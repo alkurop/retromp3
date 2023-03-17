@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.utils.toFileName
 import com.omar.retromp3recorder.domain.JoinedProgress
@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 @Composable
-fun JoinedProgressLayout(viewModel: JoinedProgressViewModelFlow = viewModel(), modifier: Modifier) {
+fun JoinedProgressLayout(viewModel: JoinedProgressViewModelFlow = hiltViewModel(), modifier: Modifier) {
     val viewState: JoinedProgressView.State by viewModel.state.collectAsState()
 
     Surface(modifier = modifier) {

@@ -36,8 +36,8 @@ dependencies {
     api "androidx.paging:paging-runtime-ktx:$versions.paging"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"
 
-    implementation "com.google.dagger:dagger:$versions.dagger"
-    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
+    kapt "com.google.dagger:hilt-compiler:$versions.hilt"
 
     constraints {
         implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle") {

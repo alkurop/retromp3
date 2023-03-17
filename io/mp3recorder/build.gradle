@@ -12,6 +12,6 @@ android {
 dependencies {
     implementation project(':utils:domain')
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
-    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation 'com.github.alkurop:LameMp3RecorderModule:0.5'
 }

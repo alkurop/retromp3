@@ -13,6 +13,6 @@ dependencies {
     implementation project(':utils:domain')
     implementation project(':domain:platform')
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
-    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation "com.google.android.exoplayer:exoplayer-core:$versions.exo"
 }

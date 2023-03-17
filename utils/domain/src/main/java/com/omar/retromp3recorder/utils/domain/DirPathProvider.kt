@@ -2,11 +2,12 @@ package com.omar.retromp3recorder.utils.domain
 
 import android.content.Context
 import android.os.Environment
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
 
 class DirPathProvider @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     fun providerDirPath(): String {
         return fileDirs.first { File(it).exists() }

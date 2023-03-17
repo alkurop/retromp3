@@ -5,7 +5,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.common.FileNameContentLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.views.PopupButtonData
@@ -14,7 +14,7 @@ import com.omar.retromp3recorder.utils.domain.updateName
 
 @Composable
 fun CropPopupLayout(
-    viewModel: CropViewModelFlow = viewModel(),
+    viewModel: CropViewModelFlow = hiltViewModel(),
     onDismiss: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()

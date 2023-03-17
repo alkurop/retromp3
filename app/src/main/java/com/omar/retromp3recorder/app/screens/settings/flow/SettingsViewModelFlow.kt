@@ -2,24 +2,26 @@ package com.omar.retromp3recorder.app.screens.settings.flow
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.omar.retromp3recorder.app.App
 import com.omar.retromp3recorder.app.screens.settings.SettingsContract
 import com.omar.retromp3recorder.app.screens.settings.SettingsViewOutputMapper.mapOutputToStateFlow
-import kotlinx.coroutines.flow.*
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SettingsViewModelFlow : ViewModel() {
+@HiltViewModel
+class SettingsViewModelFlow @Inject constructor(
+    private val interactor: SettingsFlowInteractor
+) : ViewModel() {
     private val _state = MutableStateFlow(SettingsContract.State())
     val state = _state.asStateFlow()
 
     private val inputFlow = MutableSharedFlow<SettingsContract.Input>()
 
-    @Inject
-    lateinit var interactor: SettingsFlowInteractor
-
     init {
-        App.appComponent.inject(this)
         viewModelScope.launch {
             interactor.processIO(inputFlow)
                 .mapOutputToStateFlow()

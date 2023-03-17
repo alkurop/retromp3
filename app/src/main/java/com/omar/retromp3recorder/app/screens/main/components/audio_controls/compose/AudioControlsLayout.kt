@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsView
@@ -22,7 +22,7 @@ import com.omar.retromp3recorder.app.utils.TimeDisplay.toDisplayCompose
 @Composable
 fun AudioControlsLayout(
     modifier: Modifier,
-    viewModel: AudioControlsViewModelFlow = viewModel()
+    viewModel: AudioControlsViewModelFlow = hiltViewModel()
 ) {
 
     val state: AudioControlsView.State by viewModel.state.collectAsState()

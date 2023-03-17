@@ -32,7 +32,6 @@ class MediaProjectionService : Service() {
     }
 
     override fun onCreate() {
-        App.appComponent.inject(this)
         createNotificationChannel()
         showRecordingNotification()
         observeStopBus()
