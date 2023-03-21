@@ -5,7 +5,7 @@ In order of appearance
 - V cleanup dependency
 - V refactor permissions
 - refactor main activity
-- replace dagger with hilt
+- V replace dagger with hilt
 - progress issue *
 - search activity toolbar color * 
 - V convert to flow and write tests one by one
