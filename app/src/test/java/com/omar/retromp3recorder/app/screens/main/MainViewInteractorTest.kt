@@ -14,6 +14,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -24,8 +25,8 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MainViewModelTest {
-    private lateinit var tested: MainViewModel
+class MainViewInteractorTest {
+    private lateinit var tested: MainViewInteractor
     private lateinit var mediaProjectionStateRepo: MediaProjectionStateRepo
     private val usecase = mockk<UpdateMediaProjectionUC>(relaxed = true)
     private lateinit var featureFlagRepo: FeatureFlagRepo
@@ -36,7 +37,7 @@ class MainViewModelTest {
         Dispatchers.setMain(dispatcher)
         mediaProjectionStateRepo = MediaProjectionStateRepo()
         featureFlagRepo = FeatureFlagRepo()
-        tested = MainViewModel(mediaProjectionStateRepo, usecase, featureFlagRepo, dispatcher)
+        tested = MainViewInteractor(mediaProjectionStateRepo, usecase, featureFlagRepo, dispatcher)
     }
 
     @After
@@ -54,12 +55,15 @@ class MainViewModelTest {
                 )
             )
         )
-        tested.state.test {
-            val item = awaitItem()
-            val isLogView = item.isLogViewEnabled
-            val isKeepScreen = item.shouldKeepScreenOn
-            assert(isLogView)
-            assert(isKeepScreen)
+        tested.processIO(flowOf()).test {
+            val item = awaitItem() as? MainViewContract.Output.SettingsUpdated
+            val logFlag =
+                item?.featureFlagsCollection?.featuresMap?.get(FeatureFlag.LogView)?.isEnabled
+            val screenFlag =
+                item?.featureFlagsCollection?.featuresMap?.get(FeatureFlag.KeepScreenOn)?.isEnabled
+
+            assertEquals(true, logFlag)
+            assertEquals(true, screenFlag)
         }
     }
 
@@ -67,18 +71,17 @@ class MainViewModelTest {
     fun `listens to media projection repo`() = runTest {
         val request = 234
         mediaProjectionStateRepo.emit(MediaProjectionState(request = Shell(request)))
-        tested.state.test {
-            val item = awaitItem()
-            val result = item.requestForScreenCapture.ghost
-            assertEquals(request, result)
+        tested.processIO(flowOf()).test {
+            val item = awaitItem() as MainViewContract.Output.RequestScreenCapture
+            assertEquals(request, item.shouldRequest)
         }
     }
 
     @Test
     fun `input projection executes usecase`() = runTest {
         val mediaProjection = mockk<MediaProjection>()
-        tested.emit(MainViewContract.Input.MediaProjectionUpdated(mediaProjection))
-
+        tested.processIO(flowOf(MainViewContract.Input.MediaProjectionUpdated(mediaProjection)))
+            .test { }
         verify { usecase.execute(mediaProjection) }
     }
 }
