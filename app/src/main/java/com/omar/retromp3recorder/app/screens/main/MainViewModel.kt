@@ -38,6 +38,16 @@ class MainViewModel @Inject constructor(
             .map { request -> MainViewContract.Output.RequestScreenCapture(request) }
     )
 
+
+    override val launchUsecase: FlowCollector<MainViewContract.Output>.(MainViewContract.Input) -> Unit =
+        {
+            when (it) {
+                is MainViewContract.Input.MediaProjectionUpdated -> {
+                    updateMediaProjectionUC.execute(it.mediaProjection).blockingAwait()
+                }
+            }
+        }
+
     override val stateMapper: (MainViewContract.State, MainViewContract.Output) -> MainViewContract.State =
         { oldState, output ->
             when (output) {
@@ -56,20 +66,9 @@ class MainViewModel @Inject constructor(
             }
         }
 
-
-    override val launchUsecase: FlowCollector<MainViewContract.Output>.(MainViewContract.Input) -> Unit =
-        {
-            when (it) {
-                is MainViewContract.Input.MediaProjectionUpdated -> {
-                    updateMediaProjectionUC.execute(it.mediaProjection).blockingAwait()
-                }
-            }
-        }
-
     init {
         viewModelScope.launch {
             processIO(inputFlow).mapToState().collect { _state.value = it }
         }
     }
-
 }

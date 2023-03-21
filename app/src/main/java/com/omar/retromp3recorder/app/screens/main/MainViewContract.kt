@@ -12,7 +12,6 @@ object MainViewContract {
         val isNewLayout: Boolean = false,
         val isLogViewEnabled: Boolean = false,
         val shouldKeepScreenOn: Boolean = false,
-        val shouldRestart: Boolean = false,
     )
 
     sealed class Input {

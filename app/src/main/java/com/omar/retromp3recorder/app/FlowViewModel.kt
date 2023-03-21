@@ -12,7 +12,7 @@ abstract class FlowViewModel<Input, Output, State>(
     protected val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val inputFlow = MutableSharedFlow<Input>()
+    protected val inputFlow = MutableSharedFlow<Input>()
 
     abstract val initialState: State
 
@@ -34,12 +34,11 @@ abstract class FlowViewModel<Input, Output, State>(
 
     abstract val repos: List<Flow<Output>>
 
+    abstract val launchUsecase: FlowCollector<Output>.(Input) -> Unit
+
     abstract val stateMapper: (State, Output) -> State
 
     protected fun Flow<Output>.mapToState(): Flow<State> {
         return this.scan(initialState) { oldState, output -> stateMapper(oldState, output) }
     }
-
-    abstract val launchUsecase: FlowCollector<Output>.(Input) -> Unit
-
 }
