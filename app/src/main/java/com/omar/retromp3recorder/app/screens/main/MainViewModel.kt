@@ -11,8 +11,6 @@ import com.omar.retromp3recorder.utils.domain.shellUnwrap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,9 +26,6 @@ class MainViewModel @Inject constructor(
 ) {
     override val initialState: MainViewContract.State = MainViewContract.State()
 
-    private val _state = MutableStateFlow(initialState)
-    val state by lazy { _state.asStateFlow() }
-
     override val repos = listOf(
         featureFlagRepo.flow()
             .map { features -> MainViewContract.Output.SettingsUpdated(features) },
@@ -39,7 +34,7 @@ class MainViewModel @Inject constructor(
     )
 
 
-    override val launchUsecase: FlowCollector<MainViewContract.Output>.(MainViewContract.Input) -> Unit =
+    override val launchUsecase: suspend FlowCollector<MainViewContract.Output>.(MainViewContract.Input) -> Unit =
         {
             when (it) {
                 is MainViewContract.Input.MediaProjectionUpdated -> {
@@ -67,8 +62,6 @@ class MainViewModel @Inject constructor(
         }
 
     init {
-        viewModelScope.launch {
-            processIO(inputFlow).mapToState().collect { _state.value = it }
-        }
+       launch()
     }
 }

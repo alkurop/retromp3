@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 abstract class FlowViewModel<Input, Output, State>(
     protected val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
+    protected val _state by lazy { MutableStateFlow(initialState) }
+    val state by lazy { _state.asStateFlow() }
 
     protected val inputFlow = MutableSharedFlow<Input>()
 
@@ -34,11 +36,17 @@ abstract class FlowViewModel<Input, Output, State>(
 
     abstract val repos: List<Flow<Output>>
 
-    abstract val launchUsecase: FlowCollector<Output>.(Input) -> Unit
+    abstract val launchUsecase: suspend FlowCollector<Output>.(Input) -> Unit
 
     abstract val stateMapper: (State, Output) -> State
 
     protected fun Flow<Output>.mapToState(): Flow<State> {
         return this.scan(initialState) { oldState, output -> stateMapper(oldState, output) }
+    }
+
+    protected fun launch() {
+        viewModelScope.launch {
+            processIO(inputFlow).mapToState().collect { _state.value = it }
+        }
     }
 }
