@@ -25,10 +25,10 @@ class MainViewInteractor @Inject constructor(
                 .map { request -> MainViewContract.Output.RequestScreenCapture(request) })
     }
 
-    override suspend fun FlowCollector<MainViewContract.Output>.launchUsCase(event: MainViewContract.Input) {
-        when (event) {
+    override suspend fun FlowCollector<MainViewContract.Output>.launchUseCase(input: MainViewContract.Input) {
+        when (input) {
             is MainViewContract.Input.MediaProjectionUpdated -> {
-                updateMediaProjectionUC.execute(event.mediaProjection).blockingAwait()
+                updateMediaProjectionUC.execute(input.mediaProjection).blockingAwait()
             }
         }
     }

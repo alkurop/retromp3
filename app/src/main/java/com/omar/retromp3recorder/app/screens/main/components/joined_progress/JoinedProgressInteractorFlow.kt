@@ -1,51 +1,28 @@
 package com.omar.retromp3recorder.app.screens.main.components.joined_progress
 
+import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.bl.audio.AudioSeekFinishUC
 import com.omar.retromp3recorder.bl.audio.AudioSeekPauseUC
 import com.omar.retromp3recorder.bl.audio.AudioSeekProgressUC
 import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class)
 class JoinedProgressInteractorFlow @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
     private val audioSeekProgressUC: AudioSeekProgressUC,
     private val audioSeekPauseUC: AudioSeekPauseUC,
     private val audioSeekFinishUC: AudioSeekFinishUC,
     private val joinedProgressRepo: JoinedProgressMapper,
-    private val dispatcher: CoroutineDispatcher,
-) {
-    fun processIO(upstream: Flow<JoinedProgressView.In>): Flow<JoinedProgressView.Output> {
-        return listOf(
-            listenToRepos(),
-            upstream.processInputs(),
-        ).merge().flowOn(dispatcher)
-    }
+    dispatcher: CoroutineDispatcher,
+) : Interactor<JoinedProgressView.In, JoinedProgressView.Output>(dispatcher) {
 
-    private fun Flow<JoinedProgressView.In>.processInputs(): Flow<JoinedProgressView.Output> {
-        return this.flatMapMerge { event ->
-            flow {
-                when (event) {
-                    is JoinedProgressView.In.SeekToPosition -> {
-                        audioSeekProgressUC.execute(event.position)
-                    }
-                    is JoinedProgressView.In.SeekingStarted -> {
-                        audioSeekPauseUC.execute()
-                    }
-                    is JoinedProgressView.In.SeekingFinished -> {
-                        audioSeekFinishUC.execute()
-                    }
-                }
-            }
-        }
-    }
-
-    private fun listenToRepos(): Flow<JoinedProgressView.Output> {
+    override fun listRepos(): List<Flow<JoinedProgressView.Output>> {
         return listOf(
             joinedProgressRepo.observe().asFlow().map {
                 JoinedProgressView.Output.JoinedProgressChanged(it)
@@ -55,6 +32,20 @@ class JoinedProgressInteractorFlow @Inject constructor(
                     file.value
                 )
             }
-        ).merge()
+        )
+    }
+
+    override suspend fun FlowCollector<JoinedProgressView.Output>.launchUseCase(input: JoinedProgressView.In) {
+        when (input) {
+            is JoinedProgressView.In.SeekToPosition -> {
+                audioSeekProgressUC.execute(input.position)
+            }
+            is JoinedProgressView.In.SeekingStarted -> {
+                audioSeekPauseUC.execute()
+            }
+            is JoinedProgressView.In.SeekingFinished -> {
+                audioSeekFinishUC.execute()
+            }
+        }
     }
 }

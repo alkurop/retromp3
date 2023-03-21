@@ -6,6 +6,7 @@ import com.omar.retromp3recorder.app.screens.main.components.log.LogOutputMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class LogViewModelFlow @Inject constructor(
     interactor: LogInteractorFlow
 ) : ViewModel() {
-    val state: StateFlow<LogView.State> = interactor.processIO()
+    val state: StateFlow<LogView.State> = interactor.processIO(flowOf())
         .mapOutputToState()
         .stateIn(viewModelScope, SharingStarted.Lazily, LogView.State())
 }

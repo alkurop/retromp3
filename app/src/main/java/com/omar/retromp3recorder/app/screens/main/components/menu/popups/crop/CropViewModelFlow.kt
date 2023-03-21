@@ -18,7 +18,6 @@ class CropViewModelFlow @Inject constructor(
     val state: StateFlow<CropContract.State>
     private val inputFlow = MutableSharedFlow<CropContract.Input>()
 
-
     init {
         state = interactor.processIO(inputFlow)
             .mapToState()

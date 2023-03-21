@@ -1,48 +1,33 @@
 package com.omar.retromp3recorder.app.screens.main.components.rangebar
 
+import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.bl.audio.UpdatePlayerRangeUC
 import com.omar.retromp3recorder.bl.settings.ActivateRangeUC
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
-@OptIn(FlowPreview::class)
 class RangeBarInteractorFlow @Inject constructor(
     private val rangeStateMapper: RangeBarStateMapperFlow,
     private val updatePlayerRangeUC: UpdatePlayerRangeUC,
     private val rangeEnableRangeUC: ActivateRangeUC,
-    private val dispatcher: CoroutineDispatcher,
-) : CoroutineScope {
-    override val coroutineContext: CoroutineContext = dispatcher + Job()
+    dispatcher: CoroutineDispatcher,
+) : Interactor<RangeBarView.Input, RangeBarView.State>(dispatcher) {
 
-    fun processIO(upstream: Flow<RangeBarView.Input>): Flow<RangeBarView.State> {
-        return listOf(
-            listenToRepos(),
-            upstream.processInputs(),
-        ).merge().flowOn(dispatcher)
+
+    override fun listRepos(): List<Flow<RangeBarView.State>> {
+        return listOf(rangeStateMapper.flow())
     }
 
-    private fun Flow<RangeBarView.Input>.processInputs(): Flow<RangeBarView.State> {
-        return this.flatMapMerge { input ->
-            flow {
-                when (input) {
-                    is RangeBarView.Input.RangeSet -> {
-                        updatePlayerRangeUC.execute(input.range)
-                    }
-                    is RangeBarView.Input.Enable -> {
-                        rangeEnableRangeUC.execute()
-                    }
-                }
+    override suspend fun FlowCollector<RangeBarView.State>.launchUseCase(input: RangeBarView.Input) {
+        when (input) {
+            is RangeBarView.Input.RangeSet -> {
+                updatePlayerRangeUC.execute(input.range)
+            }
+            is RangeBarView.Input.Enable -> {
+                rangeEnableRangeUC.execute()
             }
         }
-    }
-
-
-    private fun listenToRepos(): Flow<RangeBarView.State> {
-        return rangeStateMapper.flow()
     }
 }

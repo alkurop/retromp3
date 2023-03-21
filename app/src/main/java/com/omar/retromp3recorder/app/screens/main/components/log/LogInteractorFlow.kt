@@ -1,21 +1,21 @@
 package com.omar.retromp3recorder.app.screens.main.components.log
 
+import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.bl.system.LogMapperFlow
 import com.omar.retromp3recorder.domain.platform.LogEvent
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LogInteractorFlow @Inject constructor(
     private val logMapper: LogMapperFlow,
-    private val dispatcher: CoroutineDispatcher
-) {
-    fun processIO(): Flow<LogView.Output> =
-        listOf(
-            listenToRepos()
-        ).merge().flowOn(dispatcher)
+    dispatcher: CoroutineDispatcher
+) : Interactor<LogView.Input, LogView.Output>(dispatcher) {
 
-    private fun listenToRepos(): Flow<LogView.Output> {
+    override fun listRepos(): List<Flow<LogView.Output>> {
         return listOf(
             logMapper.flow()
                 .filterIsInstance<LogEvent.Message>()
@@ -23,6 +23,10 @@ class LogInteractorFlow @Inject constructor(
             logMapper.flow()
                 .filterIsInstance<LogEvent.Error>()
                 .map { message -> LogView.Output.ErrorLogOutput(message.error) },
-        ).merge()
+        )
+    }
+
+    override suspend fun FlowCollector<LogView.Output>.launchUseCase(input: LogView.Input) {
+        //noop
     }
 }
