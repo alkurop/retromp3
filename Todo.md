@@ -74,6 +74,6 @@ X means can't be done (please provide explanation)
 - design local progress and state of track
 - add bit counter
 - show snackbar instead of toast
-
+- make record button bigger then others
 - V cleanup circleci script
 

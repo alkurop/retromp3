@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -34,7 +34,7 @@ fun AudioControlsLayout(
     val buttonSize = 32.dp
     val spacerWeight = 0.1f
 
-    val sendInput: (AudioControlsView.Input) -> Unit = { viewModel.onEvent(it) }
+    val sendInput: (AudioControlsView.Input) -> Unit = remember { { viewModel.onEvent(it) } }
 
     val mapVisibility: (Boolean) -> Float = { if (it) 1f else 0f }
 
@@ -81,7 +81,7 @@ fun AudioControlsLayout(
                     onClick = {
                         permissionsState.launchPermissionRequest()
                     },
-                    Modifier.width(buttonSize)
+                    Modifier.width(buttonSize * 2)
                 )
                 StopButton(
                     state = stopButtonState,

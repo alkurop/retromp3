@@ -5,7 +5,6 @@ import com.omar.retromp3recorder.app.screens.main.components.audio_controls.butt
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.RecordButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.ShareButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.StopButtonStateMapperFlow
-import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.InteractiveButtonState
 import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
 import com.omar.retromp3recorder.bl.audio.actions.StartRecordUC
 import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUC
@@ -13,6 +12,7 @@ import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.domain.PlayerProgress
+import com.omar.retromp3recorder.ui.statebutton.InteractiveButtonState
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.ui.statebutton
 
+import androidx.compose.foundation.Image
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -30,7 +31,7 @@ fun InteractiveButton(
         enabled = state.isEnabled,
         modifier = modifier
     ) {
-        Icon(
+        Image(
             painter = if (state.isBlinkPainterEnabled) blinkPainter
                 ?: enabledPainter else enabledPainter,
             contentDescription = contentDescription,

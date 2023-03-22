@@ -19,8 +19,8 @@ class InteractiveButtonCombinedState(
     val isBlinkPainterEnabled by derivedStateOf {
         when (currentState) {
             InteractiveButtonState.DISABLED,
-            InteractiveButtonState.ENABLED -> true
-            InteractiveButtonState.RUNNING -> !blinkState
+            InteractiveButtonState.ENABLED -> false
+            InteractiveButtonState.RUNNING -> blinkState
         }
     }
 }
