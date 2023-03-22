@@ -29,7 +29,7 @@ In order of appearance
 - what happens when app is killed by the system (Don't keep activity) in different screens? Is there a need to save state somewhere?
 - add slider to settings instead of switch (like in one fit app)
 - V merge view model and interactor, by introducing a base vm class
-- merge all interactors with view models
+- X(testing with ) merge all interactors with view models
 - do we still need RangeBarResetBus? If it is removed, will there be bugs? *
 - convert player and recorder to flow
 - properly manual tests before releasing
@@ -52,6 +52,7 @@ In order of appearance
 - fix cropping *
 - fix logs *
 - convert remaining classes to flow
+- convert JoinedProgressMapper, AudioStateMapper to flow
 
 * means bug
 V means completed
