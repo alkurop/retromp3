@@ -56,8 +56,14 @@ class JoinedProgressMapperFlow @Inject constructor(
         return audioStateMapper.observe().asFlow().filterIsInstance<AudioState.Recording>()
             .flatMapLatest {
                 val rate = Mp3VoiceRecorder.WaveTableSampleRate._100
-                recorderWavetableMapper.observe()
-                    .asFlow()
+                combine(
+                    audioStateMapper.observe().asFlow(),
+                    recorderWavetableMapper.observe()
+                        .asFlow()
+                ) { state, byte -> state to byte }
+
+                    .takeWhile { it.first !is AudioState.Idle }
+                    .map { it.second }
                     .scan(WavetableSummer(), WavetableSummer.displayScanFunction)
                     .map {
                         val wavetable = it.toWaveTable(false)
