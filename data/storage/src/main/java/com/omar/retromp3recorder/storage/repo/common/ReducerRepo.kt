@@ -28,6 +28,6 @@ open class ReducerRepo<In : Any, State : Any>(
     )
     open fun observe(): Observable<State> = stateKeeper.asObservable()
 
-    fun flow(): Flow<State> = stateKeeper
+    open fun flow(): Flow<State> = stateKeeper
 
 }
