@@ -1,9 +1,9 @@
 package com.omar.retromp3recorder.app.screens.main.components.audio_controls
 
 import androidx.compose.runtime.Immutable
-import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.InteractiveButtonState
 import com.omar.retromp3recorder.domain.FromToMillis
 import com.omar.retromp3recorder.domain.PlayerProgress
+import com.omar.retromp3recorder.ui.statebutton.InteractiveButtonState
 
 object AudioControlsView {
     sealed class Input {

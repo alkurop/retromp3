@@ -7,6 +7,9 @@ apply from: "$scripts.android_library"
 
 android {
     namespace "${applicationId}.ui.statebutton"
+    buildFeatures {
+        compose true
+    }
 }
 
 dependencies {

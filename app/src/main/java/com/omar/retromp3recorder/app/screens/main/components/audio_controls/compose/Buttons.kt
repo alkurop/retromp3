@@ -6,13 +6,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.ui.statebutton.InteractiveButton
-import com.omar.retromp3recorder.ui.statebutton.InteractiveButtonState
+import com.omar.retromp3recorder.ui.statebutton.InteractiveButtonCombinedState
 
 @Composable
 fun PlayButton(
-    state: InteractiveButtonState,
+    state: InteractiveButtonCombinedState,
     onClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     val icon = R.drawable.ic_play
     val iconBlink = R.drawable.ic_play_blink
@@ -23,15 +23,15 @@ fun PlayButton(
         blinkPainter = painterResource(id = iconBlink),
         contentDescription = stringResource(id = contentDescription),
         onClick = onClick,
-        modifier
+        modifier = modifier
     )
 }
 
 @Composable
 fun RecordButton(
-    state: InteractiveButtonState,
+    state: InteractiveButtonCombinedState,
     onClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     val icon = R.drawable.ic_record
     val iconBlink = R.drawable.ic_record_blink
@@ -42,15 +42,15 @@ fun RecordButton(
         blinkPainter = painterResource(id = iconBlink),
         contentDescription = stringResource(id = contentDescription),
         onClick = onClick,
-        modifier
+        modifier = modifier
     )
 }
 
 @Composable
 fun StopButton(
-    state: InteractiveButtonState,
+    state: InteractiveButtonCombinedState,
     onClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     val icon = R.drawable.ic_stop
     val contentDescription = R.string.stop
@@ -60,15 +60,15 @@ fun StopButton(
         blinkPainter = null,
         contentDescription = stringResource(id = contentDescription),
         onClick = onClick,
-        modifier
+        modifier = modifier
     )
 }
 
 @Composable
 fun ShareButton(
-    state: InteractiveButtonState,
+    state: InteractiveButtonCombinedState,
     onClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     val icon = R.drawable.abc_ic_menu_share_mtrl_alpha
     val contentDescription = R.string.share
@@ -78,6 +78,6 @@ fun ShareButton(
         blinkPainter = null,
         contentDescription = stringResource(id = contentDescription),
         onClick = onClick,
-        modifier
+        modifier = modifier
     )
 }

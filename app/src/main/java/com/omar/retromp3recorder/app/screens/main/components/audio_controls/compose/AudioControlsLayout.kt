@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -17,6 +18,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsView
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.AudioControlsViewModelFlow
 import com.omar.retromp3recorder.app.utils.TimeDisplay.toDisplayCompose
+import com.omar.retromp3recorder.ui.statebutton.rememberCombinedButtonState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -43,6 +45,11 @@ fun AudioControlsLayout(
             }
         }
 
+    val playButtonState = rememberCombinedButtonState(state.playButtonState)
+    val recordButtonState = rememberCombinedButtonState(state.recordButtonState)
+    val stopButtonState = rememberCombinedButtonState(state.stopButtonState)
+    val shareButtonState = rememberCombinedButtonState(state.shareButtonState)
+
     Card(
         modifier = modifier
     ) {
@@ -65,24 +72,24 @@ fun AudioControlsLayout(
             ) {
 
                 PlayButton(
-                    state = state.playButtonState,
+                    state = playButtonState,
                     onClick = { sendInput(AudioControlsView.Input.Play) },
                     Modifier.width(buttonSize)
                 )
                 RecordButton(
-                    state = state.recordButtonState,
+                    state = recordButtonState,
                     onClick = {
                         permissionsState.launchPermissionRequest()
                     },
                     Modifier.width(buttonSize)
                 )
                 StopButton(
-                    state = state.stopButtonState,
+                    state = stopButtonState,
                     onClick = { sendInput(AudioControlsView.Input.Stop) },
                     Modifier.width(buttonSize)
                 )
                 ShareButton(
-                    state = state.shareButtonState,
+                    state = shareButtonState,
                     onClick = { sendInput(AudioControlsView.Input.Share) },
                     Modifier.width(buttonSize)
                 )

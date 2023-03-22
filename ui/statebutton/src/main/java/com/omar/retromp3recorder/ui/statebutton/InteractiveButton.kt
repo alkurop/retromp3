@@ -4,7 +4,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -19,34 +18,28 @@ enum class InteractiveButtonState {
 
 @Composable
 fun InteractiveButton(
-    state: InteractiveButtonState,
     enabledPainter: Painter,
     blinkPainter: Painter?,
     contentDescription: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    state: InteractiveButtonCombinedState = remember { InteractiveButtonCombinedState() },
 ) {
-    val alpha = if (state == InteractiveButtonState.DISABLED) 0.5f else 1f
-    val blinkState = remember { mutableStateOf(false) }
-    val image = when (state) {
-        InteractiveButtonState.DISABLED -> enabledPainter
-        InteractiveButtonState.ENABLED -> enabledPainter
-        InteractiveButtonState.RUNNING -> if (blinkState.value && blinkPainter != null) blinkPainter else enabledPainter
-    }
     IconButton(
         onClick = onClick,
-        enabled = state == InteractiveButtonState.ENABLED,
+        enabled = state.isEnabled,
         modifier = modifier
     ) {
         Icon(
-            painter = image,
+            painter = if (state.isBlinkPainterEnabled) blinkPainter
+                ?: enabledPainter else enabledPainter,
             contentDescription = contentDescription,
-            modifier = Modifier.alpha(alpha)
+            modifier = Modifier.alpha(if (state.isAlphaFull) 1f else 0.3f)
         )
         LaunchedEffect(key1 = state) {
-            while (state == InteractiveButtonState.RUNNING && blinkPainter != null) {
+            while (state.isRunning && blinkPainter != null) {
                 delay(250)
-                blinkState.value = !blinkState.value
+                state.blinkState = !state.blinkState
             }
         }
     }
