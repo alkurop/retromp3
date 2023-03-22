@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.io.recorder.R
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.Flow
 
 interface Mp3VoiceRecorder {
     fun observeEvents(): Observable<Event>
@@ -66,12 +67,20 @@ interface Mp3VoiceRecorder {
         )
     }
 
+    @Deprecated("Use stateFlow()")
     fun observeState(): Observable<State>
+
+    fun stateFlow(): Flow<State>
 
     enum class State {
         Idle,
         Recording
     }
 
+    @Deprecated("Use recorderFlow()")
     fun observeRecorder(): Observable<ByteArray>
+
+    fun recorderFlow(): Flow<ByteArray>
+
+
 }

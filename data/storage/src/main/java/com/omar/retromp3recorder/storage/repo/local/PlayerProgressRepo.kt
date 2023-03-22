@@ -4,7 +4,6 @@ import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.storage.repo.common.ReducerRepo
 import com.omar.retromp3recorder.utils.platform.Optional
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
@@ -32,21 +31,6 @@ class PlayerProgressRepo @Inject constructor(
 
     override fun flow(): Flow<Optional<PlayerProgress>> {
         return combine(super.flow(), playerControlsRepo.flow()) { progress, controls ->
-            Optional(progress.value?.let {
-                it.copy(
-                    range = it.range.copy(
-                        settings = controls.range
-                    )
-                )
-            })
-        }
-    }
-
-    override fun observe(): Observable<Optional<PlayerProgress>> {
-        return Observable.combineLatest(
-            super.observe(),
-            playerControlsRepo.observe()
-        ) { progress, controls ->
             Optional(progress.value?.let {
                 it.copy(
                     range = it.range.copy(

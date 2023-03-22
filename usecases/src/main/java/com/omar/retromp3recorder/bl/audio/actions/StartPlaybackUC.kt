@@ -10,6 +10,7 @@ import com.omar.retromp3recorder.utils.domain.takeObservableOne
 import com.omar.retromp3recorder.utils.domain.toFromToMillis
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.rx3.asObservable
 import javax.inject.Inject
 
 class StartPlaybackUC @Inject constructor(
@@ -20,7 +21,7 @@ class StartPlaybackUC @Inject constructor(
     fun execute(): Completable {
         return Observable.combineLatest(
             currentFileRepo.observe(),
-            playerProgressRepo.observe()
+            playerProgressRepo.flow().asObservable()
         ) { p1, p2 -> Pair(p1, p2) }
             .takeObservableOne()
             .flatMapCompletable { (file, progressState) ->

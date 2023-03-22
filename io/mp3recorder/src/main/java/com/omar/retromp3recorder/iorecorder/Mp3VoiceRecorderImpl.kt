@@ -24,6 +24,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 import io.reactivex.rxjava3.subjects.Subject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.rx3.asFlow
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -44,7 +46,17 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
     private val state = BehaviorSubject.createDefault(Mp3VoiceRecorder.State.Idle)
 
     override fun observeState(): Observable<Mp3VoiceRecorder.State> = state
+
+    override fun stateFlow(): Flow<Mp3VoiceRecorder.State> {
+        return observeState().asFlow()
+    }
+
     override fun observeRecorder(): Observable<ByteArray> = RecorderObserver.map(recorderBus)
+
+    override fun recorderFlow(): Flow<ByteArray> {
+        return observeRecorder().asFlow()
+    }
+
     override fun observeEvents(): Observable<Mp3VoiceRecorder.Event> = events
 
     override fun recordWithProps(props: Mp3VoiceRecorder.RecorderProps) {

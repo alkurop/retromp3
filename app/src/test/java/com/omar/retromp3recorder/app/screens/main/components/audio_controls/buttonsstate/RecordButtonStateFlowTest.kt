@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.screens.main.components.audio_controls.but
 
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.InteractiveButtonState
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +16,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RecordButtonStateFlowTest {
-    private val audioState = mockk<AudioStateMapperFlow>()
+    private val audioState = mockk<AudioStateMapper>()
     private lateinit var stateFlow: RecordButtonStateFlow
 
     @Before

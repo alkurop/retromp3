@@ -3,10 +3,20 @@ package com.omar.retromp3recorder.audioplayer
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.domain.FromToMillis
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterIsInstance
 
 interface AudioPlayer {
+    @Deprecated("Use flow()")
+
     fun observe(): Observable<Output>
+
+    fun flow(): Flow<Output>
+
+    @Deprecated("Use stateFlow()")
     fun observeState(): Observable<State>
+
+    fun stateFlow(): Flow<State>
 
     fun onInput(input: Input)
 
@@ -41,8 +51,6 @@ data class PlayerStartOptions(
     val filePath: String
 )
 
-fun AudioPlayer.observeEvents(): Observable<AudioPlayer.Output.Event> =
-    this.observe().ofType(AudioPlayer.Output.Event::class.java)
+fun AudioPlayer.eventsFlow():Flow<AudioPlayer.Output.Event> = this.flow().filterIsInstance()
 
-fun AudioPlayer.observeProgress(): Observable<AudioPlayer.Output.Progress> =
-    this.observe().ofType(AudioPlayer.Output.Progress::class.java)
+fun AudioPlayer.progressFlow():Flow<AudioPlayer.Output.Progress> = this.flow().filterIsInstance()

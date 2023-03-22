@@ -15,4 +15,5 @@ dependencies {
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation "com.google.android.exoplayer:exoplayer-core:$versions.exo"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"
 }

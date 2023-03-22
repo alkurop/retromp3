@@ -5,16 +5,15 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
-class AudioStateMapperFlow @Inject constructor(
+class AudioStateMapper @Inject constructor(
     private val player: AudioPlayer,
     private val recorder: Mp3VoiceRecorder
 ) {
     fun flow(): Flow<AudioState> = combine(
-        player.observeState().asFlow(),
-        recorder.observeState().asFlow()
+        player.stateFlow(),
+        recorder.stateFlow()
     ) { playerState, recorderState ->
         when {
             playerState == AudioPlayer.State.Playing -> AudioState.Playing

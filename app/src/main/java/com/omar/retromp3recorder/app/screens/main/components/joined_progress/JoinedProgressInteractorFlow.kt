@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.bl.audio.progress.AudioSeekFinishUC
 import com.omar.retromp3recorder.bl.audio.progress.AudioSeekPauseUC
 import com.omar.retromp3recorder.bl.audio.progress.AudioSeekProgressUC
-import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ class JoinedProgressInteractorFlow @Inject constructor(
     private val audioSeekProgressUC: AudioSeekProgressUC,
     private val audioSeekPauseUC: AudioSeekPauseUC,
     private val audioSeekFinishUC: AudioSeekFinishUC,
-    private val joinedProgressRepo: JoinedProgressMapperFlow,
+    private val joinedProgressRepo: JoinedProgressMapper,
     dispatcher: CoroutineDispatcher,
 ) : Interactor<JoinedProgressView.In, JoinedProgressView.Output>(dispatcher) {
 

@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.visibility_lo
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
 import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.merged.FileActionsStateMapperFlow
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import com.omar.retromp3recorder.domain.FileWrapper
 import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.domain.PlayerControls
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class MenuStateExcavatorFlow @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo,
-    private val audioStateMapper: AudioStateMapperFlow,
+    private val audioStateMapper: AudioStateMapper,
     private val currentFileRepo: CurrentFileRepo,
     private val fileActionsStateMapper: FileActionsStateMapperFlow
 ) {

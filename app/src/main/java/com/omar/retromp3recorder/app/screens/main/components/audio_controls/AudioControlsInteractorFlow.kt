@@ -8,7 +8,7 @@ import com.omar.retromp3recorder.app.screens.main.components.audio_controls.butt
 import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
 import com.omar.retromp3recorder.bl.audio.actions.StartRecordUC
 import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUC
-import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class AudioControlsInteractorFlow @Inject constructor(
     private val playButtonStateMapper: PlayButtonStateFlow,
-    private val joinedProgressMapper: JoinedProgressMapperFlow,
+    private val joinedProgressMapper: JoinedProgressMapper,
     private val recordButtonStateMapper: RecordButtonStateFlow,
     private val recorderDurationStateFlow: RecorderDurationStateFlow,
     private val shareButtonStateMapper: ShareButtonStateFlow,

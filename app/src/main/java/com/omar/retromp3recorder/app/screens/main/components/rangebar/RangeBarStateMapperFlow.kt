@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.app.screens.main.components.rangebar
 
-import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.local.RangeBarResetBus
 import com.omar.retromp3recorder.utils.domain.toFromToMillis
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 class RangeBarStateMapperFlow @Inject constructor(
-    private val joinedProgressRepo: JoinedProgressMapperFlow,
+    private val joinedProgressRepo: JoinedProgressMapper,
     private val rangeBarResetBus: RangeBarResetBus,
 ) {
     fun flow(): Flow<RangeBarView.State> {

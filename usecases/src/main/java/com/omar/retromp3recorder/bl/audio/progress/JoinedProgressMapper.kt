@@ -16,8 +16,8 @@ import javax.inject.Inject
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class JoinedProgressMapperFlow @Inject constructor(
-    private val audioStateMapper: AudioStateMapperFlow,
+class JoinedProgressMapper @Inject constructor(
+    private val audioStateMapper: AudioStateMapper,
     private val currentFileRepo: CurrentFileRepo,
     private val playerProgressRepo: PlayerProgressRepo,
     private val recorderWavetableMapper: RecordWavetableMapper,

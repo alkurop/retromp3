@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.visibility_lo
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
 import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.MenuVisibilityMapperFlow
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class DeleteFileMenuStateMapperFlow @Inject constructor(
-    private val audioStateMapper: AudioStateMapperFlow,
+    private val audioStateMapper: AudioStateMapper,
     private val currentFileRepo: CurrentFileRepo
 ) : MenuVisibilityMapperFlow {
     override fun flow(): Flow<List<MenuContract.Item>> {

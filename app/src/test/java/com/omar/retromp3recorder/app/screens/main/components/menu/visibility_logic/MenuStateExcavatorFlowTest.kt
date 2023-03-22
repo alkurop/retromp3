@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
 import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.merged.FileActionsStateMapperFlow
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.domain.PlayerControls
@@ -25,7 +25,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class MenuStateExcavatorFlowTest {
     private lateinit var playerControlsRepo: PlayerControlsRepo
-    private val audioStateMapper = mockk<AudioStateMapperFlow>(relaxed = true)
+    private val audioStateMapper = mockk<AudioStateMapper>(relaxed = true)
     private lateinit var currentFileRepo: CurrentFileRepo
     private val fileActionsStateMapper = mockk<FileActionsStateMapperFlow>()
     private lateinit var tested: MenuStateExcavatorFlow

@@ -2,13 +2,13 @@ package com.omar.retromp3recorder.app.screens.main.components.audio_controls.but
 
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.InteractiveButtonState
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RecordButtonStateFlow @Inject constructor(
-    private val audioStateMapper: AudioStateMapperFlow,
+    private val audioStateMapper: AudioStateMapper,
 ) {
     fun flow(): Flow<InteractiveButtonState> =
         audioStateMapper.flow().map { audioState ->

@@ -14,6 +14,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.rx3.asFlow
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -47,8 +49,15 @@ class AudioPlayerExoImpl @Inject constructor(
             events
         )
 
+    override fun flow(): Flow<AudioPlayer.Output> {
+        return observe().asFlow()
+    }
+
     override fun observeState(): Observable<AudioPlayer.State> = state
 
+    override fun stateFlow(): Flow<AudioPlayer.State> {
+        return observeState().asFlow()
+    }
     override fun onInput(input: AudioPlayer.Input) {
         compositeDisposable.clear()
         handler.post {

@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.actions
 
-import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockPlayerProgressFactory
 import com.omar.retromp3recorder.domain.JoinedProgress
@@ -21,7 +21,7 @@ import org.junit.Test
 class GatherCropRequestUCTest {
 
     private lateinit var currentFileRepo: CurrentFileRepo
-    private val joinedProgress = mockk<JoinedProgressMapperFlow>()
+    private val joinedProgress = mockk<JoinedProgressMapper>()
 
     private lateinit var tested: GatherCropRequestUC
     private val nameSuggestion = mockk<NewNameSuggestion>()

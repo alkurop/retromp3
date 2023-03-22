@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.screens.main.components.rangebar
 
 import app.cash.turbine.test
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.data.mock.MockPlayerProgressFactory
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.local.RangeBarResetBus
@@ -17,7 +17,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RangeBarStateMapperFlowTest {
-    private val joinedProgressMapper = mockk<JoinedProgressMapperFlow>()
+    private val joinedProgressMapper = mockk<JoinedProgressMapper>()
     private lateinit var rangeBarResetBus: RangeBarResetBus
     private lateinit var tested: RangeBarStateMapperFlow
 

@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main.components.audio_controls
 
 import app.cash.turbine.test
-import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.domain.JoinedProgress
 import io.mockk.every
 import io.mockk.mockk
@@ -15,7 +15,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class RecorderDurationStateFlowTest {
 
-    private val mapper: JoinedProgressMapperFlow = mockk()
+    private val mapper: JoinedProgressMapper = mockk()
     private lateinit var tested: RecorderDurationStateFlow
 
 

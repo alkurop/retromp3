@@ -9,7 +9,7 @@ import com.omar.retromp3recorder.app.screens.main.components.audio_controls.comp
 import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
 import com.omar.retromp3recorder.bl.audio.actions.StartRecordUC
 import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUC
-import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.domain.PlayerProgress
@@ -29,7 +29,7 @@ import org.junit.Test
 class AudioControlsInteractorFlowTest {
 
     private val playButtonStateMapper: PlayButtonStateFlow = mockk()
-    private val joinedProgressMapper: JoinedProgressMapperFlow = mockk()
+    private val joinedProgressMapper: JoinedProgressMapper = mockk()
     private val recordButtonStateMapper: RecordButtonStateFlow = mockk()
     private val recorderDurationStateFlow: RecorderDurationStateFlow = mockk()
     private val shareButtonStateMapper: ShareButtonStateFlow = mockk()

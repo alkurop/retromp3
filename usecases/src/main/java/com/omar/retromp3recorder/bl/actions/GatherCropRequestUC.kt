@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.actions
 
-import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.domain.CropRequest
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.JoinedProgress
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class GatherCropRequestUC @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
-    private val joinedProgress: JoinedProgressMapperFlow
+    private val joinedProgress: JoinedProgressMapper
 ) {
     suspend fun execute(nameSuggestion: NewNameSuggestion): CropRequest {
         val file = requireNotNull(currentFileRepo.first().value as? ExistingFileWrapper) {

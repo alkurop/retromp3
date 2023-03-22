@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.system
 
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
-import com.omar.retromp3recorder.audioplayer.observeEvents
+import com.omar.retromp3recorder.audioplayer.eventsFlow
 import com.omar.retromp3recorder.domain.platform.LogEvent
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.share.Sharer
@@ -40,13 +40,11 @@ class LogMapperFlow @Inject constructor(
         @Suppress("UNUSED")
         fun AudioPlayer.createLogs(): Flow<LogEvent> {
             val message: Flow<LogEvent> = this
-                .observeEvents()
-                .asFlow()
+                .eventsFlow()
                 .filterIsInstance<AudioPlayer.Output.Event.Message>()
                 .map { answer -> LogEvent.Message(answer.message) }
             val error: Flow<LogEvent> = this
-                .observeEvents()
-                .asFlow()
+                .eventsFlow()
                 .filterIsInstance<AudioPlayer.Output.Event.Error>()
                 .map { answer -> LogEvent.Error(answer.error) }
 

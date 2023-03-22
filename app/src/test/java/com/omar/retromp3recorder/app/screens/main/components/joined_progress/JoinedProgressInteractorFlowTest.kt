@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.omar.retromp3recorder.bl.audio.progress.AudioSeekFinishUC
 import com.omar.retromp3recorder.bl.audio.progress.AudioSeekPauseUC
 import com.omar.retromp3recorder.bl.audio.progress.AudioSeekProgressUC
-import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
@@ -26,7 +26,7 @@ class JoinedProgressInteractorFlowTest {
     private val audioSeekProgressUC = mockk<AudioSeekProgressUC>(relaxed = true)
     private val audioSeekPauseUC = mockk<AudioSeekPauseUC>(relaxed = true)
     private val audioSeekFinishUC = mockk<AudioSeekFinishUC>(relaxed = true)
-    private val joinedProgressRepo = mockk<JoinedProgressMapperFlow>(relaxed = true)
+    private val joinedProgressRepo = mockk<JoinedProgressMapper>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
     private lateinit var tested: JoinedProgressInteractorFlow
 
