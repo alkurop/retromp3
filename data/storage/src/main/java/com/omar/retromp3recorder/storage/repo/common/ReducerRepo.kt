@@ -7,17 +7,16 @@ import kotlinx.coroutines.rx3.asObservable
 
 open class ReducerRepo<In : Any, State : Any>(
     init: State,
-    private val function: State.(In) -> State
+    private val reducer: State.(In) -> State
 ) {
     private val stateKeeper = MutableStateFlow(init)
 
     @Synchronized
     fun emit(input: In) {
         val prev = stateKeeper.value
-        val next = prev.function(input)
+        val next = prev.reducer(input)
         stateKeeper.value = next
     }
-
 
     @Deprecated(
         level = DeprecationLevel.WARNING,

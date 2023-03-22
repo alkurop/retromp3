@@ -1,20 +1,20 @@
 package com.omar.retromp3recorder.domain
 
 data class PlayerControls(
-    val loop: Loop = Loop(),
-    val range: Range = Range(),
-    val reverse: Reverse = Reverse(),
-    val speed: Speed = Speed()
+    val loopSettings: LoopSettings = LoopSettings(),
+    val rangeSettings: RangeSettings = RangeSettings(),
+    val reverseSettings: ReverseSettings = ReverseSettings(),
+    val speedSettings: SpeedSettings = SpeedSettings()
 ) {
 
-    data class Range(
+    data class RangeSettings(
         val isActive: Boolean = false,
         val isVisible: Boolean = false
     )
 
-    data class Loop(val isEnabled: Boolean = false)
-    data class Reverse(val isEnabled: Boolean = false)
-    data class Speed(
+    data class LoopSettings(val isEnabled: Boolean = false)
+    data class ReverseSettings(val isEnabled: Boolean = false)
+    data class SpeedSettings(
         val isEnabled: Boolean = false,
         val speed: Float = 1f
     )

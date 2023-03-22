@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class RangeBarInteractorFlowTest {
+class RangeSettingsBarInteractorFlowTest {
     private val rangeStateMapper = mockk<RangeBarStateMapperFlow>(relaxed = true)
     private val updatePlayerRangeUC = mockk<UpdatePlayerRangeUC>(relaxed = true)
     private val rangeEnableRangeUC = mockk<ActivateRangeUC>(relaxed = true)

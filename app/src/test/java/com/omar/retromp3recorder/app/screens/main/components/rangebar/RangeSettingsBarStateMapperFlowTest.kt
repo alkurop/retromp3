@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class RangeBarStateMapperFlowTest {
+class RangeSettingsBarStateMapperFlowTest {
     private val joinedProgressMapper = mockk<JoinedProgressMapper>()
     private lateinit var rangeBarResetBus: RangeBarResetBus
     private lateinit var tested: RangeBarStateMapperFlow

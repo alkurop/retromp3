@@ -10,7 +10,7 @@ object MockPlayerProgressFactory {
             from = 50,
             to = 70,
             max = 100,
-            settings = PlayerControls.Range(isActive = isActive, isVisible = isVisible)
+            settings = PlayerControls.RangeSettings(isActive = isActive, isVisible = isVisible)
         )
     }
 

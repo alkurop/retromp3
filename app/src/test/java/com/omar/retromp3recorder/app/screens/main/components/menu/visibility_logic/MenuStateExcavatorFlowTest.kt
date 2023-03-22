@@ -122,7 +122,7 @@ class MenuStateExcavatorFlowTest {
 
     @Test
     fun `WHEN range visible THEN Crop,RangeBar popup enabled`() = runTest {
-        playerControlsRepo.emit(PlayerControls(range = PlayerControls.Range(isVisible = true)))
+        playerControlsRepo.emit(PlayerControls(rangeSettings = PlayerControls.RangeSettings(isVisible = true)))
 
         every { audioStateMapper.flow() } returns flowOf(AudioState.Idle)
         tested.flow().test {
@@ -141,7 +141,7 @@ class MenuStateExcavatorFlowTest {
     @Test
     fun `WHEN range NOT visible THEN Crop,RangeBar popup NOT enabled`() = runTest {
 
-        playerControlsRepo.emit(PlayerControls(range = PlayerControls.Range(isVisible = false)))
+        playerControlsRepo.emit(PlayerControls(rangeSettings = PlayerControls.RangeSettings(isVisible = false)))
 
         every { audioStateMapper.flow() } returns flowOf(AudioState.Idle)
         tested.flow().test {

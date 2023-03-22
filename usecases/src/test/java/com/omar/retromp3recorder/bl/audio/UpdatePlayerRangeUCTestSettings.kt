@@ -12,7 +12,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class UpdatePlayerRangeUCTest {
+class UpdatePlayerRangeUCTestSettings {
     private val repo = mockk<PlayerProgressRepo>(relaxed = true)
     private lateinit var tested: UpdatePlayerRangeUC
 

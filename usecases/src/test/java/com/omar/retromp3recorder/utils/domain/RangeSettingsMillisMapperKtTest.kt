@@ -7,7 +7,7 @@ import org.junit.Assert.*
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class RangeMillisMapperKtTest {
+class RangeSettingsMillisMapperKtTest {
 
     @Test
     fun `from divided with duration`() = runTest {

@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ActivateRangeUCTest {
+class ActivateRangeUCTestSettings {
     private val repo = PlayerControlsRepo()
     private lateinit var tested: ActivateRangeUC
 
@@ -21,9 +21,9 @@ class ActivateRangeUCTest {
     @Test
     fun `on execute emit to repo player controls with changed range activate setting`() = runTest {
         val originalSettings = PlayerControls()
-        val flag = originalSettings.range.isActive.not()
-        val newRangeSettings = originalSettings.range.copy(isActive = flag)
-        val expectedSettings = originalSettings.copy(range = newRangeSettings)
+        val flag = originalSettings.rangeSettings.isActive.not()
+        val newRangeSettings = originalSettings.rangeSettings.copy(isActive = flag)
+        val expectedSettings = originalSettings.copy(rangeSettings = newRangeSettings)
 
         repo.emit(originalSettings)
         tested.execute()

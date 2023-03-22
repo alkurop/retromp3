@@ -4,6 +4,7 @@ import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.storage.repo.common.ReducerRepo
 import com.omar.retromp3recorder.utils.platform.Optional
+import com.omar.retromp3recorder.utils.platform.toOptional
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
@@ -15,48 +16,38 @@ class PlayerProgressRepo @Inject constructor(
 ) :
     ReducerRepo<PlayerProgressRepo.In, Optional<PlayerProgress>>(
         init = Optional.empty(),
-        function = FUNCTION
+        reducer = reducer
     ) {
     sealed class In {
-        data class Seek(
-            val progress: Long,
-        ) : In()
-
-        data class Progress(val progress: PlayerProgress) : In()
-        data class Range(val range: PlayerRange) : In()
         data class NewCurrentFile(val progress: PlayerProgress) : In()
-
+        data class Range(val range: PlayerRange) : In()
+        data class Progress(val progress: PlayerProgress) : In()
+        data class Seek(val progress: Long) : In()
         object Hidden : In()
     }
 
     override fun flow(): Flow<Optional<PlayerProgress>> {
         return combine(super.flow(), playerControlsRepo.flow()) { progress, controls ->
-            Optional(progress.value?.let {
-                it.copy(
-                    range = it.range.copy(
-                        settings = controls.range
-                    )
-                )
-            })
+            progress.value?.let {
+                it.copy(range = it.range.copy(settings = controls.rangeSettings))
+            }.toOptional()
         }
+    }
+
+    private companion object {
+        val reducer: Optional<PlayerProgress>.(In) -> Optional<PlayerProgress> =
+            { input ->
+                when (input) {
+                    is In.NewCurrentFile -> input.progress
+                    is In.Range -> this.value?.copy(range = input.range)
+                    is In.Progress -> {
+                        val range = this.value?.range ?: PlayerRange()
+                        input.progress.copy(range = range)
+                    }
+                    is In.Seek -> requireNotNull(this.value) { "Range is empty while seeking" }
+                        .copy(progress = input.progress)
+                    else -> null
+                }.toOptional()
+            }
     }
 }
-
-private val FUNCTION: Optional<PlayerProgress>.(PlayerProgressRepo.In) -> Optional<PlayerProgress> =
-    { input ->
-        when (input) {
-            is PlayerProgressRepo.In.Seek -> Optional(
-                this.value!!.copy(
-                    progress = input.progress,
-                )
-            )
-            is PlayerProgressRepo.In.Progress -> {
-                val range = this.value?.range ?: PlayerRange()
-                Optional(input.progress.copy(range = range))
-            }
-            is PlayerProgressRepo.In.NewCurrentFile -> Optional(input.progress)
-            is PlayerProgressRepo.In.Range -> Optional(this.value?.copy(range = input.range))
-
-            else -> Optional.empty()
-        }
-    }

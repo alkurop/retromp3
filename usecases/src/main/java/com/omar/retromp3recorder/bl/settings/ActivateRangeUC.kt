@@ -8,10 +8,10 @@ class ActivateRangeUC @Inject constructor(
 ) {
     suspend fun execute() {
         val features = playerControlsRepo.first()
-        val isActive = features.range.isActive.not()
+        val isActive = features.rangeSettings.isActive.not()
         playerControlsRepo.emit(
             features.copy(
-                range = features.range.copy(
+                rangeSettings = features.rangeSettings.copy(
                     isActive = isActive
                 )
             )
