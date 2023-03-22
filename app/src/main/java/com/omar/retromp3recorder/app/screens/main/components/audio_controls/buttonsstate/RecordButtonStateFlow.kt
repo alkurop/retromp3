@@ -15,7 +15,7 @@ class RecordButtonStateFlow @Inject constructor(
             when (audioState) {
                 is AudioState.Recording -> InteractiveButtonState.RUNNING
                 is AudioState.Playing -> InteractiveButtonState.DISABLED
-                is AudioState.Seek_Paused -> InteractiveButtonState.DISABLED
+                is AudioState.SeekPaused -> InteractiveButtonState.DISABLED
                 is AudioState.Idle -> InteractiveButtonState.ENABLED
             }
         }

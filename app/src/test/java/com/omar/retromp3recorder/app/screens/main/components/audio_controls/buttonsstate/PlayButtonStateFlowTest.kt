@@ -36,7 +36,7 @@ class PlayButtonStateFlowTest {
 
     @Test
     fun `WHEN audio state Seek_Paused THEN button state Enabled`() = runTest {
-        every { audioState.flow() } returns flowOf(AudioState.Seek_Paused)
+        every { audioState.flow() } returns flowOf(AudioState.SeekPaused)
 
         assertEquals(InteractiveButtonState.ENABLED, stateFlow.flow().first())
     }

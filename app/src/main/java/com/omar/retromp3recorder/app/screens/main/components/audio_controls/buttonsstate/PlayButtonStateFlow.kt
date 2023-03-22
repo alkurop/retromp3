@@ -19,7 +19,7 @@ class PlayButtonStateFlow @Inject constructor(
         ) { hasFile, audioState ->
             when (audioState) {
                 is AudioState.Recording -> InteractiveButtonState.DISABLED
-                is AudioState.Seek_Paused -> InteractiveButtonState.ENABLED
+                is AudioState.SeekPaused -> InteractiveButtonState.ENABLED
                 is AudioState.Playing -> InteractiveButtonState.RUNNING
                 is AudioState.Idle -> if (hasFile.hasValue()) InteractiveButtonState.ENABLED else InteractiveButtonState.DISABLED
             }

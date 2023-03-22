@@ -79,7 +79,7 @@ private fun VisualizerView.State.getID(): Int? {
     val playerId = this.playerId
     return if (this.audioState in listOf(
             AudioState.Playing,
-            AudioState.Seek_Paused
+            AudioState.SeekPaused
         )
     ) playerId
     else null

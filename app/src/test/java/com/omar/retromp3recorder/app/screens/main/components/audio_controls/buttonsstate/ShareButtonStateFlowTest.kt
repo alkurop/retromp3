@@ -43,7 +43,7 @@ class ShareButtonStateFlowTest{
 
     @Test
     fun `WHEN audio state Seek_Paused THEN button state Disabled`() = runTest {
-        every { audioState.flow() } returns flowOf(AudioState.Seek_Paused)
+        every { audioState.flow() } returns flowOf(AudioState.SeekPaused)
 
         Assert.assertEquals(InteractiveButtonState.DISABLED, stateFlow.flow().first())
     }

@@ -68,7 +68,7 @@ class DeleteFileMenuStateMapperFlowTest {
     @Test
     fun `WHEN audio state Seek_Paused THEN file Then disabled`() = runTest {
         repo.emit(Optional(MockFileFactory.giveExistingFile()))
-        every { audioStateMapper.flow() } returns flowOf(AudioState.Seek_Paused)
+        every { audioStateMapper.flow() } returns flowOf(AudioState.SeekPaused)
 
         tested.flow().test {
             val item = awaitItem()[0]
