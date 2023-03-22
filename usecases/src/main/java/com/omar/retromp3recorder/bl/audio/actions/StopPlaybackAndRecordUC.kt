@@ -1,6 +1,8 @@
-package com.omar.retromp3recorder.bl.audio
+package com.omar.retromp3recorder.bl.audio.actions
 
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
+import com.omar.retromp3recorder.bl.audio.progress.AudioState
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

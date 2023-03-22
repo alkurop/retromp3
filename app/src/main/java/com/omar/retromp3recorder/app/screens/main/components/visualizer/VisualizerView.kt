@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main.components.visualizer
 
 import androidx.compose.runtime.Immutable
-import com.omar.retromp3recorder.bl.audio.AudioState
+import com.omar.retromp3recorder.bl.audio.progress.AudioState
 
 object VisualizerView {
     @Immutable

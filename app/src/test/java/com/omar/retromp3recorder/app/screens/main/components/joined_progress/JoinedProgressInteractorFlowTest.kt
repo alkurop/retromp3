@@ -1,10 +1,10 @@
 package com.omar.retromp3recorder.app.screens.main.components.joined_progress
 
 import app.cash.turbine.test
-import com.omar.retromp3recorder.bl.audio.AudioSeekFinishUC
-import com.omar.retromp3recorder.bl.audio.AudioSeekPauseUC
-import com.omar.retromp3recorder.bl.audio.AudioSeekProgressUC
-import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
+import com.omar.retromp3recorder.bl.audio.progress.AudioSeekFinishUC
+import com.omar.retromp3recorder.bl.audio.progress.AudioSeekPauseUC
+import com.omar.retromp3recorder.bl.audio.progress.AudioSeekProgressUC
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
@@ -12,7 +12,6 @@ import com.omar.retromp3recorder.utils.platform.Optional
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -27,7 +26,7 @@ class JoinedProgressInteractorFlowTest {
     private val audioSeekProgressUC = mockk<AudioSeekProgressUC>(relaxed = true)
     private val audioSeekPauseUC = mockk<AudioSeekPauseUC>(relaxed = true)
     private val audioSeekFinishUC = mockk<AudioSeekFinishUC>(relaxed = true)
-    private val joinedProgressRepo = mockk<JoinedProgressMapper>(relaxed = true)
+    private val joinedProgressRepo = mockk<JoinedProgressMapperFlow>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
     private lateinit var tested: JoinedProgressInteractorFlow
 
@@ -47,7 +46,7 @@ class JoinedProgressInteractorFlowTest {
     @Test
     fun `listen joined progress repo`() = runTest {
         val state = JoinedProgress.Intermediate
-        every { joinedProgressRepo.observe() } returns Observable.just(state)
+        every { joinedProgressRepo.flow() } returns flowOf(state)
         tested.processIO(flowOf()).test {
             // first event is current file
             skipItems(1)

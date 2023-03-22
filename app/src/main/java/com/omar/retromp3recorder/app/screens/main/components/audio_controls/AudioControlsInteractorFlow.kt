@@ -5,20 +5,21 @@ import com.omar.retromp3recorder.app.screens.main.components.audio_controls.butt
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.RecordButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.ShareButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.StopButtonStateMapperFlow
-import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
-import com.omar.retromp3recorder.bl.audio.StartPlaybackUC
-import com.omar.retromp3recorder.bl.audio.StartRecordUC
-import com.omar.retromp3recorder.bl.audio.StopPlaybackAndRecordUC
+import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
+import com.omar.retromp3recorder.bl.audio.actions.StartRecordUC
+import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUC
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
 import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.rx3.asFlow
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AudioControlsInteractorFlow @Inject constructor(
     private val playButtonStateMapper: PlayButtonStateFlow,
-    private val joinedProgressMapper: JoinedProgressMapper,
+    private val joinedProgressMapper: JoinedProgressMapperFlow,
     private val recordButtonStateMapper: RecordButtonStateFlow,
     private val recorderDurationStateFlow: RecorderDurationStateFlow,
     private val shareButtonStateMapper: ShareButtonStateFlow,
@@ -37,7 +38,7 @@ class AudioControlsInteractorFlow @Inject constructor(
             shareButtonStateMapper.flow().map { AudioControlsView.Output.ShareButtonState(it) },
             stopButtonStateMapper.flow().map { AudioControlsView.Output.StopButtonState(it) },
             recorderDurationStateFlow.flow(),
-            joinedProgressMapper.observe().asFlow().map {
+            joinedProgressMapper.flow().map {
                     val progress = (it as? JoinedProgress.PlayerProgressShown)?.progress
                     AudioControlsView.Output.PlayerProgressState(progress)
                 },

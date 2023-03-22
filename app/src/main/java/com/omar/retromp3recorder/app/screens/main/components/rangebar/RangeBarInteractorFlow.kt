@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main.components.rangebar
 
 import com.omar.retromp3recorder.app.Interactor
-import com.omar.retromp3recorder.bl.audio.UpdatePlayerRangeUC
+import com.omar.retromp3recorder.bl.audio.actions.UpdatePlayerRangeUC
 import com.omar.retromp3recorder.bl.settings.ActivateRangeUC
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

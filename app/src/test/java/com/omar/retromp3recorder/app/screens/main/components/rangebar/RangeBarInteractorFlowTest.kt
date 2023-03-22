@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main.components.rangebar
 
 import app.cash.turbine.test
-import com.omar.retromp3recorder.bl.audio.UpdatePlayerRangeUC
+import com.omar.retromp3recorder.bl.audio.actions.UpdatePlayerRangeUC
 import com.omar.retromp3recorder.bl.settings.ActivateRangeUC
 import com.omar.retromp3recorder.data.mock.MockPlayerProgressFactory
 import io.mockk.coEvery

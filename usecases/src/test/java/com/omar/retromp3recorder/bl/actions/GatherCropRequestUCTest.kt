@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.actions
 
-import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockPlayerProgressFactory
 import com.omar.retromp3recorder.domain.JoinedProgress
@@ -10,8 +10,8 @@ import com.omar.retromp3recorder.utils.platform.Optional
 import com.omar.retromp3recorder.utils.platform.toOptional
 import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -21,7 +21,7 @@ import org.junit.Test
 class GatherCropRequestUCTest {
 
     private lateinit var currentFileRepo: CurrentFileRepo
-    private val joinedProgress = mockk<JoinedProgressMapper>()
+    private val joinedProgress = mockk<JoinedProgressMapperFlow>()
 
     private lateinit var tested: GatherCropRequestUC
     private val nameSuggestion = mockk<NewNameSuggestion>()
@@ -38,7 +38,7 @@ class GatherCropRequestUCTest {
         val progress = MockPlayerProgressFactory.givePlayerProgress()
 
         currentFileRepo.emit(Optional.empty())
-        every { joinedProgress.observe() } returns Observable.just(
+        every { joinedProgress.flow() } returns flowOf(
             JoinedProgress.PlayerProgressShown(
                 progress,
                 null
@@ -50,7 +50,7 @@ class GatherCropRequestUCTest {
     @Test(expected = IllegalArgumentException::class)
     fun `WHEN player NOT in progress THEN crash`() = runTest {
         currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
-        every { joinedProgress.observe() } returns Observable.just(
+        every { joinedProgress.flow() } returns flowOf(
             JoinedProgress.Intermediate
         )
         tested.execute(nameSuggestion)
@@ -61,7 +61,7 @@ class GatherCropRequestUCTest {
         val progress = MockPlayerProgressFactory.givePlayerProgress()
 
         currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
-        every { joinedProgress.observe() } returns Observable.just(
+        every { joinedProgress.flow() } returns flowOf(
             JoinedProgress.PlayerProgressShown(progress, null)
         )
         val result = tested.execute(nameSuggestion)

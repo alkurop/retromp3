@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate
 
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.InteractiveButtonState
-import com.omar.retromp3recorder.bl.audio.AudioState
-import com.omar.retromp3recorder.bl.audio.AudioStateMapper
+import com.omar.retromp3recorder.bl.audio.progress.AudioState
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import com.omar.retromp3recorder.bl.files.HasPlayableFileMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

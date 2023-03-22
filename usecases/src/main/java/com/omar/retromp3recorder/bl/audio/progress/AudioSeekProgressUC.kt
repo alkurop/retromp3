@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.bl.audio
+package com.omar.retromp3recorder.bl.audio.progress
 
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
 import javax.inject.Inject

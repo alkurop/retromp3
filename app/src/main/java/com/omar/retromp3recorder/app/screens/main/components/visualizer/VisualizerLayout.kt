@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.omar.retromp3recorder.bl.audio.AudioState
+import com.omar.retromp3recorder.bl.audio.progress.AudioState
 import timber.log.Timber
 
 @Composable

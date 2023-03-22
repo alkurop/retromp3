@@ -6,17 +6,16 @@ import com.omar.retromp3recorder.app.screens.main.components.audio_controls.butt
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.ShareButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.StopButtonStateMapperFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.InteractiveButtonState
-import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
-import com.omar.retromp3recorder.bl.audio.StartPlaybackUC
-import com.omar.retromp3recorder.bl.audio.StartRecordUC
-import com.omar.retromp3recorder.bl.audio.StopPlaybackAndRecordUC
+import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
+import com.omar.retromp3recorder.bl.audio.actions.StartRecordUC
+import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUC
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
 import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.domain.PlayerProgress
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -30,7 +29,7 @@ import org.junit.Test
 class AudioControlsInteractorFlowTest {
 
     private val playButtonStateMapper: PlayButtonStateFlow = mockk()
-    private val joinedProgressMapper: JoinedProgressMapper = mockk()
+    private val joinedProgressMapper: JoinedProgressMapperFlow = mockk()
     private val recordButtonStateMapper: RecordButtonStateFlow = mockk()
     private val recorderDurationStateFlow: RecorderDurationStateFlow = mockk()
     private val shareButtonStateMapper: ShareButtonStateFlow = mockk()
@@ -48,7 +47,7 @@ class AudioControlsInteractorFlowTest {
     @Before
     fun setUp() {
         every { playButtonStateMapper.flow() } returns emptyFlow()
-        every { joinedProgressMapper.observe() } returns Observable.never()
+        every { joinedProgressMapper.flow() } returns flowOf()
         every { recordButtonStateMapper.flow() } returns emptyFlow()
         every { recorderDurationStateFlow.flow() } returns emptyFlow()
         every { shareButtonStateMapper.flow() } returns emptyFlow()
@@ -89,7 +88,7 @@ class AudioControlsInteractorFlowTest {
         val expected = AudioControlsView.Output.PlayerProgressState(progressExpected)
 
         every { mockData.progress } returns progressExpected
-        every { joinedProgressMapper.observe() } returns Observable.just(mockData)
+        every { joinedProgressMapper.flow() } returns flowOf(mockData)
 
         tested.processIO(emptyFlow()).test {
             val item = awaitItem() as AudioControlsView.Output.PlayerProgressState

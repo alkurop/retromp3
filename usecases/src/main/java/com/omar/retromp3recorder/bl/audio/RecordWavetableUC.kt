@@ -1,5 +1,7 @@
 package com.omar.retromp3recorder.bl.audio
 
+import com.omar.retromp3recorder.bl.audio.progress.AudioState
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import com.omar.retromp3recorder.bl.system.SaveRecordingWithWavetableUC
 import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer

@@ -2,14 +2,14 @@ package com.omar.retromp3recorder.app.screens.main.components.rangebar
 
 import app.cash.turbine.test
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.bl.audio.JoinedProgressMapper
+import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapperFlow
 import com.omar.retromp3recorder.data.mock.MockPlayerProgressFactory
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.local.RangeBarResetBus
 import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -17,7 +17,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RangeBarStateMapperFlowTest {
-    private val joinedProgressMapper = mockk<JoinedProgressMapper>()
+    private val joinedProgressMapper = mockk<JoinedProgressMapperFlow>()
     private lateinit var rangeBarResetBus: RangeBarResetBus
     private lateinit var tested: RangeBarStateMapperFlow
 
@@ -33,7 +33,7 @@ class RangeBarStateMapperFlowTest {
     @Test
     fun `WHEN range active not THEN state hidden`() = runTest {
         val progress = MockPlayerProgressFactory.givePlayerProgress()
-        every { joinedProgressMapper.observe() } returns Observable.just(
+        every { joinedProgressMapper.flow() } returns flowOf(
             JoinedProgress.PlayerProgressShown(
                 progress,
                 null
@@ -50,7 +50,7 @@ class RangeBarStateMapperFlowTest {
         val progress = MockPlayerProgressFactory.givePlayerProgress(
             MockPlayerProgressFactory.giveRange(isVisible = true)
         )
-        every { joinedProgressMapper.observe() } returns Observable.just(
+        every { joinedProgressMapper.flow() } returns flowOf(
             JoinedProgress.PlayerProgressShown(
                 progress,
                 null
@@ -64,7 +64,7 @@ class RangeBarStateMapperFlowTest {
 
     @Test
     fun `WHEN range active Audio State RecorderProgressShown THEN state hidden`() = runTest {
-        every { joinedProgressMapper.observe() } returns Observable.just(
+        every { joinedProgressMapper.flow() } returns flowOf(
             JoinedProgress.RecorderProgressShown(0, mockk())
         )
         tested.flow().test {
@@ -75,7 +75,7 @@ class RangeBarStateMapperFlowTest {
 
     @Test
     fun `WHEN range active Audio State Intermediate THEN state hidden`() = runTest {
-        every { joinedProgressMapper.observe() } returns Observable.just(
+        every { joinedProgressMapper.flow() } returns flowOf(
             JoinedProgress.Intermediate
         )
         tested.flow().test {
@@ -86,7 +86,7 @@ class RangeBarStateMapperFlowTest {
 
     @Test
     fun `WHEN range active Audio State Hidden THEN state hidden`() = runTest {
-        every { joinedProgressMapper.observe() } returns Observable.just(
+        every { joinedProgressMapper.flow() } returns flowOf(
             JoinedProgress.Hidden
         )
         tested.flow().test {
@@ -103,7 +103,7 @@ class RangeBarStateMapperFlowTest {
         val resetCount = 20
         rangeBarResetBus.emit(Shell(resetCount))
 
-        every { joinedProgressMapper.observe() } returns Observable.just(
+        every { joinedProgressMapper.flow() } returns flowOf(
             JoinedProgress.PlayerProgressShown(
                 progress,
                 null

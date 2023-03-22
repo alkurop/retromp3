@@ -3,8 +3,8 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.visibility_lo
 import app.cash.turbine.test
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
 import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.merged.FileActionsStateMapperFlow
-import com.omar.retromp3recorder.bl.audio.AudioState
-import com.omar.retromp3recorder.bl.audio.AudioStateMapper
+import com.omar.retromp3recorder.bl.audio.progress.AudioState
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.domain.PlayerControls
