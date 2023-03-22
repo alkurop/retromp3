@@ -58,7 +58,7 @@ dependencies {
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
 
     //compose
-    def composeBom = platform("androidx.compose:compose-bom:2023.01.00")
+    def composeBom = platform("androidx.compose:compose-bom:$versions.compose_bom")
     implementation composeBom
     androidTestImplementation composeBom
     implementation "androidx.activity:activity-compose"
@@ -88,6 +88,7 @@ dependencies {
     implementation project(':io:audio-tansformer')
     implementation project(':io:share')
     implementation project(':ui:wavetable')
+    implementation project(':ui:statebutton')
     implementation project(':usecases')
     implementation project(':data:storage')
     implementation project(':domain:platform')

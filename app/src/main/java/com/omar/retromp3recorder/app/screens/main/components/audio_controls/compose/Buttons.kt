@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.ui.statebutton.InteractiveButton
+import com.omar.retromp3recorder.ui.statebutton.InteractiveButtonState
 
 @Composable
 fun PlayButton(

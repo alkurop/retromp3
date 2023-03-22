@@ -13,7 +13,7 @@ import com.omar.retromp3recorder.utils.domain.toSeekbarTime
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
-class WavetableSeekbarPreview @JvmOverloads constructor(
+class WavetableSeekbarPreviewFlow @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
     private val wavetableProgressBar: WavetableProgressBar

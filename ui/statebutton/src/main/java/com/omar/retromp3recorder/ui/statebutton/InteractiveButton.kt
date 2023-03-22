@@ -1,10 +1,7 @@
-package com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose
+package com.omar.retromp3recorder.ui.statebutton
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -36,19 +33,15 @@ fun InteractiveButton(
         InteractiveButtonState.ENABLED -> enabledPainter
         InteractiveButtonState.RUNNING -> if (blinkState.value && blinkPainter != null) blinkPainter else enabledPainter
     }
-    Box(
-        modifier
-            .aspectRatio(1f)
-            .clickable(
-                enabled = state == InteractiveButtonState.ENABLED,
-                onClick = onClick
-            )
-            .alpha(alpha = alpha)
+    IconButton(
+        onClick = onClick,
+        enabled = state == InteractiveButtonState.ENABLED,
+        modifier = modifier
     ) {
-        Image(
+        Icon(
             painter = image,
             contentDescription = contentDescription,
-            modifier = modifier.fillMaxSize()
+            modifier = Modifier.alpha(alpha)
         )
         LaunchedEffect(key1 = state) {
             while (state == InteractiveButtonState.RUNNING && blinkPainter != null) {
