@@ -2,17 +2,19 @@ package com.omar.retromp3recorder.bl.audio.actions
 
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapperFlow
 import io.reactivex.rxjava3.core.Completable
+import kotlinx.coroutines.rx3.asObservable
 import javax.inject.Inject
 
 class StopPlaybackAndRecordUC @Inject constructor(
     private val audioPlayer: AudioPlayer,
     private val stopRecordUC: StopRecordUC,
-    private val stateMapper: AudioStateMapper,
+    private val stateMapper: AudioStateMapperFlow,
 ) {
     fun execute(): Completable = stateMapper
-        .observe()
+        .flow()
+        .asObservable()
         .take(1)
         .flatMapCompletable { state: AudioState ->
             when (state) {

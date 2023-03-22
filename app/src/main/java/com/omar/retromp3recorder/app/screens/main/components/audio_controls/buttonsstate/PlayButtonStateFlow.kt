@@ -2,21 +2,20 @@ package com.omar.retromp3recorder.app.screens.main.components.audio_controls.but
 
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.compose.InteractiveButtonState
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
-import com.omar.retromp3recorder.bl.files.HasPlayableFileMapper
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapperFlow
+import com.omar.retromp3recorder.bl.files.HasPlayableFileMapperFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
 class PlayButtonStateFlow @Inject constructor(
-    private val audioStateMapper: AudioStateMapper,
-    private val hasPlayableFileMapper: HasPlayableFileMapper
+    private val audioStateMapper: AudioStateMapperFlow,
+    private val hasPlayableFileMapper: HasPlayableFileMapperFlow
 ) {
     fun flow(): Flow<InteractiveButtonState> =
         combine(
-            hasPlayableFileMapper.observe().asFlow(),
-            audioStateMapper.observe().asFlow()
+            hasPlayableFileMapper.flow(),
+            audioStateMapper.flow()
         ) { hasFile, audioState ->
             when (audioState) {
                 is AudioState.Recording -> InteractiveButtonState.DISABLED

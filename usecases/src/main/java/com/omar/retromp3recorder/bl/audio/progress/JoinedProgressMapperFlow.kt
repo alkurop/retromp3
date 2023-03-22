@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class JoinedProgressMapperFlow @Inject constructor(
-    private val audioStateMapper: AudioStateMapper,
+    private val audioStateMapper: AudioStateMapperFlow,
     private val currentFileRepo: CurrentFileRepo,
     private val playerProgressRepo: PlayerProgressRepo,
     private val recorderWavetableMapper: RecordWavetableMapper,
@@ -32,7 +32,7 @@ class JoinedProgressMapperFlow @Inject constructor(
     }
 
     private fun flowNotRecording(): Flow<JoinedProgress> {
-        return audioStateMapper.observe().asFlow().filter { it !is AudioState.Recording }
+        return audioStateMapper.flow().filter { it !is AudioState.Recording }
             .flatMapLatest {
                 combine(
                     currentFileRepo.flow(),
@@ -53,15 +53,14 @@ class JoinedProgressMapperFlow @Inject constructor(
     }
 
     private fun flowRecording(): Flow<JoinedProgress> {
-        return audioStateMapper.observe().asFlow().filterIsInstance<AudioState.Recording>()
+        return audioStateMapper.flow().filterIsInstance<AudioState.Recording>()
             .flatMapLatest {
                 val rate = Mp3VoiceRecorder.WaveTableSampleRate._100
                 combine(
-                    audioStateMapper.observe().asFlow(),
+                    audioStateMapper.flow(),
                     recorderWavetableMapper.observe()
                         .asFlow()
                 ) { state, byte -> state to byte }
-
                     .takeWhile { it.first !is AudioState.Idle }
                     .map { it.second }
                     .scan(WavetableSummer(), WavetableSummer.displayScanFunction)

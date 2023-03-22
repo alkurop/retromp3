@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
 import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.merged.FileActionsStateMapperFlow
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapperFlow
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.domain.PlayerControls
@@ -15,7 +15,6 @@ import com.omar.retromp3recorder.utils.platform.toOptional
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -26,14 +25,14 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class MenuStateExcavatorFlowTest {
     private lateinit var playerControlsRepo: PlayerControlsRepo
-    private val audioStateMapper = mockk<AudioStateMapper>(relaxed = true)
+    private val audioStateMapper = mockk<AudioStateMapperFlow>(relaxed = true)
     private lateinit var currentFileRepo: CurrentFileRepo
     private val fileActionsStateMapper = mockk<FileActionsStateMapperFlow>()
     private lateinit var tested: MenuStateExcavatorFlow
 
     @Before
     fun setUp() {
-        every { audioStateMapper.observe() } returns Observable.just(AudioState.Playing)
+        every { audioStateMapper.flow() } returns flowOf(AudioState.Playing)
         coEvery { fileActionsStateMapper.flow() } returns flowOf(
             listOf(
                 MenuContract.Item.Popup(
@@ -72,7 +71,7 @@ class MenuStateExcavatorFlowTest {
 
     @Test
     fun `WHEN audio state Recording then flag isVisible false`() = runTest {
-        every { audioStateMapper.observe() } returns Observable.just(AudioState.Recording)
+        every { audioStateMapper.flow() } returns flowOf(AudioState.Recording)
         tested.flow().test {
             val item = awaitItem()
             assert(item.isVisible.not())
@@ -81,7 +80,7 @@ class MenuStateExcavatorFlowTest {
 
     @Test
     fun `WHEN audio state Playing THEN flag isVisible true`() = runTest {
-        every { audioStateMapper.observe() } returns Observable.just(AudioState.Playing)
+        every { audioStateMapper.flow() } returns flowOf(AudioState.Playing)
         tested.flow().test {
             val item = awaitItem()
             assert(item.isVisible)
@@ -91,7 +90,7 @@ class MenuStateExcavatorFlowTest {
 
     @Test
     fun `WHEN audio state Idle THEN flag isVisible true`() = runTest {
-        every { audioStateMapper.observe() } returns Observable.just(AudioState.Idle)
+        every { audioStateMapper.flow() } returns flowOf(AudioState.Idle)
         tested.flow().test {
             val item = awaitItem()
             assert(item.isVisible)
@@ -100,7 +99,7 @@ class MenuStateExcavatorFlowTest {
 
     @Test
     fun `WHEN no file THEN Search popup disabled`() = runTest {
-        every { audioStateMapper.observe() } returns Observable.just(AudioState.Idle)
+        every { audioStateMapper.flow() } returns flowOf(AudioState.Idle)
         tested.flow().test {
             val item = awaitItem()
             val popupItems = item.items.mapNotNull { it as? MenuContract.Item.Popup }
@@ -112,7 +111,7 @@ class MenuStateExcavatorFlowTest {
     @Test
     fun `WHEN has file THEN Search popup enabled`() = runTest {
         currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
-        every { audioStateMapper.observe() } returns Observable.just(AudioState.Idle)
+        every { audioStateMapper.flow() } returns flowOf(AudioState.Idle)
         tested.flow().test {
             val item = awaitItem()
             val popupItems = item.items.mapNotNull { it as? MenuContract.Item.Popup }
@@ -125,7 +124,7 @@ class MenuStateExcavatorFlowTest {
     fun `WHEN range visible THEN Crop,RangeBar popup enabled`() = runTest {
         playerControlsRepo.emit(PlayerControls(range = PlayerControls.Range(isVisible = true)))
 
-        every { audioStateMapper.observe() } returns Observable.just(AudioState.Idle)
+        every { audioStateMapper.flow() } returns flowOf(AudioState.Idle)
         tested.flow().test {
             val item = awaitItem()
             val popupItems = item.items.mapNotNull { it as? MenuContract.Item.Popup }
@@ -144,7 +143,7 @@ class MenuStateExcavatorFlowTest {
 
         playerControlsRepo.emit(PlayerControls(range = PlayerControls.Range(isVisible = false)))
 
-        every { audioStateMapper.observe() } returns Observable.just(AudioState.Idle)
+        every { audioStateMapper.flow() } returns flowOf(AudioState.Idle)
         tested.flow().test {
             val item = awaitItem()
             val popupItems = item.items.mapNotNull { it as? MenuContract.Item.Popup }

@@ -1,0 +1,33 @@
+package com.omar.retromp3recorder.bl.audio.progress
+
+import com.omar.retromp3recorder.audioplayer.AudioPlayer
+import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.rx3.asFlow
+import javax.inject.Inject
+
+class AudioStateMapperFlow @Inject constructor(
+    private val player: AudioPlayer,
+    private val recorder: Mp3VoiceRecorder
+) {
+    fun flow(): Flow<AudioState> = combine(
+        player.observeState().asFlow(),
+        recorder.observeState().asFlow()
+    ) { playerState, recorderState ->
+        when {
+            playerState == AudioPlayer.State.Playing -> AudioState.Playing
+            playerState == AudioPlayer.State.PausedToSeek -> AudioState.Seek_Paused
+            recorderState == Mp3VoiceRecorder.State.Recording -> AudioState.Recording
+            else -> AudioState.Idle
+        }
+    }.distinctUntilChanged()
+}
+
+sealed class AudioState {
+    object Idle : AudioState()
+    object Playing : AudioState()
+    object Seek_Paused : AudioState()
+    object Recording : AudioState()
+}

@@ -1,12 +1,11 @@
 package com.omar.retromp3recorder.app.screens.main.components.visualizer
 
 import app.cash.turbine.test
-import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import com.omar.retromp3recorder.bl.audio.PlayerIdMapper
+import com.omar.retromp3recorder.bl.audio.progress.AudioState
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapperFlow
 import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -18,7 +17,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class VisualizerInteractorFlowTest {
     private val playerIdMapper = mockk<PlayerIdMapper>(relaxed = true)
-    private val audioStateMapper = mockk<AudioStateMapper>(relaxed = true)
+    private val audioStateMapper = mockk<AudioStateMapperFlow>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
     private lateinit var tested: VisualizerInteractorFlow
 
@@ -30,7 +29,7 @@ class VisualizerInteractorFlowTest {
     @Test
     fun `listens to audio state mapper`() = runTest {
         val state = AudioState.Playing
-        every { audioStateMapper.observe() } returns Observable.just(state)
+        every { audioStateMapper.flow() } returns flowOf(state)
 
         tested.processIO().test {
             val item = awaitItem() as VisualizerView.Output.AudioStateChanged

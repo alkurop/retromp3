@@ -8,20 +8,21 @@ import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
 import com.omar.retromp3recorder.storage.repo.local.RangeBarResetBus
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
+import kotlinx.coroutines.rx3.asObservable
 import javax.inject.Inject
 
 /**
  * Cleans SeekPositionRepo when current file changes
  */
 class NewCurrentFileUpdater @Inject constructor(
-    private val hasPlayableFileMapper: HasPlayableFileMapper,
+    private val hasPlayableFileMapper: HasPlayableFileMapperFlow,
     private val playerProgressRepo: PlayerProgressRepo,
     private val rangeBarResetBus: RangeBarResetBus,
     private val deactivatePlayerControlsUC: DeactivatePlayerControlsUC,
     private val scheduler: Scheduler
 ) {
     fun execute(): Completable =
-        hasPlayableFileMapper.observe()
+        hasPlayableFileMapper.flow().asObservable()
             .map { currentFile ->
                 val unwrappedFile = currentFile.value
                 if (unwrappedFile != null) {

@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.visibility_lo
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
 import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.merged.FileActionsStateMapperFlow
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
+import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapperFlow
 import com.omar.retromp3recorder.domain.FileWrapper
 import com.omar.retromp3recorder.domain.MenuPopup
 import com.omar.retromp3recorder.domain.PlayerControls
@@ -13,12 +13,11 @@ import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
 import com.omar.retromp3recorder.utils.platform.Optional
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
 class MenuStateExcavatorFlow @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo,
-    private val audioStateMapper: AudioStateMapper,
+    private val audioStateMapper: AudioStateMapperFlow,
     private val currentFileRepo: CurrentFileRepo,
     private val fileActionsStateMapper: FileActionsStateMapperFlow
 ) {
@@ -35,7 +34,7 @@ class MenuStateExcavatorFlow @Inject constructor(
                         )
                     ) { it.toList().flatten() }
                 },
-            audioStateMapper.observe().asFlow()
+            audioStateMapper.flow()
         ) { menu, audioState ->
             MenuContract.State(
                 items = menu,
