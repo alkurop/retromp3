@@ -20,7 +20,10 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 @Composable
-fun JoinedProgressLayout(viewModel: JoinedProgressViewModelFlow = hiltViewModel(), modifier: Modifier) {
+fun JoinedProgressLayout(
+    viewModel: JoinedProgressViewModelFlow = hiltViewModel(),
+    modifier: Modifier
+) {
     val viewState: JoinedProgressView.State by viewModel.state.collectAsState()
 
     Surface(modifier = modifier) {
@@ -63,14 +66,14 @@ private fun BuildSeek(
     callback: (JoinedProgressView.In) -> Unit,
 ) {
     val compositeDisposable = CompositeDisposable()
-    val f:  (JoinedProgressView.In) -> Unit = remember {
+    val f: (JoinedProgressView.In) -> Unit = remember {
         {}
     }
     AndroidView(modifier = modifier.then(Modifier.fillMaxSize()),
         factory = { context ->
             val view = WavetableSeekbarPreview(context)
             view
-                  },
+        },
         update = { view ->
             view.update(progress)
             compositeDisposable.clear()
@@ -91,9 +94,11 @@ private fun BuildSeek(
 private fun BuildRecordMessage(
     modifier: Modifier = Modifier
 ) {
-    Box(contentAlignment = Alignment.Center) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
         Text(
-            modifier = modifier,
             text = stringResource(id = R.string.no_file),
         )
     }

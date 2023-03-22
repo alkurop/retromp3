@@ -82,6 +82,7 @@ private fun TrackLayout(
     Column(modifier.fillMaxWidth()) {
         JoinedProgressLayout(
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .height(60.dp)
         )
