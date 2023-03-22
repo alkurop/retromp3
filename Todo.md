@@ -7,6 +7,8 @@ X means can't be done (please provide explanation)
 
 
 ### Bugs:
+- V fix circle ci
+- V progress issue
 
 - fix search screen settings checkbox
 - fix play button not working
@@ -22,9 +24,8 @@ X means can't be done (please provide explanation)
 - fix size jumping of waveform on main view * ( should go away after migration to compose)
 - search activity toolbar color
 - time counter going in 2 lines
+- do waveforms continue emitting when recording stopped?
 
-- V fix circle ci
-- V progress issue
 
 
 ### Refactoring:

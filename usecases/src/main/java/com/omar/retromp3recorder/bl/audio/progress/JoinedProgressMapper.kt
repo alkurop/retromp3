@@ -8,7 +8,6 @@ import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.rx3.asFlow
@@ -20,15 +19,14 @@ class JoinedProgressMapper @Inject constructor(
     private val audioStateMapper: AudioStateMapper,
     private val currentFileRepo: CurrentFileRepo,
     private val playerProgressRepo: PlayerProgressRepo,
-    private val recorderWavetableMapper: RecordWavetableMapper,
-    private val dispatcher: CoroutineDispatcher
+    private val recorderWavetableMapper: RecordWavetableMapper
 ) {
 
     fun flow(): Flow<JoinedProgress> {
         return listOf(
             flowNotRecording(),
             flowRecording(),
-        ).merge().flowOn(dispatcher)
+        ).merge()
     }
 
     private fun flowNotRecording(): Flow<JoinedProgress> {
