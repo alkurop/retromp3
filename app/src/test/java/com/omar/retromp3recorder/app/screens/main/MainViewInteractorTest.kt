@@ -3,15 +3,15 @@ package com.omar.retromp3recorder.app.screens.main
 import android.media.projection.MediaProjection
 import app.cash.turbine.test
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
+import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUCSuspend
 import com.omar.retromp3recorder.domain.FeatureFlag
 import com.omar.retromp3recorder.domain.FeatureFlagSetting
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -28,7 +28,7 @@ import org.junit.Test
 class MainViewInteractorTest {
     private lateinit var tested: MainViewInteractor
     private lateinit var mediaProjectionStateRepo: MediaProjectionStateRepo
-    private val usecase = mockk<UpdateMediaProjectionUC>(relaxed = true)
+    private val usecase = mockk<UpdateMediaProjectionUCSuspend>(relaxed = true)
     private lateinit var featureFlagRepo: FeatureFlagRepo
     private val dispatcher = UnconfinedTestDispatcher()
 
@@ -82,6 +82,6 @@ class MainViewInteractorTest {
         val mediaProjection = mockk<MediaProjection>()
         tested.processIO(flowOf(MainViewContract.Input.MediaProjectionUpdated(mediaProjection)))
             .test { }
-        verify { usecase.execute(mediaProjection) }
+        coVerify { usecase.execute(mediaProjection) }
     }
 }

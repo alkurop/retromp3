@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main
 
 import com.omar.retromp3recorder.app.Interactor
-import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUC
+import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUCSuspend
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.domain.shellUnwrap
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class MainViewInteractor @Inject constructor(
     private val mediaProjectionRequestBus: MediaProjectionStateRepo,
-    private val updateMediaProjectionUC: UpdateMediaProjectionUC,
+    private val updateMediaProjectionUC: UpdateMediaProjectionUCSuspend,
     private val featureFlagRepo: FeatureFlagRepo,
     dispatcher: CoroutineDispatcher
 ) : Interactor<MainViewContract.Input, MainViewContract.Output>(dispatcher) {
@@ -28,7 +28,7 @@ class MainViewInteractor @Inject constructor(
     override suspend fun FlowCollector<MainViewContract.Output>.launchUseCase(input: MainViewContract.Input) {
         when (input) {
             is MainViewContract.Input.MediaProjectionUpdated -> {
-                updateMediaProjectionUC.execute(input.mediaProjection).blockingAwait()
+                updateMediaProjectionUC.execute(input.mediaProjection)
             }
         }
     }

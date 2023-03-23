@@ -40,11 +40,7 @@ data class WavetableSummer(
     companion object {
         const val MAX_SIZE = 1000
 
-        val recordCollectFunction: (WavetableSummer, Byte) -> Unit = { summer, byte ->
-            summer.add(byte)
-        }
-
-        val displayScanFunction: (WavetableSummer, Byte) -> WavetableSummer = { summer, byte ->
+        val reducer: (WavetableSummer, Byte) -> WavetableSummer = { summer, byte ->
             summer.add(byte)
             summer
         }

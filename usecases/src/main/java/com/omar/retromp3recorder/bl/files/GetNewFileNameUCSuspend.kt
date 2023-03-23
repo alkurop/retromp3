@@ -3,11 +3,10 @@ package com.omar.retromp3recorder.bl.files
 import android.content.SharedPreferences
 import com.omar.retromp3recorder.storage.SharedPrefsKeys
 import com.omar.retromp3recorder.utils.domain.DirPathProvider
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Get file path, and then create filename from incremented shared pref
@@ -15,10 +14,12 @@ import kotlin.coroutines.CoroutineContext
 class GetNewFileNameUCSuspend @Inject constructor(
     private val dirPathProvider: DirPathProvider,
     private val sharedPreferences: SharedPreferences
-) : CoroutineScope {
-    override val coroutineContext: CoroutineContext = Job()
+) {
+    private var coroutineContext: Job = Job()
 
     suspend fun execute(): String {
+        coroutineContext.cancelAndJoin()
+        coroutineContext = Job()
         val int = withContext(coroutineContext) {
             sharedPreferences.getInt(
                 SharedPrefsKeys.FILE_NAME,
@@ -26,6 +27,5 @@ class GetNewFileNameUCSuspend @Inject constructor(
             )
         }
         return "${dirPathProvider.providerDirPath()}/audiorecord_$int.mp3"
-
     }
 }

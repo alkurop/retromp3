@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.audio.progress
 
-import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
+import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapperFlow
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.FutureFileWrapper
@@ -10,7 +10,6 @@ import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
 
@@ -19,7 +18,7 @@ class JoinedProgressMapper @Inject constructor(
     private val audioStateMapper: AudioStateMapper,
     private val currentFileRepo: CurrentFileRepo,
     private val playerProgressRepo: PlayerProgressRepo,
-    private val recorderWavetableMapper: RecordWavetableMapper
+    private val recorderWavetableMapper: RecordWavetableMapperFlow
 ) {
 
     fun flow(): Flow<JoinedProgress> {
@@ -54,14 +53,8 @@ class JoinedProgressMapper @Inject constructor(
         return audioStateMapper.flow().filterIsInstance<AudioState.Recording>()
             .flatMapLatest {
                 val rate = Mp3VoiceRecorder.WaveTableSampleRate._100
-                combine(
-                    audioStateMapper.flow(),
-                    recorderWavetableMapper.observe()
-                        .asFlow()
-                ) { state, byte -> state to byte }
-                    .takeWhile { it.first !is AudioState.Idle }
-                    .map { it.second }
-                    .scan(WavetableSummer(), WavetableSummer.displayScanFunction)
+                recorderWavetableMapper.flow()
+                    .scan(WavetableSummer(), WavetableSummer.reducer)
                     .map {
                         val wavetable = it.toWaveTable(false)
                         JoinedProgress.RecorderProgressShown(
