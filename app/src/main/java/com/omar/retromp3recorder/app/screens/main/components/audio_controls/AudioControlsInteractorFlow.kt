@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.app.screens.main.components.audio_controls.butt
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.ShareButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.StopButtonStateMapperFlow
 import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
-import com.omar.retromp3recorder.bl.audio.actions.StartRecordUC
+import com.omar.retromp3recorder.bl.audio.actions.StartRecordUCSuspend
 import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUC
 import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.system.ShareUC
@@ -24,7 +24,7 @@ class AudioControlsInteractorFlow @Inject constructor(
     private val recorderDurationStateFlow: RecorderDurationStateFlow,
     private val shareButtonStateMapper: ShareButtonStateFlow,
     private val stopButtonStateMapper: StopButtonStateMapperFlow,
-    private val startRecordUC: StartRecordUC,
+    private val startRecordUC: StartRecordUCSuspend,
     private val shareUC: ShareUC,
     private val startPlaybackUC: StartPlaybackUC,
     private val stopPlaybackAndRecordUC: StopPlaybackAndRecordUC,
@@ -39,9 +39,9 @@ class AudioControlsInteractorFlow @Inject constructor(
             stopButtonStateMapper.flow().map { AudioControlsView.Output.StopButtonState(it) },
             recorderDurationStateFlow.flow(),
             joinedProgressMapper.flow().map {
-                    val progress = (it as? JoinedProgress.PlayerProgressShown)?.progress
-                    AudioControlsView.Output.PlayerProgressState(progress)
-                },
+                val progress = (it as? JoinedProgress.PlayerProgressShown)?.progress
+                AudioControlsView.Output.PlayerProgressState(progress)
+            },
         )
     }
 
@@ -51,7 +51,7 @@ class AudioControlsInteractorFlow @Inject constructor(
                 startPlaybackUC.execute().blockingAwait()
             }
             AudioControlsView.Input.Record -> {
-                startRecordUC.execute().blockingAwait()
+                startRecordUC.execute()
             }
             AudioControlsView.Input.Share -> {
                 shareUC.execute().blockingAwait()

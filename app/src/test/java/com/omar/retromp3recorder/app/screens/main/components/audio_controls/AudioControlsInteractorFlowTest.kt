@@ -6,13 +6,14 @@ import com.omar.retromp3recorder.app.screens.main.components.audio_controls.butt
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.ShareButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.StopButtonStateMapperFlow
 import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
-import com.omar.retromp3recorder.bl.audio.actions.StartRecordUC
+import com.omar.retromp3recorder.bl.audio.actions.StartRecordUCSuspend
 import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUC
 import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.ui.statebutton.InteractiveButtonState
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -35,7 +36,7 @@ class AudioControlsInteractorFlowTest {
     private val shareButtonStateMapper: ShareButtonStateFlow = mockk()
     private val stopButtonStateMapper: StopButtonStateMapperFlow = mockk()
 
-    private val startRecordUC: StartRecordUC = mockk(relaxed = true)
+    private val startRecordUC: StartRecordUCSuspend = mockk(relaxed = true)
     private val shareUC: ShareUC = mockk(relaxed = true)
     private val startPlaybackUC: StartPlaybackUC = mockk(relaxed = true)
     private val stopPlaybackAndRecordUC: StopPlaybackAndRecordUC = mockk(relaxed = true)
@@ -151,7 +152,7 @@ class AudioControlsInteractorFlowTest {
         tested.processIO(flowOf(AudioControlsView.Input.Play)).test {}
         verify(exactly = 1) { startPlaybackUC.execute() }
         verify(exactly = 0) { stopPlaybackAndRecordUC.execute() }
-        verify(exactly = 0) { startRecordUC.execute() }
+        coVerify(exactly = 0) { startRecordUC.execute() }
         verify(exactly = 0) { shareUC.execute() }
     }
 
@@ -161,7 +162,7 @@ class AudioControlsInteractorFlowTest {
 
         verify(exactly = 0) { startPlaybackUC.execute() }
         verify(exactly = 0) { stopPlaybackAndRecordUC.execute() }
-        verify(exactly = 1) { startRecordUC.execute() }
+        coVerify(exactly = 1) { startRecordUC.execute() }
         verify(exactly = 0) { shareUC.execute() }
     }
 
@@ -171,7 +172,7 @@ class AudioControlsInteractorFlowTest {
 
         verify(exactly = 0) { startPlaybackUC.execute() }
         verify(exactly = 1) { stopPlaybackAndRecordUC.execute() }
-        verify(exactly = 0) { startRecordUC.execute() }
+        coVerify(exactly = 0) { startRecordUC.execute() }
         verify(exactly = 0) { shareUC.execute() }
     }
 
@@ -181,7 +182,7 @@ class AudioControlsInteractorFlowTest {
 
         verify(exactly = 0) { startPlaybackUC.execute() }
         verify(exactly = 0) { stopPlaybackAndRecordUC.execute() }
-        verify(exactly = 0) { startRecordUC.execute() }
+        coVerify(exactly = 0) { startRecordUC.execute() }
         verify(exactly = 1) { shareUC.execute() }
     }
 
