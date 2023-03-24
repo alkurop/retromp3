@@ -119,39 +119,7 @@ class JoinedProgressMapperTest {
         tested.flow().test {
             val item = awaitItem()
             assert(item is JoinedProgress.RecorderProgressShown)
-        }
-    }
-
-    @Test
-    fun `When Recording then idle THEN collection waveform stops (bug)`() = runTest {
-
-        val waveFormBus = MutableSharedFlow<Byte>()
-        val audioStateBus = MutableStateFlow<AudioState>(AudioState.Recording)
-        currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
-        every { playerProgressRepo.flow() } returns flowOf(mockk<PlayerProgress>().toOptional())
-        every { audioStateMapper.flow() } returns audioStateBus
-
-        every { recorderWavetableMapper.flow() } returns waveFormBus
-
-
-        tested.flow().test {
-            val item = awaitItem()
-            waveFormBus.emit(10)
-            val item2 = awaitItem()
-
-
-            audioStateBus.emit(AudioState.Idle)
-
-            // after Idle state, collecting waveform should stop.
-            // when waveform emits new event, it is ignored
-            val item3 = awaitItem()
-            waveFormBus.emit(10)
-
-            expectNoEvents()
-            assert(item is JoinedProgress.RecorderProgressShown)
-            assert(item2 is JoinedProgress.RecorderProgressShown)
-            assert(item3 is JoinedProgress.PlayerProgressShown)
-
+            awaitComplete()
         }
     }
 

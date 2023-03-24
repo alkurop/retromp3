@@ -1,7 +1,5 @@
 package com.omar.retromp3recorder.bl.waveform
 
-import com.omar.retromp3recorder.bl.audio.progress.AudioState
-import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
@@ -13,7 +11,6 @@ import kotlin.math.absoluteValue
 
 class RecordWavetableMapperFlow @Inject constructor(
     private val recorder: Mp3VoiceRecorder,
-    private val audioStateMapper: AudioStateMapper
 ) {
     fun flow(): Flow<Byte> {
         return recorder.recorderFlow()
@@ -23,20 +20,18 @@ class RecordWavetableMapperFlow @Inject constructor(
             .chunked(10_000, 100)
             .map { it.average() }
             .map { it.toInt().toByte() }
-            .combine(audioStateMapper.flow())
+            .combine(recorder.stateFlow())
             { state, byte -> state to byte }
-            .takeWhile { it.second !is AudioState.Idle }
+            .takeWhile { it.second != Mp3VoiceRecorder.State.Idle }
             .map { it.first }
     }
 }
 
 fun <T> Flow<T>.chunked(maxSize: Int, intervalMillis: Long) = channelFlow {
-
     val buffer = mutableListOf<T>()
     var flushJob: Job? = null
 
     collect { value ->
-
         flushJob?.cancelAndJoin()
         buffer.add(value)
 
