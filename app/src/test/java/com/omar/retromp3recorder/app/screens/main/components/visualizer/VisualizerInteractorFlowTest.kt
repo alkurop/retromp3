@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main.components.visualizer
 
 import app.cash.turbine.test
-import com.omar.retromp3recorder.bl.audio.PlayerIdMapper
+import com.omar.retromp3recorder.bl.audio.record.PlayerIdMapper
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
 import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import io.mockk.every

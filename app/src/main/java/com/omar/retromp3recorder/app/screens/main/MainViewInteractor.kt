@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main
 
 import com.omar.retromp3recorder.app.Interactor
-import com.omar.retromp3recorder.bl.audio.UpdateMediaProjectionUCSuspend
+import com.omar.retromp3recorder.bl.audio.record.UpdateMediaProjectionUCSuspend
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.domain.shellUnwrap

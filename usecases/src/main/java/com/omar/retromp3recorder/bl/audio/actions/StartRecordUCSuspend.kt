@@ -2,8 +2,8 @@ package com.omar.retromp3recorder.bl.audio.actions
 
 import android.media.AudioAttributes.USAGE_GAME
 import android.media.AudioAttributes.USAGE_MEDIA
-import com.omar.retromp3recorder.bl.audio.MicCaptureSuspendCreator
-import com.omar.retromp3recorder.bl.audio.RecordWavetableUCSuspend
+import com.omar.retromp3recorder.bl.audio.record.MicCaptureSuspendCreator
+import com.omar.retromp3recorder.bl.audio.record.RecordWavetableUCSuspend
 import com.omar.retromp3recorder.bl.enablers.DeactivatePlayerControlsUC
 import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUCSuspend
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder

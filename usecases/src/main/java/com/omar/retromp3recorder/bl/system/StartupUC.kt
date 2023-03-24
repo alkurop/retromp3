@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.system
 
-import com.omar.retromp3recorder.bl.audio.PlayerProgressMapper
+import com.omar.retromp3recorder.bl.audio.progress.PlayerProgressMapper
 import com.omar.retromp3recorder.bl.files.NewCurrentFileUpdater
 import com.omar.retromp3recorder.bl.files.TakeLastFileDirScanUC
 import com.omar.retromp3recorder.bl.settings.FeatureMapLoadUC

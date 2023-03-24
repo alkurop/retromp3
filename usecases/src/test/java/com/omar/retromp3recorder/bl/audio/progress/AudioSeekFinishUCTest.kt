@@ -1,8 +1,7 @@
-package com.omar.retromp3recorder.bl.audio
+package com.omar.retromp3recorder.bl.audio.progress
 
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
-import com.omar.retromp3recorder.bl.audio.progress.AudioSeekFinishUC
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

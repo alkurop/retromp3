@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.bl.audio
+package com.omar.retromp3recorder.bl.audio.record
 
 import com.omar.retromp3recorder.bl.audio.actions.UpdatePlayerRangeUC
 import com.omar.retromp3recorder.data.mock.MockPlayerProgressFactory

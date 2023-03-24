@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main.components.visualizer
 
 import com.omar.retromp3recorder.app.Interactor
-import com.omar.retromp3recorder.bl.audio.PlayerIdMapper
+import com.omar.retromp3recorder.bl.audio.record.PlayerIdMapper
 import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
