@@ -32,7 +32,7 @@ class SaveRecordingWithWavetableUCSuspend @Inject constructor(
                     wavetable = data.second,
                     length = fileLister.discoverLength(data.first)
                 )
-            val id = fileEntityDao.insertBatch(listOf(newItem.toDatabaseEntity()))[0]
+            val id = fileEntityDao.insert(newItem.toDatabaseEntity())
             currentFileRepo.emit(newItem.copy(id).toOptional())
         }
     }
