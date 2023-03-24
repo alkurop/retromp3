@@ -4,7 +4,6 @@ import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUCSuspend
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class RecordMediaUC @Inject constructor(
@@ -16,7 +15,7 @@ class RecordMediaUC @Inject constructor(
 ) {
     suspend fun execute(source: Int) {
         serviceDealer.startMediaProjectionService()
-        val mediaProjectionState = projectionRepo.flow().first()
+        val mediaProjectionState = projectionRepo.first()
         val projection = mediaProjectionState.mediaProjection.value
         if (projection != null) {
             micCaptureCompletableCreator.execute(

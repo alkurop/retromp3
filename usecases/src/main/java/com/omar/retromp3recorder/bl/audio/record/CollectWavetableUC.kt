@@ -16,6 +16,5 @@ class CollectWavetableUC @Inject constructor(
             .scan(WavetableSummer(), WavetableSummer.reducer)
             .map { it.toWaveTable() }
             .last()
-
     }
 }
