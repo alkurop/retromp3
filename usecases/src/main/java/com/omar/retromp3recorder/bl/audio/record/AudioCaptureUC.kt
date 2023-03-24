@@ -10,7 +10,7 @@ import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.platform.Optional
 import javax.inject.Inject
 
-class MicCaptureSuspendCreator @Inject constructor(
+class AudioCaptureUC @Inject constructor(
     private val recorderPrefsRepo: RecorderPrefsRepo,
     private val currentFileRepo: CurrentFileRepo,
     private val incrementFileNameUC: IncrementFileNameUCSuspend,

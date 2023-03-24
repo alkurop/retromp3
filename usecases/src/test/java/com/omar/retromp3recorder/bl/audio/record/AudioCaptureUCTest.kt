@@ -17,7 +17,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MicCaptureSuspendCreatorTest {
+class AudioCaptureUCTest {
 
     private lateinit var recorderPrefsRepo: RecorderPrefsRepo
     private lateinit var currentFileRepo: CurrentFileRepo
@@ -26,14 +26,14 @@ class MicCaptureSuspendCreatorTest {
     private val mp3VoiceRecorder = mockk<Mp3VoiceRecorder>(relaxed = true)
     private val wakeLockUsecase = mockk<WakeLockUsecaseSuspend>(relaxed = true)
 
-    private lateinit var tested: MicCaptureSuspendCreator
+    private lateinit var tested: AudioCaptureUC
 
     @Before
     fun setUp() {
         recorderPrefsRepo = RecorderPrefsRepo()
         currentFileRepo = CurrentFileRepo()
 
-        tested = MicCaptureSuspendCreator(
+        tested = AudioCaptureUC(
             recorderPrefsRepo,
             currentFileRepo,
             incrementFileNameUC,
