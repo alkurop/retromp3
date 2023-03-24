@@ -46,6 +46,7 @@ class VisualizerInteractorFlowTest {
         tested.processIO().test {
             val item = awaitItem() as VisualizerView.Output.PlayerIdOutput
             assertEquals(playerId, item.playerId)
+            awaitComplete()
         }
     }
 }

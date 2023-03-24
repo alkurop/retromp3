@@ -48,9 +48,9 @@ class JoinedProgressInteractorFlowTest {
         val state = JoinedProgress.Intermediate
         every { joinedProgressRepo.flow() } returns flowOf(state)
         tested.processIO(flowOf()).test {
-            // first event is current file
-            skipItems(1)
-            val output = awaitItem() as JoinedProgressView.Output.JoinedProgressChanged
+            val awaitItem = awaitItem()
+            println(awaitItem)
+            val output = awaitItem as JoinedProgressView.Output.JoinedProgressChanged
             assertEquals(state, output.joinedProgress)
             cancelAndIgnoreRemainingEvents()
         }
