@@ -5,9 +5,7 @@ import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapperFlow
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -28,7 +26,7 @@ class RecordWavetableUCSuspend @Inject constructor(
             val wavetable = recorderMapper.flow()
                 .scan(WavetableSummer(), WavetableSummer.reducer)
                 .map { it.toWaveTable() }
-                .first()
+                .last()
 
             val file = requireNotNull(currentFileRepo.first().value) {
                 "File should not be null after recording"
