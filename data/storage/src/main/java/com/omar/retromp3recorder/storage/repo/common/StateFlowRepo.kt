@@ -25,7 +25,7 @@ open class StateFlowRepo<T : Any>(default: T? = null) {
         flow.tryEmit(next)
     }
 
-    suspend fun emit(next: T){
+    suspend fun emit(next: T) {
         flow.emit(next)
     }
 
