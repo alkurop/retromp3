@@ -12,7 +12,7 @@ open class ReducerRepo<In : Any, State : Any>(
     private val stateKeeper = MutableStateFlow(init)
 
     @Synchronized
-    fun emit(input: In) {
+   open fun emit(input: In) {
         val prev = stateKeeper.value
         val next = prev.reducer(input)
         stateKeeper.value = next

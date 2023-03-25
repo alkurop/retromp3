@@ -5,19 +5,37 @@ import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.storage.repo.common.ReducerRepo
 import com.omar.retromp3recorder.utils.platform.Optional
 import com.omar.retromp3recorder.utils.platform.toOptional
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.CoroutineContext
 
 @Singleton
 class PlayerProgressRepo @Inject constructor(
-    private val playerControlsRepo: PlayerControlsRepo
-) :
-    ReducerRepo<PlayerProgressRepo.In, Optional<PlayerProgress>>(
-        init = Optional.empty(),
-        reducer = reducer
-    ) {
+    private val playerControlsRepo: PlayerControlsRepo,
+    private val progressMapper: PlayerProgressMapperFlow,
+    private val dispatcher: CoroutineDispatcher
+) : ReducerRepo<PlayerProgressRepo.In, Optional<PlayerProgress>>(
+    init = Optional.empty(),
+    reducer = reducer
+), CoroutineScope {
+
+    override val coroutineContext: CoroutineContext = dispatcher + Job()
+
+    init {
+        launch {
+            progressMapper.execute().flowOn(dispatcher).collect {
+                emit(In.Progress(it))
+            }
+        }
+    }
+
     sealed class In {
         data class NewCurrentFile(val progress: PlayerProgress) : In()
         data class Range(val range: PlayerRange) : In()
@@ -27,7 +45,10 @@ class PlayerProgressRepo @Inject constructor(
     }
 
     override fun flow(): Flow<Optional<PlayerProgress>> {
-        return combine(super.flow(), playerControlsRepo.flow()) { progress, controls ->
+        return combine(
+            super.flow(),
+            playerControlsRepo.flow()
+        ) { progress, controls ->
             progress.value?.let {
                 it.copy(range = it.range.copy(settings = controls.rangeSettings))
             }.toOptional()
