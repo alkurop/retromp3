@@ -91,7 +91,7 @@ dependencies {
     implementation project(':ui:statebutton')
     implementation project(':usecases')
     implementation project(':data:storage')
-    implementation project(':domain:platform')
+    implementation project(':entity:platform')
 
     testImplementation project(':data:mock')
 

@@ -6,7 +6,7 @@ import javax.inject.Inject
 class AudioSeekProgressUC @Inject constructor(
     private val playerProgressRepo: PlayerProgressRepo
 ) {
-      fun execute(position: Long) {
+    suspend fun execute(position: Long) {
         playerProgressRepo.emit(PlayerProgressRepo.In.Seek(position))
     }
 }

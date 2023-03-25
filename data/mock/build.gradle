@@ -10,6 +10,6 @@ android {
 }
 
 dependencies {
-    implementation project(':domain:platform')
+    implementation project(':entity:platform')
 }
 

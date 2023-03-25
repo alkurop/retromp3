@@ -18,16 +18,21 @@ dependencyResolutionManagement {
 rootProject.name = "retro-mp3"
 
 include ':app'
+
 include ':io:audioplayer'
 include ':io:mp3recorder'
 include ':io:audio-tansformer'
 include ':io:share'
+
 include ':data:storage'
 include ':data:mock'
+
 include ':utils:domain'
 include ':utils:platform'
-include ':ui:wavetable'
-include ':usecases'
-include ':domain:data'
-include ':domain:platform'
+
 include ':ui:statebutton'
+include ':ui:wavetable'
+
+include ':usecases'
+include ':entity:data'
+include ':entity:platform'

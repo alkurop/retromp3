@@ -2,19 +2,12 @@ package com.omar.retromp3recorder.audioplayer
 
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.domain.FromToMillis
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterIsInstance
 
 interface AudioPlayer {
-    @Deprecated("Use flow()")
-
-    fun observe(): Observable<Output>
 
     fun flow(): Flow<Output>
-
-    @Deprecated("Use stateFlow()")
-    fun observeState(): Observable<State>
 
     fun stateFlow(): Flow<State>
 

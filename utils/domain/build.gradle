@@ -11,7 +11,7 @@ android {
 
 dependencies {
 
-    implementation project(":domain:platform")
+    implementation project(":entity:platform")
 
     api project(':utils:platform')
     api "io.reactivex.rxjava3:rxjava:$versions.rxJava"

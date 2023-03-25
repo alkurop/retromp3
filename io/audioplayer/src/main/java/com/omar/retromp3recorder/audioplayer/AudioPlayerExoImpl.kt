@@ -31,8 +31,8 @@ class AudioPlayerExoImpl @Inject constructor(
     private val compositeDisposable = CompositeDisposable()
     private lateinit var options: PlayerStartOptions
 
-    override fun observe(): Observable<AudioPlayer.Output> =
-        Observable.merge(
+    override fun flow(): Flow<AudioPlayer.Output> {
+        return Observable.merge(
             progress.distinctUntilChanged()
                 .map {
                     val range = options.rangeMillis
@@ -47,17 +47,13 @@ class AudioPlayerExoImpl @Inject constructor(
                     }
                 },
             events
-        )
-
-    override fun flow(): Flow<AudioPlayer.Output> {
-        return observe().asFlow()
+        ).asFlow()
     }
-
-    override fun observeState(): Observable<AudioPlayer.State> = state
 
     override fun stateFlow(): Flow<AudioPlayer.State> {
-        return observeState().asFlow()
+        return state.asFlow()
     }
+
     override fun onInput(input: AudioPlayer.Input) {
         compositeDisposable.clear()
         handler.post {

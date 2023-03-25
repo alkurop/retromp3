@@ -7,7 +7,7 @@ import javax.inject.Inject
 class UpdatePlayerRangeUC @Inject constructor(
     private val playerProgressRepo: PlayerProgressRepo
 ) {
-    fun execute(range: PlayerRange) {
+    suspend fun execute(range: PlayerRange) {
         playerProgressRepo.emit(PlayerProgressRepo.In.Range(range))
     }
 }

@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.app.screens.main.components.audio_controls.butt
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.RecordButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.ShareButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.StopButtonStateMapperFlow
-import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
+import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUCSuspend
 import com.omar.retromp3recorder.bl.audio.actions.StartRecordUCSuspend
 import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUCSuspend
 import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
@@ -26,7 +26,7 @@ class AudioControlsInteractorFlow @Inject constructor(
     private val stopButtonStateMapper: StopButtonStateMapperFlow,
     private val startRecordUC: StartRecordUCSuspend,
     private val shareUC: ShareUCSuspend,
-    private val startPlaybackUC: StartPlaybackUC,
+    private val startPlaybackUC: StartPlaybackUCSuspend,
     private val stopPlaybackAndRecordUC: StopPlaybackAndRecordUCSuspend,
     dispatcher: CoroutineDispatcher,
 ) : Interactor<AudioControlsView.Input, AudioControlsView.Output>(dispatcher) {
@@ -47,18 +47,10 @@ class AudioControlsInteractorFlow @Inject constructor(
 
     override suspend fun FlowCollector<AudioControlsView.Output>.launchUseCase(input: AudioControlsView.Input) {
         when (input) {
-            AudioControlsView.Input.Play -> {
-                startPlaybackUC.execute().blockingAwait()
-            }
-            AudioControlsView.Input.Record -> {
-                startRecordUC.execute()
-            }
-            AudioControlsView.Input.Share -> {
-                shareUC.execute()
-            }
-            AudioControlsView.Input.Stop -> {
-                stopPlaybackAndRecordUC.execute()
-            }
+            AudioControlsView.Input.Play -> startPlaybackUC.execute()
+            AudioControlsView.Input.Record -> startRecordUC.execute()
+            AudioControlsView.Input.Share -> shareUC.execute()
+            AudioControlsView.Input.Stop -> stopPlaybackAndRecordUC.execute()
         }
     }
 }
