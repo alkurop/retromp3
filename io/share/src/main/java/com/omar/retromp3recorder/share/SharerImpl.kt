@@ -6,56 +6,46 @@ import android.content.Intent
 import android.net.Uri
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.share.Sharer.Event.Error
-import com.omar.retromp3recorder.utils.domain.Constants.MAIN_THREAD
 import com.omar.retromp3recorder.utils.domain.FileUriCreator
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
 class SharerImpl @Inject internal constructor(
     private val fileUriCreator: FileUriCreator,
     @ApplicationContext private val context: Context,
-    @param:Named(MAIN_THREAD) private val mainThreadScheduler: Scheduler
 ) : Sharer {
-    private val events = PublishSubject.create<Sharer.Event>()
-    override fun share(file: File): Completable {
-        return if (!file.exists()) {
-            Completable.fromAction {
-                events.onNext(Error(Stringer(R.string.file_not_exists)))
-            }
-        } else Completable
-            .fromAction {
-                val uri = collectForShare(file)
-                val intent = initShareIntent(uri)
+    private val events = MutableSharedFlow<Sharer.Event>(replay = 0)
+    override suspend fun share(file: File) {
+        if (!file.exists()) {
+            events.emit(Error(Stringer(R.string.file_not_exists)))
+        } else {
+            val uri = collectForShare(file)
+            val intent = initShareIntent(uri)
+            try {
                 context.startActivity(
                     Intent.createChooser(
-                        intent,
-                        context.getString(R.string.sh_select)
+                        intent, context.getString(R.string.sh_select)
                     ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 )
-            }
-            .onErrorComplete {
-                val cause = it.message
+            } catch (throwable: Throwable) {
+                Timber.e(throwable)
+                val cause = throwable.message
                 val message =
                     if (cause == null) Stringer(R.string.sharing_failed) else Stringer.ofString(
                         cause
                     )
-                events.onNext(Error(message))
-                Timber.e(it)
-                true
+                events.emit(Error(message))
             }
-            .subscribeOn(mainThreadScheduler)
+        }
     }
 
-    override fun observeEvents(): Observable<Sharer.Event> {
+    override fun flow(): Flow<Sharer.Event> {
         return events
     }
 

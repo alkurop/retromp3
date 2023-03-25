@@ -14,7 +14,7 @@ class FileUriCreator @Inject constructor(
         return FileProvider.getUriForFile(
             context,
             context.applicationContext.packageName +
-                    ".com.omar.retromp3recorder.app.provider",
+                    ".provider",
             file
         )
     }

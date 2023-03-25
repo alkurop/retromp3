@@ -9,6 +9,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -26,7 +27,7 @@ class LogMapperFlowTest {
     @Before
     fun setUp() {
         every { recorder.observeEvents() } returns Observable.never()
-        every { sharer.observeEvents() } returns Observable.never()
+        every { sharer.flow() } returns flowOf()
         logRepo = LogRepo()
         tested = LogMapperFlow(recorder, sharer, logRepo)
     }
@@ -59,7 +60,7 @@ class LogMapperFlowTest {
 
     @Test
     fun `sharer message sends message`() = runTest {
-        every { sharer.observeEvents() } returns Observable.just(
+        every { sharer.flow() } returns flowOf(
             Sharer.Event.SharingOk(
                 mockk()
             )
@@ -72,7 +73,7 @@ class LogMapperFlowTest {
 
     @Test
     fun `sharer error sends error`() = runTest {
-        every { sharer.observeEvents() } returns Observable.just(
+        every { sharer.flow() } returns flowOf(
             Sharer.Event.Error(
                 mockk()
             )

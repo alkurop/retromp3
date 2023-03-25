@@ -53,13 +53,11 @@ class LogMapperFlow @Inject constructor(
 
         fun Sharer.createLogs(): Flow<LogEvent> {
             val message = this
-                .observeEvents()
-                .asFlow()
+                .flow()
                 .filterIsInstance<Sharer.Event.SharingOk>()
                 .map { answer -> LogEvent.Message(answer.message) }
             val error = this
-                .observeEvents()
-                .asFlow()
+                .flow()
                 .filterIsInstance<Sharer.Event.Error>()
                 .map { answer -> LogEvent.Error(answer.error) }
             return merge(message, error)
