@@ -17,7 +17,7 @@ class RecordWavetableMapperFlow @Inject constructor(
             .map { array ->
                 array.toList().map { it.toInt().absoluteValue }.average()
             }
-            .chunked(10_000, 100)
+            .chunked(10_000, 10)
             .map { it.average() }
             .map { it.toInt().toByte() }
             .combine(recorder.stateFlow())
