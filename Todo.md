@@ -52,6 +52,7 @@ X means can't be done (please provide explanation)
 - refactor getting audio projection
 - refactor main activity
 - cover WavetableSummerTest
+- StartPlaybackUCSuspend why here using length of file not duration in the progress?
 
 - V convert to flow and write tests one by one
 - V replace dagger with hilt
