@@ -8,5 +8,4 @@ object SharedPrefsKeys {
     const val BIT_RATE = "BIT_RATE"
     const val FILE_NAME = "FILE_NAME"
     const val SAMPLE_RATE = "SAMPLE_RATE"
-    const val WAVETABLE_SAMPLE_RATE = "WAVETABLE_SAMPLE_RATE"
 }

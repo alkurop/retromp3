@@ -45,19 +45,15 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
     private val recorderBus = PublishSubject.create<ShortArray>()
     private val state = BehaviorSubject.createDefault(Mp3VoiceRecorder.State.Idle)
 
-    override fun observeState(): Observable<Mp3VoiceRecorder.State> = state
-
     override fun stateFlow(): Flow<Mp3VoiceRecorder.State> {
-        return observeState().asFlow()
+        return state.asFlow()
     }
-
-    override fun observeRecorder(): Observable<ByteArray> = RecorderObserver.map(recorderBus)
 
     override fun recorderFlow(): Flow<ByteArray> {
-        return observeRecorder().asFlow()
+        return RecorderObserver.map(recorderBus).asFlow()
     }
 
-    override fun observeEvents(): Observable<Mp3VoiceRecorder.Event> = events
+    override fun eventsFlow(): Flow<Mp3VoiceRecorder.Event> = events.asFlow()
 
     override fun recordWithProps(props: Mp3VoiceRecorder.RecorderProps) {
         val sampleRate = props.prefs.sampleRate.value

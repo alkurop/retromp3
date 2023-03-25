@@ -7,7 +7,6 @@ import com.omar.retromp3recorder.share.Sharer
 import com.omar.retromp3recorder.storage.repo.global.LogRepo
 import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -26,7 +25,7 @@ class LogMapperFlowTest {
 
     @Before
     fun setUp() {
-        every { recorder.observeEvents() } returns Observable.never()
+        every { recorder.eventsFlow() } returns flowOf()
         every { sharer.flow() } returns flowOf()
         logRepo = LogRepo()
         tested = LogMapperFlow(recorder, sharer, logRepo)
@@ -34,7 +33,7 @@ class LogMapperFlowTest {
 
     @Test
     fun `recorder error sends error`() = runTest {
-        every { recorder.observeEvents() } returns Observable.just(
+        every { recorder.eventsFlow() } returns flowOf(
             Mp3VoiceRecorder.Event.Error(
                 mockk()
             )
@@ -47,7 +46,7 @@ class LogMapperFlowTest {
 
     @Test
     fun `recorder message sends message`() = runTest {
-        every { recorder.observeEvents() } returns Observable.just(
+        every { recorder.eventsFlow() } returns flowOf(
             Mp3VoiceRecorder.Event.Message(
                 mockk()
             )

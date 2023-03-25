@@ -44,6 +44,6 @@ data class PlayerStartOptions(
     val filePath: String
 )
 
-fun AudioPlayer.eventsFlow():Flow<AudioPlayer.Output.Event> = this.flow().filterIsInstance()
+fun AudioPlayer.eventsFlow(): Flow<AudioPlayer.Output.Event> = this.flow().filterIsInstance()
 
-fun AudioPlayer.progressFlow():Flow<AudioPlayer.Output.Progress> = this.flow().filterIsInstance()
+fun AudioPlayer.progressFlow(): Flow<AudioPlayer.Output.Progress> = this.flow().filterIsInstance()

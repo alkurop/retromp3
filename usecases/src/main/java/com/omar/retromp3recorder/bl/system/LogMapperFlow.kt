@@ -25,13 +25,11 @@ class LogMapperFlow @Inject constructor(
     private companion object {
         private fun Mp3VoiceRecorder.createLogs(): Flow<LogEvent> {
             val message = this
-                .observeEvents()
-                .asFlow()
+                .eventsFlow()
                 .filterIsInstance<Mp3VoiceRecorder.Event.Message>()
                 .map { answer -> LogEvent.Message(answer.message) }
             val error = this
-                .observeEvents()
-                .asFlow()
+                .eventsFlow()
                 .filterIsInstance<Mp3VoiceRecorder.Event.Error>()
                 .map { answer -> LogEvent.Error(answer.error) }
             return merge(message, error)
