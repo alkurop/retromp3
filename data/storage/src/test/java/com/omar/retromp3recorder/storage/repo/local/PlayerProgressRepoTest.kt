@@ -24,6 +24,9 @@ class PlayerProgressRepoTest {
         tested = PlayerProgressRepo(playerControlsRepo, progressMapper, dispatcher)
     }
 
+    @Test
+    fun `listens to player progress flow`() = fail()
+
 
     @Test
     fun `player controls range settings copied`() = runTest {

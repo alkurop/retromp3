@@ -20,6 +20,8 @@ android {
     namespace "${applicationId}.data.storage"
 }
 
+apply from: "$scripts.test_dependency"
+
 dependencies {
     implementation project(':entity:platform')
     implementation project(':utils:domain')
@@ -44,5 +46,8 @@ dependencies {
             because 'Because of confliciting versions we have a failing circle ci'
         }
     }
+
+    testImplementation project(':data:mock')
+
 }
 
