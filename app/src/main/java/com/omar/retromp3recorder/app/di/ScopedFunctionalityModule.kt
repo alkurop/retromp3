@@ -7,10 +7,12 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
 internal interface ScopedFunctionalityModule {
+    @Singleton
     @Binds
     fun provideAudioPlayer(clazz: AudioPlayerExoImpl): AudioPlayer
 }
