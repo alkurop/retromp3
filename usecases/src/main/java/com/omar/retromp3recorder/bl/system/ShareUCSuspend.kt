@@ -12,8 +12,9 @@ class ShareUCSuspend @Inject constructor(
 ) {
     suspend fun execute() {
         val fileWrapper = currentFileRepo.first().value
-        val file =
-            requireNotNull(fileWrapper as? ExistingFileWrapper) { "Current file should be Existing, but was $fileWrapper" }
+        val file = requireNotNull(fileWrapper as? ExistingFileWrapper) {
+            "Current file should be Existing, but was $fileWrapper"
+        }
         sharingModule.share(File(file.path))
     }
 }
