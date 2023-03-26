@@ -7,8 +7,8 @@ import com.omar.retromp3recorder.domain.FromToMillis
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
 import com.omar.retromp3recorder.utils.domain.toFromToMillis
-import com.omar.retromp3recorder.utils.platform.Optional
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.Optional
+import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

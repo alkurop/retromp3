@@ -5,11 +5,9 @@ import com.omar.retromp3recorder.bl.files.GetCropFileNameUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.audio.record
 
-import com.omar.retromp3recorder.utils.domain.Mp3TagsEditor
-import com.omar.retromp3recorder.utils.domain.RecordingTagsDefaultProvider
+import com.omar.retromp3recorder.utils.platform.Mp3TagsEditor
+import com.omar.retromp3recorder.utils.platform.RecordingTagsDefaultProvider
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.withContext

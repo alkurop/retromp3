@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.audioplayer.progressFlow
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
-import com.omar.retromp3recorder.utils.domain.toSeekbarTime
+import com.omar.retromp3recorder.utils.platform.toSeekbarTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map

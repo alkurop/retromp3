@@ -11,7 +11,7 @@ import com.omar.retromp3recorder.domain.PlayerControls
 import com.omar.retromp3recorder.domain.VisibilityEnabler
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

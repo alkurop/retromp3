@@ -1,0 +1,17 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+apply from: "$scripts.android_library"
+
+android {
+    namespace "${applicationId}.ui"
+}
+
+
+dependencies {
+    api project(':ui:statebutton')
+    api project(':ui:wavetable')
+}
+

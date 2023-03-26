@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.bl.system.WaveformScanUpdaterUCSuspend
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import com.omar.retromp3recorder.storage.db.toFileWrapper
-import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.launch

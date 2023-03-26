@@ -10,8 +10,8 @@ android {
 }
 
 dependencies {
-    implementation project(':entity:platform')
-    implementation project(':utils:domain')
+    implementation project(':entity')
+    implementation project(':utils')
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.google.dagger:hilt-android:$versions.hilt"
 }

@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.bl.files
 
 import com.omar.retromp3recorder.domain.NewNameSuggestion
-import com.omar.retromp3recorder.utils.domain.DirPathProvider
-import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.platform.DirPathProvider
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject

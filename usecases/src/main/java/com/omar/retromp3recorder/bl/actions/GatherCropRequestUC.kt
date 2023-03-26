@@ -7,7 +7,7 @@ import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.toFromToMillis
-import com.omar.retromp3recorder.utils.platform.repo.first
+import com.omar.retromp3recorder.utils.domain.repo.first
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 

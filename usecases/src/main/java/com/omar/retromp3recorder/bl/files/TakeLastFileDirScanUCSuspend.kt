@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.files
 
 import com.omar.retromp3recorder.bl.files.scan.ScanDirFilesPartialUCSuspend
-import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

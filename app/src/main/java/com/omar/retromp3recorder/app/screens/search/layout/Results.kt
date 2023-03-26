@@ -25,8 +25,8 @@ import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
-import com.omar.retromp3recorder.utils.domain.toCreationDate
-import com.omar.retromp3recorder.utils.domain.toTimeDisplay
+import com.omar.retromp3recorder.utils.platform.toCreationDate
+import com.omar.retromp3recorder.utils.platform.toTimeDisplay
 import kotlinx.coroutines.flow.Flow
 
 

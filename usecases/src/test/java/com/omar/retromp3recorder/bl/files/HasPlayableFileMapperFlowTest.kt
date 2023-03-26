@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.bl.files
 import app.cash.turbine.test
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.toOptional
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

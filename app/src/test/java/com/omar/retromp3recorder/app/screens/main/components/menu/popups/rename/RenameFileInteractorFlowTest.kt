@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.bl.files.CanRenameNameUC
 import com.omar.retromp3recorder.bl.files.RenameFileUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

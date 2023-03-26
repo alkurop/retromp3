@@ -5,8 +5,8 @@ import com.omar.retromp3recorder.bl.files.FileRepoUpdaterUCSuspend
 import com.omar.retromp3recorder.bl.waveform.WaveformScannerSuspend
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.isEmpty
-import com.omar.retromp3recorder.utils.domain.AmplitudaDealer
-import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.platform.AmplitudaDealer
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -10,7 +10,19 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:$versions.appcompat"
+
+    implementation project(":entity")
+    implementation project(':utils:data')
+
+    api "io.reactivex.rxjava3:rxjava:$versions.rxJava"
+    api "io.reactivex.rxjava3:rxkotlin:$versions.rxKotlin"
+    api "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"
     api "com.jakewharton.timber:timber:$versions.timber"
+    api "com.github.lincollincol:amplituda:$versions.amplituda"
+
     implementation "com.google.dagger:hilt-android:$versions.hilt"
+    implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
+    implementation "com.mpatric:mp3agic:$versions.mp3magic"
+    implementation "androidx.appcompat:appcompat:$versions.support"
+    implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
 }

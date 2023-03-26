@@ -23,11 +23,9 @@ android {
 apply from: "$scripts.test_dependency"
 
 dependencies {
-    implementation project(':entity:platform')
-    implementation project(':utils:domain')
-    implementation project(':io:mp3recorder')
-    implementation project(':io:audioplayer')
-    implementation project(':io:share')
+    implementation project(':entity')
+    implementation project(':utils')
+    implementation project(':io')
 
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"

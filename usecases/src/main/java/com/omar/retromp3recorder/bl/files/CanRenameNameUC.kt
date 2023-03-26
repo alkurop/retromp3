@@ -2,8 +2,8 @@ package com.omar.retromp3recorder.bl.files
 
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.domain.FileRenamer
-import com.omar.retromp3recorder.utils.platform.repo.first
+import com.omar.retromp3recorder.utils.platform.FileRenamer
+import com.omar.retromp3recorder.utils.domain.repo.first
 import javax.inject.Inject
 
 class CanRenameNameUC @Inject constructor(

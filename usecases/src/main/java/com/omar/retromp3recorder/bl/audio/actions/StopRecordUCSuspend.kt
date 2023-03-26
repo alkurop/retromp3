@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.bl.audio.actions
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
-import com.omar.retromp3recorder.utils.platform.repo.first
+import com.omar.retromp3recorder.utils.domain.repo.first
 import javax.inject.Inject
 
 class StopRecordUCSuspend @Inject constructor(

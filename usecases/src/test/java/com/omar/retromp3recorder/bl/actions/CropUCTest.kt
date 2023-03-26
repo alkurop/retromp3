@@ -9,9 +9,9 @@ import com.omar.retromp3recorder.domain.CropResponse
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
-import com.omar.retromp3recorder.utils.domain.AmplitudaDealer
-import com.omar.retromp3recorder.utils.domain.FileLister
-import com.omar.retromp3recorder.utils.domain.Mp3TagsEditor
+import com.omar.retromp3recorder.utils.platform.AmplitudaDealer
+import com.omar.retromp3recorder.utils.platform.FileLister
+import com.omar.retromp3recorder.utils.platform.Mp3TagsEditor
 import io.mockk.*
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi

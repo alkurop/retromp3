@@ -5,8 +5,8 @@ import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.utils.platform.repo.StateFlowRepo
-import com.omar.retromp3recorder.utils.platform.repo.PublishSubjectRepo
+import com.omar.retromp3recorder.utils.domain.repo.StateFlowRepo
+import com.omar.retromp3recorder.utils.domain.repo.PublishSubjectRepo
 import com.omar.retromp3recorder.domain.platform.LogEvent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

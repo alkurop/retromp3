@@ -14,16 +14,12 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$versions.support"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"
 
-    implementation project(':utils:platform')
-    implementation project(':utils:domain')
+    implementation project(':utils')
     testImplementation project(':data:mock')
 
-    implementation project(':entity:platform')
-    implementation project(':io:mp3recorder')
-    implementation project(':io:audioplayer')
-    implementation project(':io:audio-tansformer')
-    implementation project(':io:share')
-    implementation project(':data:storage')
+    api project(':entity')
+    api project(':io')
+    api project(':data')
 
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"

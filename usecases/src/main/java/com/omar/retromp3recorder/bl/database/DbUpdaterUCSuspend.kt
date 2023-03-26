@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.bl.database
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
-import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

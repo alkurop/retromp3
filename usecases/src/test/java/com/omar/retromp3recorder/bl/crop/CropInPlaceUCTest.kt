@@ -4,8 +4,9 @@ import com.omar.retromp3recorder.bl.actions.CropUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.platform.Optional
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.Optional
+import com.omar.retromp3recorder.utils.domain.repo.first
+import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

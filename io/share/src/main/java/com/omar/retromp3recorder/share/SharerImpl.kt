@@ -6,7 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.share.Sharer.Event.Error
-import com.omar.retromp3recorder.utils.domain.FileUriCreator
+import com.omar.retromp3recorder.utils.platform.FileUriCreator
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

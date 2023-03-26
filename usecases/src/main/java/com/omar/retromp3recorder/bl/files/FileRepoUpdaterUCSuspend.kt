@@ -2,9 +2,9 @@ package com.omar.retromp3recorder.bl.files
 
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.platform.Optional
-import com.omar.retromp3recorder.utils.platform.repo.first
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.Optional
+import com.omar.retromp3recorder.utils.domain.repo.first
+import com.omar.retromp3recorder.utils.domain.toOptional
 import javax.inject.Inject
 
 class FileRepoUpdaterUCSuspend @Inject constructor(

@@ -6,11 +6,11 @@ import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
-import com.omar.retromp3recorder.utils.domain.AmplitudaDealer
-import com.omar.retromp3recorder.utils.domain.FileLister
-import com.omar.retromp3recorder.utils.domain.Mp3TagsEditor
-import com.omar.retromp3recorder.utils.platform.Optional
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.platform.AmplitudaDealer
+import com.omar.retromp3recorder.utils.platform.FileLister
+import com.omar.retromp3recorder.utils.platform.Mp3TagsEditor
+import com.omar.retromp3recorder.utils.domain.Optional
+import com.omar.retromp3recorder.utils.domain.toOptional
 import javax.inject.Inject
 
 

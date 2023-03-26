@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.bl.files.GetCropFileNameUC
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.platform.repo.first
+import com.omar.retromp3recorder.utils.domain.repo.first
 import javax.inject.Inject
 
 class GenerateFileNameUC @Inject constructor(

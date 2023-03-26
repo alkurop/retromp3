@@ -17,7 +17,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.AUDIO_FOR
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.CHANNEL_PRESETS
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder.Companion.QUALITY_PRESETS
 import com.omar.retromp3recorder.iorecorder.RecorderObserver.sendFinishLog
-import com.omar.retromp3recorder.utils.domain.disposedBy
+import com.omar.retromp3recorder.utils.platform.disposedBy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable

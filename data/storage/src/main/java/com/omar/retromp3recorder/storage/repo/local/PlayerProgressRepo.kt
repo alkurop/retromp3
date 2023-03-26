@@ -2,10 +2,10 @@ package com.omar.retromp3recorder.storage.repo.local
 
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
-import com.omar.retromp3recorder.utils.platform.repo.ReducerRepo
-import com.omar.retromp3recorder.utils.platform.Optional
-import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.repo.ReducerRepo
+import com.omar.retromp3recorder.utils.domain.Optional
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.toOptional
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch

@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.di
 
 import com.omar.retromp3recorder.utils.domain.Constants
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
-import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

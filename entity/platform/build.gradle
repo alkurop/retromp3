@@ -10,8 +10,8 @@ android {
 }
 
 dependencies {
-    api project(":entity:data")
-    api project(":utils:platform")
+    api project(':entity:data')
+    api project(':utils:data')
     api "com.github.alkurop:stringerbell:$versions.stringerbell"
     api "com.github.alkurop:ghostinshell:$versions.ghostinshell"
 }

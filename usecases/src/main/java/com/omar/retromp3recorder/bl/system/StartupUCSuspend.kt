@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.bl.files.NewCurrentFileUpdaterSuspend
 import com.omar.retromp3recorder.bl.files.TakeLastFileDirScanUCSuspend
 import com.omar.retromp3recorder.bl.settings.FeatureMapLoadUCSuspend
 import com.omar.retromp3recorder.bl.settings.LoadRecorderSettingsUCSuspend
-import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

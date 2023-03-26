@@ -1,0 +1,18 @@
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+}
+
+apply from: "$scripts.android_library"
+
+android {
+    namespace "${applicationId}.io.audiotransformer"
+}
+
+dependencies {
+    implementation project(':entity')
+    implementation project(':utils')
+    implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
+    implementation "com.arthenica:mobile-ffmpeg-min:$versions.ffmpegKit"
+}

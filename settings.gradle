@@ -21,18 +21,23 @@ include ':app'
 
 include ':io:audioplayer'
 include ':io:mp3recorder'
-include ':io:audio-tansformer'
+include ':io:audio-transformer'
 include ':io:share'
+include ':io'
 
 include ':data:storage'
 include ':data:mock'
 
-include ':utils:domain'
+include ':utils:data'
 include ':utils:platform'
+include ':utlis'
 
 include ':ui:statebutton'
 include ':ui:wavetable'
+include ':ui'
 
 include ':usecases'
+
 include ':entity:data'
 include ':entity:platform'
+include ':entity'

@@ -5,7 +5,7 @@ import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.bl.audio.actions.StartRecordUCSuspend
 import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.toOptional
 import javax.inject.Inject
 
 class UpdateMediaProjectionUCSuspend @Inject constructor(

@@ -10,7 +10,7 @@ android {
 }
 
 dependencies {
-    implementation project(':utils:domain')
+    implementation project(':utils')
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"

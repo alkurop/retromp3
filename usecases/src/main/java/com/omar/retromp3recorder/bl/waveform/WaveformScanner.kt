@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.bl.waveform.WavetableSummer.Companion.MAX_SIZE
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.Wavetable
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.utils.domain.AmplitudaDealer
+import com.omar.retromp3recorder.utils.platform.AmplitudaDealer
 import io.reactivex.rxjava3.core.Single
 import linc.com.amplituda.Compress
 import linc.com.amplituda.Compress.SKIP

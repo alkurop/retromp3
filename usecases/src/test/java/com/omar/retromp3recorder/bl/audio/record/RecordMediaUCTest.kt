@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUCSuspend
 import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify

@@ -6,7 +6,8 @@ import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.domain.FileLister
+import com.omar.retromp3recorder.utils.domain.repo.first
+import com.omar.retromp3recorder.utils.platform.FileLister
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk

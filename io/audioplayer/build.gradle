@@ -6,12 +6,12 @@ plugins {
 apply from: "$scripts.android_library"
 
 android {
-    namespace "${applicationId}.audioplayer"
+    namespace "${applicationId}.io.audioplayer"
 }
 
 dependencies {
-    implementation project(':utils:domain')
-    implementation project(':entity:platform')
+    implementation project(':utils')
+    implementation project(':entity')
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation "com.google.android.exoplayer:exoplayer-core:$versions.exo"

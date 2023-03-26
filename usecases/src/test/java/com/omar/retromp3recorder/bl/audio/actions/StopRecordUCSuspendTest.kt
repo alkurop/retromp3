@@ -4,7 +4,8 @@ import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
-import com.omar.retromp3recorder.utils.platform.toOptional
+import com.omar.retromp3recorder.utils.domain.repo.first
+import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.coVerifySequence
 import io.mockk.mockk
 import io.mockk.spyk

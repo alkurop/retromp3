@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
 import com.omar.retromp3recorder.storage.repo.local.RangeBarResetBus
-import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

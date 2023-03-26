@@ -77,21 +77,16 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout-compose:$versions.composeConstraint"
     implementation "com.google.android.material:material:$versions.material"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"
-//hilt
+
+    //hilt
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation "androidx.hilt:hilt-navigation-compose:$versions.hilt_compose"
     kapt "com.google.dagger:hilt-compiler:$versions.hilt"
 
-    implementation project(':utils:domain')
-    implementation project(':io:mp3recorder')
-    implementation project(':io:audioplayer')
-    implementation project(':io:audio-tansformer')
-    implementation project(':io:share')
-    implementation project(':ui:wavetable')
-    implementation project(':ui:statebutton')
+    implementation project(':utils')
+    implementation project(':io')
+    implementation project(':ui')
     implementation project(':usecases')
-    implementation project(':data:storage')
-    implementation project(':entity:platform')
 
     testImplementation project(':data:mock')
 
