@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.storage.repo.local
 
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
-import com.omar.retromp3recorder.storage.repo.common.ReducerRepo
+import com.omar.retromp3recorder.utils.platform.ReducerRepo
 import com.omar.retromp3recorder.utils.platform.Optional
 import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
 import com.omar.retromp3recorder.utils.platform.toOptional

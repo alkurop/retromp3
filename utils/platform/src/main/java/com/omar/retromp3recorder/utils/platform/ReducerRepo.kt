@@ -1,9 +1,7 @@
-package com.omar.retromp3recorder.storage.repo.common
+package com.omar.retromp3recorder.utils.platform
 
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.rx3.asObservable
 
 open class ReducerRepo<In : Any, State : Any>(
     init: State,
@@ -17,15 +15,6 @@ open class ReducerRepo<In : Any, State : Any>(
         val next = prev.reducer(input)
         stateKeeper.value = next
     }
-
-    @Deprecated(
-        level = DeprecationLevel.WARNING,
-        message = "RxJava is deprecated",
-        replaceWith = ReplaceWith(
-            "observeFlow()"
-        )
-    )
-    open fun observe(): Observable<State> = stateKeeper.asObservable()
 
     open fun flow(): Flow<State> = stateKeeper
 

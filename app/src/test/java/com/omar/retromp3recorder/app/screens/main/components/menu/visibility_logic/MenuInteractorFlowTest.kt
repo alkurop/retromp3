@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.visibility_lo
 
 import app.cash.turbine.test
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
-import com.omar.retromp3recorder.bl.enablers.EnablersSwitcher
+import com.omar.retromp3recorder.bl.enablers.EnablersSwitcherSuspend
 import com.omar.retromp3recorder.domain.AudioEnabler
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -19,7 +19,7 @@ import org.junit.Test
 class MenuInteractorFlowTest {
 
     private val excavator = mockk<MenuStateExcavatorFlow>(relaxed = true)
-    private val enabler = mockk<EnablersSwitcher>(relaxed = true)
+    private val enabler = mockk<EnablersSwitcherSuspend>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
 
     private lateinit var tested: MenuInteractorFlow

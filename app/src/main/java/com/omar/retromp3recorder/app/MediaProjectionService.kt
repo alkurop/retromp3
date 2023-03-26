@@ -15,6 +15,7 @@ import com.omar.retromp3recorder.utils.domain.disposedBy
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.rx3.asObservable
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -47,7 +48,7 @@ class MediaProjectionService : Service() {
         Completable
             .merge(
                 listOf(
-                    mediaProjectionRepo.observe()
+                    mediaProjectionRepo.flow().asObservable()
                         .flatMapCompletable {
                             val shouldStop = it.stop.ghost != null
                             if (shouldStop) {
