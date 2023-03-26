@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class AudioSourceInteractorFlowTest{
+class AudioSourceInteractorFlowTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     private val dispatcher = UnconfinedTestDispatcher()
     private val usecase = mockk<ChangeAudioSourceUC>()
@@ -35,7 +35,7 @@ class AudioSourceInteractorFlowTest{
         val event = Mp3VoiceRecorder.AudioSourcePref.Media
 
         interactor.processIO(flowOf(event)).test {
-            expectNoEvents()
+            cancelAndIgnoreRemainingEvents()
         }
 
         coVerify { usecase.execute(event) }

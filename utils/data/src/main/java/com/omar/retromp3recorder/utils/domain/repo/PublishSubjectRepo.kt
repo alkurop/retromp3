@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.utils.domain.repo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-open class PublishSubjectRepo<T : Any>(replay: Int = 0) : Repo<T, T> {
+open class PublishSubjectRepo<T : Any>(replay: Int = 0) : SimpleRepo<T> {
     private val state = MutableSharedFlow<T>(
         replay = replay
     )

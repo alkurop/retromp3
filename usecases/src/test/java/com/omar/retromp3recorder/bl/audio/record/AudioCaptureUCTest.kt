@@ -7,6 +7,7 @@ import com.omar.retromp3recorder.domain.FutureFileWrapper
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.utils.domain.repo.first
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.mockk

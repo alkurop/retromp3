@@ -10,3 +10,5 @@ interface Repo<In : Any, Out:Any> {
 }
 
 suspend fun <Out : Any> Repo<*, Out>.first() = flow().first()
+
+interface SimpleRepo<T : Any>:Repo<T,T>

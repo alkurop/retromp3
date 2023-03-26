@@ -4,7 +4,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-open class StateFlowRepo<T : Any>(default: T? = null) : Repo<T, T> {
+open class StateFlowRepo<T : Any>(default: T? = null) : SimpleRepo<T> {
     private val flow = MutableSharedFlow<T>(
         replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
