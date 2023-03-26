@@ -4,32 +4,29 @@ import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.storage.repo.common.ReducerRepo
 import com.omar.retromp3recorder.utils.platform.Optional
+import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
 import com.omar.retromp3recorder.utils.platform.toOptional
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.CoroutineContext
 
 @Singleton
 class PlayerProgressRepo @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo,
     private val progressMapper: PlayerProgressMapperFlow,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
+    jobWrapper: ScopeJobWrapper
 ) : ReducerRepo<PlayerProgressRepo.In, Optional<PlayerProgress>>(
     init = Optional.empty(),
     reducer = reducer
-), CoroutineScope {
-
-    override val coroutineContext: CoroutineContext = dispatcher + Job()
+) {
 
     init {
-        launch {
+        jobWrapper.launch {
             progressMapper.execute().flowOn(dispatcher).collect {
                 emit(In.Progress(it))
             }

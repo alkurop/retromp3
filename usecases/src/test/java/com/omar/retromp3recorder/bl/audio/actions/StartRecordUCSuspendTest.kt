@@ -3,14 +3,11 @@ package com.omar.retromp3recorder.bl.audio.actions
 import android.media.AudioAttributes
 import com.omar.retromp3recorder.bl.audio.record.RecordMediaUC
 import com.omar.retromp3recorder.bl.audio.record.RecordMicUC
-import com.omar.retromp3recorder.bl.enablers.DeactivatePlayerControlsUC
+import com.omar.retromp3recorder.bl.enablers.DeactivatePlayerControlsUCSuspend
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
-import io.reactivex.rxjava3.core.Completable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -19,7 +16,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class StartRecordUCSuspendTest {
     private lateinit var recorderPrefsRepo: RecorderPrefsRepo
-    private val deactivatePlayerControlsUC = mockk<DeactivatePlayerControlsUC>(relaxed = true)
+    private val deactivatePlayerControlsUC = mockk<DeactivatePlayerControlsUCSuspend>(relaxed = true)
     private val recordMediaUC = mockk<RecordMediaUC>(relaxed = true)
     private val recordMicUC = mockk<RecordMicUC>(relaxed = true)
 
@@ -27,7 +24,6 @@ class StartRecordUCSuspendTest {
 
     @Before
     fun setUp() {
-        every { deactivatePlayerControlsUC.execute() } returns Completable.complete()
         recorderPrefsRepo = RecorderPrefsRepo()
         tested = StartRecordUCSuspend(
             recorderPrefsRepo, deactivatePlayerControlsUC, recordMediaUC, recordMicUC
@@ -40,7 +36,7 @@ class StartRecordUCSuspendTest {
 
         tested.execute()
 
-        verify { deactivatePlayerControlsUC.execute() }
+        coVerify { deactivatePlayerControlsUC.execute() }
     }
 
     @Test
