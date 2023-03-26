@@ -3,6 +3,7 @@ package com.omar.retromp3recorder.storage.repo.local
 import app.cash.turbine.test
 import com.omar.retromp3recorder.data.mock.MockPlayerProgressFactory
 import com.omar.retromp3recorder.domain.PlayerControls
+import com.omar.retromp3recorder.utils.platform.ScopeJobWrapper
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -18,10 +19,12 @@ class PlayerProgressRepoTest {
     private val progressMapper = mockk<PlayerProgressMapperFlow>()
     private val dispatcher = UnconfinedTestDispatcher()
 
+    private val jobScopeJobWrapper = ScopeJobWrapper(dispatcher)
+
     @Before
     fun setUp() {
         playerControlsRepo = PlayerControlsRepo()
-        tested = PlayerProgressRepo(playerControlsRepo, progressMapper, dispatcher)
+        tested = PlayerProgressRepo(playerControlsRepo, progressMapper, jobScopeJobWrapper)
     }
 
     @Test
