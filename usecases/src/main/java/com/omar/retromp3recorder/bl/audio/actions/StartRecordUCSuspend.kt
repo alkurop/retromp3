@@ -7,6 +7,7 @@ import com.omar.retromp3recorder.bl.audio.record.RecordMicUC
 import com.omar.retromp3recorder.bl.enablers.DeactivatePlayerControlsUCSuspend
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
+import com.omar.retromp3recorder.utils.platform.repo.first
 import javax.inject.Inject
 
 class StartRecordUCSuspend @Inject constructor(

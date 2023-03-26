@@ -28,8 +28,7 @@ class ChangeAudioSourceUCTest {
 
     @Before
     fun setUp() {
-        repo =
-            RecorderPrefsRepo().apply { this.tryNext(Mp3VoiceRecorder.RecorderPrefs()) }
+        repo = RecorderPrefsRepo()
         useCase = ChangeAudioSourceUC(repo, sharedPreferences, serviceDealer)
 
         every { sharedPreferences.edit() } returns editor
@@ -51,7 +50,6 @@ class ChangeAudioSourceUCTest {
     @Test
     fun `update put update into repo`() = runTest {
         val setting =  Mp3VoiceRecorder.AudioSourcePref.Games
-
         useCase.execute(setting)
 
         val first = repo.flow().first().audioSourcePref
@@ -60,7 +58,6 @@ class ChangeAudioSourceUCTest {
     @Test
     fun `update stops media projection`() = runTest {
         val setting =  Mp3VoiceRecorder.AudioSourcePref.Games
-
         useCase.execute(setting)
 
         verify { serviceDealer.stopMediaProjectionService() }

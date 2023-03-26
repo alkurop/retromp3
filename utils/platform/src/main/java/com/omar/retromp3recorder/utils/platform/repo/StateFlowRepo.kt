@@ -1,12 +1,10 @@
-package com.omar.retromp3recorder.utils.platform
+package com.omar.retromp3recorder.utils.platform.repo
 
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.first
 
-
-open class StateFlowRepo<T : Any>(default: T? = null) {
+open class StateFlowRepo<T : Any>(default: T? = null) : Repo<T, T> {
     private val flow = MutableSharedFlow<T>(
         replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
@@ -17,16 +15,9 @@ open class StateFlowRepo<T : Any>(default: T? = null) {
         }
     }
 
-    open fun tryNext(next: T) {
-        flow.tryEmit(next)
+    override suspend fun emit(input: T) {
+        flow.emit(input)
     }
 
-    suspend fun emit(next: T) {
-        flow.emit(next)
-    }
-
-    fun flow(): Flow<T> = flow
-
-    suspend fun first(): T = flow.first()
-
+    override fun flow(): Flow<T> = flow
 }

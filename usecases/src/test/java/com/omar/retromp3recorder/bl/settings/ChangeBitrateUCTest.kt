@@ -24,8 +24,7 @@ class ChangeBitrateUCTest {
 
     @Before
     fun setUp() {
-        repo =
-            RecorderPrefsRepo().apply { this.tryNext(Mp3VoiceRecorder.RecorderPrefs()) }
+        repo = RecorderPrefsRepo()
         useCase = ChangeBitrateUC(repo, sharedPreferences)
 
         every { sharedPreferences.edit() } returns editor

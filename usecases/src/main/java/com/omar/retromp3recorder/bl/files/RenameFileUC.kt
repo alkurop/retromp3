@@ -7,6 +7,7 @@ import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.FileRenamer
 import com.omar.retromp3recorder.utils.domain.Mp3TagsEditor
 import com.omar.retromp3recorder.utils.platform.Optional
+import com.omar.retromp3recorder.utils.platform.repo.first
 import javax.inject.Inject
 
 class RenameFileUC @Inject constructor(
@@ -36,6 +37,6 @@ class RenameFileUC @Inject constructor(
         )
 
         appDatabase.fileEntityDao().updateItem(copy.toDatabaseEntity())
-        currentFileRepo.tryNext(Optional(copy))
+        currentFileRepo.emit(Optional(copy))
     }
 }

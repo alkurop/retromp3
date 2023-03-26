@@ -8,6 +8,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.platform.Optional
+import com.omar.retromp3recorder.utils.platform.repo.first
 import javax.inject.Inject
 
 class AudioCaptureUC @Inject constructor(

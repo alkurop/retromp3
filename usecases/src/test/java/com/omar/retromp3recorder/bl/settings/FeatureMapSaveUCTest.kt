@@ -24,8 +24,7 @@ class FeatureMapSaveUCTest {
 
     @Before
     fun setUp() {
-        featureFlagRepo =
-            FeatureFlagRepo().apply { this.tryNext(FeatureFlagsCollection(emptyMap())) }
+        featureFlagRepo = FeatureFlagRepo()
         useCase = FeatureMapSaveUC(featureFlagRepo, sharedPreferences)
 
         every { sharedPreferences.edit() } returns editor
@@ -63,7 +62,7 @@ class FeatureMapSaveUCTest {
         val setting = FeatureFlagSetting(true)
         val updateSetting = FeatureFlagSetting(false)
 
-        featureFlagRepo.tryNext(FeatureFlagsCollection(mapOf(flag to setting)))
+        featureFlagRepo.emit(FeatureFlagsCollection(mapOf(flag to setting)))
 
 
         useCase.execute(flag, updateSetting)
