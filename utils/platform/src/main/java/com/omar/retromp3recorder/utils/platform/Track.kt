@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.utils.domain
+package com.omar.retromp3recorder.utils.platform
 
 import javax.inject.Scope
 

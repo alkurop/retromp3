@@ -41,7 +41,7 @@
             android:foregroundServiceType="mediaProjection" />
 
         <provider
-            android:name="com.omar.retromp3recorder.utils.domain.GenericFileProvider"
+            android:name="com.omar.retromp3recorder.utils.platform.GenericFileProvider"
             android:exported="false"
             android:grantUriPermissions="true"
             android:authorities="${applicationId}.provider"
