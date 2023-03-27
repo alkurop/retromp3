@@ -7,16 +7,16 @@ import kotlinx.coroutines.flow.first
 open class ReducerRepo<In : Any, State : Any>(
     init: State,
     private val reducer: State.(In) -> State
-)   {
+) {
     private val stateKeeper = MutableStateFlow(init)
 
-    open  suspend fun emit(input: In) {
+    suspend fun emit(input: In) {
         val prev = stateKeeper.value
         val next = prev.reducer(input)
         stateKeeper.emit(next)
     }
 
-      open fun flow(): Flow<State> = stateKeeper
+    open fun flow(): Flow<State> = stateKeeper
 
 }
 

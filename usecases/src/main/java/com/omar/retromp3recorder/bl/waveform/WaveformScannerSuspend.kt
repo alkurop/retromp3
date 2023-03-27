@@ -26,9 +26,9 @@ class WaveformScannerSuspend @Inject constructor(
     suspend fun execute(
         file: ExistingFileWrapper, amplitudaDealer: AmplitudaDealer
     ): ExistingFileWrapper {
-        val lengthMillis = file.length!!
+        val audioLength = requireNotNull(file.length) { "File length should not be null" }
         val default = MAX_SIZE / Mp3VoiceRecorder.WaveTableSampleRate._100.value
-        val lengthSeconds = lengthMillis / MAX_SIZE
+        val lengthSeconds = audioLength / MAX_SIZE
         val takesPerSecond = when {
             lengthSeconds <= 100 -> default // less then a 100 seconds 10 sample per seconds 1000 samples
             lengthSeconds >= MAX_SIZE -> 1
@@ -45,22 +45,28 @@ class WaveformScannerSuspend @Inject constructor(
         } else {
             val data = result.amplitudesAsList()
             val multiplier = 1 + data.size / MAX_SIZE
-            val res = data.windowed(multiplier, multiplier, true)
-                .map { list -> list.maxOrNull()?.times(2) ?: 0 }.toMutableList()
+            val res = data
+                .windowed(multiplier, multiplier, true)
+                .map { list -> list.maxOrNull()?.times(2) ?: 0 }
+                .toMutableList()
             if (res.firstOrNull { it != 0 } == null) {
                 res.removeAt(0)
                 res.add(0, 1)
             }
-            val size =
-                takesPerSecond * MAX_SIZE / Mp3VoiceRecorder.WaveTableSampleRate._100.value * multiplier
 
+            val size = waveFormSize( takesPerSecond ,  multiplier)
             val wavetable = Wavetable(res.map { it.toByte() }.toByteArray(), size)
             file.copy(wavetable = wavetable)
         }
     }
 }
 
-private fun Amplituda.flow(path: String, takesPerSecond: Int) =
+internal fun waveFormSize(takesPerSecond: Int, multiplier: Int): Int {
+    return takesPerSecond * MAX_SIZE / Mp3VoiceRecorder.WaveTableSampleRate._100.value * multiplier
+}
+
+
+internal fun Amplituda.flow(path: String, takesPerSecond: Int) =
     callbackFlow<Optional<AmplitudaResult<String>>> {
         processAudio(
             path, Compress.withParams(SKIP, takesPerSecond)
