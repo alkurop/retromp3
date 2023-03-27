@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.waveform
 
-import com.omar.retromp3recorder.bl.waveform.WavetableSummer.Companion.MAX_SIZE
+import com.omar.retromp3recorder.bl.waveform.WavetableSummer.Companion.MAX_WAVEFORM_SIZE
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.Wavetable
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
@@ -28,13 +28,13 @@ class WaveformScannerSuspend @Inject constructor(
         file: ExistingFileWrapper
     ): ExistingFileWrapper {
         val audioLength = requireNotNull(file.length) { "File length should not be null" }
-        val default = MAX_SIZE / Mp3VoiceRecorder.WaveTableSampleRate._100.value
-        val lengthSeconds = audioLength / MAX_SIZE
+        val default = MAX_WAVEFORM_SIZE / Mp3VoiceRecorder.WaveTableSampleRate._100.value
+        val lengthSeconds = audioLength / MAX_WAVEFORM_SIZE
         val takesPerSecond = when {
             lengthSeconds <= 100 -> default // less then a 100 seconds 10 sample per seconds 1000 samples
-            lengthSeconds >= MAX_SIZE -> 1
+            lengthSeconds >= MAX_WAVEFORM_SIZE -> 1
             else -> {
-                MAX_SIZE / lengthSeconds /* between 100 seconds and 10000 seconds variable, max 1 sample per second, 1000 seconds*/
+                MAX_WAVEFORM_SIZE / lengthSeconds /* between 100 seconds and 10000 seconds variable, max 1 sample per second, 1000 seconds*/
             }
         }.toInt()
 
@@ -45,7 +45,7 @@ class WaveformScannerSuspend @Inject constructor(
             file
         } else {
             val data = result.amplitudesAsList()
-            val multiplier = 1 + data.size / MAX_SIZE
+            val multiplier = 1 + data.size / MAX_WAVEFORM_SIZE
             val res = data
                 .windowed(multiplier, multiplier, true)
                 .map { list -> list.maxOrNull()?.times(2) ?: 0 }
@@ -63,7 +63,7 @@ class WaveformScannerSuspend @Inject constructor(
 }
 
 internal fun waveFormSize(takesPerSecond: Int, multiplier: Int): Int {
-    return takesPerSecond * MAX_SIZE / Mp3VoiceRecorder.WaveTableSampleRate._100.value * multiplier
+    return takesPerSecond * MAX_WAVEFORM_SIZE / Mp3VoiceRecorder.WaveTableSampleRate._100.value * multiplier
 }
 
 
