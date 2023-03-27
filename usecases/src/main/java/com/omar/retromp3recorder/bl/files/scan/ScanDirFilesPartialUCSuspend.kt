@@ -1,12 +1,13 @@
 package com.omar.retromp3recorder.bl.files.scan
 
 import com.omar.retromp3recorder.bl.database.GetPagingItemsDatabaseUCFlow
-import com.omar.retromp3recorder.bl.files.FileRepoUpdaterUCSuspend
 import com.omar.retromp3recorder.bl.system.WaveformScanUpdaterUCSuspend
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import com.omar.retromp3recorder.storage.db.toFileWrapper
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.toOptional
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.launch
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class ScanDirFilesPartialUCSuspend @Inject constructor(
     private val appDatabase: AppDatabase,
     private val findFilesUC: FindFilesUCSuspend,
-    private val fileRepoUpdaterUC: FileRepoUpdaterUCSuspend,
+    private val currentFileRepo: CurrentFileRepo,
     private val getPagingItemsDatabaseUC: GetPagingItemsDatabaseUCFlow,
     private val waveformScanUpdaterUC: WaveformScanUpdaterUCSuspend,
     private val collector: FileUpdatePayloadCollectorUC,
@@ -42,12 +43,17 @@ class ScanDirFilesPartialUCSuspend @Inject constructor(
                 dbUpdateItem.inserts.zip(insertIds) { item, id -> item.copy(id = id) }
             val updateWithId = dbUpdateItem.copy(inserts = insertsWithId)
 
-            fileRepoUpdaterUC.execute(updateWithId.inserts.map { it.toFileWrapper() })
+            updateWithId.inserts.map { it.toFileWrapper() }
+                .lastOrNull()
+                ?.let {
+                    currentFileRepo.emit(it.toOptional())
+                }
 
-            waveformScanUpdaterUC.execute(
+            val result = waveformScanUpdaterUC.execute(
                 (updateWithId.updates + updateWithId.inserts)
                     .reversed()
                     .map { it.toFileWrapper() })
+            result.lastOrNull()?.let { currentFileRepo.emit(it.toOptional()) }
         }
     }
 }

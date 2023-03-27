@@ -1,7 +1,9 @@
 package com.omar.retromp3recorder.bl.files
 
 import com.omar.retromp3recorder.bl.files.scan.ScanDirFilesPartialUCSuspend
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.toOptional
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,7 +17,7 @@ import javax.inject.Inject
  * use TakeLastFileNoScanUC. this version is very slow when user has a lot of files
  */
 class TakeLastFileDirScanUCSuspend @Inject constructor(
-    private val fileRepoUpdaterUC: FileRepoUpdaterUCSuspend,
+    private val currentFileRepo: CurrentFileRepo,
     private val scanDirFilesPartialUC: ScanDirFilesPartialUCSuspend,
     private val takeLastFileFastUC: TakeLastFileDbItemUCSuspend,
     private val scopeJobWrapper: ScopeJobWrapper
@@ -23,12 +25,10 @@ class TakeLastFileDirScanUCSuspend @Inject constructor(
     suspend fun execute() {
         scopeJobWrapper.launch {
             val databaseFile = takeLastFileFastUC.execute()
-            if (databaseFile == null) {
-                scanDirFilesPartialUC.execute()
-            } else {
-                fileRepoUpdaterUC.execute(listOf(databaseFile))
-                scanDirFilesPartialUC.execute()
+            if (databaseFile != null) {
+                currentFileRepo.emit(databaseFile.toOptional())
             }
+            scanDirFilesPartialUC.execute()
         }
     }
 }

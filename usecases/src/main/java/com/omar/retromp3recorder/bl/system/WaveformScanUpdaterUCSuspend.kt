@@ -1,37 +1,35 @@
 package com.omar.retromp3recorder.bl.system
 
 import com.omar.retromp3recorder.bl.database.DbUpdaterUCSuspend
-import com.omar.retromp3recorder.bl.files.FileRepoUpdaterUCSuspend
 import com.omar.retromp3recorder.bl.waveform.WaveformScannerSuspend
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.isEmpty
-import com.omar.retromp3recorder.utils.platform.AmplitudaDealer
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
-import kotlinx.coroutines.launch
+import com.omar.retromp3recorder.utils.platform.AmplitudaDealer
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class WaveformScanUpdaterUCSuspend @Inject constructor(
     private val amplitudaDealer: AmplitudaDealer,
     private val dbUpdaterUC: DbUpdaterUCSuspend,
-    private val fileRepoUpdaterUC: FileRepoUpdaterUCSuspend,
     private val waveformScanner: WaveformScannerSuspend,
     private val scopeJobWrapper: ScopeJobWrapper
 ) {
-    suspend fun execute(input: List<ExistingFileWrapper>) {
+    suspend fun execute(input: List<ExistingFileWrapper>): List<ExistingFileWrapper> {
         scopeJobWrapper.cancelAndJoin()
         val batch = input.filter { it.wavetable.isEmpty() }
-        if (batch.isEmpty()) return
+        if (batch.isEmpty()) return input
 
-        scopeJobWrapper.launch {
-            batch.forEach { existingFileWrapper ->
-                val result = waveformScanner
+        return withContext(scopeJobWrapper.coroutineContext) {
+            val result = batch.map { existingFileWrapper ->
+                waveformScanner
                     .execute(
                         existingFileWrapper,
                         amplitudaDealer
                     )
-                dbUpdaterUC.execute(listOf(result))
-                fileRepoUpdaterUC.execute(listOf(result))
             }
+            dbUpdaterUC.execute(result)
+            result
         }
     }
 }
