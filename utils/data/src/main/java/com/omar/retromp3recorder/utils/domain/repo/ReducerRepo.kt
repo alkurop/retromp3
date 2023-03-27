@@ -12,7 +12,7 @@ open class ReducerRepo<In : Any, State : Any>(
     override suspend fun emit(input: In) {
         val prev = stateKeeper.value
         val next = prev.reducer(input)
-        stateKeeper.value = next
+        stateKeeper.emit(next)
     }
 
     override fun flow(): Flow<State> = stateKeeper

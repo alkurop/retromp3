@@ -3,9 +3,13 @@ package com.omar.retromp3recorder.storage.repo.local
 import app.cash.turbine.test
 import com.omar.retromp3recorder.data.mock.MockPlayerProgressFactory
 import com.omar.retromp3recorder.domain.PlayerControls
+import com.omar.retromp3recorder.domain.PlayerProgress
+import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -14,8 +18,10 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PlayerProgressRepoTest {
+    private lateinit var playerProgressFlow: MutableSharedFlow<PlayerProgress>
     private lateinit var playerControlsRepo: PlayerControlsRepo
     private lateinit var tested: PlayerProgressRepo
+
     private val progressMapper = mockk<PlayerProgressMapperFlow>()
     private val dispatcher = UnconfinedTestDispatcher()
 
@@ -23,13 +29,22 @@ class PlayerProgressRepoTest {
 
     @Before
     fun setUp() {
+        playerProgressFlow = MutableSharedFlow(replay = 1)
+        every { progressMapper.flow() } returns playerProgressFlow
         playerControlsRepo = PlayerControlsRepo()
         tested = PlayerProgressRepo(playerControlsRepo, progressMapper, jobScopeJobWrapper)
     }
 
     @Test
-    fun `listens to player progress flow`() = fail()
-
+    fun `listens to player progress flow`() = runTest {
+        val progress = MockPlayerProgressFactory.givePlayerProgress()
+        playerProgressFlow.emit(progress)
+        tested.flow().test {
+            val item = awaitItem()
+            //range is not saved from the player progress flow
+            assertEquals(item.value, progress.copy(range = PlayerRange()))
+        }
+    }
 
     @Test
     fun `player controls range settings copied`() = runTest {

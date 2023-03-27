@@ -34,6 +34,7 @@ class FeatureMapSaveUCTest {
 
     @Test
     fun `put feature update into shared prefs`() = runTest {
+        featureFlagRepo.emit(FeatureFlagsCollection(emptyMap()))
         val flag = FeatureFlag.LogView
         val setting = FeatureFlagSetting(true)
 
@@ -47,6 +48,8 @@ class FeatureMapSaveUCTest {
 
     @Test
     fun `put feature update into flag repo`() = runTest {
+        featureFlagRepo.emit(FeatureFlagsCollection(emptyMap()))
+
         val flag = FeatureFlag.LogView
         val setting = FeatureFlagSetting(true)
 
@@ -58,6 +61,8 @@ class FeatureMapSaveUCTest {
 
     @Test
     fun `put replaced same flag with update in repo`() = runTest {
+        featureFlagRepo.emit(FeatureFlagsCollection(emptyMap()))
+
         val flag = FeatureFlag.LogView
         val setting = FeatureFlagSetting(true)
         val updateSetting = FeatureFlagSetting(false)

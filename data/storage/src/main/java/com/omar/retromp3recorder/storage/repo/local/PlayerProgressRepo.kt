@@ -24,7 +24,7 @@ class PlayerProgressRepo @Inject constructor(
 
     init {
         jobWrapper.launch {
-            progressMapper.execute().collect {
+            progressMapper.flow().collect {
                 emit(In.Progress(it))
             }
         }
@@ -33,7 +33,9 @@ class PlayerProgressRepo @Inject constructor(
     sealed class In {
         data class NewCurrentFile(val progress: PlayerProgress) : In()
         data class Range(val range: PlayerRange) : In()
-        data class Progress(val progress: PlayerProgress) : In()
+
+        //should be emitted only internally
+        internal data class Progress(val progress: PlayerProgress) : In()
         data class Seek(val progress: Long) : In()
         object Hidden : In()
     }

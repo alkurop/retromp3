@@ -13,13 +13,13 @@ import javax.inject.Inject
 class PlayerProgressMapperFlow @Inject constructor(
     private val audioPlayer: AudioPlayer,
 ) {
-    fun execute(): Flow<PlayerProgress> {
+    fun flow(): Flow<PlayerProgress> {
         return audioPlayer.progressFlow()
             .distinctUntilChanged()
             .map { (position, duration) ->
                 val mappedPosition = position.toSeekbarTime()
                 val mappedDuration = duration.toSeekbarTime()
-                val fixedPosition = if (mappedDuration == mappedPosition) 0 else position
+                val fixedPosition = if (mappedPosition >= mappedDuration) 0 else position
                 PlayerProgress(
                     fixedPosition,
                     duration,
