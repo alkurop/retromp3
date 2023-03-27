@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.domain.VisibilityEnabler
 import javax.inject.Inject
 
 class VisibilityEnablerMapperSuspend @Inject constructor(
-    private val rangeEnablerUC: RangeEnablerUCSuspend,
+    private val rangeEnablerUC: RangeVisibilitySwitcherUCSuspend,
 ) {
     suspend fun execute(enabler: VisibilityEnabler, isEnabled: Boolean) {
         when (enabler) {
