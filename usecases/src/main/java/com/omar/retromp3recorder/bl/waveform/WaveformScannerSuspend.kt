@@ -21,10 +21,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class WaveformScannerSuspend @Inject constructor(
-    private val jobWrapper: ScopeJobWrapper
+    private val jobWrapper: ScopeJobWrapper,
+    private val amplitudaDealer: AmplitudaDealer,
 ) {
     suspend fun execute(
-        file: ExistingFileWrapper, amplitudaDealer: AmplitudaDealer
+        file: ExistingFileWrapper
     ): ExistingFileWrapper {
         val audioLength = requireNotNull(file.length) { "File length should not be null" }
         val default = MAX_SIZE / Mp3VoiceRecorder.WaveTableSampleRate._100.value
@@ -54,7 +55,7 @@ class WaveformScannerSuspend @Inject constructor(
                 res.add(0, 1)
             }
 
-            val size = waveFormSize( takesPerSecond ,  multiplier)
+            val size = waveFormSize(takesPerSecond, multiplier)
             val wavetable = Wavetable(res.map { it.toByte() }.toByteArray(), size)
             file.copy(wavetable = wavetable)
         }
