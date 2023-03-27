@@ -22,6 +22,8 @@ open class StateFlowRepo<T : Any>(default: T? = null) {
 
 
     open fun flow(): Flow<T> = flow
+
+    suspend fun first() = flow().first()
+
 }
 
-suspend fun <Out : Any> StateFlowRepo<Out>.first() = flow().first()

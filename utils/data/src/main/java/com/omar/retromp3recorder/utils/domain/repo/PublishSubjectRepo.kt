@@ -15,6 +15,6 @@ open class PublishSubjectRepo<T : Any>(replay: Int = 0) {
 
     open fun flow(): Flow<T> = state
 
-}
+    suspend fun first() = flow().first()
 
-suspend fun <Out : Any> PublishSubjectRepo<Out>.first() = flow().first()
+}

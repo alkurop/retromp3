@@ -3,7 +3,6 @@ package com.omar.retromp3recorder.bl.audio.record
 import android.media.projection.MediaProjection
 import com.omar.retromp3recorder.bl.audio.actions.StartRecordUCSuspend
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
-import com.omar.retromp3recorder.utils.domain.repo.first
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

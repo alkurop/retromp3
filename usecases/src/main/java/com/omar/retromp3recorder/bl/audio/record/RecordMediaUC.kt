@@ -4,7 +4,6 @@ import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUCSuspend
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
-import com.omar.retromp3recorder.utils.domain.repo.first
 import javax.inject.Inject
 
 class RecordMediaUC @Inject constructor(

@@ -4,10 +4,9 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.utils.domain.Optional
 import com.omar.retromp3recorder.utils.platform.FileRenamer
 import com.omar.retromp3recorder.utils.platform.Mp3TagsEditor
-import com.omar.retromp3recorder.utils.domain.Optional
-import com.omar.retromp3recorder.utils.domain.repo.first
 import javax.inject.Inject
 
 class RenameFileUC @Inject constructor(

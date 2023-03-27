@@ -18,6 +18,7 @@ open class ReducerRepo<In : Any, State : Any>(
 
     open fun flow(): Flow<State> = stateKeeper
 
+    suspend fun first() = flow().first()
+
 }
 
-suspend fun <Out : Any> ReducerRepo<Out, *>.first() = flow().first()
