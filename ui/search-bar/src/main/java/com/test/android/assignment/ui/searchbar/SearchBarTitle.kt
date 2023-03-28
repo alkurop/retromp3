@@ -24,12 +24,13 @@ fun SearchBarTitle(
     onClick: () -> Unit = {},
 ) {
     Box(
-        modifier
+        Modifier
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = onClick
-            ),
+            )
+            .then(modifier),
         contentAlignment = Alignment.CenterStart
     ) {
         Text(

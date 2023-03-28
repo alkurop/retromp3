@@ -96,6 +96,7 @@ fun SearchBarLayout(
                             onClear = {
                                 state.input = TextFieldValue("")
                                 submit()
+                                clearFocus()
                             },
                             clearContentDescription = clearContentDescription,
                         )
@@ -103,7 +104,7 @@ fun SearchBarLayout(
                         SearchBarTitle(
                             text = state.hint,
                             modifier = Modifier
-                                .padding(start = 24.dp)
+                                .padding(start = 8.dp)
                                 .fillMaxWidth(),
                             onClick = {
                                 state.switchVisibility()

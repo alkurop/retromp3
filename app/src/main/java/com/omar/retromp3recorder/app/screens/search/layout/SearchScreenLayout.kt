@@ -2,7 +2,6 @@
 
 package com.omar.retromp3recorder.app.screens.search.layout
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,7 +20,6 @@ import com.omar.retromp3recorder.utils.domain.LoadingState
 import com.test.android.assignment.ui.searchbar.SearchBarLayout
 import com.test.android.assignment.ui.searchbar.rememberSearchBarInputState
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SearchScreenLayout(
     viewModel: SelectorViewModelFlow = hiltViewModel(),
@@ -34,8 +32,8 @@ fun SearchScreenLayout(
 
     val lambdaClick: (ExistingFileWrapper) -> Unit = remember {
         {
-            viewModel.onEvent(SelectorContract.Input.ItemSelected(it))
             onBack()
+            viewModel.onEvent(SelectorContract.Input.ItemSelected(it))
         }
     }
     val itemsPaging = state.flow as? LoadingState.Success

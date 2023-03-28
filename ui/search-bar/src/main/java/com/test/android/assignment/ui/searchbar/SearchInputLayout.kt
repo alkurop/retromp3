@@ -57,7 +57,6 @@ fun SearchInputLayout(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             val isQueryEmpty = props.query.text.isEmpty()
-            Spacer(modifier = Modifier.width(16.dp))
             Box(
                 modifier = Modifier
                     .padding(vertical = 14.dp)

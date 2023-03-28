@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.app.screens.search.layout
 
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -12,6 +12,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -72,59 +73,78 @@ private fun ItemComposable(
     onClick: (ExistingFileWrapper) -> Unit
 ) {
     val matches = itemFile.id == selectedFile?.id
+    val time = itemFile.length?.toTimeDisplay()?.let {
+        "${it.time}${it.millis}"
+    } ?: ""
 
-    Card(
-        modifier = Modifier
-            .clickable { onClick.invoke(itemFile) }
-            .background(MaterialTheme.colorScheme.background)
-            .padding(top = 8.dp)
-            .fillMaxWidth(),
-        border = if (matches) BorderStroke(
-            5.dp, color = MaterialTheme.colorScheme.secondary
-        ) else null) {
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            Text(
-                text = itemFile.name, color = MaterialTheme.colorScheme.onSurface
-            )
-            itemFile.wavetable?.let { wavetable ->
-                AndroidView(factory = { context ->
-                    WavetablePreview(context).apply {
-                        layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, 100)
-                        update(BytesWithRange(wavetable.data, null))
-                    }
-                })
+    val border = if (matches) BorderStroke(
+        1.dp, color = MaterialTheme.colorScheme.secondary
+    ) else null
+    Card(modifier = Modifier
+        .clickable { onClick.invoke(itemFile) }
+        .background(MaterialTheme.colorScheme.background)
+        .padding(top = 8.dp)
+        .fillMaxWidth(),
+        border = border
+    ) {
+        Row(Modifier.padding(8.dp)) {
+            Column(
+                Modifier
+                    .weight(2f)
+                    .wrapContentHeight()
+            ) {
+
+                Text(
+                    text = itemFile.name, color = MaterialTheme.colorScheme.onSurface
+                )
+                Row {
+                    Text(
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        text = stringResource(id = R.string.created)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text(
+                        fontSize = 12.sp,
+                        text = itemFile.createTimedStamp.toCreationDate(),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
-            val time = itemFile.length?.toTimeDisplay()?.let {
-                "${it.time}${it.millis}"
-            } ?: ""
-            Row {
-                Text(
-                    fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    text = stringResource(id = R.string.created)
-                )
-                Spacer(Modifier.width(4.dp))
-                Text(
-                    fontSize = 12.sp,
-                    text = itemFile.createTimedStamp.toCreationDate(),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Spacer(Modifier.weight(1f))
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(30.dp)
+                    .align(CenterVertically)
+            ) {
+                itemFile.wavetable?.let { wavetable ->
+                    AndroidView(factory = { context ->
+                        WavetablePreview(context).apply {
+                            layoutParams = LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT
+                            )
+                            update(BytesWithRange(wavetable.data, null))
+                        }
+                    })
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .align(CenterVertically)
+                    .padding(start = 16.dp)
+                    .weight(0.7f)
+            ) {
                 Text(
                     fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onSurface,
                     text = stringResource(id = R.string.length)
                 )
-                Spacer(Modifier.width(4.dp))
+                Spacer(Modifier.height(4.dp))
                 Text(
                     fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface, text = time
                 )
             }
-
         }
     }
 }
