@@ -31,6 +31,7 @@ dependencies {
     implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
 
     implementation "androidx.room:room-runtime:$versions.room"
+    implementation "androidx.room:room-ktx:$versions.room"
     kapt "androidx.room:room-compiler:$versions.room"
 
     api "androidx.paging:paging-runtime-ktx:$versions.paging"

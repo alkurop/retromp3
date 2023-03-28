@@ -28,7 +28,6 @@ class FileUpdatePayloadCollectorUCTest {
         val result = tested.execute(dbFiles, existingFiles)
         assertEquals(deletes, result.deletes.map { it.toFileWrapper() })
         assertEquals(inserts, result.inserts.map { it.toFileWrapper() })
-        assertEquals(dbFiles.map { it.filepath }, result.footprintPathList)
     }
 
 

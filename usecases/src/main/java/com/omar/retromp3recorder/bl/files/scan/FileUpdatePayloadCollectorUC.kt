@@ -18,8 +18,8 @@ class FileUpdatePayloadCollectorUC @Inject constructor() {
         return DbBatchUpdatePayload(
             deletes = deletes,
             updates = updates,
-            inserts = inserts,
-            footprintPathList = dbEntries.map { it.filepath })
+            inserts = inserts
+        )
     }
 
     private companion object {
@@ -70,6 +70,5 @@ data class DbBatchUpdatePayload(
     val deletes: List<FileDbEntity>,
     val updates: List<FileDbEntity>,
     val inserts: List<FileDbEntity>,
-    val footprintPathList: List<String>
 )
 

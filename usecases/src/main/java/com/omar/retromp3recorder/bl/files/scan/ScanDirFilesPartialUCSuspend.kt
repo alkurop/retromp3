@@ -5,11 +5,12 @@ import com.omar.retromp3recorder.bl.system.WaveformScanUpdaterUCSuspend
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import com.omar.retromp3recorder.storage.db.toFileWrapper
+import com.omar.retromp3recorder.storage.db.withTransaction
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import com.omar.retromp3recorder.utils.domain.toOptional
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toCollection
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,53 +26,38 @@ class ScanDirFilesPartialUCSuspend @Inject constructor(
     suspend fun execute() {
         jobWrapper.launch {
             val foundFiles = findFilesUC.execute()
-            val mergedList = getPagingItemsDatabaseUC.flow(FileDbEntityDao.LOAD_SIZE)
-                .map { dbFiles ->
-                    collector.execute(dbFiles, foundFiles)
+            val payload = getPagingItemsDatabaseUC.flow(FileDbEntityDao.LOAD_SIZE)
+                .map { collector.execute(it, foundFiles) }
+                .toList()
+                .merge()
+
+            val insertIds = appDatabase.withTransaction {
+                appDatabase.fileEntityDao().run {
+                    delete(payload.deletes)
+                    update(payload.updates)
+                    insertBatch(payload.inserts)
                 }
-                .toCollection(mutableListOf())
+            }
 
+            val insertsWithId = payload.inserts.zip(insertIds) { item, id -> item.copy(id = id) }
+            val payloadWithId = payload.copy(inserts = insertsWithId)
 
-            val dbUpdateItem = mergedList.merge()
-            appDatabase.fileEntityDao().delete(dbUpdateItem.deletes)
-            appDatabase.fileEntityDao().update(dbUpdateItem.updates)
-            val insertIds =
-                appDatabase.fileEntityDao().insertBatch(dbUpdateItem.inserts)
-            val insertsWithId =
-                dbUpdateItem.inserts.zip(insertIds) { item, id -> item.copy(id = id) }
-            val updateWithId = dbUpdateItem.copy(inserts = insertsWithId)
+            val waveScanInput = (payloadWithId.inserts + payloadWithId.updates).map { it.toFileWrapper() }
+            val waveScanResult = waveformScanUpdaterUC.execute(waveScanInput)
 
-            updateWithId.inserts.map { it.toFileWrapper() }
-                .lastOrNull()
-                ?.let {
-                    currentFileRepo.emit(it.toOptional())
-                }
-
-            val result = waveformScanUpdaterUC.execute(
-                (updateWithId.updates + updateWithId.inserts)
-                    .reversed()
-                    .map { it.toFileWrapper() })
-            result.lastOrNull()?.let { currentFileRepo.emit(it.toOptional()) }
+            waveScanResult.firstOrNull()?.let { currentFileRepo.emit(it.toOptional()) }
         }
     }
+
+    private fun List<DbBatchUpdatePayload>.merge(): DbBatchUpdatePayload {
+        val updates = this.map { it.updates }.flatten()
+        val deletes = this.map { it.deletes }.flatten()
+        val inserts = this.map { it.inserts }.flatten()
+
+        return DbBatchUpdatePayload(
+            deletes = deletes,
+            updates = updates,
+            inserts = inserts,
+        )
+    }
 }
-
-private fun List<DbBatchUpdatePayload>.merge(): DbBatchUpdatePayload {
-    val updates = this.map { it.updates }.flatten()
-    val deletes = this.map { it.deletes }.flatten()
-    val otherChanges = updates.plus(deletes)
-    val existing = this.map { it.footprintPathList }.flatten()
-
-    val inserts = this.map { it.inserts }.flatten()
-        .filter { item -> !otherChanges.map { it.filepath }.contains(item.filepath) }
-        .filter { !existing.contains(it.filepath) }
-
-
-    return DbBatchUpdatePayload(
-        deletes = deletes,
-        updates = updates,
-        inserts = inserts,
-        footprintPathList = existing
-    )
-}
-
