@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.screens.main.components.menu.visibility_lo
 
 import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
-import com.omar.retromp3recorder.bl.enablers.EnablersSwitcherSuspend
+import com.omar.retromp3recorder.bl.enablers.EnablersSwitcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class MenuInteractorFlow @Inject constructor(
     private val menuStateExcavator: MenuStateExcavatorFlow,
-    private val enablersSwitcher: EnablersSwitcherSuspend,
+    private val enablersSwitcher: EnablersSwitcher,
     dispatcher: CoroutineDispatcher,
 ) : Interactor<MenuContract.Input, MenuContract.State>(dispatcher) {
 

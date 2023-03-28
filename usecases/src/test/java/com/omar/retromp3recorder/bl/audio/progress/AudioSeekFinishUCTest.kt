@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.audio.progress
 
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
-import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUCSuspend
+import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
@@ -14,7 +14,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class AudioSeekFinishUCTest {
     private val audioPlayer = mockk<AudioPlayer>(relaxed = true)
-    private val startPlaybackUC = mockk<StartPlaybackUCSuspend>(relaxed = true)
+    private val startPlaybackUC = mockk<StartPlaybackUC>(relaxed = true)
 
     private lateinit var tested: AudioSeekFinishUC
 

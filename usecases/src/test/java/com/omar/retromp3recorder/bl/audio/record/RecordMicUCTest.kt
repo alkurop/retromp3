@@ -10,7 +10,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class RecordMicUCTest {
     private val micCaptureCompletableCreator = mockk<AudioCaptureUC>(relaxed = true)
-    private val wavetableUC = mockk<RecordWavetableUCSuspend>(relaxed = true)
+    private val wavetableUC = mockk<RecordWavetableUC>(relaxed = true)
 
     private lateinit var tested: RecordMicUC
 

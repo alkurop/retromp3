@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.screens.main.components.log
 
 import app.cash.turbine.test
 import com.omar.retromp3recorder.domain.platform.LogEvent
-import com.omar.retromp3recorder.bl.system.LogMapperFlow
+import com.omar.retromp3recorder.bl.system.LogMapper
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +16,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class LogInteractorFlowTest {
     private val dispatcher = UnconfinedTestDispatcher()
-    private val mapper = mockk<LogMapperFlow>()
+    private val mapper = mockk<LogMapper>()
     private lateinit var tested: LogInteractorFlow
 
     @Before

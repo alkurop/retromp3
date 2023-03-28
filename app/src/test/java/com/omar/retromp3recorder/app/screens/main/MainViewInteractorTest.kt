@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.screens.main
 import android.media.projection.MediaProjection
 import app.cash.turbine.test
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.bl.audio.record.UpdateMediaProjectionUCSuspend
+import com.omar.retromp3recorder.bl.audio.record.UpdateMediaProjectionUC
 import com.omar.retromp3recorder.domain.FeatureFlag
 import com.omar.retromp3recorder.domain.FeatureFlagSetting
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
@@ -28,7 +28,7 @@ import org.junit.Test
 class MainViewInteractorTest {
     private lateinit var tested: MainViewInteractor
     private lateinit var mediaProjectionStateRepo: MediaProjectionStateRepo
-    private val usecase = mockk<UpdateMediaProjectionUCSuspend>(relaxed = true)
+    private val usecase = mockk<UpdateMediaProjectionUC>(relaxed = true)
     private lateinit var featureFlagRepo: FeatureFlagRepo
     private val dispatcher = UnconfinedTestDispatcher()
 

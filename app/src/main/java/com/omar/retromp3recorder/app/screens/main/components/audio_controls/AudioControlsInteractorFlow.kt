@@ -5,11 +5,11 @@ import com.omar.retromp3recorder.app.screens.main.components.audio_controls.butt
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.RecordButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.ShareButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.StopButtonStateMapperFlow
-import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUCSuspend
-import com.omar.retromp3recorder.bl.audio.actions.StartRecordUCSuspend
-import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUCSuspend
+import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
+import com.omar.retromp3recorder.bl.audio.actions.StartRecordUC
+import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUC
 import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
-import com.omar.retromp3recorder.bl.system.ShareUCSuspend
+import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -24,10 +24,10 @@ class AudioControlsInteractorFlow @Inject constructor(
     private val recorderDurationStateFlow: RecorderDurationStateFlow,
     private val shareButtonStateMapper: ShareButtonStateFlow,
     private val stopButtonStateMapper: StopButtonStateMapperFlow,
-    private val startRecordUC: StartRecordUCSuspend,
-    private val shareUC: ShareUCSuspend,
-    private val startPlaybackUC: StartPlaybackUCSuspend,
-    private val stopPlaybackAndRecordUC: StopPlaybackAndRecordUCSuspend,
+    private val startRecordUC: StartRecordUC,
+    private val shareUC: ShareUC,
+    private val startPlaybackUC: StartPlaybackUC,
+    private val stopPlaybackAndRecordUC: StopPlaybackAndRecordUC,
     dispatcher: CoroutineDispatcher,
 ) : Interactor<AudioControlsView.Input, AudioControlsView.Output>(dispatcher) {
 

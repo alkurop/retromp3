@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.bl.audio.record
 
-import com.omar.retromp3recorder.bl.files.GetNewFileNameUCSuspend
-import com.omar.retromp3recorder.bl.files.IncrementFileNameUCSuspend
-import com.omar.retromp3recorder.bl.system.WakeLockUsecaseSuspend
+import com.omar.retromp3recorder.bl.files.GetNewFileNameUC
+import com.omar.retromp3recorder.bl.files.IncrementFileNameUC
+import com.omar.retromp3recorder.bl.system.WakeLockUsecase
 import com.omar.retromp3recorder.domain.toFutureFileWrapper
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
@@ -13,10 +13,10 @@ import javax.inject.Inject
 class AudioCaptureUC @Inject constructor(
     private val recorderPrefsRepo: RecorderPrefsRepo,
     private val currentFileRepo: CurrentFileRepo,
-    private val incrementFileNameUC: IncrementFileNameUCSuspend,
-    private val getNewFileNameUC: GetNewFileNameUCSuspend,
+    private val incrementFileNameUC: IncrementFileNameUC,
+    private val getNewFileNameUC: GetNewFileNameUC,
     private val voiceRecorder: Mp3VoiceRecorder,
-    private val wakeLockUsecase: WakeLockUsecaseSuspend
+    private val wakeLockUsecase: WakeLockUsecase
 
 ) {
     suspend fun execute(audioSource: Mp3VoiceRecorder.AudioSource) {

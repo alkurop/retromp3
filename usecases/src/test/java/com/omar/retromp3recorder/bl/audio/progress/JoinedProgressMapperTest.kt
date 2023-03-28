@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.audio.progress
 
 import app.cash.turbine.test
-import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapperFlow
+import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.domain.PlayerProgress
@@ -23,7 +23,7 @@ class JoinedProgressMapperTest {
     private val audioStateMapper = mockk<AudioStateMapper>(relaxed = true)
     private lateinit var currentFileRepo: CurrentFileRepo
     private val playerProgressRepo = mockk<PlayerProgressRepo>(relaxed = true)
-    private val recorderWavetableMapper = mockk<RecordWavetableMapperFlow>(relaxed = true)
+    private val recorderWavetableMapper = mockk<RecordWavetableMapper>(relaxed = true)
     private lateinit var tested: JoinedProgressMapper
 
     @Before

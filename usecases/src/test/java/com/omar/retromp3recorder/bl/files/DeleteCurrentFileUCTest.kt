@@ -8,11 +8,7 @@ import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.Optional
 import com.omar.retromp3recorder.utils.domain.toOptional
 import com.omar.retromp3recorder.utils.platform.FileDeleter
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
-import io.mockk.verifyOrder
-import io.reactivex.rxjava3.core.Single
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -32,7 +28,7 @@ class DeleteCurrentFileUCTest {
     @Before
     fun setUp() {
         every { appDatabase.fileEntityDao() } returns dao
-        every { takeLastFileUC.get() } returns Single.just(Optional.empty())
+        coEvery { takeLastFileUC.execute() } returns null
         currentFileRepo = CurrentFileRepo()
         tested = DeleteCurrentFileUC(
             appDatabase, currentFileRepo, fileDeleter, takeLastFileUC
@@ -45,7 +41,7 @@ class DeleteCurrentFileUCTest {
 
         currentFileRepo.emit(Optional.empty())
 
-        every { takeLastFileUC.get() } returns Single.just(file1.toOptional())
+        coEvery { takeLastFileUC.execute() } returns file1
 
         tested.execute()
 
@@ -55,8 +51,8 @@ class DeleteCurrentFileUCTest {
         verify(exactly = 0) {
             dao.delete(any())
         }
-        verify(exactly = 0) {
-            takeLastFileUC.get()
+        coVerify(exactly = 0) {
+            takeLastFileUC.execute()
         }
 
         val currentFile = currentFileRepo.first().value
@@ -70,14 +66,14 @@ class DeleteCurrentFileUCTest {
 
         currentFileRepo.emit(file.toOptional())
 
-        every { takeLastFileUC.get() } returns Single.just(file1.toOptional())
+        coEvery { takeLastFileUC.execute() } returns file1
 
         tested.execute()
 
-        verifyOrder {
+        coVerifyOrder {
             fileDeleter.deleteFile(file.path)
             dao.delete(listOf(file.toDatabaseEntity()))
-            takeLastFileUC.get()
+            takeLastFileUC.execute()
         }
 
         val currentFile = currentFileRepo.first().value
@@ -91,7 +87,7 @@ class DeleteCurrentFileUCTest {
 
         currentFileRepo.emit(file.toOptional())
 
-        every { takeLastFileUC.get() } returns Single.just(file1.toOptional())
+        coEvery { takeLastFileUC.execute() } returns file1
 
         tested.execute()
 
@@ -101,8 +97,8 @@ class DeleteCurrentFileUCTest {
         verify(exactly = 0) {
             dao.delete(any())
         }
-        verify(exactly = 0) {
-            takeLastFileUC.get()
+        coVerify(exactly = 0) {
+            takeLastFileUC.execute()
         }
 
         val currentFile = currentFileRepo.first().value

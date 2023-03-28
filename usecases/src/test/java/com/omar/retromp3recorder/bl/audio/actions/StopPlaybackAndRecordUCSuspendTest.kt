@@ -19,11 +19,11 @@ class StopPlaybackAndRecordUCSuspendTest {
     private val stopRecord = mockk<StopRecordUCSuspend>(relaxed = true)
     private val audioStateMapper = mockk<AudioStateMapper>(relaxed = true)
 
-    private lateinit var tested: StopPlaybackAndRecordUCSuspend
+    private lateinit var tested: StopPlaybackAndRecordUC
 
     @Before
     fun setUp() {
-        tested = StopPlaybackAndRecordUCSuspend(audioPlayer, stopRecord, audioStateMapper)
+        tested = StopPlaybackAndRecordUC(audioPlayer, stopRecord, audioStateMapper)
     }
 
     @Test

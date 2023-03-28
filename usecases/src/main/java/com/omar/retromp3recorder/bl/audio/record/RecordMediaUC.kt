@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.audio.record
 
-import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUCSuspend
+import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
@@ -10,8 +10,8 @@ class RecordMediaUC @Inject constructor(
     private val serviceDealer: ServiceDealer,
     private val projectionRepo: MediaProjectionStateRepo,
     private val micCaptureCompletableCreator: AudioCaptureUC,
-    private val requestMediaProjectionUC: RequestMediaProjectionUCSuspend,
-    private val wavetableUC: RecordWavetableUCSuspend
+    private val requestMediaProjectionUC: RequestMediaProjectionUC,
+    private val wavetableUC: RecordWavetableUC
 ) {
     suspend fun execute(source: Int) {
         serviceDealer.startMediaProjectionService()

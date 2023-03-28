@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.app.screens.main.components.audio_controls.but
 
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
 import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
-import com.omar.retromp3recorder.bl.files.HasPlayableFileMapperFlow
+import com.omar.retromp3recorder.bl.files.HasPlayableFileMapper
 import com.omar.retromp3recorder.ui.statebutton.InteractiveButtonState
 import com.omar.retromp3recorder.utils.domain.Optional
 import io.mockk.every
@@ -18,7 +18,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class PlayButtonStateFlowTest {
     private val audioState = mockk<AudioStateMapper>()
-    private val fileState = mockk<HasPlayableFileMapperFlow>()
+    private val fileState = mockk<HasPlayableFileMapper>()
     private lateinit var stateFlow: PlayButtonStateFlow
 
     @Before

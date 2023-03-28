@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main
 
 import com.omar.retromp3recorder.app.Interactor
-import com.omar.retromp3recorder.bl.audio.record.UpdateMediaProjectionUCSuspend
+import com.omar.retromp3recorder.bl.audio.record.UpdateMediaProjectionUC
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.platform.shellUnwrap
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class MainViewInteractor @Inject constructor(
     private val mediaProjectionRequestBus: MediaProjectionStateRepo,
-    private val updateMediaProjectionUC: UpdateMediaProjectionUCSuspend,
+    private val updateMediaProjectionUC: UpdateMediaProjectionUC,
     private val featureFlagRepo: FeatureFlagRepo,
     dispatcher: CoroutineDispatcher
 ) : Interactor<MainViewContract.Input, MainViewContract.Output>(dispatcher) {

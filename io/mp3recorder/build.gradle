@@ -15,4 +15,5 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"
     implementation 'com.github.alkurop:LameMp3RecorderModule:0.5'
+    implementation "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"
 }

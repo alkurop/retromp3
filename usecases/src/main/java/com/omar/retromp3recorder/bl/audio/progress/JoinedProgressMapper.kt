@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.audio.progress
 
-import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapperFlow
+import com.omar.retromp3recorder.bl.waveform.RecordWavetableMapper
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.FutureFileWrapper
@@ -18,7 +18,7 @@ class JoinedProgressMapper @Inject constructor(
     private val audioStateMapper: AudioStateMapper,
     private val currentFileRepo: CurrentFileRepo,
     private val playerProgressRepo: PlayerProgressRepo,
-    private val recorderWavetableMapper: RecordWavetableMapperFlow
+    private val recorderWavetableMapper: RecordWavetableMapper
 ) {
 
     fun flow(): Flow<JoinedProgress> {

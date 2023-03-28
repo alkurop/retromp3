@@ -4,6 +4,7 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.utils.domain.toOptional
 import com.omar.retromp3recorder.utils.platform.FileDeleter
 import javax.inject.Inject
 
@@ -19,8 +20,8 @@ class DeleteCurrentFileUC @Inject constructor(
             fileDeleter.deleteFile(file.path)
             appDatabase.fileEntityDao().delete(listOf(file.toDatabaseEntity()))
 
-            val lastFile = takeLastFileUC.get().blockingGet()
-            currentFileRepo.emit(lastFile)
+            val lastFile = takeLastFileUC.execute()
+            currentFileRepo.emit(lastFile.toOptional())
         }
     }
 }

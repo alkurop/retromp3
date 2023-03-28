@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.audio.record
 
 import android.media.projection.MediaProjection
-import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUCSuspend
+import com.omar.retromp3recorder.bl.system.RequestMediaProjectionUC
 import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
@@ -20,8 +20,8 @@ class RecordMediaUCTest {
     private val serviceDealer = mockk<ServiceDealer>(relaxed = true)
     private lateinit var projectionRepo: MediaProjectionStateRepo
     private val micCaptureCompletableCreator = mockk<AudioCaptureUC>(relaxed = true)
-    private val requestMediaProjectionUC = mockk<RequestMediaProjectionUCSuspend>(relaxed = true)
-    private val wavetableUC = mockk<RecordWavetableUCSuspend>(relaxed = true)
+    private val requestMediaProjectionUC = mockk<RequestMediaProjectionUC>(relaxed = true)
+    private val wavetableUC = mockk<RecordWavetableUC>(relaxed = true)
 
     lateinit var tested: RecordMediaUC
 

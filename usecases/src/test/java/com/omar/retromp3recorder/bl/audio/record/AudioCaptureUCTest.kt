@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.bl.audio.record
 
-import com.omar.retromp3recorder.bl.files.GetNewFileNameUCSuspend
-import com.omar.retromp3recorder.bl.files.IncrementFileNameUCSuspend
-import com.omar.retromp3recorder.bl.system.WakeLockUsecaseSuspend
+import com.omar.retromp3recorder.bl.files.GetNewFileNameUC
+import com.omar.retromp3recorder.bl.files.IncrementFileNameUC
+import com.omar.retromp3recorder.bl.system.WakeLockUsecase
 import com.omar.retromp3recorder.domain.FutureFileWrapper
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
@@ -21,10 +21,10 @@ class AudioCaptureUCTest {
 
     private lateinit var recorderPrefsRepo: RecorderPrefsRepo
     private lateinit var currentFileRepo: CurrentFileRepo
-    private val incrementFileNameUC = mockk<IncrementFileNameUCSuspend>(relaxed = true)
-    private val getNewFileNameUC = mockk<GetNewFileNameUCSuspend>()
+    private val incrementFileNameUC = mockk<IncrementFileNameUC>(relaxed = true)
+    private val getNewFileNameUC = mockk<GetNewFileNameUC>()
     private val mp3VoiceRecorder = mockk<Mp3VoiceRecorder>(relaxed = true)
-    private val wakeLockUsecase = mockk<WakeLockUsecaseSuspend>(relaxed = true)
+    private val wakeLockUsecase = mockk<WakeLockUsecase>(relaxed = true)
 
     private lateinit var tested: AudioCaptureUC
 

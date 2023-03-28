@@ -1,27 +1,26 @@
 package com.omar.retromp3recorder.bl.actions
 
-import com.omar.retromp3recorder.bl.waveform.WaveformScanner
+import com.omar.retromp3recorder.bl.waveform.WaveformScannerSuspend
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
+import com.omar.retromp3recorder.utils.domain.Optional
+import com.omar.retromp3recorder.utils.domain.toOptional
 import com.omar.retromp3recorder.utils.platform.AmplitudaDealer
 import com.omar.retromp3recorder.utils.platform.FileLister
 import com.omar.retromp3recorder.utils.platform.Mp3TagsEditor
-import com.omar.retromp3recorder.utils.domain.Optional
-import com.omar.retromp3recorder.utils.domain.toOptional
 import javax.inject.Inject
 
 
 class CropUC @Inject constructor(
-    private val amplitudaDealer: AmplitudaDealer,
     private val appDatabase: AppDatabase,
     private val audioCropper: AudioCropper,
     private val gatherCropRequestUC: GatherCropRequestUC,
     private val fileLister: FileLister,
     private val mp3TagsEditor: Mp3TagsEditor,
-    private val waveformScanner: WaveformScanner,
+    private val waveformScanner: WaveformScannerSuspend,
 ) {
     suspend fun execute(nameSuggestion: NewNameSuggestion): Optional<ExistingFileWrapper> {
 
@@ -40,10 +39,7 @@ class CropUC @Inject constructor(
 
             val discoveredFile = fileLister.discoverFile(request.newFileNameSuggestion.path)
 
-            val fileWithWaveform = waveformScanner.execute(
-                discoveredFile,
-                amplitudaDealer
-             ).blockingGet()
+            val fileWithWaveform = waveformScanner.execute(discoveredFile)
 
             val id = appDatabase.fileEntityDao().insert(fileWithWaveform.toDatabaseEntity())
 

@@ -17,7 +17,6 @@ import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
 import com.omar.retromp3recorder.ui.wavetable.WavetableSeekbarPreview
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.plusAssign
 
 @Composable
 fun JoinedProgressLayout(
@@ -65,7 +64,6 @@ private fun BuildSeek(
     modifier: Modifier = Modifier,
     callback: (JoinedProgressView.In) -> Unit,
 ) {
-    val compositeDisposable = CompositeDisposable()
     val f: (JoinedProgressView.In) -> Unit = remember {
         {}
     }
@@ -76,18 +74,18 @@ private fun BuildSeek(
         },
         update = { view ->
             view.update(progress)
-            compositeDisposable.clear()
-            compositeDisposable += view.observeIsSeeking().subscribe {
-                f.invoke(it.mapToEvent())
+//            compositeDisposable.clear()
+//            compositeDisposable += view.observeIsSeeking().subscribe {
+//                f.invoke(it.mapToEvent())
 //                callback.invoke(it.mapToEvent())
-            }
+//            }
         })
 
-    DisposableEffect(key1 = compositeDisposable) {
-        onDispose {
-            compositeDisposable.clear()
-        }
-    }
+//    DisposableEffect(key1 = compositeDisposable) {
+//        onDispose {
+//            compositeDisposable.clear()
+//        }
+//    }
 }
 
 @Composable

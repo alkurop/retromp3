@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.files.scan
 
 import com.omar.retromp3recorder.bl.database.GetPagingItemsDatabaseUCFlow
-import com.omar.retromp3recorder.bl.system.WaveformScanUpdaterUCSuspend
+import com.omar.retromp3recorder.bl.system.WaveformScanUpdaterUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.AppDatabase
@@ -38,7 +38,7 @@ class ScanDirFilesPartialUCSuspendTest {
     private lateinit var getPagingItemsDatabaseUC: GetPagingItemsDatabaseUCFlow
 
     @MockK
-    private lateinit var waveformScanUpdaterUC: WaveformScanUpdaterUCSuspend
+    private lateinit var waveformScanUpdaterUC: WaveformScanUpdaterUC
 
     @MockK
     private lateinit var collector: FileUpdatePayloadCollectorUC

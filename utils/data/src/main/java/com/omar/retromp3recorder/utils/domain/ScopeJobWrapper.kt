@@ -6,7 +6,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlin.coroutines.CoroutineContext
 
-class ScopeJobWrapper(val dispatcher: CoroutineDispatcher) : CoroutineScope {
+
+class ScopeJobWrapper(
+    private val dispatcher: CoroutineDispatcher
+) : CoroutineScope {
     private var job = Job()
     override val coroutineContext: CoroutineContext
         get() = dispatcher + job

@@ -12,7 +12,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.flow.Flow
@@ -35,20 +34,17 @@ class AudioPlayerExoImpl @Inject constructor(
 
     override fun flow(): Flow<AudioPlayer.Output> {
         return Observable.merge(
-            progress.distinctUntilChanged()
-                .map {
+            progress.distinctUntilChanged().map {
                     val range = options.rangeMillis
                     if (it.end) {
                         val position = if (options.isStopToRangeStartEnabled) range.from else 0
                         it.copy(
-                            position = position,
-                            duration = options.length
+                            position = position, duration = options.length
                         )
                     } else {
                         it.copy(position = it.position + range.from, duration = options.length)
                     }
-                },
-            events
+                }, events
         ).asFlow()
     }
 
@@ -83,17 +79,14 @@ class AudioPlayerExoImpl @Inject constructor(
             events.onNext(AudioPlayer.Output.Event.Error(Stringer(R.string.aplr_player_cannot_find_file)))
             return
         }
-        mediaPlayer
-            .apply {
+        mediaPlayer.apply {
 
                 val (from, to) = options.rangeMillis
                 val uri: Uri = Uri.fromFile(File(options.filePath))
 
-                val mediaItem: MediaItem = MediaItem.Builder()
-                    .setUri(uri)
-                    .setClipStartPositionMs(from)
-                    .setClipEndPositionMs(to)
-                    .build()
+                val mediaItem: MediaItem =
+                    MediaItem.Builder().setUri(uri).setClipStartPositionMs(from)
+                        .setClipEndPositionMs(to).build()
 
                 setMediaItem(mediaItem)
                 seekTo(options.relativeSeekPosition)
@@ -104,9 +97,7 @@ class AudioPlayerExoImpl @Inject constructor(
                         if (state == STATE_ENDED) {
                             progress.onNext(
                                 AudioPlayer.Output.Progress(
-                                    options.rangeMillis.length,
-                                    options.rangeMillis.length,
-                                    true
+                                    options.rangeMillis.length, options.rangeMillis.length, true
                                 )
                             )
                             stopMedia()
@@ -141,12 +132,11 @@ class AudioPlayerExoImpl @Inject constructor(
 
     private fun initProgressUpdate() {
         compositeDisposable.clear()
-        compositeDisposable += Observable.interval(10, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        compositeDisposable.add(Observable.interval(10, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread()).subscribe {
                 val position = mediaPlayer.currentPosition
                 val duration = (options.rangeMillis.length)
                 progress.onNext(AudioPlayer.Output.Progress(position, duration, false))
-            }
+            })
     }
 }

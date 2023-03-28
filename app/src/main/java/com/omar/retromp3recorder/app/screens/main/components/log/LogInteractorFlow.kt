@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main.components.log
 
 import com.omar.retromp3recorder.app.Interactor
-import com.omar.retromp3recorder.bl.system.LogMapperFlow
+import com.omar.retromp3recorder.bl.system.LogMapper
 import com.omar.retromp3recorder.domain.platform.LogEvent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LogInteractorFlow @Inject constructor(
-    private val logMapper: LogMapperFlow,
+    private val logMapper: LogMapper,
     dispatcher: CoroutineDispatcher
 ) : Interactor<LogView.Input, LogView.Output>(dispatcher) {
 

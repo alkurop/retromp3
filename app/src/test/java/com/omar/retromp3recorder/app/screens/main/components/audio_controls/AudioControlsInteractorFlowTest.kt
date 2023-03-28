@@ -5,11 +5,11 @@ import com.omar.retromp3recorder.app.screens.main.components.audio_controls.butt
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.RecordButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.ShareButtonStateFlow
 import com.omar.retromp3recorder.app.screens.main.components.audio_controls.buttonsstate.StopButtonStateMapperFlow
-import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUCSuspend
-import com.omar.retromp3recorder.bl.audio.actions.StartRecordUCSuspend
-import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUCSuspend
+import com.omar.retromp3recorder.bl.audio.actions.StartPlaybackUC
+import com.omar.retromp3recorder.bl.audio.actions.StartRecordUC
+import com.omar.retromp3recorder.bl.audio.actions.StopPlaybackAndRecordUC
 import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
-import com.omar.retromp3recorder.bl.system.ShareUCSuspend
+import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.ui.statebutton.InteractiveButtonState
@@ -35,10 +35,10 @@ class AudioControlsInteractorFlowTest {
     private val shareButtonStateMapper: ShareButtonStateFlow = mockk()
     private val stopButtonStateMapper: StopButtonStateMapperFlow = mockk()
 
-    private val startRecordUC: StartRecordUCSuspend = mockk(relaxed = true)
-    private val shareUC: ShareUCSuspend = mockk(relaxed = true)
-    private val startPlaybackUC: StartPlaybackUCSuspend = mockk(relaxed = true)
-    private val stopPlaybackAndRecordUC: StopPlaybackAndRecordUCSuspend = mockk(relaxed = true)
+    private val startRecordUC: StartRecordUC = mockk(relaxed = true)
+    private val shareUC: ShareUC = mockk(relaxed = true)
+    private val startPlaybackUC: StartPlaybackUC = mockk(relaxed = true)
+    private val stopPlaybackAndRecordUC: StopPlaybackAndRecordUC = mockk(relaxed = true)
 
     private val dispatcher = UnconfinedTestDispatcher()
 

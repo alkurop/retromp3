@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class RecordMicUC @Inject constructor(
     private val micCaptureCompletableCreator: AudioCaptureUC,
-    private val wavetableUC: RecordWavetableUCSuspend
+    private val wavetableUC: RecordWavetableUC
 ) {
     suspend fun execute(){
         micCaptureCompletableCreator.execute(Mp3VoiceRecorder.AudioSource.Mic)
