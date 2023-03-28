@@ -16,12 +16,8 @@ class StartupUCSuspend @Inject constructor(
     private val jobWrapper: ScopeJobWrapper
 ) {
     fun execute() {
-        jobWrapper.launch {
-            takeLastFileWithScanDirScanUC.execute()
-        }
-        jobWrapper.launch {
-            newCurrentFileUpdaterSuspend.execute()
-        }
+        jobWrapper.launch { takeLastFileWithScanDirScanUC.execute() }
+        jobWrapper.launch { newCurrentFileUpdaterSuspend.execute() }
         jobWrapper.launch { loadRecorderSettingsUCSuspend.execute() }
         jobWrapper.launch { featureMapLoadUCSuspend.execute() }
     }
