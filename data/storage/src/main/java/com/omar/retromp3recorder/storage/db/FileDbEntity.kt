@@ -63,22 +63,22 @@ interface FileDbEntityDao {
     fun getByFilepath(filepath: String): List<FileDbEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBatch(items: List<FileDbEntity>): List<Long>
+    suspend fun insertBatch(items: List<FileDbEntity>): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: FileDbEntity): Long
+    suspend fun insert(item: FileDbEntity): Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateItem(item: FileDbEntity)
+    suspend fun updateItem(item: FileDbEntity)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(items: List<FileDbEntity>)
+    suspend fun update(items: List<FileDbEntity>)
 
     @Delete
-    fun delete(items: List<FileDbEntity>)
+    suspend fun delete(items: List<FileDbEntity>)
 
     @Query("DELETE from FileDbEntity where filepath=:filePath")
-    fun deleteByFilepath(filePath: String)
+    suspend fun deleteByFilepath(filePath: String)
 
     companion object {
         const val LOAD_SIZE = 5

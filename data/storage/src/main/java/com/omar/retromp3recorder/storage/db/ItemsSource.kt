@@ -51,8 +51,7 @@ class ItemsSource @Inject constructor(
             val prev = anchorPage?.prevKey
             val next = anchorPage?.nextKey
 
-            return prev?.copy(page = prev.page - 1)
-                ?: next?.copy(page = next.page + 1)
+            return prev?.copy(page = prev.page - 1) ?: next?.copy(page = next.page + 1)
         }
     }
 }
