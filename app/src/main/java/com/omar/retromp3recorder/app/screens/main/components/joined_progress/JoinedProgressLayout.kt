@@ -2,12 +2,18 @@ package com.omar.retromp3recorder.app.screens.main.components.joined_progress
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
@@ -16,16 +22,15 @@ import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
 import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
 import com.omar.retromp3recorder.ui.wavetable.WavetableSeekbarPreview
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 @Composable
 fun JoinedProgressLayout(
+    modifier: Modifier = Modifier,
     viewModel: JoinedProgressViewModelFlow = hiltViewModel(),
-    modifier: Modifier
 ) {
     val viewState: JoinedProgressView.State by viewModel.state.collectAsState()
 
-    Surface(modifier = modifier) {
+    Surface(modifier = modifier.height(16.dp)) {
         when (val progress = viewState.joinedProgress) {
             is JoinedProgress.RecorderProgressShown -> {
                 BuildPreview(progress)
@@ -67,7 +72,7 @@ private fun BuildSeek(
     val f: (JoinedProgressView.In) -> Unit = remember {
         {}
     }
-    AndroidView(modifier = modifier.then(Modifier.fillMaxSize()),
+    AndroidView(modifier = modifier.then(Modifier.fillMaxWidth()),
         factory = { context ->
             val view = WavetableSeekbarPreview(context)
             view

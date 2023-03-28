@@ -63,6 +63,8 @@ fun MainLayout(
                         horizontal = 12.dp,
                         vertical = 8.dp
                     )
+                    .height(50.dp)
+
             )
             LogLayout(
                 modifier = Modifier
@@ -83,8 +85,9 @@ private fun TrackLayout(
         JoinedProgressLayout(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(50.dp)
                 .padding(horizontal = 16.dp)
-                .height(60.dp)
+
         )
         RangeBarLayout(
             modifier = Modifier

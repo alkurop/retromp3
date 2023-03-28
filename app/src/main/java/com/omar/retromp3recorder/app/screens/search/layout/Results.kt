@@ -3,7 +3,6 @@ package com.omar.retromp3recorder.app.screens.search.layout
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -82,9 +81,10 @@ private fun ItemComposable(
     ) else null
     Card(modifier = Modifier
         .clickable { onClick.invoke(itemFile) }
-        .background(MaterialTheme.colorScheme.background)
         .padding(top = 8.dp)
-        .fillMaxWidth(),
+        .padding(horizontal = 8.dp)
+        .fillMaxWidth()
+        .height(58.dp),
         border = border
     ) {
         Row(Modifier.padding(8.dp)) {
