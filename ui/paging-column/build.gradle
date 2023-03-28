@@ -1,0 +1,34 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+apply from: "$scripts.android_library"
+
+android {
+    namespace "${applicationId}.ui.paging"
+    buildFeatures {
+        compose true
+    }
+}
+
+apply from: "$scripts.android_test_dependency"
+apply from: "$scripts.android_test_compose_dependency"
+
+dependencies {
+    implementation "androidx.core:core-ktx:$versions.coreKtx"
+
+    def composeBom = platform("androidx.compose:compose-bom:$versions.compose_bom")
+    implementation composeBom
+
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.ui:ui-tooling-preview"
+
+    implementation "androidx.compose.material3:material3"
+
+    debugImplementation "androidx.compose.ui:ui-tooling"
+    debugImplementation "androidx.compose.ui:ui-test-manifest"
+
+    implementation "androidx.paging:paging-compose:$versions.composePaging"
+
+}

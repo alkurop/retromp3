@@ -34,6 +34,8 @@ include ':utlis'
 
 include ':ui:statebutton'
 include ':ui:wavetable'
+include ':ui:paging-column'
+include ':ui:search-bar'
 include ':ui'
 
 include ':usecases'

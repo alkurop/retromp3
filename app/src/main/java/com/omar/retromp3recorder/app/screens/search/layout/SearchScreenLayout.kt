@@ -1,18 +1,25 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+
 package com.omar.retromp3recorder.app.screens.search.layout
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.RetroTheme
 import com.omar.retromp3recorder.app.screens.search.SelectorContract
 import com.omar.retromp3recorder.app.screens.search.SelectorViewModelFlow
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.utils.domain.LoadingState
+import com.test.android.assignment.ui.searchbar.SearchBarLayout
+import com.test.android.assignment.ui.searchbar.rememberSearchBarInputState
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -31,6 +38,9 @@ fun SearchScreenLayout(
             onBack()
         }
     }
+    val itemsPaging = state.flow as? LoadingState.Success
+    val searchBarState =
+        rememberSearchBarInputState(hint = stringResource(id = R.string.search_hint))
 
     RetroTheme {
         Column(
@@ -38,15 +48,15 @@ fun SearchScreenLayout(
                 .fillMaxHeight()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
-            SearchToolbar(lambdaSearch, onBack)
-            val itemsPaging = state.flow as? LoadingState.Success
-            if (itemsPaging!= null) {
-                Results(
-                    data = itemsPaging.data,
-                    currentFile = currentFilePath,
-                    query = query,
-                    onClick = lambdaClick
-                )
+            SearchBarLayout(onSubmit = lambdaSearch, state = searchBarState, onBack = onBack) {
+                if (itemsPaging != null) {
+                    Results(
+                        data = itemsPaging.data,
+                        currentFile = currentFilePath,
+                        query = query,
+                        onClick = lambdaClick
+                    )
+                }
             }
         }
     }

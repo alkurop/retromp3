@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.omar.retromp3recorder.bl.files.SetCurrentFileUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.storage.db.DatabasePagingProvider
-import com.omar.retromp3recorder.storage.db.ItemsSource
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.every
@@ -22,7 +21,6 @@ import org.junit.Test
 class SelectorInteractorFlowTest {
     private lateinit var currentFileRepo: CurrentFileRepo
     private val pagingProvider = mockk<DatabasePagingProvider>()
-    private val inputSource = mockk<ItemsSource>()
     private val setCurrentFileUC = mockk<SetCurrentFileUC>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
     private lateinit var tested: SelectorInteractorFlow
