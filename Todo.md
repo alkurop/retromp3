@@ -80,5 +80,7 @@ X means can't be done (please provide explanation)
 - show snackbar instead of toast
 - make record button bigger then others
 - add benchmark tests
+- integrate jococo
+
 - V cleanup circleci script
 
