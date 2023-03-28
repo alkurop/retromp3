@@ -1,11 +1,11 @@
 package com.omar.retromp3recorder.bl.waveform
 
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import com.omar.retromp3recorder.utils.platform.chunked
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.takeWhile
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
@@ -24,35 +24,5 @@ class RecordWavetableMapperFlow @Inject constructor(
             { state, byte -> state to byte }
             .takeWhile { it.second != Mp3VoiceRecorder.State.Idle }
             .map { it.first }
-    }
-}
-
-fun <T> Flow<T>.chunked(maxSize: Int, intervalMillis: Long) = channelFlow {
-    val buffer = mutableListOf<T>()
-    var flushJob: Job? = null
-
-    collect { value ->
-        flushJob?.cancelAndJoin()
-        buffer.add(value)
-
-        if (buffer.size >= maxSize) {
-            send(buffer.toList())
-            buffer.clear()
-        } else {
-            flushJob = launch {
-                delay(intervalMillis)
-                if (buffer.isNotEmpty()) {
-                    send(buffer.toList())
-                    buffer.clear()
-                }
-            }
-        }
-    }
-
-    flushJob?.cancelAndJoin()
-
-    if (buffer.isNotEmpty()) {
-        send(buffer.toList())
-        buffer.clear()
     }
 }
