@@ -81,6 +81,7 @@ X means can't be done (please provide explanation)
 - make record button bigger then others
 - add benchmark tests
 - integrate jococo
-
+- add dependency diagram
+- add static analysis
 - V cleanup circleci script
 
