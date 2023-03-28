@@ -7,14 +7,15 @@ import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 @Singleton
 class FileLister @Inject constructor() {
-    val lister by lazy { MediaMetadataRetriever() }
-    fun listFiles(
-        dirPathList: List<String>,
-        extensions: List<String>
+    private val lister by lazy { MediaMetadataRetriever() }
+
+    fun listAudioFiles(
+        dirPathList: List<String>
     ): List<ExistingFileWrapper> {
-        return dirPathList.map { listFiles(it, extensions) }.flatten()
+        return dirPathList.map { listFiles(it, listOf("mp3")) }.flatten()
     }
 
     fun discoverFile(path: String): ExistingFileWrapper {
@@ -31,6 +32,10 @@ class FileLister @Inject constructor() {
         }
     }
 
+    fun deleteFile(file: ExistingFileWrapper) {
+        File(file.path).delete()
+    }
+
     private fun listFiles(dirPath: String, extensions: List<String>): List<ExistingFileWrapper> {
         val file = File(dirPath)
         return file.listFiles()?.filter { it.path.split(".").last() in extensions }?.map {
@@ -38,4 +43,5 @@ class FileLister @Inject constructor() {
             it.toFileWrapper().copy(length = discoverLength(path))
         } ?: emptyList()
     }
+
 }

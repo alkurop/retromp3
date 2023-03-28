@@ -22,11 +22,9 @@ class ScanDirFilesPartialUCSuspend @Inject constructor(
     private val collector: FileUpdatePayloadCollectorUC,
     private val jobWrapper: ScopeJobWrapper
 ) {
-    suspend fun execute(
-        shouldCheckEmptyFiles: Boolean = true
-    ) {
+    suspend fun execute() {
         jobWrapper.launch {
-            val foundFiles = findFilesUC.execute(listOf("mp3"), shouldCheckEmptyFiles)
+            val foundFiles = findFilesUC.execute()
             val mergedList = getPagingItemsDatabaseUC.flow(FileDbEntityDao.LOAD_SIZE)
                 .map { dbFiles ->
                     collector.execute(dbFiles, foundFiles)
