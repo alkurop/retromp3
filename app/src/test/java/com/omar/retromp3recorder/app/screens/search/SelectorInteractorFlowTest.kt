@@ -10,6 +10,7 @@ import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -29,20 +30,11 @@ class SelectorInteractorFlowTest {
 
     @Before
     fun setUp() {
-        every { pagingProvider.provideItemSource() } returns inputSource
+        every { pagingProvider.createFlow(any()) } returns emptyFlow()
         currentFileRepo = CurrentFileRepo()
         tested = SelectorInteractorFlow(
             currentFileRepo, pagingProvider, setCurrentFileUC, dispatcher
         )
-    }
-
-    @Test
-    fun `when path null then crash`() = runTest {
-        tested.processIO(flowOf(SelectorContract.Input.ItemSelected(file)))
-            .test {
-                val error = awaitError()
-                assert(error is IllegalArgumentException)
-            }
     }
 
     @Test
@@ -52,7 +44,7 @@ class SelectorInteractorFlowTest {
             .test {
                 skipItems(1)
                 val item = awaitItem()
-                assert(item is SelectorContract.Output.FileListNew)
+                assert(item is SelectorContract.Output.CurrentFlow)
                 cancelAndConsumeRemainingEvents()
             }
     }
