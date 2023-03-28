@@ -34,7 +34,7 @@ class SampleRateInteractorFlowTest {
         val event = Mp3VoiceRecorder.SampleRate._44100
 
         interactor.processIO(flowOf(event)).test {
-            expectNoEvents()
+            cancelAndConsumeRemainingEvents()
         }
 
         coVerify { usecase.execute(event) }

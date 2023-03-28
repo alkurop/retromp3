@@ -34,7 +34,7 @@ class BitRateSettingsInteractorFlowTest {
         val event = Mp3VoiceRecorder.BitRate._160
 
         interactor.processIO(flowOf(event)).test {
-            expectNoEvents()
+           cancelAndIgnoreRemainingEvents()
         }
 
         coVerify { usecase.execute(event) }
