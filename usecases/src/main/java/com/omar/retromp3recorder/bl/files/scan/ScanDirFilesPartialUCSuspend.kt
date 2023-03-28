@@ -9,7 +9,6 @@ import com.omar.retromp3recorder.storage.db.withTransaction
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import com.omar.retromp3recorder.utils.domain.toOptional
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,11 +25,11 @@ class ScanDirFilesPartialUCSuspend @Inject constructor(
     suspend fun execute() {
         jobWrapper.launch {
             val foundFiles = findFilesUC.execute()
-            val payload = getPagingItemsDatabaseUC.flow(FileDbEntityDao.LOAD_SIZE)
-                .map { collector.execute(it, foundFiles) }
+            val dbItems = getPagingItemsDatabaseUC.flow(FileDbEntityDao.LOAD_SIZE)
                 .toList()
-                .merge()
+                .flatten()
 
+            val payload = collector.execute(dbItems, foundFiles)
             val insertIds = appDatabase.withTransaction {
                 appDatabase.fileEntityDao().run {
                     delete(payload.deletes)
@@ -42,22 +41,11 @@ class ScanDirFilesPartialUCSuspend @Inject constructor(
             val insertsWithId = payload.inserts.zip(insertIds) { item, id -> item.copy(id = id) }
             val payloadWithId = payload.copy(inserts = insertsWithId)
 
-            val waveScanInput = (payloadWithId.inserts + payloadWithId.updates).map { it.toFileWrapper() }
+            val waveScanInput =
+                (payloadWithId.inserts + payloadWithId.updates).map { it.toFileWrapper() }
             val waveScanResult = waveformScanUpdaterUC.execute(waveScanInput)
 
             waveScanResult.firstOrNull()?.let { currentFileRepo.emit(it.toOptional()) }
         }
-    }
-
-    private fun List<DbBatchUpdatePayload>.merge(): DbBatchUpdatePayload {
-        val updates = this.map { it.updates }.flatten()
-        val deletes = this.map { it.deletes }.flatten()
-        val inserts = this.map { it.inserts }.flatten()
-
-        return DbBatchUpdatePayload(
-            deletes = deletes,
-            updates = updates,
-            inserts = inserts,
-        )
     }
 }

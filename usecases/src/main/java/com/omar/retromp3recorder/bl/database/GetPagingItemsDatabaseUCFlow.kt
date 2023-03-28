@@ -13,12 +13,14 @@ class GetPagingItemsDatabaseUCFlow @Inject constructor(
         return flow {
             val fileEntityDao = appDatabase.fileEntityDao()
             var offsetIncrement = 0
+            val mutableSet = mutableSetOf<FileDbEntity>()
             do {
                 val res = fileEntityDao.getAllPaging(pageSize, offsetIncrement)
                 if (res.isNotEmpty()) {
                     emit(res)
+                    offsetIncrement += pageSize
+                    mutableSet.addAll(res)
                 }
-                offsetIncrement += pageSize
             } while (res.isNotEmpty())
         }
     }
