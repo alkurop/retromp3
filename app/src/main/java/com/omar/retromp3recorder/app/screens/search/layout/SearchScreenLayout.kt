@@ -12,6 +12,7 @@ import com.omar.retromp3recorder.app.RetroTheme
 import com.omar.retromp3recorder.app.screens.search.SelectorContract
 import com.omar.retromp3recorder.app.screens.search.SelectorViewModelFlow
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
+import com.omar.retromp3recorder.utils.domain.LoadingState
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -38,11 +39,11 @@ fun SearchScreenLayout(
                 .background(MaterialTheme.colorScheme.surface)
         ) {
             SearchToolbar(lambdaSearch, onBack)
-            val itemsPaging = state.itemsPaging
-            if (itemsPaging != null) {
+            val itemsPaging = state.flow as? LoadingState.Success
+            if (itemsPaging!= null) {
                 Results(
-                    data = itemsPaging,
-                    currentFilePath = currentFilePath,
+                    data = itemsPaging.data,
+                    currentFile = currentFilePath,
                     query = query,
                     onClick = lambdaClick
                 )

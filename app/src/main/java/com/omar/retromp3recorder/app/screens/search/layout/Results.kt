@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun Results(
     data: Flow<PagingData<ExistingFileWrapper>>,
-    currentFilePath: String?,
+    currentFile: ExistingFileWrapper?,
     query: String,
     onClick: (ExistingFileWrapper) -> Unit
 ) {
@@ -53,7 +53,7 @@ fun Results(
             items(items = pagingItems) { file ->
                 file?.takeIf { it.filter(query) }?.let { existingFileWrapper ->
                     ItemComposable(
-                        existingFileWrapper = existingFileWrapper, currentFilePath, onClick
+                        itemFile = existingFileWrapper, currentFile, onClick
                     )
                 }
             }
@@ -67,15 +67,15 @@ private fun ExistingFileWrapper.filter(query: String): Boolean {
 
 @Composable
 private fun ItemComposable(
-    existingFileWrapper: ExistingFileWrapper,
-    currentFilePath: String? = null,
+    itemFile: ExistingFileWrapper,
+    selectedFile: ExistingFileWrapper? = null,
     onClick: (ExistingFileWrapper) -> Unit
 ) {
-    val matches = existingFileWrapper.path == currentFilePath
+    val matches = itemFile.id == selectedFile?.id
 
     Card(
         modifier = Modifier
-            .clickable { onClick.invoke(existingFileWrapper) }
+            .clickable { onClick.invoke(itemFile) }
             .background(MaterialTheme.colorScheme.background)
             .padding(top = 8.dp)
             .fillMaxWidth(),
@@ -88,9 +88,9 @@ private fun ItemComposable(
                 .padding(8.dp)
         ) {
             Text(
-                text = existingFileWrapper.name, color = MaterialTheme.colorScheme.onSurface
+                text = itemFile.name, color = MaterialTheme.colorScheme.onSurface
             )
-            existingFileWrapper.wavetable?.let { wavetable ->
+            itemFile.wavetable?.let { wavetable ->
                 AndroidView(factory = { context ->
                     WavetablePreview(context).apply {
                         layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, 100)
@@ -98,7 +98,7 @@ private fun ItemComposable(
                     }
                 })
             }
-            val time = existingFileWrapper.length?.toTimeDisplay()?.let {
+            val time = itemFile.length?.toTimeDisplay()?.let {
                 "${it.time}${it.millis}"
             } ?: ""
             Row {
@@ -110,7 +110,7 @@ private fun ItemComposable(
                 Spacer(Modifier.width(4.dp))
                 Text(
                     fontSize = 12.sp,
-                    text = existingFileWrapper.createTimedStamp.toCreationDate(),
+                    text = itemFile.createTimedStamp.toCreationDate(),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(Modifier.weight(1f))

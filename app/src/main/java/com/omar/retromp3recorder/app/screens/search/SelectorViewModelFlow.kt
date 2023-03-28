@@ -3,6 +3,7 @@ package com.omar.retromp3recorder.app.screens.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.omar.retromp3recorder.app.screens.search.SelectorOutputMapper.mapToState
+import com.omar.retromp3recorder.app.utils.cacheInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +25,10 @@ class SelectorViewModelFlow @Inject constructor(
         viewModelScope.launch {
             interactor.processIO(inputFlow)
                 .mapToState()
-                .collect { _state.value = it }
+                .collect {
+                    val flow = it.flow.cacheInViewModel(this)
+                    _state.value = it .copy(flow = flow)
+                }
 
         }
     }

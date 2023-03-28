@@ -101,7 +101,7 @@ fun SearchToolbar(
                         .onFocusChanged { isFocused = it.isFocused }
                         .focusRequester(focusRequester),
                     singleLine = true,
-                    keyboardActions = KeyboardActions(onDone = { onBack() }),
+                    keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.Uri,

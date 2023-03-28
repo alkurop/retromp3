@@ -5,28 +5,30 @@ In order of appearance
 V means completed
 X means can't be done (please provide explanation)
 
-
 ### Bugs:
+
 - V fix circle ci
 - V progress issue
+- V fix search screen settings checkbox
+- V fix play button not working
+- V fix control buttons ripple
 
-- fix search screen settings checkbox
-- fix play button not working
 - check recording on phone
 - fix cropping
 - fix logs
 - do we still need RangeBarResetBus? If it is removed, will there be bugs? *
 - what happens when app is killed by the system (Don't keep activity) in different screens? Is there
   a need to save state somewhere?
-- fix control buttons ripple
+
 - check main screen recomposition
 - re-enable log view
 - fix size jumping of waveform on main view * ( should go away after migration to compose)
 - search activity toolbar color
 - time counter going in 2 lines
-- do waveforms continue emitting when recording stopped?
 
-
+- bug with paging loading
+- startup file bug
+- cleanup items UI in the search results (make smaller)
 
 ### Refactoring:
 
@@ -61,8 +63,8 @@ X means can't be done (please provide explanation)
 - V refactor permissions
 - V reassamble delete rename popups in JPC, add to menu
 - X (testing with viewmodel scope consumes errors) merge all interactors with view models
-- X (testing with viewmodel scope consumes errors) merge view model and interactor, by introducing a base vm class
-
+- X (testing with viewmodel scope consumes errors) merge view model and interactor, by introducing a
+  base vm class
 
 ### Features:
 
