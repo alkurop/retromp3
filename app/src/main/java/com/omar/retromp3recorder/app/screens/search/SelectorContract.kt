@@ -12,7 +12,6 @@ object SelectorContract {
         val selectedFile: String? = null,
         val itemsPaging: Flow<PagingData<ExistingFileWrapper>>? = null,
         val itemsSource: ItemsSource? = null,
-        val shouldDismiss: Boolean = false
     )
 
     sealed class Input {
@@ -22,6 +21,5 @@ object SelectorContract {
     sealed class Output {
         data class FileListNew(val itemsSource: ItemsSource) : Output()
         data class CurrentFile(val filePath: String?) : Output()
-        object Dismiss : Output()
     }
 }

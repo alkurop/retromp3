@@ -26,13 +26,9 @@ object SelectorOutputMapper {
                         selectedFile = selectedFile
                     )
                 }
-                SelectorContract.Output.Dismiss -> {
-                    oldState.copy(shouldDismiss = true)
-                }
             }
         }
     }
-
 }
 
 //JPC does not like changing source of data, so I'm filtering on the view side.

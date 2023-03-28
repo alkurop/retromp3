@@ -27,21 +27,17 @@ fun SearchScreenLayout(
     val lambdaClick: (ExistingFileWrapper) -> Unit = remember {
         {
             viewModel.onEvent(SelectorContract.Input.ItemSelected(it))
-        }
-
-    }
-    if (state.shouldDismiss) {
-        SideEffect {
             onBack()
         }
     }
+
     RetroTheme {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
-            SearchToolbar(lambdaSearch)
+            SearchToolbar(lambdaSearch, onBack)
             val itemsPaging = state.itemsPaging
             if (itemsPaging != null) {
                 Results(

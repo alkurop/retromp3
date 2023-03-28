@@ -7,7 +7,6 @@ import com.omar.retromp3recorder.storage.db.DatabasePagingProvider
 import com.omar.retromp3recorder.storage.db.ItemsSource
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.toOptional
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -44,18 +43,6 @@ class SelectorInteractorFlowTest {
                 val error = awaitError()
                 assert(error is IllegalArgumentException)
             }
-    }
-
-    @Test
-    fun `when file selected the usecase executed dismiss sent`() = runTest {
-        currentFileRepo.emit(MockFileFactory.giveFutureFile().toOptional())
-        tested.processIO(flowOf(SelectorContract.Input.ItemSelected(file)))
-            .test {
-                skipItems(2)
-                val item = awaitItem()
-                assert(item is SelectorContract.Output.Dismiss)
-            }
-        coVerify { setCurrentFileUC.execute(file) }
     }
 
     @Test
