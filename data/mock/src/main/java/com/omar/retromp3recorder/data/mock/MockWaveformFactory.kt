@@ -6,9 +6,9 @@ import kotlin.random.nextUInt
 object MockWaveformFactory {
     fun giveWaveform(): Wavetable {
         return Wavetable(
-            (0..kotlin.random.Random.nextUInt(100u).toInt()).toList().map { it.toByte() }
+            (0..kotlin.random.Random.nextUInt(1u, 100u).toInt()).toList().map { it.toByte() }
                 .toByteArray(),
-            kotlin.random.Random.nextUInt(100u).toInt()
+            kotlin.random.Random.nextUInt(1u, 100u).toInt()
         )
     }
 }

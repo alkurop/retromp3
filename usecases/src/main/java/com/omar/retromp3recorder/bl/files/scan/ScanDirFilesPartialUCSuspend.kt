@@ -56,22 +56,22 @@ class ScanDirFilesPartialUCSuspend @Inject constructor(
     }
 }
 
-private fun List<DbUpdatePayload>.merge(): DbUpdatePayload {
+private fun List<DbBatchUpdatePayload>.merge(): DbBatchUpdatePayload {
     val updates = this.map { it.updates }.flatten()
     val deletes = this.map { it.deletes }.flatten()
     val otherChanges = updates.plus(deletes)
-    val existing = this.map { it.existing }.flatten()
+    val existing = this.map { it.footprintPathList }.flatten()
 
     val inserts = this.map { it.inserts }.flatten()
         .filter { item -> !otherChanges.map { it.filepath }.contains(item.filepath) }
         .filter { !existing.contains(it.filepath) }
 
 
-    return DbUpdatePayload(
+    return DbBatchUpdatePayload(
         deletes = deletes,
         updates = updates,
         inserts = inserts,
-        existing = existing
+        footprintPathList = existing
     )
 }
 

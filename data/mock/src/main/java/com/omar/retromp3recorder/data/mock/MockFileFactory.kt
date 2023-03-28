@@ -5,8 +5,8 @@ import com.omar.retromp3recorder.domain.FutureFileWrapper
 import java.util.Random
 
 object MockFileFactory {
-    fun giveExistingFile(): ExistingFileWrapper {
-        val id = Random().nextLong()
+    fun giveExistingFile(id: Long = Random().nextLong()): ExistingFileWrapper {
+
         return ExistingFileWrapper(
             id = id,
             path = "$id.path",
