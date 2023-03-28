@@ -7,11 +7,7 @@ X means can't be done (please provide explanation)
 
 ### Bugs:
 
-- V fix circle ci
-- V progress issue
-- V fix search screen settings checkbox
-- V fix play button not working
-- V fix control buttons ripple
+
 
 - check recording on phone
 - fix cropping
@@ -19,43 +15,48 @@ X means can't be done (please provide explanation)
 - do we still need RangeBarResetBus? If it is removed, will there be bugs? *
 - what happens when app is killed by the system (Don't keep activity) in different screens? Is there
   a need to save state somewhere?
-
+- cleanup items UI in the search results (make smaller)
 - check main screen recomposition
 - re-enable log view
 - fix size jumping of waveform on main view * ( should go away after migration to compose)
-- search activity toolbar color
 - time counter going in 2 lines
 
-- bug with paging loading
-- startup file bug
-- cleanup items UI in the search results (make smaller)
+- V search activity toolbar color
+- V bug with paging loading
+- V startup file bug
+- V fix circle ci
+- V progress issue
+- V fix search screen settings checkbox
+- V fix play button not working
+- V fix control buttons ripple
 
 ### Refactoring:
 
 - add some UI tests for buttons
 - convert wavebar to compose
-- refactor search toolbar
-- refactor search ui
 - order strings
 - add previews
-- convert remaining classes to flow
-- convert JoinedProgressMapper, AudioStateMapper to flow
 - Crop interactor - fix unclear flow with canCropFileRepo flow
 - cleanup toast repo
-- player recorder flow api
 - add coroutines to database
 - rename popup remove name state from interactor, retain name in composable
 - for popups move dismiss state to composable
-- cleanup and refactor search paging, cover with tests. Filtering should happen on data side, not on
-  view
 - add settings to bottom menu
-- ? move open file to tool bar
 - convert player and recorder to flow
 - refactor getting audio projection
 - refactor main activity
-- cover WavetableSummerTest
 - StartPlaybackUCSuspend why here using length of file not duration in the progress?
 
+
+- V cleanup and refactor search paging, cover with tests. Filtering should happen on data side, not on
+  view
+- V cover WavetableSummerTest
+- V move open file to menu bar
+- V player recorder flow api
+- V convert remaining classes to flow
+- V convert JoinedProgressMapper, AudioStateMapper to flow
+- V refactor search toolbar
+- V refactor search ui
 - V convert to flow and write tests one by one
 - V replace dagger with hilt
 - V Replace search screen with jpc
@@ -78,5 +79,6 @@ X means can't be done (please provide explanation)
 - add bit counter
 - show snackbar instead of toast
 - make record button bigger then others
+- add benchmark tests
 - V cleanup circleci script
 
