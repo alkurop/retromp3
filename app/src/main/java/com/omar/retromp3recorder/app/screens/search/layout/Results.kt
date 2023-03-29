@@ -1,7 +1,5 @@
 package com.omar.retromp3recorder.app.screens.search.layout
 
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,15 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
-import com.omar.retromp3recorder.ui.wavetable.BytesWithRange
-import com.omar.retromp3recorder.ui.wavetable.WavetablePreview
+import com.omar.retromp3recorder.ui.wavetable.compose.WavetableCompose
+import com.omar.retromp3recorder.ui.wavetable.compose.WavetableComposeData
 import com.omar.retromp3recorder.utils.platform.toCreationDate
 import com.omar.retromp3recorder.utils.platform.toTimeDisplay
 import kotlinx.coroutines.flow.Flow
@@ -111,23 +108,15 @@ private fun ItemComposable(
                     )
                 }
             }
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(30.dp)
-                    .align(CenterVertically)
-            ) {
-                itemFile.wavetable?.let { wavetable ->
-                    AndroidView(factory = { context ->
-                        WavetablePreview(context).apply {
-                            layoutParams = LinearLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT
-                            )
-                            update(BytesWithRange(wavetable.data, null))
-                        }
-                    })
-                }
+
+            itemFile.wavetable?.let { wavetable ->
+                WavetableCompose(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(30.dp)
+                        .align(CenterVertically),
+                    data = WavetableComposeData(wavetable)
+                )
             }
             Column(
                 modifier = Modifier

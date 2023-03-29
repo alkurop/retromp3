@@ -7,6 +7,7 @@ import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.platform.FileLister
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
@@ -51,7 +52,7 @@ class SaveRecordingWithWavetableUCTest {
         val file = MockFileFactory.giveExistingFile()
         every { fileLister.discoverFile(path) } returns file
         every { fileLister.discoverLength(path) } returns 1
-        every { dao.insert(any()) } returns 1
+        coEvery { dao.insert(any()) } returns 1
 
         tested.execute(data)
 
@@ -72,7 +73,7 @@ class SaveRecordingWithWavetableUCTest {
         val file = MockFileFactory.giveExistingFile()
         every { fileLister.discoverFile(path) } returns file
         every { fileLister.discoverLength(path) } returns 1
-        every { dao.insert(any()) } returns 1
+        coEvery { dao.insert(any()) } returns 1
 
         tested.execute(data)
         val expected = file.copy(length = 1, id = 1, wavetable = wavetable)

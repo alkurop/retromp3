@@ -22,7 +22,7 @@ class WavetableSummerTest {
                     next.toByte()
                 )
             }.toWaveTable()
-        assertEquals(MAX_WAVEFORM_SIZE, wavetable.data.size)
+        assertEquals(MAX_WAVEFORM_SIZE, wavetable.bytes.size)
     }
 
 
@@ -39,7 +39,7 @@ class WavetableSummerTest {
             )
         }.toWaveTable()
 
-        assertEquals(expected.toByte(), wavetable.data[index/2])
+        assertEquals(expected.toByte(), wavetable.bytes[index/2])
     }
 
     @Test

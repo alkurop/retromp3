@@ -15,16 +15,16 @@ class JoinedProgressViewModelFlow @Inject constructor(
     interactor: JoinedProgressInteractorFlow
 ) : ViewModel() {
 
-    val state: StateFlow<JoinedProgressView.State>
-    private val inputFlow = MutableSharedFlow<JoinedProgressView.In>()
+    val state: StateFlow<JoinedProgressContract.State>
+    private val inputFlow = MutableSharedFlow<JoinedProgressContract.In>()
 
     init {
         state = interactor.processIO(inputFlow)
             .mapOutputToStateFlow()
-            .stateInViewModel(this, JoinedProgressView.State())
+            .stateInViewModel(this, JoinedProgressContract.State())
     }
 
-    fun onEvent(event: JoinedProgressView.In) {
+    fun onEvent(event: JoinedProgressContract.In) {
         viewModelScope.launch { inputFlow.emit(event) }
     }
 }

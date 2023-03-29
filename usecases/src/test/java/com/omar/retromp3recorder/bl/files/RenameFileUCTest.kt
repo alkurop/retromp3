@@ -4,13 +4,13 @@ import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.platform.FileRenamer
-import com.omar.retromp3recorder.utils.platform.Mp3TagsEditor
 import com.omar.retromp3recorder.utils.domain.Optional
 import com.omar.retromp3recorder.utils.domain.toOptional
+import com.omar.retromp3recorder.utils.platform.FileRenamer
+import com.omar.retromp3recorder.utils.platform.Mp3TagsEditor
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertNotEquals
@@ -54,7 +54,7 @@ class RenameFileUCTest {
         val newName = "newName"
 
         tested.execute(newName)
-        verifyOrder {
+        coVerifyOrder {
             fileRenamer.renameFile(existingFile, newName)
             mp3TagsEditor.getTags(any())
             mp3TagsEditor.setTags(any(), any())

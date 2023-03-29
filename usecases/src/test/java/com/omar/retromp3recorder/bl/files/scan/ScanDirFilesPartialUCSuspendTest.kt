@@ -67,7 +67,7 @@ class ScanDirFilesPartialUCSuspendTest {
             val input = it.invocation.args[0] as List<ExistingFileWrapper>
             input
         }
-        every { dao.insertBatch(any()) } answers {
+        coEvery { dao.insertBatch(any()) } answers {
             (invocation.args[0] as List<FileDbEntity>).map { it.id }
         }
         every { getPagingItemsDatabaseUC.flow(any()) } returns flowOf((otherFiles + updateFiles).map { it.toDatabaseEntity() })

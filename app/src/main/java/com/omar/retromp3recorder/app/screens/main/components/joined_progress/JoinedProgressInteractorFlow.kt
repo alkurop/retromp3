@@ -19,30 +19,30 @@ class JoinedProgressInteractorFlow @Inject constructor(
     private val audioSeekFinishUC: AudioSeekFinishUC,
     private val joinedProgressRepo: JoinedProgressMapper,
     dispatcher: CoroutineDispatcher,
-) : Interactor<JoinedProgressView.In, JoinedProgressView.Output>(dispatcher) {
+) : Interactor<JoinedProgressContract.In, JoinedProgressContract.Output>(dispatcher) {
 
-    override fun listRepos(): List<Flow<JoinedProgressView.Output>> {
+    override fun listRepos(): List<Flow<JoinedProgressContract.Output>> {
         return listOf(
             joinedProgressRepo.flow().map {
-                JoinedProgressView.Output.JoinedProgressChanged(it)
+                JoinedProgressContract.Output.JoinedProgressChanged(it)
             },
             currentFileRepo.flow().map { file ->
-                JoinedProgressView.Output.CurrentFileChanged(
+                JoinedProgressContract.Output.CurrentFileChanged(
                     file.value
                 )
             }
         )
     }
 
-    override suspend fun FlowCollector<JoinedProgressView.Output>.launchUseCase(input: JoinedProgressView.In) {
+    override suspend fun FlowCollector<JoinedProgressContract.Output>.launchUseCase(input: JoinedProgressContract.In) {
         when (input) {
-            is JoinedProgressView.In.SeekToPosition -> {
+            is JoinedProgressContract.In.SeekToPosition -> {
                 audioSeekProgressUC.execute(input.position)
             }
-            is JoinedProgressView.In.SeekingStarted -> {
+            is JoinedProgressContract.In.SeekingStarted -> {
                 audioSeekPauseUC.execute()
             }
-            is JoinedProgressView.In.SeekingFinished -> {
+            is JoinedProgressContract.In.SeekingFinished -> {
                 audioSeekFinishUC.execute()
             }
         }

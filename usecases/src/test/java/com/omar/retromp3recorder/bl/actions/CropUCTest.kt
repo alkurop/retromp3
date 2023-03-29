@@ -64,7 +64,7 @@ class CropUCTest {
         verify(exactly = 0) { mp3TagsEditor.setTags(any(), any()) }
         verify(exactly = 0) { fileLister.discoverFile(any()) }
         coVerify(exactly = 0) { waveformScanner.execute(any()) }
-        verify(exactly = 0) { dao.insert(any()) }
+        coVerify(exactly = 0) { dao.insert(any()) }
     }
 
     @Test

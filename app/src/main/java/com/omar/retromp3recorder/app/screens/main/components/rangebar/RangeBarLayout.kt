@@ -35,7 +35,7 @@ fun RangeBarLayout(
             rangeState = it
             viewModel.onEvent(
                 RangeBarView.Input.RangeSet(
-                    range.copeWithUpdate(it)
+                    range.copyWithUpdate(it)
                 )
             )
         }
@@ -82,7 +82,7 @@ fun RangeBarLayout(
     }
 }
 
-private fun PlayerRange.copeWithUpdate(update: ClosedFloatingPointRange<Float>): PlayerRange =
+private fun PlayerRange.copyWithUpdate(update: ClosedFloatingPointRange<Float>): PlayerRange =
     this.copy(
         from = update.start.toInt(),
         to = update.endInclusive.toInt()

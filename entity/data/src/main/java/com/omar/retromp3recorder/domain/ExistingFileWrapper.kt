@@ -34,7 +34,7 @@ fun File.toFileWrapper(): ExistingFileWrapper =
     )
 
 fun Wavetable?.isEmpty(): Boolean {
-    return this == null || this.data.sum() == 0
+    return this == null || this.bytes.sum() == 0
 }
 
 private fun String.getNameOnly(): String {

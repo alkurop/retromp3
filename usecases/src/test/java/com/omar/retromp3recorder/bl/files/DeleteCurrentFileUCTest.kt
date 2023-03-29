@@ -48,7 +48,7 @@ class DeleteCurrentFileUCTest {
         verify(exactly = 0) {
             fileDeleter.deleteFile(any())
         }
-        verify(exactly = 0) {
+        coVerify(exactly = 0) {
             dao.delete(any())
         }
         coVerify(exactly = 0) {
@@ -94,7 +94,7 @@ class DeleteCurrentFileUCTest {
         verify(exactly = 0) {
             fileDeleter.deleteFile(any())
         }
-        verify(exactly = 0) {
+        coVerify(exactly = 0) {
             dao.delete(any())
         }
         coVerify(exactly = 0) {

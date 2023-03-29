@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.domain
 
 data class Wavetable(
-    val data: ByteArray,
+    val bytes: ByteArray,
     val stepMillis: Int
 ) {
     override fun equals(other: Any?): Boolean {
@@ -10,14 +10,14 @@ data class Wavetable(
 
         other as Wavetable
 
-        if (!data.contentEquals(other.data)) return false
+        if (!bytes.contentEquals(other.bytes)) return false
         if (stepMillis != other.stepMillis) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = data.contentHashCode()
+        var result = bytes.contentHashCode()
         result = 31 * result + stepMillis
         return result
     }

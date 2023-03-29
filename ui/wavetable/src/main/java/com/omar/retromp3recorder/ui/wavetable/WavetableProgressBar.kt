@@ -8,11 +8,18 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import androidx.compose.runtime.Immutable
 import androidx.core.content.ContextCompat
 import com.omar.retromp3recorder.domain.FromToMillis
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
-class WavetableProgressBar @JvmOverloads constructor(
+@Immutable
+data class WaveTableProgress(
+    val progress: FromToMillis,
+    val range: FromToMillis?
+)
+
+internal class WavetableProgressBar @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
     private val paint: Paint = Paint().apply {
@@ -55,6 +62,3 @@ class WavetableProgressBar @JvmOverloads constructor(
     }
 }
 
-data class WaveTableProgress(
-    val progress: FromToMillis, val range: FromToMillis?
-)

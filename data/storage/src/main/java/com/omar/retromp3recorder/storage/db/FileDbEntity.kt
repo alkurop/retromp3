@@ -105,7 +105,7 @@ fun ExistingFileWrapper.toDatabaseEntity(): FileDbEntity = FileDbEntity(
     name = this.name
 )
 
-fun Wavetable.toDatabaseEntity() = WaveformDbEntity(this.data, stepMillis)
+fun Wavetable.toDatabaseEntity() = WaveformDbEntity(this.bytes, stepMillis)
 fun WaveformDbEntity.toWavetable() =
     Wavetable(this.waveform, stepMillis ?: 100 /*old format, may still be present in old versions*/)
 

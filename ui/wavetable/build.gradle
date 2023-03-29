@@ -7,6 +7,9 @@ apply from: "$scripts.android_library"
 
 android {
     namespace "${applicationId}.ui.wavetable"
+    buildFeatures {
+        compose true
+    }
 }
 
 dependencies {
@@ -16,4 +19,16 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
     implementation "androidx.appcompat:appcompat:$versions.support"
     implementation "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"
+
+    implementation "androidx.core:core-ktx:$versions.coreKtx"
+
+    def composeBom = platform("androidx.compose:compose-bom:$versions.compose_bom")
+
+    implementation composeBom
+
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.material3:material3"
+
+    debugImplementation "androidx.compose.ui:ui-tooling"
+    debugImplementation "androidx.compose.ui:ui-test-manifest"
 }

@@ -21,7 +21,7 @@ class ShareButtonStateFlow @Inject constructor(
             when (audioState) {
                 is AudioState.Recording -> InteractiveButtonState.DISABLED
                 is AudioState.Playing -> InteractiveButtonState.ENABLED
-                is AudioState.SeekPaused -> InteractiveButtonState.DISABLED
+                is AudioState.SeekPaused -> InteractiveButtonState.ENABLED
                 is AudioState.Idle -> if (hasFile.hasValue()) InteractiveButtonState.ENABLED else InteractiveButtonState.DISABLED
             }
         }

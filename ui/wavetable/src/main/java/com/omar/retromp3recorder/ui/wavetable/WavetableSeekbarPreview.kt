@@ -23,10 +23,10 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
     private val seekbar: SeekBar
         get() = findViewById(R.id.seek_bar)
 
-    private val isSeekingBus = BehaviorSubject.create<SeekState>()
+    private val isSeekingBus = BehaviorSubject.create<SeekEvent>()
 
     private val shouldUpdateProgressBar =
-        isSeekingBus.hasValue().not() || isSeekingBus.blockingFirst() is SeekState.SeekFinished
+        isSeekingBus.hasValue().not() || isSeekingBus.blockingFirst() is SeekEvent.SeekFinished
 
     private var currentState: JoinedProgress.PlayerProgressShown? = null
 
@@ -46,19 +46,19 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
             }
 
             override fun onStartTrackingTouch(v: SeekBar?) {
-                isSeekingBus.onNext(SeekState.SeekStarted)
+                isSeekingBus.onNext(SeekEvent.SeekStarted)
             }
 
             override fun onStopTrackingTouch(v: SeekBar?) {
                 isSeekingBus.onNext(
-                    SeekState.SeekFinished
+                    SeekEvent.SeekFinished
                 )
             }
         })
         seekbar.setPadding(0, 0, 0, 0)
     }
 
-    fun observeIsSeeking(): Observable<SeekState> = isSeekingBus
+    fun observeIsSeeking(): Observable<SeekEvent> = isSeekingBus
 
     fun update(joinedProgress: JoinedProgress.PlayerProgressShown) {
         if (currentState == joinedProgress) return
@@ -81,24 +81,23 @@ class WavetableSeekbarPreview @JvmOverloads constructor(
         val wavetable = joinedProgress.wavetable
         if (wavetable != null) {
             wavetablePreview.update(
-                BytesWithRange(wavetable.data, joinedProgress.progress.range)
+                BytesWithRange(wavetable.bytes, joinedProgress.progress.range)
             )
         }
     }
 
-    sealed class SeekState {
-        object SeekStarted : SeekState()
-        data class Seeking(val progress: Long, val max: Long) : SeekState()
-        object SeekFinished : SeekState()
+    sealed class SeekEvent {
+        object SeekStarted : SeekEvent()
+        data class Seeking(val progress: Long, val max: Long) : SeekEvent()
+        object SeekFinished : SeekEvent()
     }
 
     data class SeekBarResult(
         val progress: Int,
     )
 
-
-    private fun SeekBarResult.convertToRealNumbers(joinedProgress: JoinedProgress.PlayerProgressShown): SeekState.Seeking {
-        return SeekState.Seeking(
+    private fun SeekBarResult.convertToRealNumbers(joinedProgress: JoinedProgress.PlayerProgressShown): SeekEvent.Seeking {
+        return SeekEvent.Seeking(
             this.progress.toPlayerTime(),
             joinedProgress.progress.duration
         )

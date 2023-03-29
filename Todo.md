@@ -20,6 +20,7 @@ X means can't be done (please provide explanation)
 - re-enable log view
 - fix size jumping of waveform on main view * ( should go away after migration to compose)
 - time counter going in 2 lines
+- check audio player issues
 
 - V search activity toolbar color
 - V bug with paging loading
