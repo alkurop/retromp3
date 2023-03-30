@@ -49,7 +49,8 @@ private fun Flow<PlayerControls>.toMenuItems(file: Optional<out FileWrapper>): F
         listOfNotNull(
             MenuContract.Item.Enable(
                 VisibilityEnabler.RangeBar,
-                isEnabled = range.isVisible
+                isOpen = range.isVisible,
+                isActive = range.isActive
             ),
             MenuContract.Item.Popup(
                 MenuPopup.Crop,

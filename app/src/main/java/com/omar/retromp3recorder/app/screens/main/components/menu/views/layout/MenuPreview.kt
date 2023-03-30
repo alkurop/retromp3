@@ -21,18 +21,22 @@ class MenuPreviewStateProvider : PreviewParameterProvider<MenuContract.State> {
                 ),
                 MenuContract.Item.Enable(
                     VisibilityEnabler.RangeBar,
+                    false,
                     false
                 ),
                 MenuContract.Item.Enable(
                     AudioEnabler.Loop,
+                    true,
                     true
                 ),
                 MenuContract.Item.Enable(
                     AudioEnabler.Reverse,
-                    false
+                    false,
+                    true
                 ),
                 MenuContract.Item.Enable(
                     VisibilityEnabler.PlaybackSpeed,
+                    true,
                     true
                 )
             )

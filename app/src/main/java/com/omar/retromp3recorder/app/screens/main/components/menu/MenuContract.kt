@@ -27,10 +27,11 @@ interface MenuContract {
 
         data class Enable(
             val enabler: MenuEnabler,
-            val isEnabled: Boolean
+            val isOpen: Boolean,
+            val isActive: Boolean
         ) : Item()
     }
 }
 
 fun MenuContract.Item.Enable.toInput() =
-    MenuContract.Input.Enable(this.enabler, this.isEnabled.not())
+    MenuContract.Input.Enable(this.enabler, this.isOpen.not())

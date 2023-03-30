@@ -2,7 +2,6 @@ package com.omar.retromp3recorder.app.screens.main.components.menu
 
 import androidx.annotation.StringRes
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.screens.main.components.menu.views.MenuItemState
 import com.omar.retromp3recorder.domain.AudioEnabler
 import com.omar.retromp3recorder.domain.MenuEnabler
 import com.omar.retromp3recorder.domain.MenuPopup
@@ -34,11 +33,4 @@ fun VisibilityEnabler.getTitleRes(): Int = when (this) {
     VisibilityEnabler.PlaybackSpeed -> R.string.menu_bark_speed
 }
 
-fun Boolean.mapToStateEnabler(): MenuItemState {
-    return if (this) MenuItemState.EnablerEnabled else MenuItemState.EnablerDisabled
-}
-
-fun Boolean.mapToStatePopup(): MenuItemState {
-    return if (this) MenuItemState.PopupEnabled else MenuItemState.PopupDisabled
-}
 

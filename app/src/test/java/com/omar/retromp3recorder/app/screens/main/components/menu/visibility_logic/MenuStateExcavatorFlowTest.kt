@@ -134,7 +134,7 @@ class MenuStateExcavatorFlowTest {
             val rangeItem = enablerItems.first { it.enabler in listOf(VisibilityEnabler.RangeBar) }
 
             assert(cropItem.isEnabled)
-            assert(rangeItem.isEnabled)
+            assert(rangeItem.isOpen)
         }
     }
 
@@ -153,7 +153,7 @@ class MenuStateExcavatorFlowTest {
             val rangeItem = enablerItems.first { it.enabler in listOf(VisibilityEnabler.RangeBar) }
 
             assert(cropItem.isEnabled.not())
-            assert(rangeItem.isEnabled.not())
+            assert(rangeItem.isOpen.not())
         }
     }
 
