@@ -2,10 +2,14 @@ package com.omar.retromp3recorder.bl.audio.record
 
 import android.media.projection.MediaProjection
 import com.omar.retromp3recorder.bl.audio.actions.StartRecordUC
+import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
+import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -13,14 +17,21 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class UpdateMediaProjectionUCTest {
-    private lateinit var mediaProjectionRepo: MediaProjectionStateRepo
+    private lateinit var collectorProjectionRepo: MutableStateFlow<MediaProjectionState>
+
+    private val mediaProjectionRepo = mockk<MediaProjectionStateRepo>()
     private val startRecordUC = mockk<StartRecordUC>(relaxed = true)
 
     private lateinit var tested: UpdateMediaProjectionUC
 
     @Before
     fun setUp() {
-        mediaProjectionRepo = MediaProjectionStateRepo()
+        collectorProjectionRepo = MutableStateFlow(MediaProjectionState())
+        coEvery { mediaProjectionRepo.emit(any()) } coAnswers {
+            collectorProjectionRepo.emit(it.invocation.args[0] as MediaProjectionState)
+        }
+        every { mediaProjectionRepo.flow() } coAnswers { collectorProjectionRepo }
+
         tested = UpdateMediaProjectionUC(mediaProjectionRepo, startRecordUC)
     }
 

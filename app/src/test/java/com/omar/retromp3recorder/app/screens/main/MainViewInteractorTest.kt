@@ -10,10 +10,13 @@ import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
+import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -27,15 +30,21 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class MainViewInteractorTest {
     private lateinit var tested: MainViewInteractor
-    private lateinit var mediaProjectionStateRepo: MediaProjectionStateRepo
+    private lateinit var collectorProjectionRepo: MutableStateFlow<MediaProjectionState>
+
+    private val mediaProjectionStateRepo = mockk<MediaProjectionStateRepo>()
     private val usecase = mockk<UpdateMediaProjectionUC>(relaxed = true)
     private lateinit var featureFlagRepo: FeatureFlagRepo
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setUp() {
+        collectorProjectionRepo = MutableStateFlow(MediaProjectionState())
+        every { mediaProjectionStateRepo.flow() } coAnswers { collectorProjectionRepo }
+        coEvery { mediaProjectionStateRepo.emit(any()) } coAnswers  {
+            collectorProjectionRepo.emit(it.invocation.args[0] as MediaProjectionState)
+        }
         Dispatchers.setMain(dispatcher)
-        mediaProjectionStateRepo = MediaProjectionStateRepo()
         featureFlagRepo = FeatureFlagRepo()
         tested = MainViewInteractor(mediaProjectionStateRepo, usecase, featureFlagRepo, dispatcher)
     }

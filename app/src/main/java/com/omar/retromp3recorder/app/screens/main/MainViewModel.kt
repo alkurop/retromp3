@@ -2,7 +2,6 @@ package com.omar.retromp3recorder.app.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.domain.FeatureFlag
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -36,7 +35,7 @@ private fun Flow<MainViewContract.Output>.mapToState(): Flow<MainViewContract.St
         when (output) {
             is MainViewContract.Output.RequestScreenCapture ->
                 oldState.copy(
-                    requestForScreenCapture = Shell(output.shouldRequest)
+                    requestForScreenCapture = output.shouldRequest
                 )
             is MainViewContract.Output.SettingsUpdated -> {
                 val isLogViewEnabled =

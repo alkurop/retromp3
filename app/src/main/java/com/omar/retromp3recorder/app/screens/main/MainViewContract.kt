@@ -19,7 +19,7 @@ object MainViewContract {
     }
 
     sealed class Output {
-        data class RequestScreenCapture(val shouldRequest: Any) : Output()
+        data class RequestScreenCapture(val shouldRequest: Shell<Any>) : Output()
         data class SettingsUpdated(val featureFlagsCollection: FeatureFlagsCollection) : Output()
     }
 }

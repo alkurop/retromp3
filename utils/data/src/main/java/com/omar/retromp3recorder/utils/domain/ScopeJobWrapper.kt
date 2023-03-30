@@ -18,4 +18,8 @@ class ScopeJobWrapper(
         job.cancelAndJoin()
         job = Job()
     }
+    fun cancel(){
+        job.cancel()
+        job = Job()
+    }
 }

@@ -4,7 +4,6 @@ import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.bl.audio.record.UpdateMediaProjectionUC
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
-import com.omar.retromp3recorder.utils.platform.shellUnwrap
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -19,10 +18,13 @@ class MainViewInteractor @Inject constructor(
 ) : Interactor<MainViewContract.Input, MainViewContract.Output>(dispatcher) {
 
     override fun listRepos(): List<Flow<MainViewContract.Output>> {
-        return listOf(featureFlagRepo.flow()
-            .map { features -> MainViewContract.Output.SettingsUpdated(features) },
-            mediaProjectionRequestBus.flow().map { it.request }.shellUnwrap()
-                .map { request -> MainViewContract.Output.RequestScreenCapture(request) })
+        return listOf(
+            featureFlagRepo.flow()
+                .map { features -> MainViewContract.Output.SettingsUpdated(features) },
+            mediaProjectionRequestBus.flow().map {
+                it.request
+            }.map { request -> MainViewContract.Output.RequestScreenCapture(request) }
+        )
     }
 
     override suspend fun FlowCollector<MainViewContract.Output>.launchUseCase(input: MainViewContract.Input) {

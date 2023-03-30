@@ -11,11 +11,11 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import com.omar.retromp3recorder.app.WakelockService.Companion.WAKELOCK_SERVICE_CHANNEL
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
-import com.omar.retromp3recorder.utils.platform.disposedBy
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import kotlinx.coroutines.rx3.asObservable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -23,7 +23,9 @@ class MediaProjectionService : Service() {
     @Inject
     lateinit var mediaProjectionRepo: MediaProjectionStateRepo
 
-    private val compositeDisposable = CompositeDisposable()
+    @Inject
+    lateinit var scopeJobWrapper: ScopeJobWrapper
+
     private val notificationManager: NotificationManager by lazy {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
@@ -42,26 +44,21 @@ class MediaProjectionService : Service() {
     }
 
     override fun onDestroy() {
-        compositeDisposable.clear()
+        scopeJobWrapper.cancel()
     }
 
     private fun observeStopBus() {
-        Completable
-            .merge(
-                listOf(
-                    mediaProjectionRepo.flow().asObservable()
-                        .flatMapCompletable {
-                            val shouldStop = it.stop.ghost != null
-                            if (shouldStop) {
-                                Completable.fromAction { stopSelf(); hideNotification() }
-                            } else {
-                                Completable.complete()
-                            }
-                        },
-                )
-            )
-            .subscribe()
-            .disposedBy(compositeDisposable)
+        scopeJobWrapper.launch {
+            mediaProjectionRepo.flow().collect { item ->
+                val shouldStop = item.stop.ghost != null
+                if(shouldStop) {
+                    withContext(Dispatchers.Main) {
+                        stopSelf()
+                        hideNotification()
+                    }
+                }
+            }
+        }
     }
 
 
