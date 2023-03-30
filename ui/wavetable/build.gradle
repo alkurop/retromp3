@@ -16,9 +16,6 @@ dependencies {
 
     implementation project(':utils')
     implementation project(':entity')
-    implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
-    implementation "androidx.appcompat:appcompat:$versions.support"
-    implementation "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"
 
     implementation "androidx.core:core-ktx:$versions.coreKtx"
 
