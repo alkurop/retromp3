@@ -21,6 +21,8 @@ X means can't be done (please provide explanation)
 - fix size jumping of waveform on main view * ( should go away after migration to compose)
 - time counter going in 2 lines
 - check audio player issues
+- range enabled disabled on menu icon
+
 
 - V search activity toolbar color
 - V bug with paging loading
@@ -30,6 +32,9 @@ X means can't be done (please provide explanation)
 - V fix search screen settings checkbox
 - V fix play button not working
 - V fix control buttons ripple
+- V fix counter with range
+- V fix position when range changes
+
 
 ### Refactoring:
 
