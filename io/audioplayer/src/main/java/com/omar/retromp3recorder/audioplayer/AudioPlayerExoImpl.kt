@@ -27,7 +27,10 @@ class AudioPlayerExoImpl @Inject constructor(
     private val events = PublishSubject.create<AudioPlayer.Output.Event>()
     private val state = BehaviorSubject.createDefault(AudioPlayer.State.Idle)
     private val progress = BehaviorSubject.create<AudioPlayer.Output.Progress>()
-    private val mediaPlayer: ExoPlayer = SimpleExoPlayer.Builder(context).build()
+    private val mediaPlayer: ExoPlayer by lazy {
+        SimpleExoPlayer.Builder(context)
+            .setLoadControl(DefaultLoadControl()).build()
+    }
     private val handler = Handler(Looper.getMainLooper())
     private val compositeDisposable = CompositeDisposable()
     private lateinit var options: PlayerStartOptions
@@ -35,16 +38,16 @@ class AudioPlayerExoImpl @Inject constructor(
     override fun flow(): Flow<AudioPlayer.Output> {
         return Observable.merge(
             progress.distinctUntilChanged().map {
-                    val range = options.rangeMillis
-                    if (it.end) {
-                        val position = if (options.isStopToRangeStartEnabled) range.from else 0
-                        it.copy(
-                            position = position, duration = options.length
-                        )
-                    } else {
-                        it.copy(position = it.position + range.from, duration = options.length)
-                    }
-                }, events
+                val range = options.rangeMillis
+                if (it.end) {
+                    val position = if (options.isStopToRangeStartEnabled) range.from else 0
+                    it.copy(
+                        position = position, duration = options.length
+                    )
+                } else {
+                    it.copy(position = it.position + range.from, duration = options.length)
+                }
+            }, events
         ).asFlow()
     }
 
@@ -81,44 +84,44 @@ class AudioPlayerExoImpl @Inject constructor(
         }
         mediaPlayer.apply {
 
-                val (from, to) = options.rangeMillis
-                val uri: Uri = Uri.fromFile(File(options.filePath))
+            val (from, to) = options.rangeMillis
+            val uri: Uri = Uri.fromFile(File(options.filePath))
 
-                val mediaItem: MediaItem =
-                    MediaItem.Builder().setUri(uri).setClipStartPositionMs(from)
-                        .setClipEndPositionMs(to).build()
+            val mediaItem: MediaItem =
+                MediaItem.Builder().setUri(uri).setClipStartPositionMs(from)
+                    .setClipEndPositionMs(to).build()
 
-                setMediaItem(mediaItem)
-                seekTo(options.relativeSeekPosition)
-                playWhenReady = true
-                state.onNext(AudioPlayer.State.Playing)
-                addListener(object : Player.Listener {
-                    override fun onPlaybackStateChanged(state: Int) {
-                        if (state == STATE_ENDED) {
-                            progress.onNext(
-                                AudioPlayer.Output.Progress(
-                                    options.rangeMillis.length, options.rangeMillis.length, true
-                                )
+            setMediaItem(mediaItem)
+            seekTo(options.relativeSeekPosition)
+            playWhenReady = true
+            state.onNext(AudioPlayer.State.Playing)
+            addListener(object : Player.Listener {
+                override fun onPlaybackStateChanged(state: Int) {
+                    if (state == STATE_ENDED) {
+                        progress.onNext(
+                            AudioPlayer.Output.Progress(
+                                options.rangeMillis.length, options.rangeMillis.length, true
                             )
-                            stopMedia()
-                        }
+                        )
+                        stopMedia()
                     }
+                }
 
-                    override fun onIsPlayingChanged(isPlaying: Boolean) {
-                        if (isPlaying) {
-                            audioComponent?.audioSessionId?.let {
-                                events.onNext(AudioPlayer.Output.Event.AudioSessionId(it))
-                            }
-                            events.onNext(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_started_playing)))
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    if (isPlaying) {
+                        audioComponent?.audioSessionId?.let {
+                            events.onNext(AudioPlayer.Output.Event.AudioSessionId(it))
                         }
+                        events.onNext(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_started_playing)))
                     }
+                }
 
-                    override fun onPlayerError(error: ExoPlaybackException) {
-                        events.onNext(AudioPlayer.Output.Event.Error(Stringer.ofString(error.toString())))
-                    }
-                })
-                prepare()
-            }
+                override fun onPlayerError(error: ExoPlaybackException) {
+                    events.onNext(AudioPlayer.Output.Event.Error(Stringer.ofString(error.toString())))
+                }
+            })
+            prepare()
+        }
     }
 
     private fun stopMedia() {

@@ -105,14 +105,14 @@ private fun ProgressBar(
             drawRect(
                 size = Size(rangeXStart, height),
                 color = Color.Black,
-                alpha = 0.7f,
+                alpha = 0.5f,
                 blendMode = BlendMode.Darken
             )
             drawRect(
                 topLeft = Offset(rangeXEnd, 0f),
                 size = Size(size.width - rangeXEnd, height),
                 color = Color.Black,
-                alpha = 0.7f,
+                alpha = 0.5f,
                 blendMode = BlendMode.Darken
             )
         } else {
