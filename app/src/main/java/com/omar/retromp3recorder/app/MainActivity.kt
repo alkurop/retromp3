@@ -1,11 +1,6 @@
 package com.omar.retromp3recorder.app
 
-import android.content.Intent
-import android.media.projection.MediaProjection
-import android.media.projection.MediaProjectionManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -24,9 +19,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
-    private val mediaProjectionManager by lazy { getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager }
-
     @Inject lateinit var toastRepo: ToastRepo
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
@@ -56,37 +50,6 @@ class MainActivity : ComponentActivity() {
             } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
-            requestForScreenCapture.ghost?.let { makeScreenCaptureRequest() }
         }
-    }
-
-    private fun makeScreenCaptureRequest() {
-        @Suppress("DEPRECATED_METHOD")
-        startActivityForResult(
-            mediaProjectionManager.createScreenCaptureIntent(),
-            MEDIA_PROJECTION_REQUEST_CODE
-        )
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == MEDIA_PROJECTION_REQUEST_CODE) {
-            if (resultCode == RESULT_OK && data != null) {
-                val projection = mediaProjectionManager.getMediaProjection(resultCode, data)
-                viewModel.emit(MainViewContract.Input.MediaProjectionUpdated(projection))
-                projection.registerCallback(object : MediaProjection.Callback() {
-                    override fun onStop() {
-                        viewModel.emit(MainViewContract.Input.MediaProjectionUpdated(null))
-                    }
-                }, Handler(Looper.myLooper()!!))
-            } else {
-                viewModel.emit(MainViewContract.Input.MediaProjectionUpdated(null))
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
-
-    private companion object {
-        const val MEDIA_PROJECTION_REQUEST_CODE = 22
     }
 }

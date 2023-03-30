@@ -3,7 +3,6 @@ package com.omar.retromp3recorder.storage.repo.global
 import android.content.Context
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
-import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.utils.domain.repo.StateFlowRepo
 import com.omar.retromp3recorder.utils.domain.repo.PublishSubjectRepo
@@ -21,9 +20,7 @@ class FeatureFlagRepo @Inject constructor() :
     StateFlowRepo<FeatureFlagsCollection>()
 
 
-@Singleton
-class MediaProjectionStateRepo @Inject constructor() :
-    StateFlowRepo<MediaProjectionState>(MediaProjectionState())
+
 
 @Singleton
 class LogRepo @Inject constructor() : PublishSubjectRepo<LogEvent>(30)

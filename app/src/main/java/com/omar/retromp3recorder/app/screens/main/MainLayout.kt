@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.app.screens.main
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -8,10 +9,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,6 +33,21 @@ fun MainLayout(
     onOpenDestination: (AppDestination) -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+
+
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = MediaProjectionActivityResultContract(context),
+        onResult = { projection ->
+            viewModel.emit(MainViewContract.Input.MediaProjectionUpdated(projection))
+        }
+    )
+    
+    if (state.requestForScreenCapture.ghost != null) {
+        SideEffect {
+            imagePicker.launch(Unit)
+        }
+    }
 
     Column {
         TopAppBar(

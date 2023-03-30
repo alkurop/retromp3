@@ -35,6 +35,7 @@ class MediaProjectionService : Service() {
     }
 
     override fun onCreate() {
+        super.onCreate()
         createNotificationChannel()
         showRecordingNotification()
         observeStopBus()
