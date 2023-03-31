@@ -34,6 +34,7 @@ fun CropPopupLayout(
     val nameState = rememberFileNameInputState(name = state.nameSuggestion.name)
 
     PopupComposable(
+        isLoading = state.isLoading,
         title = stringResource(id = R.string.popup_title_crop),
         content = {
             FileNameContentLayout(

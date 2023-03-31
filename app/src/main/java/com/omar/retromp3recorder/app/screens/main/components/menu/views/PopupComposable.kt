@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -28,7 +29,8 @@ fun PopupComposable(
     title: String,
     buttonList: List<PopupButtonData>,
     content: @Composable () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    isLoading: Boolean = false,
 ) {
     Dialog(onDismissRequest = {
         onDismiss.invoke()
@@ -46,7 +48,7 @@ fun PopupComposable(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                val (titleView, contentView, buttonsContainer) = createRefs()
+                val (titleView, contentView, buttonsContainer, progress) = createRefs()
                 Text(text = title,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
@@ -79,6 +81,7 @@ fun PopupComposable(
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }) {
+
                     buttonList.forEach {
                         PopupButton(
                             text = it.text,
@@ -91,16 +94,22 @@ fun PopupComposable(
                     }
                     PopupButton(
                         text = stringResource(id = R.string.popup_cancel),
-                        isEnabled = true,
+                        isEnabled = isLoading.not(),
                         onClick = onDismiss,
                         color = colorResource(
                             R.color.white
                         ),
                     )
-
+                }
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        Modifier
+                            .size(50.dp)
+                            .constrainAs(progress) {
+                                centerTo(parent)
+                            })
                 }
             }
-
         }
     })
 }

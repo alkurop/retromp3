@@ -82,7 +82,7 @@ class CropInteractorFlowTest {
     }
 
     @Test
-    fun `crop in place failed emits dismiss and toast`() = runTest {
+    fun `crop in place failed emits loading and dismiss`() = runTest {
         coEvery { cropInPlaceUC.execute(any()) } returns Optional.empty()
 
         tested.processIO(
@@ -95,13 +95,13 @@ class CropInteractorFlowTest {
         )
             .test {
                 skipItems(2)
-                val item1 = awaitItem()
-                assert(item1 is CropContract.Output.Dismiss)
+                assert(awaitItem() is CropContract.Output.Loading)
+                assert(awaitItem() is CropContract.Output.Dismiss)
             }
     }
 
     @Test
-    fun `crop in place success emits dismiss and toast`() = runTest {
+    fun `crop in place success emits loading and dismiss`() = runTest {
         coEvery { cropInPlaceUC.execute(any()) } returns Optional(MockFileFactory.giveExistingFile())
 
         tested.processIO(
@@ -114,15 +114,15 @@ class CropInteractorFlowTest {
         )
             .test {
                 skipItems(2)
-                val item1 = awaitItem()
-                assert(item1 is CropContract.Output.Dismiss)
+                assert(awaitItem() is CropContract.Output.Loading)
+                assert(awaitItem() is CropContract.Output.Dismiss)
             }
         coVerify { toastRepo.emit(any<Stringer>()) }
     }
 
 
     @Test
-    fun `crop outside place emits dismiss and toast`() = runTest {
+    fun `crop outside place emits loading and dismiss`() = runTest {
         coEvery { cropOutsideUC.execute(any()) } returns Optional(MockFileFactory.giveExistingFile())
 
         tested.processIO(
@@ -135,8 +135,8 @@ class CropInteractorFlowTest {
         )
             .test {
                 skipItems(2)
-                val item1 = awaitItem()
-                assert(item1 is CropContract.Output.Dismiss)
+                assert(awaitItem() is CropContract.Output.Loading)
+                assert(awaitItem() is CropContract.Output.Dismiss)
             }
         coVerify { toastRepo.emit(any<Stringer>()) }
     }

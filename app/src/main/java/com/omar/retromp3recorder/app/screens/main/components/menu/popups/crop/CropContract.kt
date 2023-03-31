@@ -13,12 +13,14 @@ class CropContract {
 
     sealed class Output {
         object Dismiss : Output()
+        object Loading : Output()
         data class IsActionEnabled(val isEnabled: Boolean) : Output()
         data class FileNameUpdate(val nameSuggestion: NewNameSuggestion) : Output()
     }
 
     data class State(
         val isOkEnabled: Boolean = false,
+        val isLoading: Boolean = false,
         val nameSuggestion: NewNameSuggestion = NewNameSuggestion(),
         val dismiss: Boolean = false
     )
@@ -30,6 +32,7 @@ object CropMapper {
             when (output) {
                 is CropContract.Output.IsActionEnabled -> oldState.copy(isOkEnabled = output.isEnabled)
                 is CropContract.Output.Dismiss -> oldState.copy(dismiss = true)
+                is CropContract.Output.Loading -> oldState.copy(isLoading = true, isOkEnabled = false)
                 is CropContract.Output.FileNameUpdate -> oldState.copy(nameSuggestion = output.nameSuggestion)
             }
         }

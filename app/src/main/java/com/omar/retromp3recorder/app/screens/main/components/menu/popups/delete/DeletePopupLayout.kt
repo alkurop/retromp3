@@ -22,14 +22,14 @@ fun DeletePopupLayout(viewModel: DeleteFileViewModelFlow = hiltViewModel(), onDi
     }
     PopupComposable(
         title = stringResource(id = R.string.popup_title_delete),
-        content = {
-            Text(state.fileWrapper?.path?.toFileName() ?: "")
-        },
-        onDismiss = onDismiss,
         buttonList = listOf(
             PopupButtonData(isEnabled = true,
                 text = stringResource(id = R.string.yes),
                 onClick = { viewModel.emit(DeleteFileContract.Input.DeleteFile) }),
-        )
+        ),
+        content = {
+            Text(state.fileWrapper?.path?.toFileName() ?: "")
+        },
+        onDismiss = onDismiss,
     )
 }

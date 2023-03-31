@@ -34,14 +34,7 @@ fun RenamePopupLayout(
 
     PopupComposable(
         title = stringResource(id = R.string.popup_title_rename),
-        content = {
-            FileNameContentLayout(
-                state = nameState,
-                onValueChanged = onValueChanged,
-                isError = state.isOkButtonEnabled.not()
-            )
-        },
-        onDismiss = onDismiss, buttonList = listOf(
+        buttonList = listOf(
             PopupButtonData(isEnabled = state.isOkButtonEnabled,
                 text = stringResource(id = R.string.yes),
                 onClick = {
@@ -51,6 +44,14 @@ fun RenamePopupLayout(
                         )
                     )
                 }),
-        )
+        ),
+        content = {
+            FileNameContentLayout(
+                state = nameState,
+                onValueChanged = onValueChanged,
+                isError = state.isOkButtonEnabled.not()
+            )
+        },
+        onDismiss = onDismiss
     )
 }

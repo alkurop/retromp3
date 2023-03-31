@@ -54,10 +54,12 @@ class CropInteractorFlow @Inject constructor(
                 emit(CropContract.Output.IsActionEnabled(canRename))
             }
             is CropContract.Input.CropInPlace -> {
+                emit(CropContract.Output.Loading)
                 val result = cropInPlaceUC.execute(input.nameSuggestion)
                 emitOnCropResult(result)
             }
             is CropContract.Input.CropOutside -> {
+                emit(CropContract.Output.Loading)
                 val result = cropOutsideUC.execute(input.nameSuggestion)
                 emitOnCropResult(result)
             }
