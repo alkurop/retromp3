@@ -24,7 +24,7 @@ class StopRecordUCSuspendTest {
     @Before
     fun setUp() {
         currentFileRepo = CurrentFileRepo()
-        tested = StopRecordUCSuspend(currentFileRepo, voiceRecorder, serviceDealer)
+        tested = StopRecordUCSuspend( voiceRecorder, serviceDealer)
     }
 
     @Test

@@ -25,8 +25,9 @@ class RecordWavetableUC @Inject constructor(
         val wavetable = withContext(coroutineContext) {
             collectWavetableUC.execute()
         }
-        val file = requireNotNull(currentFileRepo.first().value as? FutureFileWrapper) {
-            "File should not be null after recording"
+        val value = currentFileRepo.first().value
+        val file = requireNotNull(value as? FutureFileWrapper) {
+            "File should be FutureFileWrapper after recording but was $value"
         }
 
         saveRecordingWithWavetableUC.execute(file.path to wavetable)

@@ -49,7 +49,7 @@ private fun getDataPoints(size: Size, data: ByteArray, isMinus: Boolean = false)
     val verticalCenter = size.height / 2
 
     val step = size.width / (data.size - 1)
-    val max = Byte.MAX_VALUE / 2
+    val max = Byte.MAX_VALUE
 
     data.forEachIndexed { index, byte ->
         val offset = byte / max.toFloat() * verticalCenter
