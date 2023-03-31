@@ -71,7 +71,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.lifecycle"
-    implementation "androidx.navigation:navigation-compose:$versions.navigation"
+    implementation "com.google.accompanist:accompanist-navigation-animation:$versions.navigationAnimation"
     implementation "androidx.paging:paging-compose:$versions.composePaging"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.composeViewModel"
     implementation "androidx.constraintlayout:constraintlayout-compose:$versions.composeConstraint"

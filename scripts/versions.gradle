@@ -31,6 +31,7 @@ ext {
             mp3magic               : '0.9.1',
             material               : '1.8.0',
             navigation             : '2.5.3',
+            navigationAnimation    : '0.30.0',
             paging                 : '3.1.1',
             picasso                : '2.8',
             rangeBar               : '2.0.8',

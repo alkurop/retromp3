@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.screens.settings
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omar.retromp3recorder.app.BuildConfig
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.screens.settings.components.audio_source.AudioSourceLayout
@@ -36,14 +35,14 @@ fun SettingsLayout(
     val  viewModel: SettingsViewModelFlow = hiltViewModel()
     val state by viewModel.state.collectAsState()
 
-    val featuremap = state.featureFlagsCollection
+    val featureMap = state.featureFlagsCollection
 
     val debugflags =
-        (if (BuildConfig.DEBUG) featuremap.filterLevel(FeatureLevel.Debug) else emptyMap()).toFlagList()
+        (if (BuildConfig.DEBUG) featureMap.filterLevel(FeatureLevel.Debug) else emptyMap()).toFlagList()
 
-    val experimentalFlags = featuremap.filterLevel(FeatureLevel.Experimental).toFlagList()
+    val experimentalFlags = featureMap.filterLevel(FeatureLevel.Experimental).toFlagList()
 
-    val productionFlags = featuremap.filterLevel(FeatureLevel.Production).toFlagList()
+    val productionFlags = featureMap.filterLevel(FeatureLevel.Production).toFlagList()
 
     val onFlagChanged: (FeatureFlag, Boolean) -> Unit = remember {
         { flag, checked ->
@@ -65,8 +64,8 @@ fun SettingsLayout(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = stringResource(id = R.string.back),
+                            imageVector = Icons.Default.Close,
+                            contentDescription = stringResource(id = R.string.close),
                         )
                     }
                 }

@@ -1,37 +1,79 @@
 package com.omar.retromp3recorder.app.nav
 
+import androidx.compose.animation.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
-import com.omar.retromp3recorder.app.screens.search.layout.SearchScreenLayout
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import com.omar.retromp3recorder.app.screens.main.MainLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.crop.CropPopupLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.delete.DeletePopupLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.rename.RenamePopupLayout
+import com.omar.retromp3recorder.app.screens.search.layout.SearchScreenLayout
 import com.omar.retromp3recorder.app.screens.settings.SettingsLayout
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    NavHost(
+    AnimatedNavHost(
         startDestination = AppDestination.HomeScreen.route,
         navController = navController,
         modifier = modifier
     ) {
-        composable(route = AppDestination.HomeScreen.route) {
+        composable(
+            AppDestination.HomeScreen.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    AppDestination.SearchScreen.route ->
+                        slideInHorizontally { -it }
+                    else -> fadeIn()
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    AppDestination.SearchScreen.route ->
+                        slideOutHorizontally { -it }
+                    else -> fadeOut()
+                }
+            },
+        ) {
             MainLayout(onOpenDestination = { navController.navigate(it) })
         }
-        composable(route = AppDestination.SettingScreen.route) {
+        composable(
+            route = AppDestination.SettingScreen.route,
+            enterTransition = {
+                slideInVertically { it }
+            },
+            exitTransition = {
+                slideOutVertically { it }
+            },
+        ) {
             SettingsLayout(onBack = {
                 navController.popBackStack()
             })
         }
-        composable(route = AppDestination.SearchScreen.route) {
+        composable(
+            route = AppDestination.SearchScreen.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    AppDestination.HomeScreen.route ->
+                        slideInHorizontally { it }
+                    else -> fadeIn()
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    AppDestination.HomeScreen.route ->
+                        slideOutHorizontally { it }
+                    else -> fadeOut()
+                }
+            },
+        ) {
             SearchScreenLayout(onBack = {
                 navController.popBackStack()
             })
