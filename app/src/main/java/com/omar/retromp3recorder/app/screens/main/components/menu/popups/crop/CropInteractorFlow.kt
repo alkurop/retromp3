@@ -30,7 +30,7 @@ class CropInteractorFlow @Inject constructor(
     )
 
     private suspend fun emitOnCropResult(result: Optional<ExistingFileWrapper>) {
-        val toast = if (result.hasValue()) Stringer(R.string.toast_crop_failed) else {
+        val toast = if (result.hasValue().not()) Stringer(R.string.toast_crop_failed) else {
             Stringer(R.string.toast_crop_success)
         }
         toastRepo.emit(toast)
