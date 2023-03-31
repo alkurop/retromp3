@@ -16,7 +16,7 @@ X means can't be done (please provide explanation)
 - check audio player issues
 - make audio title smaller
 - fix logs
-
+- correct record counter
 
 - V fix cropping
 - V what's with waveform when failed cropping?

@@ -6,9 +6,15 @@ class WavetableSummer(
     private var list: MutableList<Byte> = mutableListOf(),
     private var denominator: Int = 1,
     private val buffer: MutableList<Byte> = mutableListOf(),
-    private var increment: Long = 0
+    private var increment: Long = 0,
+    private val timestamp: Long = System.currentTimeMillis(),
+    private var lengthMillis: Long = 0
 ) {
+
+    fun getLength(): Long = lengthMillis
+
     private fun add(item: Byte) {
+        lengthMillis = System.currentTimeMillis() - timestamp
         increment++
         if (list.size >= MAX_WAVEFORM_SIZE) {
             denominator *= 2
@@ -24,10 +30,6 @@ class WavetableSummer(
             buffer.clear()
             buffer.add(item)
         }
-    }
-
-    fun getProgress(): Long {
-        return increment
     }
 
     //append buffer only for final waveform

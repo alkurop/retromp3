@@ -42,12 +42,4 @@ class WavetableSummerTest {
         assertEquals(expected.toByte(), wavetable.bytes[index/2])
     }
 
-    @Test
-    fun `test reducer`() {
-        val summer1 = WavetableSummer()
-        val summer2 = WavetableSummer.reducer(summer1, 2)
-        val summer3 = WavetableSummer.reducer(summer2, 4)
-        val summer4 = WavetableSummer.reducer(summer3, 6)
-        assertEquals(3, summer4.getProgress())
-    }
 }

@@ -11,19 +11,14 @@ object RecorderObserver {
     fun map(recorder: Observable<ShortArray>): Observable<ByteArray> {
         return recorder
             .map { bytes ->
-                val target = 1024
-                val f = bytes.toList()
+                bytes.toList()
                     .filter { it != ZERO_SHORT }
-                val bytesInTarget = f.size / target + 1
-                val b = f.windowed(bytesInTarget, bytesInTarget, false)
-                    .map {
-                        (it.average() / (Short.MAX_VALUE / (4 * Byte.MAX_VALUE))).toInt().toShort()
-                    }
-                b.map { i -> i.toByte() }.toByteArray()
+                    .map { ((it * 16 * Byte.MAX_VALUE) / (Short.MAX_VALUE)).toByte() }
+                    .toByteArray()
             }
     }
 
-    fun Subject<Mp3VoiceRecorder.Event>.sendFinishLog(outFile: File?, elapsed:Long) {
+    fun Subject<Mp3VoiceRecorder.Event>.sendFinishLog(outFile: File?, elapsed: Long) {
         val counter = System.currentTimeMillis() - elapsed
         val absolutePath = outFile!!.absolutePath
         if (outFile.exists()) {

@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.bl.waveform
 
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.utils.platform.chunked
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -15,11 +14,8 @@ class RecordWavetableMapper @Inject constructor(
     fun flow(): Flow<Byte> {
         return recorder.recorderFlow()
             .map { array ->
-                array.toList().map { it.toInt().absoluteValue }.average()
+                array.toList().map { it.toInt().absoluteValue }.average().toInt().toByte()
             }
-            .chunked(10_000, 10)
-            .map { it.average() }
-            .map { it.toInt().toByte() }
             .combine(recorder.stateFlow())
             { state, byte -> state to byte }
             .takeWhile { it.second != Mp3VoiceRecorder.State.Idle }
