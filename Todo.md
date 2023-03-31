@@ -11,13 +11,13 @@ X means can't be done (please provide explanation)
 - what happens when app is killed by the system (Don't keep activity) in different screens? Is there
   a need to save state somewhere?
 - check main screen recomposition
-- re-enable log view
-- time counter going in 2 lines
 - check audio player issues
-- make audio title smaller
-- fix logs
-- correct record counter
+- investigate crash when saving file
 
+- V fix logs
+- V time counter going in 2 lines
+- V make audio title smaller
+- V correct record counter
 - V fix cropping
 - V what's with waveform when failed cropping?
 - V add mp3 tags to a cropped file
@@ -39,7 +39,6 @@ X means can't be done (please provide explanation)
 
 - order strings
 - add previews
-- Crop interactor - fix unclear flow with canCropFileRepo flow
 - cleanup toast repo
 - rename popup remove name state from interactor, retain name in composable
 - for popups move dismiss state to composable
@@ -49,6 +48,8 @@ X means can't be done (please provide explanation)
 - make record button bigger then others
 - add dependency diagram
 
+
+- V Crop interactor - fix unclear flow with canCropFileRepo flow
 - V add coroutines to database
 - V add settings to bottom menu
 - V refactor getting audio projection

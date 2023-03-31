@@ -24,13 +24,11 @@ class StartPlaybackUC @Inject constructor(
             "Expected ExistingFileWrapper, but was $currentFileWrapper"
         }
 
-        val audioLength = requireNotNull(existingFile.length) { "file length should not be null" }
-
         val rangeActive = progress.range.settings.isActive
         val fromToMillis = if (rangeActive) {
-            progress.range.toFromToMillis(audioLength)
+            progress.range.toFromToMillis(progress.duration)
         } else {
-            FromToMillis(from = progress.progress, to = audioLength)
+            FromToMillis(from = progress.progress, to = progress.duration)
         }
         val relativeSeekPosition = (progress.progress - fromToMillis.from).coerceAtLeast(
             0L
@@ -41,7 +39,7 @@ class StartPlaybackUC @Inject constructor(
             isStopToRangeStartEnabled = rangeActive,
             filePath = existingFile.path,
             rangeMillis = fromToMillis,
-            length = audioLength,
+            length = progress.duration,
             relativeSeekPosition = seekPosition
         )
 

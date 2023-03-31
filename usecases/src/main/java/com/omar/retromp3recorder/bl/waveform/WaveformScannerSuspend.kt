@@ -3,11 +3,10 @@ package com.omar.retromp3recorder.bl.waveform
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer.Companion.MAX_WAVEFORM_SIZE
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.Wavetable
-import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.utils.platform.AmplitudaDealer
 import com.omar.retromp3recorder.utils.domain.Optional
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import com.omar.retromp3recorder.utils.domain.toOptional
+import com.omar.retromp3recorder.utils.platform.AmplitudaDealer
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow
@@ -28,14 +27,12 @@ class WaveformScannerSuspend @Inject constructor(
         file: ExistingFileWrapper
     ): ExistingFileWrapper {
         val audioLength = requireNotNull(file.length) { "File length should not be null" }
-        val default = MAX_WAVEFORM_SIZE / Mp3VoiceRecorder.WaveTableSampleRate._100.value
+        val default = MAX_WAVEFORM_SIZE / TAKE_MILLIS
         val lengthSeconds = audioLength / MAX_WAVEFORM_SIZE
         val takesPerSecond = when {
-            lengthSeconds <= 100 -> default // less then a 100 seconds 10 sample per seconds 1000 samples
+            lengthSeconds <= TAKE_MILLIS -> default // less then a 100 seconds 10 sample per seconds 1000 samples
             lengthSeconds >= MAX_WAVEFORM_SIZE -> 1
-            else -> {
-                MAX_WAVEFORM_SIZE / lengthSeconds /* between 100 seconds and 10000 seconds variable, max 1 sample per second, 1000 seconds*/
-            }
+            else -> MAX_WAVEFORM_SIZE / lengthSeconds /* between 100 seconds and 10000 seconds variable, max 1 sample per second, 1000 seconds*/
         }.toInt()
 
         val result = withContext(jobWrapper.coroutineContext) {
@@ -48,12 +45,8 @@ class WaveformScannerSuspend @Inject constructor(
             val multiplier = 1 + data.size / MAX_WAVEFORM_SIZE
             val res = data
                 .windowed(multiplier, multiplier, true)
-                .map { list -> list.maxOrNull()?.times(2) ?: 0 }
+                .map { list -> list.maxOrNull()?.times(3) ?: 0 }
                 .toMutableList()
-            if (res.firstOrNull { it != 0 } == null) {
-                res.removeAt(0)
-                res.add(0, 1)
-            }
 
             val size = waveFormSize(takesPerSecond, multiplier)
             val wavetable = Wavetable(res.map { it.toByte() }.toByteArray(), size)
@@ -62,10 +55,11 @@ class WaveformScannerSuspend @Inject constructor(
     }
 }
 
-internal fun waveFormSize(takesPerSecond: Int, multiplier: Int): Int {
-    return takesPerSecond * MAX_WAVEFORM_SIZE / Mp3VoiceRecorder.WaveTableSampleRate._100.value * multiplier
-}
+private const val TAKE_MILLIS = 50
 
+internal fun waveFormSize(takesPerSecond: Int, multiplier: Int): Int {
+    return takesPerSecond * MAX_WAVEFORM_SIZE / TAKE_MILLIS * multiplier
+}
 
 internal fun Amplituda.flow(path: String, takesPerSecond: Int) =
     callbackFlow<Optional<AmplitudaResult<String>>> {
