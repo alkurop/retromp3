@@ -8,7 +8,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class WaveformScannerSuspendTest {
     @Test
-    fun `when file no length then crash`() = runTest { }
+    fun `when file no length then crash`() = fail()
 
     @Test
     fun `when audio length less 100 millis then 10 takes per second`() = runTest { }

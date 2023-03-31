@@ -205,11 +205,11 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
                 Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO)
                 val output = FileOutputStream(outputFile)
                 emitter.setCancellable {
+                    events.sendFinishLog(outputFile, elapsed.get())
                     recorder.stop()
                     LameModule.close()
                     recorder.release()
                     output.close()
-                    events.sendFinishLog(outputFile, elapsed.get())
                 }
                 val buffer = ShortArray(sampleRate)
                 val mp3Buffer = createMp3Buffer(buffer)

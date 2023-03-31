@@ -11,7 +11,7 @@ object RecorderObserver {
         return recorder
             .map { bytes ->
                 bytes.toList()
-                    .map { ((it * Byte.MAX_VALUE) / (Short.MAX_VALUE)).toByte() }
+                    .map { ((it * Byte.MAX_VALUE / 2) / (Short.MAX_VALUE)).toByte() }
                     .toByteArray()
             }
     }
@@ -37,8 +37,6 @@ object RecorderObserver {
     }
 
 
-    private const val ZERO = 0
-    private const val ZERO_SHORT = ZERO.toShort()
     private const val MILLIS_IN_SECONDS = 1000
 }
 
