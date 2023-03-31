@@ -25,6 +25,7 @@ import com.omar.retromp3recorder.app.screens.main.components.joined_progress.Joi
 import com.omar.retromp3recorder.app.screens.main.components.log.LogLayout
 import com.omar.retromp3recorder.app.screens.main.components.menu.MenuView
 import com.omar.retromp3recorder.app.screens.main.components.rangebar.RangeBarLayout
+import com.omar.retromp3recorder.app.screens.main.components.visualizer.VisualizerLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +43,7 @@ fun MainLayout(
             viewModel.emit(MainViewContract.Input.MediaProjectionUpdated(projection))
         }
     )
-    
+
     if (state.requestForScreenCapture.ghost != null) {
         SideEffect {
             imagePicker.launch(Unit)
@@ -69,8 +70,13 @@ fun MainLayout(
             Modifier
                 .weight(1f)
         ) {
+            VisualizerLayout(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .padding(16.dp)
+            )
             TrackLayout(
-                modifier = Modifier.padding(top = 16.dp),
                 onOpenDestination = onOpenDestination
             )
         }
@@ -103,7 +109,8 @@ private fun TrackLayout(
         JoinedProgressLayout(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+//                .height(50.dp)
+                .height(200.dp)
                 .padding(horizontal = 16.dp)
 
         )

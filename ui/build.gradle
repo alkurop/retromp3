@@ -14,6 +14,7 @@ dependencies {
     api project(':ui:search-bar')
     api project(':ui:paging-column')
     api project(':ui:statebutton')
+    api project(':ui:wave-visualiser')
     api project(':ui:wavetable')
 }
 

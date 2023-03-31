@@ -11,13 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
+import com.omar.retromp3recorder.ui.wave_visualiser.VisualizerDisplayView
 import timber.log.Timber
 
 @Composable
-fun VisualizerLayout(viewModel: VisualizerViewModelFlow = hiltViewModel(), modifier: Modifier) {
+fun VisualizerLayout(
+    modifier: Modifier = Modifier,
+    viewModel: VisualizerViewModelFlow = hiltViewModel()
+) {
     val state: VisualizerView.State by viewModel.state.collectAsState()
     var visualizer: Visualizer? = null
-    fun stopVisualizer(){
+    fun stopVisualizer() {
         visualizer?.enabled = false
         visualizer?.release()
         visualizer = null

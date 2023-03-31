@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.main.components.visualizer
+package com.omar.retromp3recorder.ui.wave_visualiser
 
 import android.annotation.SuppressLint
 import android.content.Context

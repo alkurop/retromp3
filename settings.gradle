@@ -32,6 +32,8 @@ include ':utils:data'
 include ':utils:platform'
 include ':utlis'
 
+
+include ':ui:wave-visualiser'
 include ':ui:statebutton'
 include ':ui:wavetable'
 include ':ui:paging-column'
