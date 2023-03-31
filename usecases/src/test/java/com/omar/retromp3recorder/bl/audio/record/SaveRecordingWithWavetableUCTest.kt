@@ -45,7 +45,7 @@ class SaveRecordingWithWavetableUCTest {
 
     @Test
     fun `execute sequence executed`() = runTest {
-        val wavetable = Wavetable(ByteArray(10), 100)
+        val wavetable = Wavetable(ByteArray(10))
         val path = "path"
         val data = path to wavetable
 
@@ -66,7 +66,7 @@ class SaveRecordingWithWavetableUCTest {
 
     @Test
     fun `on execute current file updated`() = runTest {
-        val wavetable = Wavetable(ByteArray(10), 100)
+        val wavetable = Wavetable(ByteArray(10))
         val path = "path"
         val data = path to wavetable
 

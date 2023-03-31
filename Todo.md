@@ -14,6 +14,7 @@ X means can't be done (please provide explanation)
 - check audio player issues
 - investigate crash when saving file
 - align log duration with real duration 
+- issue with "record message" popping up sometimes
 
 - V fix logs
 - V time counter going in 2 lines
@@ -91,3 +92,9 @@ X means can't be done (please provide explanation)
 
 - V cleanup circleci script
 
+mvp
+- network
+- widget
+- multy track
+- audio effects
+- file syncronisation

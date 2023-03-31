@@ -2,79 +2,36 @@ package com.omar.retromp3recorder.bl.waveform
 
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer.Companion.MAX_WAVEFORM_SIZE
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
-import com.omar.retromp3recorder.domain.Wavetable
-import com.omar.retromp3recorder.utils.domain.Optional
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
-import com.omar.retromp3recorder.utils.domain.toOptional
-import com.omar.retromp3recorder.utils.platform.AmplitudaDealer
-import kotlinx.coroutines.channels.onFailure
-import kotlinx.coroutines.channels.trySendBlocking
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.first
+import com.omar.retromp3recorder.utils.platform.AmplitudaWaveformScanner
 import kotlinx.coroutines.withContext
-import linc.com.amplituda.Amplituda
-import linc.com.amplituda.AmplitudaResult
-import linc.com.amplituda.Compress
-import linc.com.amplituda.Compress.SKIP
-import timber.log.Timber
 import javax.inject.Inject
 
 class WaveformScannerSuspend @Inject constructor(
     private val jobWrapper: ScopeJobWrapper,
-    private val amplitudaDealer: AmplitudaDealer,
+    private val amplitudaDealer: AmplitudaWaveformScanner,
 ) {
     suspend fun execute(
         file: ExistingFileWrapper
     ): ExistingFileWrapper {
         val audioLength = requireNotNull(file.length) { "File length should not be null" }
-        val default = MAX_WAVEFORM_SIZE / TAKE_MILLIS
+        val default = MAX_WAVEFORM_SIZE / MIN_SIZE_NO_COMPRESS
         val lengthSeconds = audioLength / MAX_WAVEFORM_SIZE
         val takesPerSecond = when {
-            lengthSeconds <= TAKE_MILLIS -> default // less then a 100 seconds 10 sample per seconds 1000 samples
+            lengthSeconds <= MIN_SIZE_NO_COMPRESS -> default // less then a 100 seconds 10 sample per seconds 1000 samples
             lengthSeconds >= MAX_WAVEFORM_SIZE -> 1
             else -> MAX_WAVEFORM_SIZE / lengthSeconds /* between 100 seconds and 10000 seconds variable, max 1 sample per second, 1000 seconds*/
         }.toInt()
 
-        val result = withContext(jobWrapper.coroutineContext) {
-            amplitudaDealer.createAmplituda().flow(file.path, takesPerSecond).first().value
+        val wavetable = withContext(jobWrapper.coroutineContext) {
+            amplitudaDealer.scan(file.path, takesPerSecond, MAX_WAVEFORM_SIZE)
         }
-        return if (result == null) {
+        return if (wavetable == null) {
             file
         } else {
-            val data = result.amplitudesAsList()
-            val multiplier = 1 + data.size / MAX_WAVEFORM_SIZE
-            val res = data
-                .windowed(multiplier, multiplier, true)
-                .map { list -> list.maxOrNull()?.times(3) ?: 0 }
-                .toMutableList()
-
-            val size = waveFormSize(takesPerSecond, multiplier)
-            val wavetable = Wavetable(res.map { it.toByte() }.toByteArray(), size)
             file.copy(wavetable = wavetable)
         }
     }
 }
 
-private const val TAKE_MILLIS = 50
-
-internal fun waveFormSize(takesPerSecond: Int, multiplier: Int): Int {
-    return takesPerSecond * MAX_WAVEFORM_SIZE / TAKE_MILLIS * multiplier
-}
-
-internal fun Amplituda.flow(path: String, takesPerSecond: Int) =
-    callbackFlow<Optional<AmplitudaResult<String>>> {
-        processAudio(
-            path, Compress.withParams(SKIP, takesPerSecond)
-        ).get({ success ->
-            trySendBlocking(success.toOptional()).onFailure { throwable ->
-                Timber.e(throwable)
-            }
-            channel.close()
-        }, { error ->
-            Timber.e(error)
-            trySendBlocking(Optional.empty()).onFailure { throwable ->
-                Timber.e(throwable)
-            }
-            channel.close()
-        })
-    }
+private const val MIN_SIZE_NO_COMPRESS = 100

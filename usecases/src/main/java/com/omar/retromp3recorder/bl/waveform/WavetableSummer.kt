@@ -38,7 +38,7 @@ class WavetableSummer(
     ): Wavetable {
         if (appendBuffer) list.add(buffer.average().toInt().toByte())
         val byteArray = list.toByteArray()
-        return Wavetable(byteArray, byteArray.size * denominator)
+        return Wavetable(byteArray)
     }
 
     companion object {
