@@ -51,18 +51,6 @@ class StartPlaybackUCTest {
         tested.execute()
     }
 
-
-    @Test(expected = IllegalArgumentException::class)
-    fun `when file length null then crash`() = runTest {
-        every { playerProgressRepo.flow() } returns flowOf(
-            MockPlayerProgressFactory.givePlayerProgress().toOptional()
-        )
-
-        currentFileRepo.emit(MockFileFactory.giveExistingFile().copy(length = null).toOptional())
-
-        tested.execute()
-    }
-
     @Test
     fun `when range active then playrange from range`() = runTest {
         val range = MockPlayerProgressFactory.giveRange(true)
@@ -71,8 +59,8 @@ class StartPlaybackUCTest {
             range = range
         )
         val giveExistingFile = MockFileFactory.giveExistingFile()
-
-        val expected = range.toFromToMillis(giveExistingFile.length!!)
+        val length = givePlayerProgress.duration
+        val expected = range.toFromToMillis(length)
 
         currentFileRepo.emit(giveExistingFile.toOptional())
 
@@ -100,9 +88,10 @@ class StartPlaybackUCTest {
         val givePlayerProgress = MockPlayerProgressFactory.givePlayerProgress(
             range = range
         )
+        val length = givePlayerProgress.duration
         val giveExistingFile = MockFileFactory.giveExistingFile()
 
-        val expected = FromToMillis(givePlayerProgress.progress, giveExistingFile.length!!)
+        val expected = FromToMillis(givePlayerProgress.progress, length)
 
         currentFileRepo.emit(giveExistingFile.toOptional())
 
@@ -126,11 +115,11 @@ class StartPlaybackUCTest {
     @Test
     fun `range start reduced from relative progress`() = runTest {
         val range = MockPlayerProgressFactory.giveRange(true)
-
         val givePlayerProgress = MockPlayerProgressFactory.givePlayerProgress(
             range = range
-        )
-        val giveExistingFile = MockFileFactory.giveExistingFile().copy(length = 100)
+        ).copy(progress = 350)
+        val length = givePlayerProgress.duration
+        val giveExistingFile = MockFileFactory.giveExistingFile()
 
         currentFileRepo.emit(giveExistingFile.toOptional())
 
@@ -145,8 +134,8 @@ class StartPlaybackUCTest {
                 val start = requireNotNull(it as? AudioPlayer.Input.Start)
 
                 val result = start.options.relativeSeekPosition
-                val expected =
-                    givePlayerProgress.progress - range.toFromToMillis(giveExistingFile.length!!).from
+                val from = range.toFromToMillis(length).from
+                val expected = givePlayerProgress.progress - from
 
                 assertEquals(expected, result)
             })

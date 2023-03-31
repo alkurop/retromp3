@@ -109,7 +109,7 @@ class AmplitudaWaveformScannerSuspendTest {
         }
 
     @Test
-    fun `amplituda returns null then returns same file`() = runTest {
+    fun `when amplituda returns null then returns same file`() = runTest {
         val length = 100_001L
         val file = MockFileFactory.giveExistingFile().copy(length = length)
         coEvery {
@@ -120,7 +120,7 @@ class AmplitudaWaveformScannerSuspendTest {
             )
         } returns null
         val result = tested.execute(file)
-        assertEquals(tested, result)
+        assertEquals(file, result)
     }
 
     @Test
