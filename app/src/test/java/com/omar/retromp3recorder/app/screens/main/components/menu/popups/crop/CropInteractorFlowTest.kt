@@ -47,11 +47,15 @@ class CropInteractorFlowTest {
     }
 
     @Test
-    fun `on start name suggestion is generated`() = runTest {
+    fun `on start name suggestion is generated, cropping allowed`() = runTest {
         tested.processIO(flowOf()).test {
             val item = awaitItem()
             val result = item as? CropContract.Output.FileNameUpdate
             assertEquals(testSuggestion, result?.nameSuggestion)
+
+            val item2 = awaitItem()
+            val result2 = item2 as? CropContract.Output.IsActionEnabled
+            assertEquals(true, result2?.isEnabled)
         }
     }
 
@@ -69,7 +73,7 @@ class CropInteractorFlowTest {
             )
         )
             .test {
-                skipItems(1)
+                skipItems(2)
                 val item = awaitItem()
                 val result = (item as? CropContract.Output.IsActionEnabled)?.isEnabled
                 assertEquals(expected, result)
@@ -90,7 +94,7 @@ class CropInteractorFlowTest {
             )
         )
             .test {
-                skipItems(1)
+                skipItems(2)
                 val item1 = awaitItem()
                 assert(item1 is CropContract.Output.Dismiss)
             }
@@ -109,7 +113,7 @@ class CropInteractorFlowTest {
             )
         )
             .test {
-                skipItems(1)
+                skipItems(2)
                 val item1 = awaitItem()
                 assert(item1 is CropContract.Output.Dismiss)
             }
@@ -130,7 +134,7 @@ class CropInteractorFlowTest {
             )
         )
             .test {
-                skipItems(1)
+                skipItems(2)
                 val item1 = awaitItem()
                 assert(item1 is CropContract.Output.Dismiss)
             }
