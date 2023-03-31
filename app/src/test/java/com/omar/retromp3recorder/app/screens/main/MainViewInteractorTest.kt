@@ -41,7 +41,7 @@ class MainViewInteractorTest {
     fun setUp() {
         collectorProjectionRepo = MutableStateFlow(MediaProjectionState())
         every { mediaProjectionStateRepo.flow() } coAnswers { collectorProjectionRepo }
-        coEvery { mediaProjectionStateRepo.emit(any()) } coAnswers  {
+        coEvery { mediaProjectionStateRepo.emit(any()) } coAnswers {
             collectorProjectionRepo.emit(it.invocation.args[0] as MediaProjectionState)
         }
         Dispatchers.setMain(dispatcher)
@@ -82,7 +82,7 @@ class MainViewInteractorTest {
         mediaProjectionStateRepo.emit(MediaProjectionState(request = Shell(request)))
         tested.processIO(flowOf()).test {
             val item = awaitItem() as MainViewContract.Output.RequestScreenCapture
-            assertEquals(request, item.shouldRequest)
+            assertEquals(request, item.shouldRequest.ghost)
         }
     }
 

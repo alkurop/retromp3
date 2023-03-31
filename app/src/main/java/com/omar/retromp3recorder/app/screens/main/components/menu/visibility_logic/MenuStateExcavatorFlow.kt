@@ -4,10 +4,7 @@ import com.omar.retromp3recorder.app.screens.main.components.menu.MenuContract
 import com.omar.retromp3recorder.app.screens.main.components.menu.visibility_logic.merged.FileActionsStateMapperFlow
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
 import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
-import com.omar.retromp3recorder.domain.FileWrapper
-import com.omar.retromp3recorder.domain.MenuPopup
-import com.omar.retromp3recorder.domain.PlayerControls
-import com.omar.retromp3recorder.domain.VisibilityEnabler
+import com.omar.retromp3recorder.domain.*
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
 import com.omar.retromp3recorder.utils.domain.Optional
@@ -32,7 +29,7 @@ class MenuStateExcavatorFlow @Inject constructor(
                             playerControlsRepo.flow().toMenuItems(file),
                             fileActionsStateMapper.flow()
                         )
-                    ) { it.toList().flatten() }
+                    ) { it.toList().flatten().sortedBy { item -> item.menu.position } }
                 },
             audioStateMapper.flow()
         ) { menu, audioState ->
@@ -52,10 +49,7 @@ private fun Flow<PlayerControls>.toMenuItems(file: Optional<out FileWrapper>): F
                 isOpen = range.isVisible,
                 isActive = range.isActive
             ),
-            MenuContract.Item.Popup(
-                MenuPopup.Crop,
-                isEnabled = range.isVisible
-            ),
+
             MenuContract.Item.Popup(
                 MenuPopup.Search,
                 file.value?.path != null

@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.app.screens.main.components.menu
 
 import androidx.compose.runtime.Immutable
 import com.omar.retromp3recorder.domain.MenuEnabler
+import com.omar.retromp3recorder.domain.MenuItem
 import com.omar.retromp3recorder.domain.MenuPopup
 
 interface MenuContract {
@@ -19,17 +20,17 @@ interface MenuContract {
 
     }
 
-    sealed class Item {
+    sealed class Item(val menu: MenuItem) {
         data class Popup(
             val menuPopup: MenuPopup,
             val isEnabled: Boolean
-        ) : Item()
+        ) : Item(menuPopup)
 
         data class Enable(
             val enabler: MenuEnabler,
             val isOpen: Boolean,
             val isActive: Boolean
-        ) : Item()
+        ) : Item(enabler)
     }
 }
 

@@ -5,7 +5,8 @@ data class PlayerRange(
     val to: Int = 100,
     val max: Int = 100,
     val settings: PlayerControls.RangeSettings = PlayerControls.RangeSettings()
-){
+) {
     val isEnabled: Boolean
         get() = settings.isActive
+
 }

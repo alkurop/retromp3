@@ -1,12 +1,15 @@
 package com.omar.retromp3recorder.app.screens.main
 
+import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.bl.audio.record.UpdateMediaProjectionUC
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
+import com.omar.retromp3recorder.utils.platform.shellUnwrap
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -23,11 +26,15 @@ class MainViewInteractor @Inject constructor(
                 .map { features -> MainViewContract.Output.SettingsUpdated(features) },
             mediaProjectionRequestBus.flow().map {
                 it.request
-            }.map { request -> MainViewContract.Output.RequestScreenCapture(request) }
-        )
+            }.shellUnwrap()
+                .filterNotNull()
+                .map { request ->
+                    MainViewContract.Output.RequestScreenCapture(Shell(request))
+                })
     }
 
-    override suspend fun FlowCollector<MainViewContract.Output>.launchUseCase(input: MainViewContract.Input) {
+    override suspend
+    fun FlowCollector<MainViewContract.Output>.launchUseCase(input: MainViewContract.Input) {
         when (input) {
             is MainViewContract.Input.MediaProjectionUpdated -> {
                 updateMediaProjectionUC.execute(input.mediaProjection)

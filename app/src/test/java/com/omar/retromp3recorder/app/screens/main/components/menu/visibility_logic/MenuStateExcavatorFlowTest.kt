@@ -62,7 +62,6 @@ class MenuStateExcavatorFlowTest {
             val popupItems = item.items.mapNotNull { it as? MenuContract.Item.Popup }
             val enableItems = item.items.mapNotNull { it as? MenuContract.Item.Enable }
             assertNotNull(enableItems.firstOrNull { it.enabler == VisibilityEnabler.RangeBar })
-            assertNotNull(popupItems.firstOrNull { it.menuPopup == MenuPopup.Crop })
             assertNotNull(popupItems.firstOrNull { it.menuPopup == MenuPopup.Search })
             assertNotNull(popupItems.firstOrNull { it.menuPopup == MenuPopup.Delete })
             assertNotNull(popupItems.firstOrNull { it.menuPopup == MenuPopup.Rename })
@@ -121,19 +120,14 @@ class MenuStateExcavatorFlowTest {
     }
 
     @Test
-    fun `WHEN range visible THEN Crop,RangeBar popup enabled`() = runTest {
+    fun `WHEN range visible THEN RangeBar popup enabled`() = runTest {
         playerControlsRepo.emit(PlayerControls(rangeSettings = PlayerControls.RangeSettings(isVisible = true)))
 
         every { audioStateMapper.flow() } returns flowOf(AudioState.Idle)
         tested.flow().test {
             val item = awaitItem()
-            val popupItems = item.items.mapNotNull { it as? MenuContract.Item.Popup }
             val enablerItems = item.items.mapNotNull { it as? MenuContract.Item.Enable }
-
-            val cropItem = popupItems.first { it.menuPopup in listOf(MenuPopup.Crop) }
             val rangeItem = enablerItems.first { it.enabler in listOf(VisibilityEnabler.RangeBar) }
-
-            assert(cropItem.isEnabled)
             assert(rangeItem.isOpen)
         }
     }
@@ -146,17 +140,10 @@ class MenuStateExcavatorFlowTest {
         every { audioStateMapper.flow() } returns flowOf(AudioState.Idle)
         tested.flow().test {
             val item = awaitItem()
-            val popupItems = item.items.mapNotNull { it as? MenuContract.Item.Popup }
             val enablerItems = item.items.mapNotNull { it as? MenuContract.Item.Enable }
-
-            val cropItem = popupItems.first { it.menuPopup in listOf(MenuPopup.Crop) }
             val rangeItem = enablerItems.first { it.enabler in listOf(VisibilityEnabler.RangeBar) }
-
-            assert(cropItem.isEnabled.not())
             assert(rangeItem.isOpen.not())
         }
     }
-
-
 }
 
