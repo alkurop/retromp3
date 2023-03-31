@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.app.screens.main.components.joined_progress
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +39,7 @@ fun JoinedProgressLayout(
                 /* no render */
             }
         }
-        viewState.fileName?.let { fileName -> Text(text = fileName) }
+        viewState.fileName?.let { fileName -> Text(text = fileName, style = MaterialTheme.typography.titleSmall) }
     }
 }
 

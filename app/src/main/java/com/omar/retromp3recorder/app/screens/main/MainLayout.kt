@@ -73,7 +73,7 @@ fun MainLayout(
             VisualizerLayout(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(150.dp)
                     .padding(16.dp)
             )
             TrackLayout(
@@ -109,8 +109,7 @@ private fun TrackLayout(
         JoinedProgressLayout(
             modifier = Modifier
                 .fillMaxWidth()
-//                .height(50.dp)
-                .height(200.dp)
+                .height(120.dp)
                 .padding(horizontal = 16.dp)
 
         )
