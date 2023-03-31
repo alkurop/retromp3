@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.bl.waveform
 
-import com.omar.retromp3recorder.bl.waveform.WavetableSummer.Companion.MAX_WAVEFORM_SIZE
+import com.omar.retromp3recorder.bl.waveform.WavetableSummer.Companion.MAX_WAVEFORM_SIZE_SECONDS
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -16,19 +16,19 @@ class WavetableSummerTest {
     @Test
     fun `sums items and always lower then waveform size`() {
         val wavetable =
-            (1..MAX_WAVEFORM_SIZE * 2).toList().fold(WavetableSummer()) { summer, next ->
+            (1..MAX_WAVEFORM_SIZE_SECONDS * 2).toList().fold(WavetableSummer()) { summer, next ->
                 WavetableSummer.reducer(
                     summer,
                     next.toByte()
                 )
             }.toWaveTable()
-        assertEquals(MAX_WAVEFORM_SIZE, wavetable.bytes.size)
+        assertEquals(MAX_WAVEFORM_SIZE_SECONDS, wavetable.bytes.size)
     }
 
 
     @Test
     fun `averages items in batches`() {
-        val list = (1..MAX_WAVEFORM_SIZE * 2).toList()
+        val list = (1..MAX_WAVEFORM_SIZE_SECONDS * 2).toList()
         val index = 38
         val interestingItems = listOf(list[index], list[index + 1])
         val expected = interestingItems.max()

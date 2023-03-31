@@ -16,7 +16,7 @@ class WavetableSummer(
     private fun add(item: Byte) {
         lengthMillis = System.currentTimeMillis() - timestamp
         increment++
-        if (list.size >= MAX_WAVEFORM_SIZE) {
+        if (list.size >= MAX_WAVEFORM_SIZE_SECONDS) {
             denominator *= 2
             list = list.windowed(2, 2, false) {
                 it.maxOrNull() ?: 0
@@ -42,7 +42,7 @@ class WavetableSummer(
     }
 
     companion object {
-        const val MAX_WAVEFORM_SIZE = 1000
+        const val MAX_WAVEFORM_SIZE_SECONDS = 1000
 
         val reducer: (WavetableSummer, Byte) -> WavetableSummer = { summer, byte ->
             summer.add(byte)
