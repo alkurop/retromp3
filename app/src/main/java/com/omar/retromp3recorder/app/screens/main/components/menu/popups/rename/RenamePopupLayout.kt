@@ -8,6 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.screens.main.components.menu.popups.common.FileNameContentLayout
+import com.omar.retromp3recorder.app.screens.main.components.menu.popups.common.rememberFileNameInputState
 import com.omar.retromp3recorder.app.screens.main.components.menu.views.PopupButtonData
 import com.omar.retromp3recorder.app.screens.main.components.menu.views.PopupComposable
 import com.omar.retromp3recorder.app.utils.toFileName
@@ -28,11 +29,14 @@ fun RenamePopupLayout(
             onDismiss.invoke()
         }
     }
+
+    val nameState = rememberFileNameInputState(name = name)
+
     PopupComposable(
         title = stringResource(id = R.string.popup_title_rename),
         content = {
             FileNameContentLayout(
-                value = name,
+                state = nameState,
                 onValueChanged = onValueChanged,
                 isError = state.isOkButtonEnabled.not()
             )
