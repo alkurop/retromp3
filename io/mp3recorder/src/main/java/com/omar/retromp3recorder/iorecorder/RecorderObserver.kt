@@ -7,13 +7,11 @@ import io.reactivex.rxjava3.subjects.Subject
 import java.io.File
 
 object RecorderObserver {
-    // todo why 1024?
     fun map(recorder: Observable<ShortArray>): Observable<ByteArray> {
         return recorder
             .map { bytes ->
                 bytes.toList()
-                    .filter { it != ZERO_SHORT }
-                    .map { ((it * 16 * Byte.MAX_VALUE) / (Short.MAX_VALUE)).toByte() }
+                    .map { ((it * Byte.MAX_VALUE) / (Short.MAX_VALUE)).toByte() }
                     .toByteArray()
             }
     }

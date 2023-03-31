@@ -7,6 +7,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -21,25 +22,36 @@ class RecordWavetableMapperTest {
     }
 
     @Test
-    fun `When Recording then idle THEN collection waveform stops (bug)`() = runTest {
+    fun `When Recording idle THEN collection waveform stops`() = runTest {
 
-        val recorderBus = MutableStateFlow(Mp3VoiceRecorder.State.Recording)
+        val recorderBus = MutableStateFlow(Mp3VoiceRecorder.State.Idle)
 
 
         val bytes = arrayOf(1, 1, 1, 1).map { it.toByte() }.toByteArray()
-        val byte2 = arrayOf(3, 3, 3, 3).map { it.toByte() }.toByteArray()
         val waveBus = MutableStateFlow(bytes)
 
         every { recorder.stateFlow() } returns recorderBus
 
         every { recorder.recorderFlow() } returns waveBus
         tested.flow().test {
-            recorderBus.emit(Mp3VoiceRecorder.State.Idle)
-            waveBus.emit(byte2)
-
             // after Idle state, collecting waveform should stop.
             // when waveform emits new event, it is ignored
             expectNoEvents()
+        }
+    }
+
+    @Test
+    fun `When Recording Recording THEN collect waveform`() = runTest {
+        val recorderBus = MutableStateFlow(Mp3VoiceRecorder.State.Recording)
+        val bytes = arrayOf(1, 1, 1, 1).map { it.toByte() }.toByteArray()
+        val waveBus = MutableStateFlow(bytes)
+
+        every { recorder.stateFlow() } returns recorderBus
+
+        every { recorder.recorderFlow() } returns waveBus
+        tested.flow().test {
+            val expected = (1).toByte()
+            assertEquals(expected, awaitItem())
         }
     }
 }

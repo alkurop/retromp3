@@ -4,9 +4,12 @@ import com.omar.retromp3recorder.domain.Wavetable
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.platform.FileLister
 import com.omar.retromp3recorder.utils.domain.toOptional
-import kotlinx.coroutines.*
+import com.omar.retromp3recorder.utils.platform.FileLister
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -27,13 +30,17 @@ class SaveRecordingWithWavetableUC @Inject constructor(
         withContext(coroutineContext) {
             saveMp3TagsUC.execute(data.first)
             val fileEntityDao = appDatabase.fileEntityDao()
-            val newItem = fileLister.discoverFile(data.first)
-                .copy(
-                    wavetable = data.second,
-                    length = fileLister.discoverLength(data.first)
-                )
-            val id = fileEntityDao.insert(newItem.toDatabaseEntity())
-            currentFileRepo.emit(newItem.copy(id).toOptional())
+            val discoverFile = fileLister.discoverFile(data.first)
+            val length = fileLister.discoverLength(data.first)
+            if (length != 0L) {
+                val newItem = discoverFile
+                    .copy(
+                        wavetable = data.second,
+                        length = length
+                    )
+                val id = fileEntityDao.insert(newItem.toDatabaseEntity())
+                currentFileRepo.emit(newItem.copy(id).toOptional())
+            }
         }
     }
 }
