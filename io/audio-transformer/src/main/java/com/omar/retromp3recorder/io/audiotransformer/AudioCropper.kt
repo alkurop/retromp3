@@ -5,6 +5,8 @@ import com.arthenica.mobileffmpeg.FFmpeg
 import com.omar.retromp3recorder.domain.CropRequest
 import com.omar.retromp3recorder.domain.CropResponse
 import com.omar.retromp3recorder.utils.platform.FileLister
+import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 
@@ -12,14 +14,25 @@ class AudioCropper @Inject constructor(
     private val fileLister: FileLister
 ) {
     fun crop(request: CropRequest): CropResponse {
+        val path = request.newFileNameSuggestion.path
         val command =
-            "-ss ${request.range.from}ms -to ${request.range.to}ms -i " + "${request.original.path} -c:a  copy ${request.newFileNameSuggestion.path}"
+            "-ss ${request.range.from}ms -to ${request.range.to}ms -i " + "${request.original.path} -c:a  copy $path"
         val returnCode = FFmpeg.execute(
             command
         )
         val isCropSuccess = Config.RETURN_CODE_SUCCESS == returnCode
-        val isFileNotEmpty = fileLister.discoverLength(request.newFileNameSuggestion.path) > 0L
-        return CropResponse(isCropSuccess && isFileNotEmpty)
+        val isFileNotEmpty = fileLister.discoverLength(path) > 0L
+
+        val isSuccess = isCropSuccess && isFileNotEmpty
+        if (!isSuccess) {
+            try {
+                File(path).takeIf { it.exists() }?.delete()
+            } catch (e: Throwable) {
+                Timber.e(e)
+            }
+
+        }
+        return CropResponse(isSuccess)
     }
 }
 
