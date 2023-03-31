@@ -12,10 +12,7 @@ class FileUriCreator @Inject constructor(
 ) {
     fun createSharableUri(file: File): Uri {
         return FileProvider.getUriForFile(
-            context,
-            context.applicationContext.packageName +
-                    ".provider",
-            file
+            context, "${context.applicationContext.packageName}.provider", file
         )
     }
 }

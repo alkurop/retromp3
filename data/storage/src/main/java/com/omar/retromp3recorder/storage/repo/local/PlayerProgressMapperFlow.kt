@@ -4,7 +4,6 @@ import com.omar.retromp3recorder.audioplayer.AudioPlayer
 import com.omar.retromp3recorder.audioplayer.progressFlow
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
-import com.omar.retromp3recorder.utils.platform.toSeekbarTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -17,9 +16,7 @@ class PlayerProgressMapperFlow @Inject constructor(
         return audioPlayer.progressFlow()
             .distinctUntilChanged()
             .map { (position, duration) ->
-                val mappedPosition = position.toSeekbarTime()
-                val mappedDuration = duration.toSeekbarTime()
-                val fixedPosition = if (mappedPosition >= mappedDuration) 0 else position
+                val fixedPosition = if (position >= duration) 0 else position
                 PlayerProgress(
                     fixedPosition,
                     duration,

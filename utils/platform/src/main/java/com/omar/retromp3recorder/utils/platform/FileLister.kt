@@ -47,5 +47,4 @@ class FileLister @Inject constructor() {
             it.toFileWrapper().copy(length = discoverLength(path))
         } ?: emptyList()
     }
-
 }
