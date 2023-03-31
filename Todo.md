@@ -7,9 +7,6 @@ X means can't be done (please provide explanation)
 
 ### Bugs:
 
-
-- fix cropping
-- fix logs
 - do we still need RangeBarResetBus? If it is removed, will there be bugs? *
 - what happens when app is killed by the system (Don't keep activity) in different screens? Is there
   a need to save state somewhere?
@@ -17,11 +14,13 @@ X means can't be done (please provide explanation)
 - re-enable log view
 - time counter going in 2 lines
 - check audio player issues
-- fix cropping
 - make audio title smaller
-- what's with waveform when failed cropping?
-- add mp3 tags to a cropped file
+- fix logs
 
+
+- V fix cropping
+- V what's with waveform when failed cropping?
+- V add mp3 tags to a cropped file
 - V range enabled disabled on menu icon
 - V check recording on phone
 - V fix size jumping of waveform on main view * ( should go away after migration to compose)
@@ -35,7 +34,6 @@ X means can't be done (please provide explanation)
 - V fix control buttons ripple
 - V fix counter with range
 - V fix position when range changes
-
 
 ### Refactoring:
 
@@ -57,7 +55,8 @@ X means can't be done (please provide explanation)
 - V refactor main activity
 - V convert wavebar to compose
 - V cleanup items UI in the search results (make smaller)
-- V cleanup and refactor search paging, cover with tests. Filtering should happen on data side, not on
+- V cleanup and refactor search paging, cover with tests. Filtering should happen on data side, not
+  on
   view
 - V cover WavetableSummerTest
 - V move open file to menu bar
