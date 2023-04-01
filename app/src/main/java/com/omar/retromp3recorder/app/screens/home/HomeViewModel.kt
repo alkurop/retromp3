@@ -1,0 +1,52 @@
+package com.omar.retromp3recorder.app.screens.home
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.omar.retromp3recorder.domain.FeatureFlag
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val interactor: HomeViewInteractor
+) :ViewModel(){
+    private val _state = MutableStateFlow(HomeViewContract.State())
+    val state = _state.asStateFlow()
+
+    private val inputFlow = MutableSharedFlow<HomeViewContract.Input>()
+
+    init {
+        viewModelScope.launch {
+            interactor.processIO(inputFlow)
+                .mapToState()
+                .collect { _state.value = it }
+        }
+    }
+
+    fun emit(event: HomeViewContract.Input) {
+        viewModelScope.launch { inputFlow.emit(event) }
+    }
+}
+
+private fun Flow<HomeViewContract.Output>.mapToState(): Flow<HomeViewContract.State> {
+    return this.scan(HomeViewContract.State()) { oldState, output ->
+        when (output) {
+            is HomeViewContract.Output.RequestScreenCapture ->
+                oldState.copy(
+                    requestForScreenCapture = output.shouldRequest
+                )
+            is HomeViewContract.Output.SettingsUpdated -> {
+                val isLogViewEnabled =
+                    output.featureFlagsCollection.isEnabled(FeatureFlag.LogView)
+                val shouldKeepScreenOn =
+                    output.featureFlagsCollection.isEnabled(FeatureFlag.KeepScreenOn)
+                oldState.copy(
+                    isLogViewEnabled = isLogViewEnabled,
+                    shouldKeepScreenOn = shouldKeepScreenOn
+                )
+            }
+        }
+    }
+}

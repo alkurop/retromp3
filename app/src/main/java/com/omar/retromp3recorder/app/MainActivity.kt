@@ -10,8 +10,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.omar.retromp3recorder.app.nav.AppNavHost
-import com.omar.retromp3recorder.app.screens.main.MainViewContract
-import com.omar.retromp3recorder.app.screens.main.MainViewModel
+import com.omar.retromp3recorder.app.screens.home.HomeViewContract
+import com.omar.retromp3recorder.app.screens.home.HomeViewModel
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalAnimationApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<HomeViewModel>()
     @Inject lateinit var toastRepo: ToastRepo
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun renderView(state: MainViewContract.State) {
+    private fun renderView(state: HomeViewContract.State) {
         state.apply {
             if (shouldKeepScreenOn) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
