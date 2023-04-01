@@ -98,3 +98,4 @@ mvp
 - multy track
 - audio effects
 - file syncronisation
+- most importantly - payment system integration
