@@ -1,7 +1,5 @@
 package com.omar.retromp3recorder.app.di
 
-import com.omar.retromp3recorder.io.billing.Billing
-import com.omar.retromp3recorder.io.billing.BillingImpl
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorderImpl
 import com.omar.retromp3recorder.share.Sharer
@@ -26,11 +24,6 @@ internal interface FunctionalityModule {
     @Singleton
     @Binds
     fun provideSharingModuleBase(clazz: SharerImpl): Sharer
-
-    @Singleton
-    @Binds
-    fun provideBilling(instance: BillingImpl): Billing
-
 
 }
 

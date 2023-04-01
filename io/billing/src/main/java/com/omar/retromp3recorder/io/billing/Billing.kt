@@ -1,70 +1,76 @@
 package com.omar.retromp3recorder.io.billing
 
-import android.content.Context
+import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.acknowledgePurchase
 import com.android.billingclient.api.queryProductDetails
-import com.omar.retromp3recorder.domain.Product
-import com.omar.retromp3recorder.io.billing.ProductDetailsResultMapper.toProductQueryParams
-import com.omar.retromp3recorder.io.billing.ProductDetailsResultMapper.toProductResult
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import timber.log.Timber
+import com.android.billingclient.api.queryPurchasesAsync
+import com.omar.retromp3recorder.domain.ProductData
+import com.omar.retromp3recorder.domain.PurchaseData
+import com.omar.retromp3recorder.io.billing.mapping.RequestMapper
+import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.toProductQueryParams
+import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toProductListResult
+import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toPurchasesListResult
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
-
 
 interface Billing {
 
-    fun connect()
+    suspend fun queryProductDetails(productIdList: List<String>): Result<List<ProductData>>
+
+    suspend fun queryUserActivePurchases(): Result<List<PurchaseData>>
+
+    suspend fun acknowledgePurchase()
+
+    fun consumePurchase() {}
+
+    fun launchBillingFlow() {}
+
+    fun showMessage() {}
 
     fun disconnect()
-
-    suspend fun queryProductDetails(productIdList: List<String>): Result<List<Product>>
-
-    fun connectionFlow(): Flow<BillingConnectionState>
 }
 
-
-@Singleton
-class BillingImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class BillingImpl @Inject constructor(
+    private val connection: BillingConnection,
+    private val connectUC: ConnectUC,
+    private val scopeJobWrapper: ScopeJobWrapper,
 ) : Billing {
 
-    private val billingListener = BillingListener()
-    private val billingClient by lazy {
-        BillingClient.newBuilder(context)
-            .enablePendingPurchases()
-            .setListener(billingListener)
-            .build()
+    override suspend fun queryProductDetails(productIdList: List<String>): Result<List<ProductData>> =
+        withConnection {
+            queryProductDetails(productIdList.toProductQueryParams())
+                .toProductListResult()
+        }
+
+    override suspend fun queryUserActivePurchases(): Result<List<PurchaseData>> = withConnection {
+        queryPurchasesAsync(RequestMapper.getActivePurchasesParams())
+            .toPurchasesListResult()
     }
 
-    override fun connectionFlow(): Flow<BillingConnectionState> {
-        return billingListener.connectionState
-    }
+    override suspend fun acknowledgePurchase() {
+        withConnection {
+            val params = AcknowledgePurchaseParams.newBuilder().build()
+            acknowledgePurchase(params)
 
-    override fun connect() {
-        billingListener.setLoading()
-        billingClient.startConnection(billingListener)
-    }
-
-    override fun disconnect() {
-        billingListener.setDisconnected()
-        billingClient.endConnection()
-    }
-
-
-    override suspend fun queryProductDetails(
-        productIdList: List<String>
-    ): Result<List<Product>> {
-        return if (billingClient.isReady.not()) {
-            val error = BillingError.ConnectionError("Client is not ready")
-            Timber.e(error)
-            Result.failure(error)
-        } else {
-            return billingClient.queryProductDetails(productIdList.toProductQueryParams())
-                .toProductResult()
+            Result.success(0)
         }
     }
+
+
+    private suspend fun <T> withConnection(doWhenConnected: suspend BillingClient.() -> Result<T>): Result<T> {
+        return withContext(scopeJobWrapper.coroutineContext) {
+            val ready = connection.isReady
+            if (ready.not()) {
+                val connectionResult = connectUC.execute()
+                if (connectionResult.isFailure) {
+                    return@withContext Result.failure(connectionResult.exceptionOrNull()!!)
+                }
+            }
+            connection.execute { doWhenConnected() }
+        }
+    }
+
+    override fun disconnect() = connection.disconnect()
 }
-
-

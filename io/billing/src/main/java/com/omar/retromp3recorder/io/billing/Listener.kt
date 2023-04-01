@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import timber.log.Timber
 
-class BillingListener : BillingClientStateListener, PurchasesUpdatedListener {
+internal class Listener : BillingClientStateListener, PurchasesUpdatedListener {
     private val _connectionState =
         MutableStateFlow<BillingConnectionState>(BillingConnectionState.Loading)
     val connectionState: StateFlow<BillingConnectionState> = _connectionState

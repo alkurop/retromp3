@@ -1,7 +1,5 @@
-package com.omar.retromp3recorder.bl.billing
+package com.omar.retromp3recorder.io.billing
 
-import com.omar.retromp3recorder.io.billing.Billing
-import com.omar.retromp3recorder.io.billing.BillingConnectionState
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.channelFlow
@@ -10,17 +8,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ConnectToBillingUC @Inject constructor(
-    private val billing: Billing,
+internal class ConnectUC @Inject constructor(
+    private val connection: BillingConnection,
     private val scopeJobWrapper: ScopeJobWrapper,
 ) {
     suspend fun execute(): Result<Unit> {
         return withContext(scopeJobWrapper.coroutineContext) {
-            billing.connect()
+            connection.connect()
             val flow = channelFlow {
                 var job: Job? = null
                 job = launch {
-                    billing.connectionFlow().collect { item ->
+                    connection.connectionFlow().collect { item ->
                         when (item) {
                             BillingConnectionState.Loading -> {
                                 //ignore
