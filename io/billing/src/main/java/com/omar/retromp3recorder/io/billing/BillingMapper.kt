@@ -10,14 +10,14 @@ internal object ProductDetailsResultMapper {
     fun ProductDetailsResult.toProductResult(): Result<List<Product>> {
         val responseCode = billingResult.responseCode
         val debugMessage = billingResult.debugMessage
+        val productList = productDetailsList
+
         return when (responseCode) {
             BillingClient.BillingResponseCode.OK -> {
-
-                val productDetailsList1 = productDetailsList
-                if (productDetailsList1.isNullOrEmpty()) {
+                if (productList.isNullOrEmpty()) {
                     Result.failure(BillingError.ConsoleError("Result list null or empty - problems with Play console config"))
                 } else {
-                    Result.success(productDetailsList1!!.map { it.toDomainProduct() })
+                    Result.success(productList.map { it.toDomainProduct() })
                 }
             }
             else -> {
@@ -42,7 +42,4 @@ internal object ProductDetailsResultMapper {
         title = this.title,
         description = this.description,
     )
-
 }
-
-
