@@ -49,6 +49,7 @@ X means can't be done (please provide explanation)
 - show snackbar instead of toast
 - make record button bigger then others
 - add dependency diagram
+- 
 
 
 - V Crop interactor - fix unclear flow with canCropFileRepo flow
@@ -97,5 +98,6 @@ mvp
 - widget
 - multy track
 - audio effects
-- file syncronisation
+- online synchronisation
 - most importantly - payment system integration
+- collapsable list items
