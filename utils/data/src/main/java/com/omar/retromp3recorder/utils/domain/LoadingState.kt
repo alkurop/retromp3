@@ -25,7 +25,7 @@ sealed class LoadingState<T> {
     /**
      * Data request failed with [cause]
      */
-    data class Error<T>(val cause: Throwable) : LoadingState<T>()
+    data class Failed<T>(val cause: Throwable) : LoadingState<T>()
 }
 
 
@@ -44,7 +44,7 @@ fun <T> executeLoadingRequest(action: suspend () -> Result<T>): Flow<LoadingStat
         } else {
             val exception =
                 requireNotNull(result.exceptionOrNull()) { "Failed with null exception" }
-            emit(LoadingState.Error(exception))
+            emit(LoadingState.Failed(exception))
         }
     }
 

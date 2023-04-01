@@ -13,9 +13,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class SharerImpl @Inject internal constructor(
     private val fileUriCreator: FileUriCreator,
     @ApplicationContext private val context: Context,

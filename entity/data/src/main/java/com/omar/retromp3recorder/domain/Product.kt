@@ -7,3 +7,8 @@ data class Product(
     val type: String,
     val title: String
 )
+
+
+enum class PayedProducts(val id: String) {
+    CROP_10("crop_items_10")
+}

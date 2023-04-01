@@ -32,9 +32,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class Mp3VoiceRecorderImpl @Inject internal constructor(
     private val scheduler: Scheduler,
     @ApplicationContext private val context: Context

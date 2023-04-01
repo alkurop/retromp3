@@ -43,6 +43,6 @@ fun <I : Any, R : Any> LoadingState<Flow<PagingData<I>>>.map(mapper: (I) -> R): 
             LoadingState.Success(mapped)
         }
         is LoadingState.Loading -> LoadingState.Loading()
-        is LoadingState.Error -> LoadingState.Error(this.cause)
+        is LoadingState.Failed -> LoadingState.Failed(this.cause)
     }
 }
