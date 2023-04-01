@@ -23,6 +23,7 @@ include ':io:audioplayer'
 include ':io:mp3recorder'
 include ':io:audio-transformer'
 include ':io:share'
+include ':io:billing'
 include ':io'
 
 include ':data:storage'

@@ -90,8 +90,19 @@ X means can't be done (please provide explanation)
 - add benchmark tests
 - integrate jococo
 - add static analysis
-
+- loading screen
 - V cleanup circleci script
+- enroll int0o 15% google pay program
+- split testing
+
+#### payments
+- save purcheses in database
+- consume, and let use if user is offline
+- add eventually the loading screen
+- log how many useges were made, with or without subscription, payed or not payed (ab test this maybe)
+- add google analytics, or any other analytics tool
+- add product counter (available at the moment) to settings
+
 
 mvp
 - network
@@ -101,3 +112,6 @@ mvp
 - online synchronisation
 - most importantly - payment system integration
 - collapsable list items
+- [native audio player](https://developer.android.com/ndk/guides/audio/aaudio/aaudio)
+- google add words
+- write downe hepothsis, organizr documentation
