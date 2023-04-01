@@ -10,5 +10,5 @@ data class Product(
 
 
 enum class PayedProducts(val id: String) {
-    CROP_10("crop_items_10")
+    CROP_10("crop_times_10")
 }

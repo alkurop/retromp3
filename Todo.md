@@ -49,7 +49,8 @@ X means can't be done (please provide explanation)
 - show snackbar instead of toast
 - make record button bigger then others
 - add dependency diagram
-- 
+- main interactor tests
+- billing views tests
 
 
 - V Crop interactor - fix unclear flow with canCropFileRepo flow

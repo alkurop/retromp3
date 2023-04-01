@@ -12,10 +12,12 @@ internal object ProductDetailsResultMapper {
         val debugMessage = billingResult.debugMessage
         return when (responseCode) {
             BillingClient.BillingResponseCode.OK -> {
-                if (productDetailsList.isNullOrEmpty()) {
+
+                val productDetailsList1 = productDetailsList
+                if (productDetailsList1.isNullOrEmpty()) {
                     Result.failure(BillingError.ConsoleError("Result list null or empty - problems with Play console config"))
                 } else {
-                    Result.success(productDetailsList!!.map { it.toDomainProduct() })
+                    Result.success(productDetailsList1!!.map { it.toDomainProduct() })
                 }
             }
             else -> {
@@ -28,7 +30,7 @@ internal object ProductDetailsResultMapper {
        return QueryProductDetailsParams.newBuilder().setProductList(
             this.map {
                 QueryProductDetailsParams.Product.newBuilder().setProductId(it)
-                    .setProductType(BillingClient.ProductType.SUBS).build()
+                    .setProductType(BillingClient.ProductType.INAPP).build()
             }
         ).build()
     }
