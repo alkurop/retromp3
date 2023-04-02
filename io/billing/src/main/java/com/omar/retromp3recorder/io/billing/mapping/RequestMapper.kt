@@ -1,22 +1,40 @@
 package com.omar.retromp3recorder.io.billing.mapping
 
+import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.ConsumeParams
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
+import com.omar.retromp3recorder.domain.ProductData
+import com.omar.retromp3recorder.domain.PurchaseData
 
 internal object RequestMapper {
 
-    fun List<String>.toProductQueryParams(): QueryProductDetailsParams {
-        return QueryProductDetailsParams.newBuilder().setProductList(
+    fun List<String>.toProductQueryParams() = QueryProductDetailsParams.newBuilder()
+        .setProductList(
             this.map {
                 QueryProductDetailsParams.Product.newBuilder().setProductId(it)
-                    .setProductType(BillingClient.ProductType.INAPP).build()
+                    .setProductType(BillingClient.ProductType.INAPP)
+                    .build()
             }
         ).build()
-    }
 
-    fun getActivePurchasesParams(): QueryPurchasesParams {
-        return QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP)
-            .build()
-    }
+    fun createPurchasesParams() = QueryPurchasesParams.newBuilder()
+        .setProductType(BillingClient.ProductType.INAPP)
+        .build()
+
+    fun PurchaseData.toAcknowledgeParams() = AcknowledgePurchaseParams.newBuilder()
+        .setPurchaseToken(this.token)
+        .build()
+
+    fun PurchaseData.toConsumeParams() =
+        ConsumeParams.newBuilder().setPurchaseToken(this.token).build()
+
+    fun ProductData.toBillingFlowParams()= BillingFlowParams.newBuilder()
+        .setProductDetailsParamsList(
+          listOf()
+        )
+        .build()
+
 }
