@@ -1,17 +1,21 @@
 package com.omar.retromp3recorder.io.billing
 
+import android.app.Activity
 import com.android.billingclient.api.*
 import com.omar.retromp3recorder.domain.ProductData
 import com.omar.retromp3recorder.domain.PurchaseData
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.toAcknowledgeParams
+import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.toBillingFlowParams
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.toConsumeParams
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.toProductQueryParams
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toProductListResult
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toPurchasesListResult
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toResult
+import com.omar.retromp3recorder.io.billing.mapping.toDomainModel
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.withContext
+import java.util.concurrent.atomic.AtomicReference
 import javax.inject.Inject
 
 internal class BillingImpl @Inject constructor(
@@ -19,15 +23,37 @@ internal class BillingImpl @Inject constructor(
     private val connectUC: ConnectUC,
     private val scopeJobWrapper: ScopeJobWrapper,
 ) : Billing {
+    private val productDataCache = AtomicReference(emptyList<ProductDetails>())
+
+    override suspend fun uiLaunchBillingFlow(
+        activity: Activity, product: ProductData
+    ): Result<Unit> {
+        val cacheSnapshot = productDataCache.get()
+        return cacheSnapshot.firstOrNull { it.productId == product.productType.productId }
+            ?.let { productDetails ->
+                withConnection {
+                    this.launchBillingFlow(activity, productDetails.toBillingFlowParams())
+                    Result.success(Unit)
+                }
+            }
+            ?: Result.failure(
+                BillingError.OtherError(
+                    "Product not found in cache with id ${product.productType}, cache size was ${cacheSnapshot.size}"
+                )
+            )
+    }
+
     override suspend fun getProductDetails(productIdList: List<String>): Result<List<ProductData>> =
         withConnection {
             queryProductDetails(productIdList.toProductQueryParams()).toProductListResult()
+                .also { it.getOrNull()?.let { productList -> productDataCache.set(productList) } }
+                .map { it.mapNotNull { item -> item.toDomainModel() } }
+
         }
 
-    override suspend fun getUserActivePurchases(): Result<List<PurchaseData>> =
-        withConnection {
-            queryPurchasesAsync(RequestMapper.createPurchasesParams()).toPurchasesListResult()
-        }
+    override suspend fun getUserActivePurchases(): Result<List<PurchaseData>> = withConnection {
+        queryPurchasesAsync(RequestMapper.createPurchasesParams()).toPurchasesListResult()
+    }
 
     override suspend fun postAcknowledgePurchase(purchase: PurchaseData): Result<Unit> =
         withConnection {

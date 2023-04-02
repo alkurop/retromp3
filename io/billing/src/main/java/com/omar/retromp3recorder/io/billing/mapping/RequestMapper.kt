@@ -4,9 +4,9 @@ import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.ConsumeParams
+import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
-import com.omar.retromp3recorder.domain.ProductData
 import com.omar.retromp3recorder.domain.PurchaseData
 
 internal object RequestMapper {
@@ -31,10 +31,13 @@ internal object RequestMapper {
     fun PurchaseData.toConsumeParams() =
         ConsumeParams.newBuilder().setPurchaseToken(this.token).build()
 
-    fun ProductData.toBillingFlowParams()= BillingFlowParams.newBuilder()
+    fun ProductDetails.toBillingFlowParams() = BillingFlowParams.newBuilder()
         .setProductDetailsParamsList(
-          listOf()
+            listOf(
+                BillingFlowParams.ProductDetailsParams.newBuilder()
+                    .setProductDetails(this)
+                    .build()
+            )
         )
         .build()
-
 }

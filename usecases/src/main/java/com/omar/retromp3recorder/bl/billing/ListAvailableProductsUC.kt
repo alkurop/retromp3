@@ -13,7 +13,7 @@ class ListAvailableProductsUC @Inject constructor(
 ) {
     suspend fun execute(): Result<List<ProductData>> {
         return withContext(scopeJobWrapper.coroutineContext) {
-            billing.getProductDetails(PayedProducts.values().map { it.id })
+            billing.getProductDetails(PayedProducts.values().map { it.productId })
         }
     }
 }

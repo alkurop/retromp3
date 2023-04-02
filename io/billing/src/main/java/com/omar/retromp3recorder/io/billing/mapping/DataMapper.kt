@@ -4,25 +4,24 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.omar.retromp3recorder.domain.PayedProducts
 import com.omar.retromp3recorder.domain.ProductData
+import com.omar.retromp3recorder.domain.PurchaseData
 
-internal object DataMapper {
-    fun ProductDetails.toDomainProduct(): ProductData? {
-        val id = PayedProducts.values().firstOrNull { this.productId == it.id } ?: return null
-        return ProductData(
-            id = id,
-            name = this.name,
-            type = this.productType,
-            title = this.title,
-            description = this.description,
-        )
-    }
+fun ProductDetails.toDomainModel(): ProductData? {
+    val id = PayedProducts.values().firstOrNull { this.productId == it.productId } ?: return null
+    return ProductData(
+        productType = id,
+        name = this.name,
+        type = this.productType,
+        title = this.title,
+        description = this.description,
+    )
+}
 
-    fun Purchase.toDomainPurchase(): com.omar.retromp3recorder.domain.PurchaseData? {
-        val id = PayedProducts.values().firstOrNull { this.products[0] == it.id } ?: return null
-        return com.omar.retromp3recorder.domain.PurchaseData(
-            id = id,
-            quantity = this.quantity,
-            token = this.purchaseToken
-        )
-    }
+fun Purchase.toDomainModel(): PurchaseData? {
+    val id = PayedProducts.values().firstOrNull { this.products[0] == it.productId } ?: return null
+    return PurchaseData(
+        id = id,
+        quantity = this.quantity,
+        token = this.purchaseToken
+    )
 }

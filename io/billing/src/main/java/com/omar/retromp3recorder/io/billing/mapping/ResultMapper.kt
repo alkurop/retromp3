@@ -1,27 +1,24 @@
 package com.omar.retromp3recorder.io.billing.mapping
 
 import com.android.billingclient.api.*
-import com.omar.retromp3recorder.domain.ProductData
 import com.omar.retromp3recorder.domain.PurchaseData
 import com.omar.retromp3recorder.io.billing.BillingError
-import com.omar.retromp3recorder.io.billing.mapping.DataMapper.toDomainProduct
-import com.omar.retromp3recorder.io.billing.mapping.DataMapper.toDomainPurchase
 
 internal object ResultMapper {
 
-    fun ProductDetailsResult.toProductListResult(): Result<List<ProductData>> {
+    fun ProductDetailsResult.toProductListResult(): Result<List<ProductDetails>> {
         val productList = productDetailsList
         return billingResult.ifNotFailedResult {
             if (productList.isNullOrEmpty()) {
                 Result.failure(BillingError.ConsoleError("Result list null or empty - problems with Play console config"))
             } else {
-                Result.success(productList.mapNotNull { it.toDomainProduct() })
+                Result.success(productList)
             }
         }
     }
 
     fun PurchasesResult.toPurchasesListResult(): Result<List<PurchaseData>> {
-        return billingResult.ifNotFailed { purchasesList.mapNotNull { it.toDomainPurchase() } }
+        return billingResult.ifNotFailed { purchasesList.mapNotNull { it.toDomainModel() } }
     }
 
     fun BillingResult.toResult(): Result<Unit> = ifNotFailed { }

@@ -95,6 +95,7 @@ X means can't be done (please provide explanation)
 - V cleanup circleci script
 - enroll int0o 15% google pay program
 - split testing
+- website with a blog (similar theme)
 
 #### payments
 - save purcheses in database
