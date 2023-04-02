@@ -104,6 +104,27 @@ X means can't be done (please provide explanation)
 - log how many useges were made, with or without subscription, payed or not payed (ab test this maybe)
 - add google analytics, or any other analytics tool
 - add product counter (available at the moment) to settings
+- add messaging 
+``` {
+val inAppMessageParams = InAppMessageParams.newBuilder()
+   .addInAppMessageCategoryToShow(InAppMessageParams.InAppMessageCategoryId.TRANSACTIONAL)
+   .build()
+
+   billingClient.showInAppMessages(activity, inAppMessageParams) { inAppMessageResult ->
+       if (inAppMessageResult.responseCode == InAppMessageResult.InAppMessageResponseCode.NO_ACTION_NEEDED) {
+         // The flow has finished and there is no action needed from developers.
+         logD { "SUBTEST: NO_ACTION_NEEDED"}
+       } else if (inAppMessageResult.responseCode == InAppMessageResult.InAppMessageResponseCode.SUBSCRIPTION_STATUS_UPDATED) {
+         logD { "SUBTEST: SUBSCRIPTION_STATUS_UPDATED"}
+         // The subscription status changed. For example, a subscription
+         // has been recovered from a suspend state. Developers should
+         // expect the purchase token to be returned with this response
+         // code and use the purchase token with the Google Play
+         // Developer API.
+       }
+    }
+```
+- test payment with different response type
 
 
 mvp
