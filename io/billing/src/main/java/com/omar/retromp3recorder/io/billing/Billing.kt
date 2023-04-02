@@ -4,6 +4,9 @@ import com.omar.retromp3recorder.domain.ProductData
 import com.omar.retromp3recorder.domain.PurchaseData
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Should be injected in activity
+ */
 interface Billing {
 
     suspend fun getProductDetails(productIdList: List<String>): Result<List<ProductData>>
@@ -19,4 +22,5 @@ interface Billing {
     fun messageFlow(): Flow<String>
 
     fun disconnect()
+    suspend fun subscribeToMessages(): Result<Unit>
 }

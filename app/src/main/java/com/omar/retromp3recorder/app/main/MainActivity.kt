@@ -20,6 +20,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
+
     @Inject
     lateinit var billing: Billing
 

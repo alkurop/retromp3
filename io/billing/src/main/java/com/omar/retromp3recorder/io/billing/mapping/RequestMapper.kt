@@ -1,12 +1,6 @@
 package com.omar.retromp3recorder.io.billing.mapping
 
-import com.android.billingclient.api.AcknowledgePurchaseParams
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingFlowParams
-import com.android.billingclient.api.ConsumeParams
-import com.android.billingclient.api.ProductDetails
-import com.android.billingclient.api.QueryProductDetailsParams
-import com.android.billingclient.api.QueryPurchasesParams
+import com.android.billingclient.api.*
 import com.omar.retromp3recorder.domain.PurchaseData
 
 internal object RequestMapper {
@@ -39,5 +33,9 @@ internal object RequestMapper {
                     .build()
             )
         )
+        .build()
+
+    fun buildMessageParams() = InAppMessageParams.newBuilder()
+        .addInAppMessageCategoryToShow(InAppMessageParams.InAppMessageCategoryId.TRANSACTIONAL)
         .build()
 }

@@ -8,6 +8,7 @@ import com.omar.retromp3recorder.domain.PurchaseData
 import com.omar.retromp3recorder.io.billing.connection.BillingConnection
 import com.omar.retromp3recorder.io.billing.connection.ConnectUC
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper
+import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.buildMessageParams
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.toAcknowledgeParams
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.toBillingFlowParams
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.toConsumeParams
@@ -31,6 +32,7 @@ internal class BillingImpl @Inject constructor(
     private val scopeJobWrapper: ScopeJobWrapper,
     @ActivityContext private val context: Context,
 ) : Billing {
+
     private val activity: Activity
         get() = context as Activity
 
@@ -47,13 +49,11 @@ internal class BillingImpl @Inject constructor(
         }
     }
 
-    init {
-        val inAppMessageParams = InAppMessageParams.newBuilder()
-            .addInAppMessageCategoryToShow(InAppMessageParams.InAppMessageCategoryId.TRANSACTIONAL)
-            .build()
-
-        connection.subscribeToMessages(inAppMessageParams, messageListener)
-    }
+    override suspend fun subscribeToMessages(): Result<Unit> =
+        withConnection {
+            connection.subscribeToMessages(buildMessageParams(), messageListener)
+            Result.success(Unit)
+        }
 
     override suspend fun uiLaunchBillingFlow(
         product: ProductData
