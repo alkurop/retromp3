@@ -20,7 +20,7 @@
         tools:replace="android:allowBackup">
 
         <activity
-            android:name="com.omar.retromp3recorder.app.MainActivity"
+            android:name="com.omar.retromp3recorder.app.main.MainActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait">
             <intent-filter>

@@ -1,7 +1,7 @@
 apply plugin: "kotlin"
 
 dependencies {
-
+    implementation "com.github.alkurop:ghostinshell:$versions.ghostinshell"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
     implementation project(":entity:data")
 }

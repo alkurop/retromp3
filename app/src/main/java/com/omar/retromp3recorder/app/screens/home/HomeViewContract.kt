@@ -9,9 +9,7 @@ object HomeViewContract {
     @Immutable
     data class State(
         val requestForScreenCapture: Shell<Any> = Shell.empty(),
-        val isNewLayout: Boolean = false,
         val isLogViewEnabled: Boolean = false,
-        val shouldKeepScreenOn: Boolean = false,
     )
 
     sealed class Input {

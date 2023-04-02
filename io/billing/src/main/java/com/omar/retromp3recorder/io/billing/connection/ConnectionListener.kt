@@ -63,7 +63,7 @@ sealed class BillingConnectionState {
 }
 
 
-internal data class PurchaseUpdateData(
+data class PurchaseUpdateData(
     val purchaseList: List<Purchase> = emptyList(),
     val addedItems: List<Purchase> = emptyList(),
     val error: Throwable? = null

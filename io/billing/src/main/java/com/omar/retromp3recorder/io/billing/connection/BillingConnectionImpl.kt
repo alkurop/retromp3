@@ -5,12 +5,12 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.ConnectionState.*
 import com.android.billingclient.api.Purchase
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toResult
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class BillingConnectionImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @ActivityContext private val context: Context,
 ) : BillingConnection {
 
     private val billingConnectionListener = ConnectionListener()

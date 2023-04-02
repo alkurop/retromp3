@@ -96,6 +96,10 @@ X means can't be done (please provide explanation)
 - enroll int0o 15% google pay program
 - split testing
 - website with a blog (similar theme)
+- firebase analytics
+- firebase feature flags
+- add mob 
+- analytics
 
 #### payments
 - save purcheses in database

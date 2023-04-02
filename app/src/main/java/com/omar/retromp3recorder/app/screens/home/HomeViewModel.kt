@@ -40,11 +40,8 @@ private fun Flow<HomeViewContract.Output>.mapToState(): Flow<HomeViewContract.St
             is HomeViewContract.Output.SettingsUpdated -> {
                 val isLogViewEnabled =
                     output.featureFlagsCollection.isEnabled(FeatureFlag.LogView)
-                val shouldKeepScreenOn =
-                    output.featureFlagsCollection.isEnabled(FeatureFlag.KeepScreenOn)
                 oldState.copy(
                     isLogViewEnabled = isLogViewEnabled,
-                    shouldKeepScreenOn = shouldKeepScreenOn
                 )
             }
         }
