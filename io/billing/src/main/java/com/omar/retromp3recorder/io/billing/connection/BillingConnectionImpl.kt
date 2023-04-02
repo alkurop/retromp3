@@ -1,41 +1,34 @@
-package com.omar.retromp3recorder.io.billing
+package com.omar.retromp3recorder.io.billing.connection
 
 import android.content.Context
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.ConnectionState.*
+import com.android.billingclient.api.Purchase
+import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toResult
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
-
-
-internal interface BillingConnection {
-
-    fun connect()
-
-    fun disconnect()
-
-    fun connectionFlow(): Flow<BillingConnectionState>
-
-    suspend fun <T> execute(function: suspend BillingClient.() -> T): T
-
-    val isReady: Boolean
-}
-
 
 internal class BillingConnectionImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : BillingConnection {
 
-    private val billingListener = Listener()
+    private val billingConnectionListener = ConnectionListener()
     private var billingClient: BillingClient = createClient()
-
 
     override val isReady: Boolean
         get() = billingClient.isReady
 
-
     override fun connectionFlow(): Flow<BillingConnectionState> {
-        return billingListener.connectionState
+        return billingConnectionListener.connectionState
+    }
+
+    override fun purchaseFlow(): Flow<PurchaseUpdateData> {
+        return billingConnectionListener.purchaseUpdateFlow
+    }
+
+    override fun updatePurchaseList(resultList: List<Purchase>) {
+        billingConnectionListener.updatePurchaseCache(resultList.toResult())
     }
 
     override fun connect() {
@@ -45,19 +38,17 @@ internal class BillingConnectionImpl @Inject constructor(
         } else if (state == CONNECTED || state == CONNECTING) {
             return
         }
-        billingListener.setLoading()
-        billingClient.startConnection(billingListener)
+        billingConnectionListener.setLoading()
+        billingClient.startConnection(billingConnectionListener)
     }
 
     private fun createClient(): BillingClient {
-        return BillingClient.newBuilder(context)
-            .enablePendingPurchases()
-            .setListener(billingListener)
-            .build()
+        return BillingClient.newBuilder(context).enablePendingPurchases()
+            .setListener(billingConnectionListener).build()
     }
 
     override fun disconnect() {
-        billingListener.setDisconnected()
+        billingConnectionListener.setDisconnected()
         billingClient.endConnection()
     }
 
@@ -65,5 +56,3 @@ internal class BillingConnectionImpl @Inject constructor(
         function.invoke(billingClient)
 
 }
-
-

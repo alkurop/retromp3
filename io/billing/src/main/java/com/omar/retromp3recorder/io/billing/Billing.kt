@@ -14,7 +14,7 @@ interface Billing {
 
     suspend fun postConsumePurchase(purchase: PurchaseData): Result<Unit>
 
-    suspend fun uiLaunchBillingFlow(activity: Activity, product: ProductData): Result<Unit>
+    suspend fun uiLaunchBillingFlow(activity: Activity, product: ProductData): Result<PurchaseData>
 
     suspend fun uiShowMessage() {}
 

@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.io.billing.id
 
 import com.omar.retromp3recorder.io.billing.Billing
-import com.omar.retromp3recorder.io.billing.BillingConnection
-import com.omar.retromp3recorder.io.billing.BillingConnectionImpl
+import com.omar.retromp3recorder.io.billing.connection.BillingConnection
+import com.omar.retromp3recorder.io.billing.connection.BillingConnectionImpl
 import com.omar.retromp3recorder.io.billing.BillingImpl
 import dagger.Binds
 import dagger.Module

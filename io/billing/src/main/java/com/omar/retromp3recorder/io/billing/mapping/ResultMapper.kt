@@ -3,6 +3,7 @@ package com.omar.retromp3recorder.io.billing.mapping
 import com.android.billingclient.api.*
 import com.omar.retromp3recorder.domain.PurchaseData
 import com.omar.retromp3recorder.io.billing.BillingError
+import com.omar.retromp3recorder.io.billing.connection.PurchaseUpdateData
 
 internal object ResultMapper {
 
@@ -17,27 +18,45 @@ internal object ResultMapper {
         }
     }
 
-    fun PurchasesResult.toPurchasesListResult(): Result<List<PurchaseData>> {
-        return billingResult.ifNotFailed { purchasesList.mapNotNull { it.toDomainModel() } }
-    }
+    fun PurchasesResult.toPurchasesListResult(): Result<List<Purchase>> =
+        billingResult.ifNotFailed { purchasesList }
 
     fun BillingResult.toResult(): Result<Unit> = ifNotFailed { }
 
-    private fun <T> BillingResult.ifNotFailed(action: () -> T): Result<T> {
-        return when (responseCode) {
-            BillingClient.BillingResponseCode.OK -> Result.success(action())
-            else -> {
-                Result.failure(BillingError.OtherError(debugMessage))
-            }
-        }
+    fun <T> BillingResult.ifNotFailed(action: () -> T): Result<T> {
+        return this.ifNotFailedResult { action().toResult() }
     }
 
     private fun <T> BillingResult.ifNotFailedResult(action: () -> Result<T>): Result<T> {
         return when (responseCode) {
             BillingClient.BillingResponseCode.OK -> action()
+            BillingClient.BillingResponseCode.USER_CANCELED -> {
+                BillingError.UserCanceled.toResult()
+            }
             else -> {
-                Result.failure(BillingError.OtherError(debugMessage))
+                BillingError.OtherError(debugMessage).toResult()
             }
         }
     }
+
+    fun PurchaseUpdateData.toResult(): Result<PurchaseData> {
+        val delta = this.addedItems
+        val error = this.error
+        return error?.toResult()
+            ?: if (delta.size == 1) {
+                delta[0].toDomainModel()?.toResult()
+                    ?: BillingError.OtherError("Purchase not recognized")
+                        .toResult()
+            } else if (delta.size > 1) {
+                BillingError.OtherError("Purchase update does not contain ${delta.size} purchases")
+                    .toResult()
+            } else {
+                BillingError.OtherError("Purchase update does not contain a new purchase")
+                    .toResult()
+            }
+    }
+
+    fun <T> Throwable.toResult(): Result<T> = Result.failure(this)
+
+    fun <T> T.toResult(): Result<T> = Result.success(this)
 }
