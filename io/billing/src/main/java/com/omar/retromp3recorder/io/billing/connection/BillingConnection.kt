@@ -1,6 +1,8 @@
 package com.omar.retromp3recorder.io.billing.connection
 
 import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.InAppMessageParams
+import com.android.billingclient.api.InAppMessageResult
 import com.android.billingclient.api.Purchase
 import kotlinx.coroutines.flow.Flow
 
@@ -20,6 +22,7 @@ interface BillingConnection {
     fun updatePurchaseList(resultList: List<Purchase>)
 
     val isReady: Boolean
+    fun subscribeToMessages(params: InAppMessageParams, listener: (InAppMessageResult) -> Unit)
 }
 
 

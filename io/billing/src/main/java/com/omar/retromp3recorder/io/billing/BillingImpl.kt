@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.io.billing
 
 import android.app.Activity
+import android.content.Context
 import com.android.billingclient.api.*
 import com.omar.retromp3recorder.domain.ProductData
 import com.omar.retromp3recorder.domain.PurchaseData
@@ -16,6 +17,9 @@ import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toPurchasesList
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toResult
 import com.omar.retromp3recorder.io.billing.mapping.toDomainModel
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import dagger.hilt.android.qualifiers.ActivityContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicReference
@@ -25,11 +29,34 @@ internal class BillingImpl @Inject constructor(
     private val connection: BillingConnection,
     private val connectUC: ConnectUC,
     private val scopeJobWrapper: ScopeJobWrapper,
+    @ActivityContext private val context: Context,
 ) : Billing {
+    private val activity: Activity
+        get() = context as Activity
+
     private val productDataCache = AtomicReference(emptyList<ProductDetails>())
+    private val messageFlow = MutableSharedFlow<String>()
+    private val messageListener: (InAppMessageResult) -> Unit = {
+        when (it.responseCode) {
+            InAppMessageResult.InAppMessageResponseCode.NO_ACTION_NEEDED -> {
+                // we don't do much here
+            }
+            else -> {
+                // nothing here either
+            }
+        }
+    }
+
+    init {
+        val inAppMessageParams = InAppMessageParams.newBuilder()
+            .addInAppMessageCategoryToShow(InAppMessageParams.InAppMessageCategoryId.TRANSACTIONAL)
+            .build()
+
+        connection.subscribeToMessages(inAppMessageParams, messageListener)
+    }
 
     override suspend fun uiLaunchBillingFlow(
-        activity: Activity, product: ProductData
+        product: ProductData
     ): Result<PurchaseData> {
         val requestItem =
             productDataCache.get().firstOrNull { it.productId == product.productType.productId }
@@ -44,6 +71,10 @@ internal class BillingImpl @Inject constructor(
                 "Product not found in cache with id ${product.productType}, cache size was ${productDataCache.get().size}"
             )
         )
+    }
+
+    override fun messageFlow(): Flow<String> {
+        return messageFlow
     }
 
     override suspend fun getProductDetails(productIdList: List<String>): Result<List<ProductData>> =

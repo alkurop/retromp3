@@ -1,8 +1,11 @@
 package com.omar.retromp3recorder.io.billing.connection
 
+import android.app.Activity
 import android.content.Context
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.ConnectionState.*
+import com.android.billingclient.api.InAppMessageParams
+import com.android.billingclient.api.InAppMessageResult
 import com.android.billingclient.api.Purchase
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toResult
 import dagger.hilt.android.qualifiers.ActivityContext
@@ -19,6 +22,9 @@ internal class BillingConnectionImpl @Inject constructor(
     override val isReady: Boolean
         get() = billingClient.isReady
 
+    private val activity: Activity
+        get() = context as Activity
+
     override fun connectionFlow(): Flow<BillingConnectionState> {
         return billingConnectionListener.connectionState
     }
@@ -29,6 +35,10 @@ internal class BillingConnectionImpl @Inject constructor(
 
     override fun updatePurchaseList(resultList: List<Purchase>) {
         billingConnectionListener.updatePurchaseCache(resultList.toResult())
+    }
+
+    override fun subscribeToMessages(params: InAppMessageParams, listener: (InAppMessageResult) -> Unit) {
+        billingClient.showInAppMessages(activity, params, listener)
     }
 
     override fun connect() {

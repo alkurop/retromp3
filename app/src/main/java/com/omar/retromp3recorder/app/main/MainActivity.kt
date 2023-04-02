@@ -11,13 +11,17 @@ import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.omar.retromp3recorder.app.RetroTheme
 import com.omar.retromp3recorder.app.nav.AppNavHost
+import com.omar.retromp3recorder.io.billing.Billing
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @OptIn(ExperimentalAnimationApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
+    @Inject
+    lateinit var billing: Billing
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

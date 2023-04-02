@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.io.billing
 
-import android.app.Activity
 import com.omar.retromp3recorder.domain.ProductData
 import com.omar.retromp3recorder.domain.PurchaseData
+import kotlinx.coroutines.flow.Flow
 
 interface Billing {
 
@@ -14,9 +14,9 @@ interface Billing {
 
     suspend fun postConsumePurchase(purchase: PurchaseData): Result<Unit>
 
-    suspend fun uiLaunchBillingFlow(activity: Activity, product: ProductData): Result<PurchaseData>
+    suspend fun uiLaunchBillingFlow(product: ProductData): Result<PurchaseData>
 
-    suspend fun uiShowMessage() {}
+    fun messageFlow(): Flow<String>
 
     fun disconnect()
 }
