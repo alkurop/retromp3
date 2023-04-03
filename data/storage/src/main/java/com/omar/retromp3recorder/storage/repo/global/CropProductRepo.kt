@@ -25,14 +25,18 @@ class CropProductRepo @Inject constructor(
 
     override suspend fun emit(input: Int) {
         scopeJobWrapper.launch {
+            val currentValue = sharedPreferences.getInt(
+                KEY_CROP_COUNTER,
+                INITIAL_CROP_OFFERING
+            )
             sharedPreferences.edit().putInt(
                 KEY_CROP_COUNTER,
                 input
             ).apply()
-            if (input == 0) {
+            if (currentValue == 0) {
                 sharedPreferences.edit().putBoolean(
                     KEY_CROP_COUNTER_TRIAL,
-                    true
+                    false
                 ).apply()
             }
         }
