@@ -16,7 +16,6 @@ class DatabasePagingProvider @Inject constructor(
             initialKey = ItemsLoadRequest(query, page = 0),
             config = PagingConfig(
                 pageSize = FileDbEntityDao.LOAD_SIZE,
-
                 enablePlaceholders = false
             )
         ) {

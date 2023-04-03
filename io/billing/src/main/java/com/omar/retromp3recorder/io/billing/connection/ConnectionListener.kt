@@ -3,14 +3,20 @@ package com.omar.retromp3recorder.io.billing.connection
 import com.android.billingclient.api.*
 import com.omar.retromp3recorder.io.billing.BillingError
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.ifNotFailed
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicReference
+import javax.inject.Inject
 
-internal class ConnectionListener : BillingClientStateListener, PurchasesUpdatedListener {
+internal class ConnectionListener @Inject constructor(
+    private val jobWrapper: ScopeJobWrapper
+) :
+    BillingClientStateListener, PurchasesUpdatedListener {
     private val _connectionState =
         MutableStateFlow<BillingConnectionState>(BillingConnectionState.Loading)
 
@@ -39,10 +45,10 @@ internal class ConnectionListener : BillingClientStateListener, PurchasesUpdated
 
     override fun onPurchasesUpdated(result: BillingResult, purchaseList: MutableList<Purchase>?) {
         updatePurchaseCache(result.ifNotFailed { purchaseList ?: emptyList() }.onSuccess {
-            Timber.d("BILLING Product list updated $it")
+            Timber.d("BILLING Purchase list updated $it")
         })
 
-        _purchaseUpdateFlow.tryEmit(purchaseCache.get())
+        jobWrapper.launch { _purchaseUpdateFlow.emit(purchaseCache.get()) }
     }
 
     fun setLoading() {
@@ -81,6 +87,8 @@ internal fun PurchaseUpdateData.update(updateData: Result<List<Purchase>>): Purc
         val addedItemList =
             updateData.getOrNull()?.filter { currentList.contains(it).not() } ?: emptyList()
         PurchaseUpdateData(currentList, addedItemList)
+    }.also {
+        Timber.d("BILLING Purchase state $it")
     }
 }
 

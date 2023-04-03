@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import com.omar.retromp3recorder.utils.domain.repo.StateFlowRepo
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,10 +29,23 @@ class CropProductRepo @Inject constructor(
                 KEY_CROP_COUNTER,
                 input
             ).apply()
+            if (input == 0) {
+                sharedPreferences.edit().putBoolean(
+                    KEY_CROP_COUNTER_TRIAL,
+                    true
+                ).apply()
+            }
         }
         super.emit(input)
+    }
+
+    suspend fun isTrial(): Boolean {
+        return withContext(scopeJobWrapper.coroutineContext) {
+            sharedPreferences.getBoolean(KEY_CROP_COUNTER_TRIAL, true)
+        }
     }
 }
 
 private const val KEY_CROP_COUNTER = "KEY_CROP_COUNTER"
+private const val KEY_CROP_COUNTER_TRIAL = "KEY_CROP_COUNTER_TRIAL"
 private const val INITIAL_CROP_OFFERING = 5

@@ -13,7 +13,7 @@ class HasCropPurchaseUC @Inject constructor(
     suspend fun execute(): Boolean {
         return withContext(scopeJobWrapper.coroutineContext) {
             val cropProductCount = cropProductRepo.first()
-            Timber.d("BILLING  Crop purchase count $cropProductCount")
+            Timber.d("BILLING Crop purchase count $cropProductCount")
             cropProductCount > 0
         }
     }

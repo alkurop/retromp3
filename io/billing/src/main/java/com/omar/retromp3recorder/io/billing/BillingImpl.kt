@@ -21,6 +21,7 @@ import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.concurrent.atomic.AtomicReference
 import javax.inject.Inject
 
@@ -45,7 +46,11 @@ internal class BillingImpl @Inject constructor(
         return requestItem?.let { productDetails ->
             withConnection {
                 launchBillingFlow(activity, productDetails.toBillingFlowParams())
-                connection.purchaseFlow().first().toResult()
+                withContext(scopeJobWrapper.coroutineContext) {
+                    val toResult = connection.purchaseFlow().first().toResult()
+                    Timber.d("BILLING Purchase result after billing flow init $toResult")
+                    toResult
+                }
             }
         } ?: Result.failure(
             BillingError.OtherError(

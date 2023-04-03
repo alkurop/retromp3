@@ -1,32 +1,69 @@
 package com.omar.retromp3recorder.io.billing.connection
 
+import android.app.Activity
+import android.content.Context
 import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClient.ConnectionState.*
 import com.android.billingclient.api.InAppMessageParams
 import com.android.billingclient.api.InAppMessageResult
 import com.android.billingclient.api.Purchase
+import com.omar.retromp3recorder.domain.toResult
+import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
+import javax.inject.Inject
 
+internal class BillingConnection @Inject constructor(
+    @ActivityContext private val context: Context,
+    private val billingConnectionListener: ConnectionListener
+) {
 
-interface BillingConnection {
-
-    fun connect()
-
-    fun disconnect()
-
-    fun connectionFlow(): Flow<BillingConnectionState>
-
-    fun purchaseFlow(): Flow<PurchaseUpdateData>
-
-    suspend fun <T> execute(function: suspend BillingClient.() -> T): T
-
-    fun updatePurchaseList(resultList: List<Purchase>)
+    private var billingClient: BillingClient = createClient()
 
     val isReady: Boolean
+        get() = billingClient.isReady
 
-    fun subscribeToMessages(params: InAppMessageParams, listener: (InAppMessageResult) -> Unit)
+    private val activity: Activity
+        get() = context as Activity
+
+    fun connectionFlow(): Flow<BillingConnectionState> {
+        return billingConnectionListener.connectionState
+    }
+
+    fun purchaseFlow(): Flow<PurchaseUpdateData> {
+        return billingConnectionListener.purchaseUpdateFlow
+    }
+
+    fun updatePurchaseList(resultList: List<Purchase>) {
+        billingConnectionListener.updatePurchaseCache(resultList.toResult())
+    }
+
+    fun subscribeToMessages(params: InAppMessageParams, listener: (InAppMessageResult) -> Unit) {
+        billingClient.showInAppMessages(activity, params, listener)
+    }
+
+    fun connect() {
+        Timber.d("BILLING trying to connect")
+        val state = billingClient.connectionState
+        if (state == CLOSED) {
+            billingClient = createClient()
+        } else if (state == CONNECTED || state == CONNECTING) {
+            return
+        }
+        billingConnectionListener.setLoading()
+        billingClient.startConnection(billingConnectionListener)
+    }
+
+    private fun createClient(): BillingClient {
+        return BillingClient.newBuilder(context).enablePendingPurchases()
+            .setListener(billingConnectionListener).build()
+    }
+
+    fun disconnect() {
+        billingConnectionListener.setDisconnected()
+        billingClient.endConnection()
+    }
+
+    suspend fun <T> execute(function: suspend BillingClient.() -> T): T =
+        function.invoke(billingClient)
 }
-
-
-
-
-
