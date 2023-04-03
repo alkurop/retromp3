@@ -1,20 +1,44 @@
 <resources>
-    <string name="back">Back</string>
-    <string name="close">Close</string>
-    <string name="audio_source">Audio Source (Available starting Android 10)</string>
     <string name="app_name_short">Recorder</string>
     <string name="app_name">Retro Mp3 Recorder</string>
+
+    <!--    Navigation-->
+    <string name="back">Back</string>
+    <string name="close">Close</string>
+
+    <!--    Settings-->
+    <string name="audio_source">Audio Source (Available starting Android 10)</string>
     <string name="bit_rate">Bit Rate</string>
-    <string name="bit_rate_format">"%1$d kbps"</string>
-    <string name="channel_name">Service notifications</string>
-    <string name="channel_description">channel_description</string>
-    <string name="current_file">Current file</string>
-    <string name="created">Created:</string>
-    <string name="delete_file">Delete file</string>
     <string name="experimental_features">Experimental features:</string>
     <string name="debug_features">Debug features:</string>
+    <string name="feature_name_log_view">Log View</string>
+    <string name="feature_menu_view">Show menu</string>
+    <string name="feature_name_keep_screen_on">Keep screen on</string>
+    <string name="feature_name_new_layout">New layout</string>
+    <string name="feature_name_range_control">Range control</string>
+    <string name="sample_rate">Sample Rate</string>
+    <string name="sample_rate_format">"%1$d kb"</string>
+    <string name="settings">Settings</string>
+
+    <!--    Log-->
+    <string name="bit_rate_format">"%1$d kbps"</string>
     <string name="error_string">Error: %1$s</string>
+
+    <!--    Notifications-->
+    <string name="channel_name">Service notifications</string>
+    <string name="channel_description">channel_description</string>
+    <string name="projection_notification_message">Media Projection acquired</string>
+    <string name="projection_notification_title">Allowed to record output audio</string>
+    <string name="wake_lock_recording">Recording …</string>
+
+    <!--    Search List -->
+    <string name="created">Created:</string>
     <string name="length">Length:</string>
+    <string name="search_hint">Search</string>
+    <string name="no_saved_records_found">No saved records found</string>
+
+    <!--    Menu-->
+    <string name="delete_file">Delete file</string>
     <string name="menu_crop">Crop</string>
     <string name="menu_search">Search</string>
     <string name="menu_loop">Loop</string>
@@ -23,50 +47,30 @@
     <string name="menu_range">Range</string>
     <string name="menu_reverse">Rev</string>
     <string name="menu_bark_speed">Speed</string>
+
+    <!--    Popups-->
     <string name="popup_cancel">Cancel</string>
     <string name="popup_title_crop">Crop file</string>
     <string name="popup_title_rename">Rename file</string>
     <string name="popup_title_delete">Delete file</string>
     <string name="popup_label_filename">File name</string>
-    <string name="toast_crop_success">Crop success</string>
-    <string name="toast_crop_failed">Crop failed</string>
     <string name="popup_button_crop_in_place">In place</string>
     <string name="popup_button_crop_outside">Outside</string>
+    <string name="yes">Yes</string>
+
+    <!--    Toast-->
+    <string name="toast_crop_success">Crop success</string>
+    <string name="toast_crop_failed">Crop failed</string>
+    <string name="thank_you_toast">Thank you!</string>
+
+    <!--    Main screen-->
     <string name="please_record_something">Please record something</string>
     <string name="no_file">Click record button</string>
-    <string name="no">No</string>
     <string name="playing">Playing …</string>
     <string name="play">Play</string>
     <string name="stop">Stop</string>
     <string name="record">Record</string>
     <string name="share">Share</string>
-    <string name="projection_notification_message">Media Projection acquired</string>
-    <string name="projection_notification_title">Allowed to record output audio</string>
-    <string name="record_permission_title">Record Audio</string>
-    <string name="record_permission_message">This app is going to record audio files using your mic.</string>
-    <string name="record_required_message">Recording audio is required. Open settings to give permission?</string>
-    <string name="recording">Recording …</string>
-    <string name="rerendered">Rendered</string>
-    <string name="reverse">reverse</string>
     <string name="range_enabled">Player range: %1$s</string>
-    <string name="on">on</string>
-    <string name="off">off</string>
-    <string name="rename_file">Rename file</string>
-    <string name="sample_rate">Sample Rate</string>
-    <string name="sample_rate_format">"%1$d kb"</string>
-    <string name="search_hint">Search</string>
-    <string name="settings">Settings</string>
-    <string name="timer_no_text"><![CDATA[<< : >>]]></string>
-    <string name="yes">Yes</string>
-    <string name="range_control">Range control</string>
-    <string name="no_saved_records_found">No saved records found</string>
-
-    <string name="something_went_wrong">Something went wrong</string>
-    <string name="waveform_acquired">Waveform acquired for file %1$s</string>
-    <string name="feature_name_log_view">Log View</string>
-    <string name="feature_menu_view">Show menu</string>
-    <string name="feature_name_keep_screen_on">Keep screen on</string>
-    <string name="feature_name_new_layout">New layout</string>
-    <string name="feature_name_range_control">Range control</string>
 
 </resources>

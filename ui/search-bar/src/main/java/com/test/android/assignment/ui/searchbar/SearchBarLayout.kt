@@ -57,7 +57,9 @@ fun SearchBarLayout(
         }
     }
 
-    val submit: () -> Unit = { onSubmit.invoke(state.input.text.trim()) }
+    val submit: () -> Unit = {
+        onSubmit.invoke(state.input.text.trim())
+    }
 
     val shouldRequestFocus = textFieldTransition.targetState && textFieldTransition.currentState
 
@@ -89,7 +91,14 @@ fun SearchBarLayout(
                                 hint = state.hint,
                             ),
                             modifier = Modifier.focusRequester(focusRequester),
-                            onValueChange = { state.input = it; onSubmit(it.text) },
+                            onValueChange = {
+                                val inputText = it.text
+                                val stateText = state.input.text
+                                if (inputText != stateText) {
+                                    state.input = it
+                                    submit()
+                                }
+                            },
                             onDone = {
                                 clearFocus()
                             },

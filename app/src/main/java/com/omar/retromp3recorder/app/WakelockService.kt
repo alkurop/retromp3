@@ -49,7 +49,7 @@ class WakelockService : Service() {
         val notification = NotificationCompat.Builder(this, WAKELOCK_SERVICE_CHANNEL)
             .setSilent(true)
             .setContentTitle(getText(R.string.app_name))
-            .setContentText(getText(R.string.recording))
+            .setContentText(getText(R.string.wake_lock_recording))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_MIN)

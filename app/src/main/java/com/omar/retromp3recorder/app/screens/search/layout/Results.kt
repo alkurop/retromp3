@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.PagingData
@@ -24,6 +25,7 @@ import com.omar.retromp3recorder.ui.wavetable.compose.WavetableCompose
 import com.omar.retromp3recorder.ui.wavetable.compose.WavetableComposeData
 import com.omar.retromp3recorder.utils.platform.toCreationDate
 import com.omar.retromp3recorder.utils.platform.toTimeDisplay
+import com.test.assignment.ui.paging.isEmpty
 import kotlinx.coroutines.flow.Flow
 
 
@@ -31,35 +33,32 @@ import kotlinx.coroutines.flow.Flow
 fun Results(
     data: Flow<PagingData<ExistingFileWrapper>>,
     currentFile: ExistingFileWrapper?,
-    query: String,
     onClick: (ExistingFileWrapper) -> Unit
 ) {
-
     val pagingItems: LazyPagingItems<ExistingFileWrapper> = data.collectAsLazyPagingItems()
-
     val listState = rememberLazyListState()
 
     val finishedLoading = pagingItems.loadState.append.endOfPaginationReached
-    if (pagingItems.itemCount == 0 && finishedLoading) {
+    if (pagingItems.isEmpty() && finishedLoading) {
         Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
             text = stringResource(id = R.string.no_saved_records_found),
-            color = MaterialTheme.colorScheme.primary,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     } else {
         LazyColumn(state = listState) {
             items(items = pagingItems) { file ->
-                file?.takeIf { it.filter(query) }?.let { existingFileWrapper ->
+                file?.let {
                     ItemComposable(
-                        itemFile = existingFileWrapper, currentFile, onClick
+                        itemFile = file, currentFile, onClick
                     )
                 }
             }
         }
     }
-}
-
-private fun ExistingFileWrapper.filter(query: String): Boolean {
-    return this.name.contains(query, true)
 }
 
 @Composable

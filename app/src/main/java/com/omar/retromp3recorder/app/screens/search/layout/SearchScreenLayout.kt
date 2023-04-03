@@ -26,9 +26,12 @@ fun SearchScreenLayout(
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
-    var query by remember { mutableStateOf("") }
     val currentFilePath = state.selectedFile
-    val lambdaSearch: (String) -> Unit = remember { { query = it } }
+    val lambdaSearch: (String) -> Unit = remember {
+        {
+            viewModel.onEvent(SelectorContract.Input.SetQuery(it))
+        }
+    }
 
     val lambdaClick: (ExistingFileWrapper) -> Unit = remember {
         {
@@ -51,7 +54,6 @@ fun SearchScreenLayout(
                     Results(
                         data = itemsPaging.data,
                         currentFile = currentFilePath,
-                        query = query,
                         onClick = lambdaClick
                     )
                 }
