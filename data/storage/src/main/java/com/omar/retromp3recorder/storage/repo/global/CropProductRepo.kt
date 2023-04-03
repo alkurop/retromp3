@@ -48,4 +48,4 @@ class CropProductRepo @Inject constructor(
 
 private const val KEY_CROP_COUNTER = "KEY_CROP_COUNTER"
 private const val KEY_CROP_COUNTER_TRIAL = "KEY_CROP_COUNTER_TRIAL"
-private const val INITIAL_CROP_OFFERING = 5
+private const val INITIAL_CROP_OFFERING = 3
