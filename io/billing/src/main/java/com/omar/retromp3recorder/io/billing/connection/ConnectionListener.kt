@@ -33,12 +33,15 @@ internal class ConnectionListener : BillingClientStateListener, PurchasesUpdated
             _connectionState.value = BillingConnectionState.Connected
         } else {
             _connectionState.value = BillingConnectionState.Disconnected()
-            Timber.e(billingResult.debugMessage)
+            Timber.e("BILLING ${billingResult.debugMessage}")
         }
     }
 
     override fun onPurchasesUpdated(result: BillingResult, purchaseList: MutableList<Purchase>?) {
-        updatePurchaseCache(result.ifNotFailed { purchaseList ?: emptyList() })
+        updatePurchaseCache(result.ifNotFailed { purchaseList ?: emptyList() }.onSuccess {
+            Timber.d("BILLING Product list updated $it")
+        })
+
         _purchaseUpdateFlow.tryEmit(purchaseCache.get())
     }
 

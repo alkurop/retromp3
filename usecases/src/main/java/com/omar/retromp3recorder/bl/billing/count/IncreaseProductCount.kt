@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.bl.billing.count
 
 import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.storage.repo.global.CropProductRepo
+import timber.log.Timber
 import javax.inject.Inject
 
 class IncreaseProductCount @Inject constructor(
@@ -11,7 +12,9 @@ class IncreaseProductCount @Inject constructor(
         when (productId) {
             ProductId.CROP_10 -> {
                 val available = productRepo.first()
-                    productRepo.emit(available + addedCount)
+                val newCount = available + addedCount
+                Timber.d("BILLING Product count increased to $newCount")
+                productRepo.emit(newCount)
             }
         }
     }

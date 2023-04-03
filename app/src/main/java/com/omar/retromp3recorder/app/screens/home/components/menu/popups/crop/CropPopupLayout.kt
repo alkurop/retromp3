@@ -32,25 +32,26 @@ fun CropPopupLayout(
     }
 
     val nameState = rememberFileNameInputState(name = state.nameSuggestion.name)
-
-    PopupComposable(
-        isLoading = state.isLoading,
-        title = stringResource(id = R.string.popup_title_crop),
-        content = {
-            FileNameContentLayout(
-                state = nameState,
-                onValueChanged = onValueChanged,
-                isError = state.isOkEnabled.not()
+    if (state.isVisible) {
+        PopupComposable(
+            isLoading = state.isLoading,
+            title = stringResource(id = R.string.popup_title_crop),
+            content = {
+                FileNameContentLayout(
+                    state = nameState,
+                    onValueChanged = onValueChanged,
+                    isError = state.isOkEnabled.not()
+                )
+            },
+            onDismiss = onDismiss,
+            buttonList = listOf(
+                PopupButtonData(isEnabled = state.isOkEnabled,
+                    text = stringResource(id = R.string.popup_button_crop_in_place),
+                    onClick = { viewModel.emit(CropContract.Input.CropInPlace(state.nameSuggestion)) }),
+                PopupButtonData(isEnabled = state.isOkEnabled,
+                    text = stringResource(id = R.string.popup_button_crop_outside),
+                    onClick = { viewModel.emit(CropContract.Input.CropOutside(state.nameSuggestion)) })
             )
-        },
-        onDismiss = onDismiss,
-        buttonList = listOf(
-            PopupButtonData(isEnabled = state.isOkEnabled,
-                text = stringResource(id = R.string.popup_button_crop_in_place),
-                onClick = { viewModel.emit(CropContract.Input.CropInPlace(state.nameSuggestion)) }),
-            PopupButtonData(isEnabled = state.isOkEnabled,
-                text = stringResource(id = R.string.popup_button_crop_outside),
-                onClick = { viewModel.emit(CropContract.Input.CropOutside(state.nameSuggestion)) })
         )
-    )
+    }
 }

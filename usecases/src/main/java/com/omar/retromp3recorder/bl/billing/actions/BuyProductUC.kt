@@ -5,6 +5,7 @@ import com.omar.retromp3recorder.io.billing.Billing
 import com.omar.retromp3recorder.io.billing.mapping.findProduct
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class BuyProductUC @Inject constructor(
@@ -14,6 +15,7 @@ class BuyProductUC @Inject constructor(
 ) {
     suspend fun execute(productId: ProductId): Result<PurchaseData> {
         return withContext(scopeJobWrapper.coroutineContext) {
+            Timber.d("BILLING Product trying to buy $productId")
             listUC.execute()
                 .chain {
                     it.findProduct(productId)
@@ -21,6 +23,9 @@ class BuyProductUC @Inject constructor(
                 .chainSuspend { billing.uiLaunchBillingFlow(it) }
                 .chainSuspend { purchase ->
                     billing.postAcknowledgePurchase(purchase).map { purchase }
+                        .onSuccess {
+                            Timber.d("BILLING Product bought and acnowledged $it")
+                        }
                 }
         }
     }

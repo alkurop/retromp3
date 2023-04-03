@@ -61,8 +61,8 @@ internal class BillingImpl @Inject constructor(
         } else {
             withConnection {
                 queryProductDetails(productIdList.toProductQueryParams()).toProductListResult()
-                    .also {
-                        it.getOrNull()?.let { productList -> productDataCache.set(productList) }
+                    .onSuccess { productList ->
+                        productDataCache.set(productList)
                     }
                     .map { it.mapNotNull { item -> item.toDomainModel() } }
             }
@@ -80,6 +80,7 @@ internal class BillingImpl @Inject constructor(
     override suspend fun postAcknowledgePurchase(purchase: PurchaseData): Result<Unit> =
         withConnection {
             acknowledgePurchase(purchase.toAcknowledgeParams()).toResult()
+
         }
 
 

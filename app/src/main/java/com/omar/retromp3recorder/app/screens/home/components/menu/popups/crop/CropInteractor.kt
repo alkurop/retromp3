@@ -3,7 +3,9 @@ package com.omar.retromp3recorder.app.screens.home.components.menu.popups.crop
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.bl.actions.BuyCropFlowUC
 import com.omar.retromp3recorder.bl.actions.CropWithProductUC
+import com.omar.retromp3recorder.bl.actions.HasCropPurchaseUC
 import com.omar.retromp3recorder.bl.crop.CropInPlaceUC
 import com.omar.retromp3recorder.bl.crop.GenerateFileNameUC
 import com.omar.retromp3recorder.bl.files.CanSaveAsNameUC
@@ -18,14 +20,15 @@ class CropInteractor @Inject constructor(
     private val canSaveAs: CanSaveAsNameUC,
     private val cropInPlaceUC: CropInPlaceUC,
     private val cropOutsideUC: CropWithProductUC,
+    private val hasCropPurchaseUC: HasCropPurchaseUC,
+    private val buyCropFlowUC: BuyCropFlowUC,
     private val nameGenerator: GenerateFileNameUC,
     private val toastRepo: ToastRepo,
     dispatcher: CoroutineDispatcher
 ) : Interactor<CropContract.Input, CropContract.Output>(dispatcher) {
 
     private val dismissBus = MutableSharedFlow<Boolean>(
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-        extraBufferCapacity = 1
+        onBufferOverflow = BufferOverflow.DROP_OLDEST, extraBufferCapacity = 1
     )
 
     private suspend fun emitOnCropResult(result: Result<ExistingFileWrapper>) {
@@ -39,6 +42,15 @@ class CropInteractor @Inject constructor(
 
     override fun listRepos(): List<Flow<CropContract.Output>> {
         return listOf(
+            flow {
+                val hasCropPurchase = hasCropPurchaseUC.execute()
+                if (!hasCropPurchase) {
+                    emit(CropContract.Output.Dismiss)
+                    buyCropFlowUC.execute()
+                }else{
+                    emit(CropContract.Output.Show)
+                }
+            },
             flow {
                 emit(CropContract.Output.FileNameUpdate(nameGenerator.execute()))
                 emit(CropContract.Output.IsActionEnabled(true))

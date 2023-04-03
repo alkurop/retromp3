@@ -5,6 +5,7 @@ import com.omar.retromp3recorder.domain.PurchaseData
 import com.omar.retromp3recorder.domain.toResult
 import com.omar.retromp3recorder.io.billing.BillingError
 import com.omar.retromp3recorder.io.billing.connection.PurchaseUpdateData
+import timber.log.Timber
 
 internal object ResultMapper {
 
@@ -29,6 +30,7 @@ internal object ResultMapper {
     }
 
     private fun <T> BillingResult.ifNotFailedResult(action: () -> Result<T>): Result<T> {
+        Timber.d("BILLING response code $responseCode")
         return when (responseCode) {
             BillingClient.BillingResponseCode.OK -> action()
             BillingClient.BillingResponseCode.USER_CANCELED -> {

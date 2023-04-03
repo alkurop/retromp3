@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CropProductRepo @Inject constructor(
-    scopeJobWrapper: ScopeJobWrapper,
+    private val scopeJobWrapper: ScopeJobWrapper,
     private val sharedPreferences: SharedPreferences
 ) : StateFlowRepo<Int>(0) {
     init {
@@ -20,6 +20,16 @@ class CropProductRepo @Inject constructor(
             )
             emit(currentCropValue)
         }
+    }
+
+    override suspend fun emit(input: Int) {
+        scopeJobWrapper.launch {
+            sharedPreferences.edit().putInt(
+                KEY_CROP_COUNTER,
+                input
+            ).apply()
+        }
+        super.emit(input)
     }
 }
 

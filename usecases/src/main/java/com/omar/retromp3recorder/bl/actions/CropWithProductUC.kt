@@ -25,10 +25,8 @@ class CropWithProductUC @Inject constructor(
                 jobWrapper.launch {
                     billingBinderUC.execute<BillingResponse.CropProductConsumeResponse>(
                         BillingRequest.CropProductConsumeRequest
-                    ).also {
-                        it.onFailure { error ->
-                            Timber.e(error)
-                        }
+                    ).onFailure { error ->
+                        Timber.e(error)
                     }
                 }
             }

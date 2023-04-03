@@ -22,10 +22,10 @@ fun ProductDetails.toDomainModel(): ProductData? {
 fun Purchase.toDomainModel(): PurchaseData? {
     val productId = ProductId.values().firstOrNull { this.products[0] == it.productId }
     if (productId == null) {
-        Timber.e("Product id not found it purchase list ${this.products}")
+        Timber.e("BILLING Product id not found it purchase list ${this.products}")
         return null
     } else if (this.products.size > 1) {
-        Timber.e("Product id list is more then one in purchase ${this.products}")
+        Timber.e("BILLING Product id list is more then one in purchase ${this.products}")
     }
     this.packageName
     return PurchaseData(

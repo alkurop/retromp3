@@ -10,6 +10,7 @@ import com.android.billingclient.api.Purchase
 import com.omar.retromp3recorder.domain.toResult
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class BillingConnectionImpl @Inject constructor(
@@ -42,6 +43,7 @@ internal class BillingConnectionImpl @Inject constructor(
     }
 
     override fun connect() {
+        Timber.d("BILLING trying to connect")
         val state = billingClient.connectionState
         if (state == CLOSED) {
             billingClient = createClient()

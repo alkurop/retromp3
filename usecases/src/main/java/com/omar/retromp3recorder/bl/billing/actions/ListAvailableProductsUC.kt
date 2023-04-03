@@ -5,6 +5,7 @@ import com.omar.retromp3recorder.domain.ProductData
 import com.omar.retromp3recorder.io.billing.Billing
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class ListAvailableProductsUC @Inject constructor(
@@ -13,7 +14,12 @@ class ListAvailableProductsUC @Inject constructor(
 ) {
     suspend fun execute(): Result<List<ProductData>> {
         return withContext(scopeJobWrapper.coroutineContext) {
+            Timber.d("BILLING Product trying list")
+
             billing.getAvailableProducts(ProductId.values().map { it.productId })
+                .onSuccess {
+                    Timber.d("BILLING Product listed $it")
+                }
         }
     }
 }
