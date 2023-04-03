@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.io.billing.mapping
 
 import com.android.billingclient.api.*
 import com.omar.retromp3recorder.domain.PurchaseData
+import com.omar.retromp3recorder.domain.toResult
 import com.omar.retromp3recorder.io.billing.BillingError
 import com.omar.retromp3recorder.io.billing.connection.PurchaseUpdateData
 
@@ -55,8 +56,4 @@ internal object ResultMapper {
                     .toResult()
             }
     }
-
-    fun <T> Throwable.toResult(): Result<T> = Result.failure(this)
-
-    fun <T> T.toResult(): Result<T> = Result.success(this)
 }

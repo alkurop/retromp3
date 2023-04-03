@@ -3,22 +3,21 @@ package com.omar.retromp3recorder.app.screens.home.components.menu.popups.crop
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.bl.actions.CropUC
+import com.omar.retromp3recorder.bl.actions.CropWithProductUC
 import com.omar.retromp3recorder.bl.crop.CropInPlaceUC
 import com.omar.retromp3recorder.bl.crop.GenerateFileNameUC
 import com.omar.retromp3recorder.bl.files.CanSaveAsNameUC
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
-import com.omar.retromp3recorder.utils.domain.Optional
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-class CropInteractorFlow @Inject constructor(
+class CropInteractor @Inject constructor(
     private val canSaveAs: CanSaveAsNameUC,
     private val cropInPlaceUC: CropInPlaceUC,
-    private val cropOutsideUC: CropUC,
+    private val cropOutsideUC: CropWithProductUC,
     private val nameGenerator: GenerateFileNameUC,
     private val toastRepo: ToastRepo,
     dispatcher: CoroutineDispatcher
@@ -29,10 +28,11 @@ class CropInteractorFlow @Inject constructor(
         extraBufferCapacity = 1
     )
 
-    private suspend fun emitOnCropResult(result: Optional<ExistingFileWrapper>) {
-        val toast = if (result.hasValue().not()) Stringer(R.string.toast_crop_failed) else {
-            Stringer(R.string.toast_crop_success)
-        }
+    private suspend fun emitOnCropResult(result: Result<ExistingFileWrapper>) {
+        val toast = Stringer(
+            if (result.isFailure) R.string.toast_crop_failed
+            else R.string.toast_crop_success
+        )
         toastRepo.emit(toast)
         dismissBus.emit(true)
     }

@@ -7,7 +7,7 @@ import com.android.billingclient.api.BillingClient.ConnectionState.*
 import com.android.billingclient.api.InAppMessageParams
 import com.android.billingclient.api.InAppMessageResult
 import com.android.billingclient.api.Purchase
-import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toResult
+import com.omar.retromp3recorder.domain.toResult
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -64,5 +64,4 @@ internal class BillingConnectionImpl @Inject constructor(
 
     override suspend fun <T> execute(function: suspend BillingClient.() -> T): T =
         function.invoke(billingClient)
-
 }

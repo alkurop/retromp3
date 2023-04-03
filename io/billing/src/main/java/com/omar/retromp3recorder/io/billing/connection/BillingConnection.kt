@@ -22,6 +22,7 @@ interface BillingConnection {
     fun updatePurchaseList(resultList: List<Purchase>)
 
     val isReady: Boolean
+
     fun subscribeToMessages(params: InAppMessageParams, listener: (InAppMessageResult) -> Unit)
 }
 

@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicReference
 internal class ConnectionListener : BillingClientStateListener, PurchasesUpdatedListener {
     private val _connectionState =
         MutableStateFlow<BillingConnectionState>(BillingConnectionState.Loading)
+
     val connectionState: StateFlow<BillingConnectionState> = _connectionState
 
     private val _purchaseUpdateFlow = MutableSharedFlow<PurchaseUpdateData>(

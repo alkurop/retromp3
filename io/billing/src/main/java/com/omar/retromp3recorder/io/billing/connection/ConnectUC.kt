@@ -9,12 +9,11 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class ConnectUC @Inject constructor(
-    private val connection: BillingConnection,
     private val scopeJobWrapper: ScopeJobWrapper,
+    private val subscribeToMessagesUC: SubscribeToMessagesUC
 ) {
-    suspend fun execute(): Result<Unit> {
+    suspend fun execute(connection: BillingConnection): Result<Unit> {
         return withContext(scopeJobWrapper.coroutineContext) {
-            connection.connect()
             val flow = channelFlow {
                 var job: Job? = null
                 job = launch {
@@ -23,7 +22,10 @@ internal class ConnectUC @Inject constructor(
                             BillingConnectionState.Loading -> {
                                 //ignore
                             }
-                            BillingConnectionState.Connected -> send(Result.success(Unit))
+                            BillingConnectionState.Connected -> {
+                                send(Result.success(Unit))
+                                subscribeToMessagesUC.execute(connection)
+                            }
                             is BillingConnectionState.Disconnected -> send(Result.failure(item.cause))
                         }
 
@@ -34,6 +36,8 @@ internal class ConnectUC @Inject constructor(
                     }
                 }
             }
+
+            connection.connect()
             flow.first()
         }
     }

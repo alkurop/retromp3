@@ -21,7 +21,7 @@ import org.junit.Test
 import kotlin.random.Random
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class CropInteractorFlowTest {
+class CropInteractorTest {
     private val canSaveAs = mockk<CanSaveAsNameUC>()
     private val cropInPlaceUC = mockk<CropInPlaceUC>()
     private val cropOutsideUC = mockk<CropUC>()
@@ -29,13 +29,13 @@ class CropInteractorFlowTest {
     private val toastRepo = mockk<ToastRepo>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
 
-    private lateinit var tested: CropInteractorFlow
+    private lateinit var tested: CropInteractor
 
     private val testSuggestion = MockSuggestionFactory.giveTestSuggestion()
 
     @Before
     fun setUp() {
-        tested = CropInteractorFlow(
+        tested = CropInteractor(
             canSaveAs,
             cropInPlaceUC,
             cropOutsideUC,

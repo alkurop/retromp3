@@ -10,8 +10,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.omar.retromp3recorder.app.RetroTheme
+import com.omar.retromp3recorder.app.billing.BillingInteractor
 import com.omar.retromp3recorder.app.nav.AppNavHost
-import com.omar.retromp3recorder.io.billing.Billing
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,11 +22,12 @@ class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
     @Inject
-    lateinit var billing: Billing
+    lateinit var billing: BillingInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
+        lifecycleScope.launch { billing.setup() }
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 this@MainActivity.renderView(state)

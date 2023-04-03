@@ -1,6 +1,6 @@
-package com.omar.retromp3recorder.bl.billing
+package com.omar.retromp3recorder.bl.billing.actions
 
-import com.omar.retromp3recorder.domain.PayedProducts
+import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.domain.ProductData
 import com.omar.retromp3recorder.io.billing.Billing
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
@@ -13,7 +13,7 @@ class ListAvailableProductsUC @Inject constructor(
 ) {
     suspend fun execute(): Result<List<ProductData>> {
         return withContext(scopeJobWrapper.coroutineContext) {
-            billing.getProductDetails(PayedProducts.values().map { it.productId })
+            billing.getAvailableProducts(ProductId.values().map { it.productId })
         }
     }
 }

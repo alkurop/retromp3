@@ -7,3 +7,4 @@ sealed class BillingError(message: String) : Throwable(message) {
     class ConnectionError(message: String) : BillingError(message)
 }
 
+fun Throwable.isUserCanceled() = this is BillingError.UserCanceled

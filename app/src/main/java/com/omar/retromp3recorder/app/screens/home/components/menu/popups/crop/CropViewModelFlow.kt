@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CropViewModelFlow @Inject constructor(
-    interactor: CropInteractorFlow
+    interactor: CropInteractor
 ) : ViewModel() {
 
     val state: StateFlow<CropContract.State>

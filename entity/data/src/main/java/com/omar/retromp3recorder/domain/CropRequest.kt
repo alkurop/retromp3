@@ -5,7 +5,3 @@ data class CropRequest(
     val original: ExistingFileWrapper,
     val newFileNameSuggestion: NewNameSuggestion
 )
-
-data class CropResponse(
-    val isSuccess: Boolean
-)
