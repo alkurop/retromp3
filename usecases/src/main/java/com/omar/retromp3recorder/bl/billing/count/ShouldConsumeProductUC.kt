@@ -6,13 +6,13 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class ShouldConsumeProductUC @Inject constructor(
-    private val productRepo: CropProductRepo
+    private val cropProductRepo: CropProductRepo
 ) {
     suspend fun execute(productId: ProductId): Boolean {
         when (productId) {
             ProductId.CROP_10 -> {
-                val available = productRepo.first()
-                val shouldConsume = available <= 0
+                val available = cropProductRepo.first()
+                val shouldConsume = available <= 0 && cropProductRepo.isTrial().not()
                 Timber.d("BILLING Product purchase should consume $shouldConsume")
                 return shouldConsume
             }
