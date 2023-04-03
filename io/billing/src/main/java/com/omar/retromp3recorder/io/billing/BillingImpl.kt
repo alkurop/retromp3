@@ -85,7 +85,6 @@ internal class BillingImpl @Inject constructor(
     override suspend fun postAcknowledgePurchase(purchase: PurchaseData): Result<Unit> =
         withConnection {
             acknowledgePurchase(purchase.toAcknowledgeParams()).toResult()
-
         }
 
 

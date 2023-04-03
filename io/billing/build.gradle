@@ -6,6 +6,8 @@ plugins {
 }
 
 apply from: "$scripts.android_library"
+apply from: "$scripts.test_dependency"
+
 
 android {
     namespace "${applicationId}.io.billing"
@@ -19,4 +21,7 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     kapt "com.google.dagger:hilt-compiler:$versions.hilt"
+
+    testImplementation project(':data:mock')
+
 }

@@ -41,17 +41,15 @@ fun Purchase.toDomainModel(): PurchaseData? {
     )
 }
 
-fun List<ProductData>.findProduct(productType: ProductId): Result<ProductData> {
-    val cropProduct = this.firstOrNull { item -> item.productType == productType }
-    return cropProduct?.toResult() ?: BillingError.OtherError("Product not found $productType")
+fun List<ProductData>.findProduct(productType: ProductId): Result<ProductData> =
+    this.firstOrNull { item -> item.productType == productType }
+        ?.toResult() ?: BillingError.OtherError("Product not found $productType")
         .toResult()
-}
 
-fun List<PurchaseData>.findPurchase(productType: ProductId): Result<PurchaseData> {
-    val product = this.firstOrNull { item ->
+
+fun List<PurchaseData>.findPurchase(productType: ProductId): Result<PurchaseData> =
+    this.firstOrNull { item ->
         item.productId == productType
     }
-    return product?.toResult() ?: BillingError.OtherError("Product not found $productType")
+        ?.toResult() ?: BillingError.OtherError("Product not found $productType")
         .toResult()
-}
-
