@@ -42,7 +42,6 @@ internal class BillingConnection @Inject constructor(
             execute { action() }
         }
 
-
     suspend fun subscribeToMessages(
         params: InAppMessageParams,
         listener: (InAppMessageResult) -> Unit

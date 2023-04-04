@@ -27,7 +27,7 @@ internal class ConnectUC @Inject constructor(
                                     Timber.d("BILLING massage result $it")
                                 }
                             }
-                            is BillingConnectionState.Disconnected -> send(Result.failure(item.cause))
+                            is BillingConnectionState.Disconnected -> trySend(Result.failure(item.cause))
                         }
 
                         if (item != BillingConnectionState.Loading) {
