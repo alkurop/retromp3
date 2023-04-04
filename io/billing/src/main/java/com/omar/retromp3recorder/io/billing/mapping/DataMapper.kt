@@ -35,6 +35,5 @@ fun List<ProductId>.findProduct(productType: ProductId): Result<ProductId> =
 fun List<PurchaseData>.findPurchase(productType: ProductId): Result<PurchaseData> =
     this.firstOrNull { item ->
         item.productId == productType
-    }
-        ?.toResult() ?: BillingError.OtherError("Product not found $productType")
+    }?.toResult() ?: BillingError.OtherError("Product not found $productType")
         .toResult()
