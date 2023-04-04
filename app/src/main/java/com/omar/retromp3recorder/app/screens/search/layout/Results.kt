@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.app.screens.search.layout
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,10 +10,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.PagingData
@@ -52,7 +53,7 @@ fun Results(
         LazyColumn(state = listState) {
             items(items = pagingItems) { file ->
                 file?.let {
-                    ItemComposable(
+                    ItemComposable2(
                         itemFile = file, currentFile, onClick
                     )
                 }
@@ -62,7 +63,7 @@ fun Results(
 }
 
 @Composable
-private fun ItemComposable(
+private fun ItemComposable2(
     itemFile: ExistingFileWrapper,
     selectedFile: ExistingFileWrapper? = null,
     onClick: (ExistingFileWrapper) -> Unit
@@ -83,17 +84,39 @@ private fun ItemComposable(
         .height(58.dp),
         border = border
     ) {
-        Row(Modifier.padding(8.dp)) {
-            Column(
-                Modifier
-                    .weight(2f)
-                    .wrapContentHeight()
-            ) {
-
+        Column(Modifier.padding(8.dp)) {
+            //top row
+            Row() {
+                //title
                 Text(
-                    text = itemFile.name, color = MaterialTheme.colorScheme.onSurface
+                    modifier = Modifier.weight(3f),
+                    text = itemFile.name,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-                Row {
+
+                // length
+                Row(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.End,
+                ) {
+                    Text(
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        text = stringResource(id = R.string.length)
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface, text = time
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            //bottom row
+            Row {
+                //created text
+                Row(Modifier.weight(3f)) {
                     Text(
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurface,
@@ -103,35 +126,24 @@ private fun ItemComposable(
                     Text(
                         fontSize = 12.sp,
                         text = itemFile.createTimedStamp.toCreationDate(),
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
-            }
 
-            itemFile.wavetable?.let { wavetable ->
-                WavetableCompose(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(30.dp)
-                        .align(CenterVertically),
-                    data = WavetableComposeData(wavetable)
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .align(CenterVertically)
-                    .padding(start = 16.dp)
-                    .weight(0.7f)
-            ) {
-                Text(
-                    fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    text = stringResource(id = R.string.length)
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface, text = time
-                )
+                //waveform
+                Box(Modifier.weight(2f)) {
+                    itemFile.wavetable?.let { wavetable ->
+                        WavetableCompose(
+                            modifier = Modifier
+                                .height(40.dp)
+                                .background(MaterialTheme.colorScheme.surface)
+                                .fillMaxWidth(),
+                            data = WavetableComposeData(wavetable)
+                        )
+                    }
+                }
             }
         }
     }
