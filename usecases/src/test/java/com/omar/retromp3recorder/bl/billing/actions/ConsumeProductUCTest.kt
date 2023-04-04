@@ -48,6 +48,6 @@ class ConsumeProductUCTest {
 
         tested.execute(ProductId.CROP_10)
 
-        coVerify(exactly = 1) { billing.postConsumePurchase(item) }
+        coVerify(exactly = 0) { billing.postConsumePurchase(item) }
     }
 }
