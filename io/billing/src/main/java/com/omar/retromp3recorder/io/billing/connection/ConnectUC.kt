@@ -17,7 +17,7 @@ internal class ConnectUC @Inject constructor(
             val flow = channelFlow {
                 var job: Job? = null
                 job = launch {
-                    connection.connectionFlow().collect { item ->
+                    connection.connectionFlow.collect { item ->
                         when (item) {
                             BillingConnectionState.Loading -> {
                                 //ignore

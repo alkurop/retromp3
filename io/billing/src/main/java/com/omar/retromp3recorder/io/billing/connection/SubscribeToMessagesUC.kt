@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 internal class SubscribeToMessagesUC @Inject constructor(
 ) {
-    fun execute(connection: BillingConnection) {
+    suspend fun execute(connection: BillingConnection) {
         connection.subscribeToMessages(buildMessageParams()) {
             Timber.d("BILLING massage result $it")
         }

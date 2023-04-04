@@ -35,9 +35,7 @@ class BuyProductUC @Inject constructor(
                         unconsumedPurchase.toResult()
                     } else {
                         listProducts.execute()
-                            .chain {
-                                it.findProduct(productId)
-                            }
+                            .chain { it.findProduct(productId) }
                             .chainSuspend { billing.uiLaunchBillingFlow(it) }
                             .chainSuspend { purchase ->
                                 billing.postAcknowledgePurchase(purchase).map { purchase }

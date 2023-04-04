@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.bl.billing.actions
 
 import com.omar.retromp3recorder.domain.ProductId
-import com.omar.retromp3recorder.domain.ProductData
 import com.omar.retromp3recorder.io.billing.Billing
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.withContext
@@ -12,7 +11,7 @@ class ListAvailableProductsUC @Inject constructor(
     private val billing: Billing,
     private val scopeJobWrapper: ScopeJobWrapper,
 ) {
-    suspend fun execute(): Result<List<ProductData>> {
+    suspend fun execute(): Result<List<ProductId>> {
         return withContext(scopeJobWrapper.coroutineContext) {
             Timber.d("BILLING Product trying list")
 

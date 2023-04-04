@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.io.billing
 
-import com.omar.retromp3recorder.domain.ProductData
+import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.domain.PurchaseData
 
 /**
@@ -8,7 +8,7 @@ import com.omar.retromp3recorder.domain.PurchaseData
  */
 interface Billing {
 
-    suspend fun getAvailableProducts(productIdList: List<String>): Result<List<ProductData>>
+    suspend fun getAvailableProducts(productIdList: List<String>): Result<List<ProductId>>
 
     suspend fun getUserActivePurchases(): Result<List<PurchaseData>>
 
@@ -16,7 +16,7 @@ interface Billing {
 
     suspend fun postConsumePurchase(purchase: PurchaseData): Result<Unit>
 
-    suspend fun uiLaunchBillingFlow(product: ProductData): Result<PurchaseData>
+    suspend fun uiLaunchBillingFlow(productId: ProductId): Result<PurchaseData>
 
     fun disconnect()
 }

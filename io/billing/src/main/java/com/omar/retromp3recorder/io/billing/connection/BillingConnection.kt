@@ -8,38 +8,45 @@ import com.android.billingclient.api.InAppMessageParams
 import com.android.billingclient.api.InAppMessageResult
 import com.android.billingclient.api.Purchase
 import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
 internal class BillingConnection @Inject constructor(
     @ActivityContext private val context: Context,
+    private val scopeJobWrapper: ScopeJobWrapper,
+    private val connectUC: ConnectUC,
     private val billingConnectionListener: ConnectionListener
 ) {
-
     private var billingClient: BillingClient = createClient()
+    private val activity: Activity get() = context as Activity
 
-    val isReady: Boolean
-        get() = billingClient.isReady
+    val connectionFlow: Flow<BillingConnectionState> get() = billingConnectionListener.connectionState
+    val purchaseFlow: Flow<PurchaseUpdateData> get() = billingConnectionListener.purchaseUpdateFlow
 
-    private val activity: Activity
-        get() = context as Activity
-
-    fun connectionFlow(): Flow<BillingConnectionState> {
-        return billingConnectionListener.connectionState
-    }
-
-    fun purchaseFlow(): Flow<PurchaseUpdateData> {
-        return billingConnectionListener.purchaseUpdateFlow
-    }
-
-    fun updatePurchaseList(resultList: List<Purchase>) {
+    fun updatePurchaseList(resultList: List<Purchase>) =
         billingConnectionListener.updatePurchaseCache(resultList.toResult())
-    }
 
-    fun subscribeToMessages(params: InAppMessageParams, listener: (InAppMessageResult) -> Unit) {
-        billingClient.showInAppMessages(activity, params, listener)
+    suspend fun <T> executeWithConnection(doWhenConnected: suspend BillingClient.() -> Result<T>): Result<T> =
+        withContext(scopeJobWrapper.coroutineContext) {
+            if (billingClient.isReady.not()) {
+                val connectionResult = connectUC.execute(this@BillingConnection)
+                if (connectionResult.isFailure) {
+                    return@withContext Result.failure(connectionResult.exceptionOrNull()!!)
+                }
+            }
+            execute { doWhenConnected() }
+        }
+
+
+    suspend fun subscribeToMessages(params: InAppMessageParams, listener: (InAppMessageResult) -> Unit)  {
+        executeWithConnection {
+            showInAppMessages(activity, params, listener)
+            Unit.toResult()
+        }
     }
 
     fun connect() {
@@ -64,6 +71,6 @@ internal class BillingConnection @Inject constructor(
         billingClient.endConnection()
     }
 
-    suspend fun <T> execute(function: suspend BillingClient.() -> T): T =
+    private suspend fun <T> execute(function: suspend BillingClient.() -> T): T =
         function.invoke(billingClient)
 }

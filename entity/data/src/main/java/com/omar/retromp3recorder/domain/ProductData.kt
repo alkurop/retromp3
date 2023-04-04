@@ -1,17 +1,9 @@
 package com.omar.retromp3recorder.domain
 
-data class ProductData(
-    val name: String,
-    val description: String,
-    val productType: ProductId,
-    val title: String
-)
-
 
 enum class ProductId(val productId: String) {
     CROP_10("crop_times_10")
 }
-
 
 data class PurchaseData(
     val productId: ProductId,

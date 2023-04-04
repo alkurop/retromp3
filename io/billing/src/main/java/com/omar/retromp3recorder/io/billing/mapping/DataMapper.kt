@@ -3,21 +3,13 @@ package com.omar.retromp3recorder.io.billing.mapping
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.omar.retromp3recorder.domain.ProductId
-import com.omar.retromp3recorder.domain.ProductData
 import com.omar.retromp3recorder.domain.PurchaseData
 import com.omar.retromp3recorder.domain.toResult
 import com.omar.retromp3recorder.io.billing.BillingError
 import timber.log.Timber
 
-fun ProductDetails.toDomainModel(): ProductData? {
-    val id = ProductId.values().firstOrNull { this.productId == it.productId } ?: return null
-    return ProductData(
-        productType = id,
-        name = this.name,
-        title = this.title,
-        description = this.description,
-    )
-}
+fun ProductDetails.toDomainModel(): ProductId? =
+    ProductId.values().firstOrNull { this.productId == it.productId }
 
 fun Purchase.toDomainModel(): PurchaseData? {
     val productId = ProductId.values().firstOrNull { this.products[0] == it.productId }
@@ -41,11 +33,9 @@ fun Purchase.toDomainModel(): PurchaseData? {
     )
 }
 
-fun List<ProductData>.findProduct(productType: ProductId): Result<ProductData> =
-    this.firstOrNull { item -> item.productType == productType }
-        ?.toResult() ?: BillingError.OtherError("Product not found $productType")
+fun List<ProductId>.findProduct(productType: ProductId): Result<ProductId> =
+    if (this.contains(productType)) productType.toResult() else BillingError.OtherError("Product not found $productType")
         .toResult()
-
 
 fun List<PurchaseData>.findPurchase(productType: ProductId): Result<PurchaseData> =
     this.firstOrNull { item ->
