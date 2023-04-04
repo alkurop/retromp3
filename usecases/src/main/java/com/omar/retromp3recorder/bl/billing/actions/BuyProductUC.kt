@@ -25,11 +25,7 @@ class BuyProductUC @Inject constructor(
                 .chainSuspend { optionalPurchaseData ->
                     val unconsumedPurchase = optionalPurchaseData.value
                     if (unconsumedPurchase != null && unconsumedPurchase.isAcknowledged.not()) {
-                        billing.postAcknowledgePurchase(unconsumedPurchase)
-                            .map { unconsumedPurchase }
-                            .onSuccess {
-                                Timber.d("BILLING Product acknowledged from previous buy attempt $it")
-                            }
+                        unconsumedPurchase.toResult().postAcknowledge()
                     } else if (unconsumedPurchase != null) {
                         Timber.d("BILLING Product using unconsumed product instead of buying it again $unconsumedPurchase")
                         unconsumedPurchase.toResult()
@@ -37,14 +33,18 @@ class BuyProductUC @Inject constructor(
                         listProducts.execute()
                             .chain { it.findProduct(productId) }
                             .chainSuspend { billing.uiLaunchBillingFlow(it) }
-                            .chainSuspend { purchase ->
-                                billing.postAcknowledgePurchase(purchase).map { purchase }
-                                    .onSuccess {
-                                        Timber.d("BILLING Product bought and acknowledged $it")
-                                    }
-                            }
+                            .postAcknowledge()
                     }
                 }
         }
     }
+
+
+    private suspend fun Result<PurchaseData>.postAcknowledge(): Result<PurchaseData> =
+        this.chainSuspend { purchase ->
+            billing.postAcknowledgePurchase(purchase).map { purchase }
+                .onSuccess {
+                    Timber.d("BILLING Product bought and acknowledged $it")
+                }
+        }
 }
