@@ -19,7 +19,8 @@ internal class BillingConnection @Inject constructor(
     @ActivityContext private val context: Context,
     private val scopeJobWrapper: ScopeJobWrapper,
     private val connectUC: ConnectUC,
-    private val billingConnectionListener: ConnectionListener
+    private val billingClientProvider: BillingClientProvider,
+    private val billingConnectionListener: BillingConnectionListener
 ) {
     private var billingClient: BillingClient = createClient()
     private val activity: Activity get() = context as Activity
@@ -30,7 +31,7 @@ internal class BillingConnection @Inject constructor(
     fun updatePurchaseList(resultList: List<Purchase>) =
         billingConnectionListener.updatePurchaseCache(resultList.toResult())
 
-    suspend fun <T> executeWithConnection(doWhenConnected: suspend BillingClient.() -> Result<T>): Result<T> =
+    suspend fun <T> executeWithConnection(action: suspend BillingClient.() -> Result<T>): Result<T> =
         withContext(scopeJobWrapper.coroutineContext) {
             if (billingClient.isReady.not()) {
                 val connectionResult = connectUC.execute(this@BillingConnection)
@@ -38,16 +39,23 @@ internal class BillingConnection @Inject constructor(
                     return@withContext Result.failure(connectionResult.exceptionOrNull()!!)
                 }
             }
-            execute { doWhenConnected() }
+            execute { action() }
         }
 
 
-    suspend fun subscribeToMessages(params: InAppMessageParams, listener: (InAppMessageResult) -> Unit)  {
+    suspend fun subscribeToMessages(
+        params: InAppMessageParams,
+        listener: (InAppMessageResult) -> Unit
+    ) {
         executeWithConnection {
             showInAppMessages(activity, params, listener)
             Unit.toResult()
         }
     }
+
+    private fun createClient(): BillingClient =
+        billingClientProvider.provideNewClientBuilder().setListener(billingConnectionListener)
+            .build()
 
     fun connect() {
         Timber.d("BILLING trying to connect")
@@ -61,15 +69,12 @@ internal class BillingConnection @Inject constructor(
         billingClient.startConnection(billingConnectionListener)
     }
 
-    private fun createClient(): BillingClient {
-        return BillingClient.newBuilder(context).enablePendingPurchases()
-            .setListener(billingConnectionListener).build()
-    }
 
     fun disconnect() {
         billingConnectionListener.setDisconnected()
         billingClient.endConnection()
     }
+
 
     private suspend fun <T> execute(function: suspend BillingClient.() -> T): T =
         function.invoke(billingClient)

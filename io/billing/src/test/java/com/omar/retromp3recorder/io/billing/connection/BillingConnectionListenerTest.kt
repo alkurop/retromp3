@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.io.billing.connection
 import org.junit.Assert.*
 import org.junit.Test
 
-class ConnectionListenerTest{
+class BillingConnectionListenerTest{
     @Test
     fun stub() = fail()
 }

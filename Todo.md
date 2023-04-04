@@ -104,6 +104,7 @@ X means can't be done (please provide explanation)
 - add developer account profile
 - transfer ownership to nl
 - add effects
+- explore bundles in order to add AI feature as a separate bundle
 
 
 #### payments

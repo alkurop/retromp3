@@ -13,7 +13,7 @@ import timber.log.Timber
 import java.util.concurrent.atomic.AtomicReference
 import javax.inject.Inject
 
-internal class ConnectionListener @Inject constructor(
+internal class BillingConnectionListener @Inject constructor(
     private val jobWrapper: ScopeJobWrapper
 ) :
     BillingClientStateListener, PurchasesUpdatedListener {
