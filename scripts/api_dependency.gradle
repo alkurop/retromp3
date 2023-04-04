@@ -1,6 +1,0 @@
-android {
-    defaultConfig {
-        buildConfigField "String", "API_KEY", "\"fsq3q8MyPRcVdNjGBrlB7+z1Epqq2+hQyzy8HQewTUTH1VY=\""
-        buildConfigField "String", "FOURSQUARE_BASE_URL", "\"https://api.foursquare.com/v3/\""
-    }
-}

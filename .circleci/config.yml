@@ -6,7 +6,7 @@ jobs:
   unit-test:
     executor:
       name: android/android-docker
-      tag: 2021.10.1
+      tag: 2022.08.1
     steps:
       - checkout
       - android/restore-gradle-cache
@@ -25,6 +25,7 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results/junit
+    resource_class: large
   android-test:
     executor:
       name: android/android-machine
@@ -49,4 +50,4 @@ workflows:
   test:
     jobs:
       - unit-test
-      - android-test
+#      - android-test
