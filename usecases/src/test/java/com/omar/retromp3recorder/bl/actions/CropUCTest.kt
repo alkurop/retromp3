@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.data.mock.MockCropRequestFactory
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
 import com.omar.retromp3recorder.data.mock.MockTagsFactory
-import com.omar.retromp3recorder.domain.CropResponse
+import com.omar.retromp3recorder.domain.toResult
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
@@ -59,10 +59,10 @@ class CropUCTest {
 
     @Test
     fun `WHEN crop failed THEN empty result`() = runTest {
-        every { audioCropper.crop(any()) } returns CropResponse(false)
+        every { audioCropper.crop(any()) } returns Error("expected").toResult()
         val result = tested.execute(mockSuggestion)
 
-        assertNull(result.value)
+        assertNull(result.exceptionOrNull())
         verify(exactly = 0) { mp3TagsEditor.getTags(any()) }
         verify(exactly = 0) { mp3TagsEditor.setTags(any(), any()) }
         verify(exactly = 0) { fileLister.discoverFile(any()) }
@@ -72,22 +72,22 @@ class CropUCTest {
 
     @Test
     fun `WHEN crop success THEN sequence executed`() = runTest {
-        every { audioCropper.crop(any()) } returns CropResponse(true)
+        every { audioCropper.crop(any()) } returns Unit.toResult()
         val result = tested.execute(mockSuggestion)
 
-        assertNotNull(result.value)
+        assertNotNull(result.getOrNull())
         coVerifyOrder {
             mp3TagsEditor.getTags(any())
             mp3TagsEditor.setTags(any(), any())
             fileLister.discoverFile(any())
-            waveformScanner.execute( any())
+            waveformScanner.execute(any())
             dao.insert(any())
         }
     }
 
     @Test
     fun `WHEN crop success THEN mp3 tags update title`() = runTest {
-        every { audioCropper.crop(any()) } returns CropResponse(true)
+        every { audioCropper.crop(any()) } returns Unit.toResult()
         tested.execute(mockSuggestion)
 
         verify {
