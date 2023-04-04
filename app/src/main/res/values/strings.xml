@@ -61,7 +61,8 @@
     <!--    Toast-->
     <string name="toast_crop_success">Crop success</string>
     <string name="toast_crop_failed">Crop failed</string>
-    <string name="thank_you_toast">Thank you!</string>
+    <string name="purchase_failed_toast">Purchase failed.</string>
+    <string name="purchase_success_toast">Thank you!</string>
 
     <!--    Main screen-->
     <string name="please_record_something">Please record something</string>

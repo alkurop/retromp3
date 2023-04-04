@@ -44,7 +44,10 @@ class BillingInteractor @Inject constructor(
                         buyProductUC.execute(ProductId.CROP_10).also {
                             it.onSuccess {
                                 billing.disconnect()
-                                toastRepo.emit(Stringer(R.string.thank_you_toast))
+                                toastRepo.emit(Stringer(R.string.purchase_success_toast))
+                            }
+                            it.onFailure {
+                                toastRepo.emit(Stringer(R.string.purchase_failed_toast))
                             }
                         }.map { data ->
                             BillingResponse.CropProductBuyResponse(data)

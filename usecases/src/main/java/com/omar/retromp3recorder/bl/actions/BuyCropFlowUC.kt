@@ -28,7 +28,6 @@ class BuyCropFlowUC @Inject constructor(
                 } else {
                     Timber.d("BILLING Crop purchase buy error")
                     Timber.e(error)
-                    increaseProductCount.execute(ProductId.CROP_10, 1)
                 }
             } else {
                 val purchase = result.getOrThrow().result

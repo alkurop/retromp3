@@ -1,3 +1,4 @@
+
 ## TODO's ##
 
 In order of appearance
@@ -12,8 +13,8 @@ X means can't be done (please provide explanation)
   a need to save state somewhere?
 - check main screen recomposition
 - check audio player issues
-- investigate crash when saving file
-- align log duration with real duration 
+- X investigate crash when saving file - being skipped for current realse. Will be reenabled if present in crash reports
+- X align log duration with real duration - partially fixed. DIff is 300 millis, which is probably ok 
 - issue with "record message" popping up sometimes
 
 - V fix logs
@@ -39,13 +40,13 @@ X means can't be done (please provide explanation)
 
 ### Refactoring:
 
-- order strings
-- add previews
-- cleanup toast repo
-- rename popup remove name state from interactor, retain name in composable
-- for popups move dismiss state to composable
+- V order strings
+- X add previews - being skipped
+- X cleanup toast repo - being skipped
+- X rename popup remove name state from interactor, retain name in composable - being skipped
+- X - being skipped for popups move dismiss state to composable
 - convert player and recorder to flow
-- StartPlaybackUCSuspend why here using length of file not duration in the progress?
+- V StartPlaybackUCSuspend why here using length of file not duration in the progress?
 - show snackbar instead of toast
 - make record button bigger then others
 - add dependency diagram
@@ -93,42 +94,29 @@ X means can't be done (please provide explanation)
 - add static analysis
 - loading screen
 - V cleanup circleci script
-- enroll int0o 15% google pay program
+- V enroll into 15% google pay program
 - split testing
 - website with a blog (similar theme)
 - firebase analytics
 - firebase feature flags
 - add mob 
 - analytics
+- add developer account profile
+- transfer ownership to nl
+- add effects
+
 
 #### payments
-- save purcheses in database
-- consume, and let use if user is offline
+- V save purcheses in database
+- V consume, and let use if user is offline
 - add eventually the loading screen
-- log how many useges were made, with or without subscription, payed or not payed (ab test this maybe)
+- V log how many useges were made, with or without subscription, payed or not payed (ab test this maybe)
 - add google analytics, or any other analytics tool
-- add product counter (available at the moment) to settings
-- add messaging 
-``` {
-val inAppMessageParams = InAppMessageParams.newBuilder()
-   .addInAppMessageCategoryToShow(InAppMessageParams.InAppMessageCategoryId.TRANSACTIONAL)
-   .build()
-
-   billingClient.showInAppMessages(activity, inAppMessageParams) { inAppMessageResult ->
-       if (inAppMessageResult.responseCode == InAppMessageResult.InAppMessageResponseCode.NO_ACTION_NEEDED) {
-         // The flow has finished and there is no action needed from developers.
-         logD { "SUBTEST: NO_ACTION_NEEDED"}
-       } else if (inAppMessageResult.responseCode == InAppMessageResult.InAppMessageResponseCode.SUBSCRIPTION_STATUS_UPDATED) {
-         logD { "SUBTEST: SUBSCRIPTION_STATUS_UPDATED"}
-         // The subscription status changed. For example, a subscription
-         // has been recovered from a suspend state. Developers should
-         // expect the purchase token to be returned with this response
-         // code and use the purchase token with the Google Play
-         // Developer API.
-       }
-    }
-```
-- test payment with different response type
+- V add product counter (available at the moment) to settings
+- X add messaging (added but does not work during testing, this is a minor feature and is being skipped)
+- V test payment with different response type
+- X contact support to transfer accoutn to NL - no need, just create an other account
+- create NL account to receive payments
 
 
 mvp
@@ -141,4 +129,6 @@ mvp
 - collapsable list items
 - [native audio player](https://developer.android.com/ndk/guides/audio/aaudio/aaudio)
 - google add words
-- write downe hepothsis, organizr documentation
+- write downe hepothsis, organize documentation
+- add voice recognition AI
+
