@@ -37,7 +37,7 @@ internal object ResultMapper {
                 BillingError.UserCanceled.toResult()
             }
             else -> {
-                BillingError.OtherError(debugMessage).toResult()
+                BillingError.OtherError("$debugMessage Failed with code $responseCode").toResult()
             }
         }
     }

@@ -15,41 +15,16 @@ import javax.inject.Inject
 
 internal class BillingConnectionListener @Inject constructor(
     private val jobWrapper: ScopeJobWrapper
-) :
-    BillingClientStateListener, PurchasesUpdatedListener {
+) : BillingClientStateListener, PurchasesUpdatedListener {
+
     private val _connectionState =
         MutableStateFlow<BillingConnectionState>(BillingConnectionState.Loading)
-
     val connectionState: StateFlow<BillingConnectionState> = _connectionState
 
-    private val _purchaseUpdateFlow = MutableSharedFlow<PurchaseUpdateData>(
-        replay = 0
-    )
-
-    private val purchaseCache = AtomicReference(PurchaseUpdateData())
-
+    private val _purchaseUpdateFlow = MutableSharedFlow<PurchaseUpdateData>(replay = 0)
     val purchaseUpdateFlow: Flow<PurchaseUpdateData> = _purchaseUpdateFlow
 
-    override fun onBillingServiceDisconnected() {
-        _connectionState.value = BillingConnectionState.Disconnected()
-    }
-
-    override fun onBillingSetupFinished(billingResult: BillingResult) {
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-            _connectionState.value = BillingConnectionState.Connected
-        } else {
-            _connectionState.value = BillingConnectionState.Disconnected()
-            Timber.e("BILLING ${billingResult.debugMessage}")
-        }
-    }
-
-    override fun onPurchasesUpdated(result: BillingResult, purchaseList: MutableList<Purchase>?) {
-        updatePurchaseCache(result.ifNotFailed { purchaseList ?: emptyList() }.onSuccess {
-            Timber.d("BILLING Purchase list updated $it")
-        })
-
-        jobWrapper.launch { _purchaseUpdateFlow.emit(purchaseCache.get()) }
-    }
+    private val purchaseCache = AtomicReference(PurchaseUpdateData())
 
     fun setLoading() {
         _connectionState.value = BillingConnectionState.Loading
@@ -63,6 +38,40 @@ internal class BillingConnectionListener @Inject constructor(
         purchaseCache.getAndUpdate { it.update(updateData) }
     }
 
+    override fun onBillingServiceDisconnected() {
+        _connectionState.value = BillingConnectionState.Disconnected()
+    }
+
+    override fun onBillingSetupFinished(billingResult: BillingResult) {
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+            _connectionState.value = BillingConnectionState.Connected
+        } else {
+            _connectionState.value =
+                BillingConnectionState.Disconnected(Error("Disconnected with code ${billingResult.responseCode}"))
+            Timber.e("BILLING ${billingResult.debugMessage} with code ${billingResult.responseCode}")
+        }
+    }
+
+    override fun onPurchasesUpdated(result: BillingResult, purchaseList: List<Purchase>?) {
+        updatePurchaseCache(result.ifNotFailed { purchaseList ?: emptyList() }.onSuccess {
+            Timber.d("BILLING Purchase list updated $it")
+        })
+
+        jobWrapper.launch { _purchaseUpdateFlow.emit(purchaseCache.get()) }
+    }
+
+    private fun PurchaseUpdateData.update(updateData: Result<List<Purchase>>): PurchaseUpdateData {
+        val currentList = this.purchaseList
+        return if (updateData.isFailure) {
+            PurchaseUpdateData(currentList, error = updateData.exceptionOrNull())
+        } else {
+            val addedItemList =
+                updateData.getOrNull()?.filter { currentList.contains(it).not() } ?: emptyList()
+            PurchaseUpdateData(currentList + addedItemList, addedItemList)
+        }.also {
+            Timber.d("BILLING Purchase state $it")
+        }
+    }
 }
 
 sealed class BillingConnectionState {
@@ -78,18 +87,4 @@ data class PurchaseUpdateData(
     val addedItems: List<Purchase> = emptyList(),
     val error: Throwable? = null
 )
-
-internal fun PurchaseUpdateData.update(updateData: Result<List<Purchase>>): PurchaseUpdateData {
-    val currentList = this.purchaseList
-    return if (updateData.isFailure) {
-        PurchaseUpdateData(currentList, error = updateData.exceptionOrNull())
-    } else {
-        val addedItemList =
-            updateData.getOrNull()?.filter { currentList.contains(it).not() } ?: emptyList()
-        PurchaseUpdateData(currentList, addedItemList)
-    }.also {
-        Timber.d("BILLING Purchase state $it")
-    }
-}
-
 
