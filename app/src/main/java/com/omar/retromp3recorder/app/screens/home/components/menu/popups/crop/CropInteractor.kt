@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.app.screens.home.components.menu.popups.crop
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.bl.actions.BuyCropFlowUC
+import com.omar.retromp3recorder.bl.actions.BuyCrop10UC
 import com.omar.retromp3recorder.bl.actions.CropWithProductUC
 import com.omar.retromp3recorder.bl.actions.HasCropPurchaseUC
 import com.omar.retromp3recorder.bl.crop.CropInPlaceUC
@@ -21,7 +21,7 @@ class CropInteractor @Inject constructor(
     private val cropInPlaceUC: CropInPlaceUC,
     private val cropOutsideUC: CropWithProductUC,
     private val hasCropPurchaseUC: HasCropPurchaseUC,
-    private val buyCropFlowUC: BuyCropFlowUC,
+    private val buyCrop10UC: BuyCrop10UC,
     private val nameGenerator: GenerateFileNameUC,
     private val toastRepo: ToastRepo,
     dispatcher: CoroutineDispatcher
@@ -46,14 +46,12 @@ class CropInteractor @Inject constructor(
                 val hasCropPurchase = hasCropPurchaseUC.execute()
                 if (!hasCropPurchase) {
                     emit(CropContract.Output.Dismiss)
-                    buyCropFlowUC.execute()
-                }else{
+                    buyCrop10UC.execute()
+                } else {
                     emit(CropContract.Output.Show)
+                    emit(CropContract.Output.FileNameUpdate(nameGenerator.execute()))
+                    emit(CropContract.Output.IsActionEnabled(true))
                 }
-            },
-            flow {
-                emit(CropContract.Output.FileNameUpdate(nameGenerator.execute()))
-                emit(CropContract.Output.IsActionEnabled(true))
             },
             dismissBus.map { CropContract.Output.Dismiss }
         )

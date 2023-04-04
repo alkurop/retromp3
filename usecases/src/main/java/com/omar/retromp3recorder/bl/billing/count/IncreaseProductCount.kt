@@ -8,11 +8,12 @@ import javax.inject.Inject
 class IncreaseProductCount @Inject constructor(
     private val productRepo: CropProductRepo
 ) {
-    suspend fun execute(productId: ProductId, addedCount: Int) {
+    suspend fun execute(productId: ProductId, purchaseCount: Int) {
+        val additionalQuantity = productId.quantityMultiplier * purchaseCount
         when (productId) {
             ProductId.CROP_10 -> {
                 val available = productRepo.first()
-                val newCount = available + addedCount
+                val newCount = available + additionalQuantity
                 Timber.d("BILLING Product count increased to $newCount")
                 productRepo.emit(newCount)
             }

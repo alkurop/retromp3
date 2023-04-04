@@ -4,14 +4,13 @@ import com.omar.retromp3recorder.bl.billing.BillingBinderUC
 import com.omar.retromp3recorder.bl.billing.count.IncreaseProductCount
 import com.omar.retromp3recorder.domain.BillingRequest
 import com.omar.retromp3recorder.domain.BillingResponse
-import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.io.billing.isUserCanceled
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class BuyCropFlowUC @Inject constructor(
+class BuyCrop10UC @Inject constructor(
     private val billingBinderUC: BillingBinderUC,
     private val increaseProductCount: IncreaseProductCount,
     private val scopeJobWrapper: ScopeJobWrapper,
@@ -32,7 +31,10 @@ class BuyCropFlowUC @Inject constructor(
             } else {
                 val purchase = result.getOrThrow().result
                 Timber.d("BILLING Crop purchase success $purchase")
-                increaseProductCount.execute(ProductId.CROP_10, purchase.quantity * 10)
+                increaseProductCount.execute(
+                    purchase.productId,
+                    purchase.quantity
+                )
             }
         }
     }

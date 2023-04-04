@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.domain
 
 
-enum class ProductId(val productId: String) {
-    CROP_10("crop_times_10")
+enum class ProductId(val productId: String, val quantityMultiplier: Int = 1) {
+    CROP_10("crop_times_10",10)
 }
 
 data class PurchaseData(

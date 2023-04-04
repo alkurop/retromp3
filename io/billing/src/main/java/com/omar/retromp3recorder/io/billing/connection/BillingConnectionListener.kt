@@ -81,10 +81,8 @@ sealed class BillingConnectionState {
         BillingConnectionState()
 }
 
-
 data class PurchaseUpdateData(
     val purchaseList: List<Purchase> = emptyList(),
     val addedItems: List<Purchase> = emptyList(),
     val error: Throwable? = null
 )
-
