@@ -14,9 +14,8 @@ class CropWithProductUC @Inject constructor(
     private val billingBinderUC: BillingBinderUC,
     private val decrementProductCountUC: DecrementProductCountUC,
     private val shouldConsumeProductUC: ShouldConsumeProductUC,
-    private val jobWrapper: ScopeJobWrapper,
-
-    ) {
+    private val jobWrapper: ScopeJobWrapper
+) {
     suspend fun execute(nameSuggestion: NewNameSuggestion): Result<ExistingFileWrapper> {
         val cropResult = cropUC.execute(nameSuggestion)
         if (cropResult.isSuccess) {

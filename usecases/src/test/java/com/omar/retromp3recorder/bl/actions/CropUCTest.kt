@@ -59,10 +59,12 @@ class CropUCTest {
 
     @Test
     fun `WHEN crop failed THEN empty result`() = runTest {
-        every { audioCropper.crop(any()) } returns Error("expected").toResult()
+        val error = Error("expected")
+        every { audioCropper.crop(any()) } returns error.toResult()
+
         val result = tested.execute(mockSuggestion)
 
-        assertNull(result.exceptionOrNull())
+        assertEquals(error, result.exceptionOrNull())
         verify(exactly = 0) { mp3TagsEditor.getTags(any()) }
         verify(exactly = 0) { mp3TagsEditor.setTags(any(), any()) }
         verify(exactly = 0) { fileLister.discoverFile(any()) }
@@ -76,6 +78,7 @@ class CropUCTest {
         val result = tested.execute(mockSuggestion)
 
         assertNotNull(result.getOrNull())
+
         coVerifyOrder {
             mp3TagsEditor.getTags(any())
             mp3TagsEditor.setTags(any(), any())
