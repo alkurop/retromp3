@@ -33,14 +33,15 @@ internal class BillingImpl @Inject constructor(
     private val activity: Activity get() = context as Activity
     private val productDataCache = AtomicReference(emptyList<ProductDetails>())
 
-    override suspend fun getAvailableProducts(productIdList: List<String>): Result<List<ProductId>> {
+    override suspend fun getAvailableProducts(productIdList: List<ProductId>): Result<List<ProductId>> {
         val cachedProducts = productDataCache.get()
         return if (cachedProducts.isNotEmpty()) cachedProducts.mapNotNull { it.toDomainModel() }
             .toResult()
         else executeOnConnection {
             queryProductDetails(productIdList.toProductQueryParams()).toProductListResult()
-        }.onSuccess { productList -> productDataCache.set(productList) }
-            .map { it.mapNotNull { item -> item.toDomainModel() } }
+        }.onSuccess { productList ->
+            productDataCache.set(productList)
+        }.map { it.mapNotNull { item -> item.toDomainModel() } }
     }
 
     override suspend fun getUserActivePurchases(): Result<List<PurchaseData>> =

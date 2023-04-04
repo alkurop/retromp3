@@ -1,14 +1,15 @@
 package com.omar.retromp3recorder.io.billing.mapping
 
 import com.android.billingclient.api.*
+import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.domain.PurchaseData
 
 internal object RequestMapper {
 
-    fun List<String>.toProductQueryParams() = QueryProductDetailsParams.newBuilder()
+    fun List<ProductId>.toProductQueryParams() = QueryProductDetailsParams.newBuilder()
         .setProductList(
             this.map {
-                QueryProductDetailsParams.Product.newBuilder().setProductId(it)
+                QueryProductDetailsParams.Product.newBuilder().setProductId(it.productId)
                     .setProductType(BillingClient.ProductType.INAPP)
                     .build()
             }
@@ -19,11 +20,11 @@ internal object RequestMapper {
         .build()
 
     fun PurchaseData.toAcknowledgeParams() = AcknowledgePurchaseParams.newBuilder()
-        .setPurchaseToken(this.token)
+        .setPurchaseToken(this.purchaseToken)
         .build()
 
     fun PurchaseData.toConsumeParams() =
-        ConsumeParams.newBuilder().setPurchaseToken(this.token).build()
+        ConsumeParams.newBuilder().setPurchaseToken(this.purchaseToken).build()
 
     fun ProductDetails.toBillingFlowParams() = BillingFlowParams.newBuilder()
         .setProductDetailsParamsList(

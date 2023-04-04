@@ -8,7 +8,7 @@ import com.omar.retromp3recorder.domain.PurchaseData
  */
 interface Billing {
 
-    suspend fun getAvailableProducts(productIdList: List<String>): Result<List<ProductId>>
+    suspend fun getAvailableProducts(productIdList: List<ProductId>): Result<List<ProductId>>
 
     suspend fun getUserActivePurchases(): Result<List<PurchaseData>>
 

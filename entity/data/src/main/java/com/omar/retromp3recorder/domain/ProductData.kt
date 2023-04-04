@@ -7,12 +7,7 @@ enum class ProductId(val productId: String) {
 
 data class PurchaseData(
     val productId: ProductId,
-    val token: String,
+    val purchaseToken: String,
     val quantity: Int,
     val isAcknowledged: Boolean,
-    val orderId: String,
-    val purchaseToken: String,
-    val timestamp: Long,
-    val signature: String,
-    val originalJson: String
 )

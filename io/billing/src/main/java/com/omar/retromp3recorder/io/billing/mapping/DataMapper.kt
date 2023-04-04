@@ -23,13 +23,8 @@ fun Purchase.toDomainModel(): PurchaseData? {
     return PurchaseData(
         productId = productId,
         quantity = this.quantity,
-        token = this.purchaseToken,
-        isAcknowledged = this.isAcknowledged,
-        orderId = this.orderId,
         purchaseToken = this.purchaseToken,
-        timestamp = this.purchaseTime,
-        signature = this.signature,
-        originalJson = this.originalJson
+        isAcknowledged = this.isAcknowledged,
     )
 }
 

@@ -15,7 +15,7 @@ class ListAvailableProductsUC @Inject constructor(
         return withContext(scopeJobWrapper.coroutineContext) {
             Timber.d("BILLING Product trying list")
 
-            billing.getAvailableProducts(ProductId.values().map { it.productId })
+            billing.getAvailableProducts(ProductId.values().toList())
                 .onSuccess {
                     Timber.d("BILLING Product listed $it")
                 }
