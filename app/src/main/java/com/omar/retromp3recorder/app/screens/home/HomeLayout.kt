@@ -85,9 +85,8 @@ fun HomeLayout(
                 modifier = Modifier
                     .padding(
                         horizontal = 12.dp,
-                        vertical = 8.dp
                     )
-                    .height(50.dp)
+                    .height(54.dp)
 
             )
             LogLayout(

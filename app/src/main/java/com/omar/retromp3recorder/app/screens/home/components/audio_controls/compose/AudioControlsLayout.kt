@@ -29,7 +29,8 @@ fun AudioControlsLayout(
     viewModel: AudioControlsViewModelFlow = hiltViewModel()
 ) {
     val state: AudioControlsView.State by viewModel.state.collectAsState()
-    val buttonSize = 32.dp
+    val buttonSize = 54.dp
+    val buttonSizeSmall = 34.dp
     val sendInput: (AudioControlsView.Input) -> Unit = remember { { viewModel.onEvent(it) } }
     val mapVisibility: (Boolean) -> Float = { if (it) 1f else 0f }
     val permissionsState =
@@ -62,30 +63,31 @@ fun AudioControlsLayout(
             Row(
                 Modifier
                     .weight(1.7f),
-                horizontalArrangement = Arrangement.SpaceBetween
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
 
                 PlayButton(
                     state = playButtonState,
                     onClick = { sendInput(AudioControlsView.Input.Play) },
-                    Modifier.width(buttonSize)
+                    Modifier.size(buttonSizeSmall)
                 )
                 RecordButton(
                     state = recordButtonState,
                     onClick = {
                         permissionsState.launchPermissionRequest()
                     },
-                    Modifier.width(buttonSize)
+                    Modifier.size(buttonSize).padding(0.dp)
                 )
                 StopButton(
                     state = stopButtonState,
                     onClick = { sendInput(AudioControlsView.Input.Stop) },
-                    Modifier.width(buttonSize)
+                    Modifier.size(buttonSizeSmall)
                 )
                 ShareButton(
                     state = shareButtonState,
                     onClick = { sendInput(AudioControlsView.Input.Share) },
-                    Modifier.width(buttonSize)
+                    Modifier.size(buttonSizeSmall)
                 )
             }
             CounterText(

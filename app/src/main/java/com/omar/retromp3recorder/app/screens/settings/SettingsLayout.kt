@@ -75,9 +75,9 @@ fun SettingsLayout(
                 modifier = Modifier
                     .padding(padding)
             ) {
+                item { AudioSourceLayout(Modifier.padding(ITEM_PADDING)) }
                 item { BitRateLayout(Modifier.padding(ITEM_PADDING)) }
                 item { SampleRateLayout(Modifier.padding(ITEM_PADDING)) }
-                item { AudioSourceLayout(Modifier.padding(ITEM_PADDING)) }
                 item {
                     CheckboxGroup(
                         modifier = Modifier.padding(ITEM_PADDING),

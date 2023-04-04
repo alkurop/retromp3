@@ -4,6 +4,7 @@
 
     <!--    Navigation-->
     <string name="back">Back</string>
+    <string name="clear">Clear</string>
     <string name="close">Close</string>
 
     <!--    Settings-->

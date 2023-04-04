@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
-
 package com.omar.retromp3recorder.app.screens.search.layout
 
 import androidx.compose.foundation.background
@@ -20,6 +18,7 @@ import com.omar.retromp3recorder.utils.domain.LoadingState
 import com.test.android.assignment.ui.searchbar.SearchBarLayout
 import com.test.android.assignment.ui.searchbar.rememberSearchBarInputState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreenLayout(
     viewModel: SelectorViewModelFlow = hiltViewModel(),
@@ -49,7 +48,13 @@ fun SearchScreenLayout(
                 .fillMaxHeight()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
-            SearchBarLayout(onSubmit = lambdaSearch, state = searchBarState, onBack = onBack) {
+            SearchBarLayout(
+                onSubmit = lambdaSearch,
+                state = searchBarState,
+                onBack = onBack,
+                backContentDescription = stringResource(id = R.string.back),
+                clearContentDescription = stringResource(id = R.string.clear)
+            ) {
                 if (itemsPaging != null) {
                     Results(
                         data = itemsPaging.data,
