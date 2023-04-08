@@ -1,6 +1,9 @@
 package com.omar.retromp3recorder.app.screens.home.components.joined_progress
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -10,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.ui.wavetable.compose.*
@@ -21,25 +25,38 @@ fun JoinedProgressLayout(
     viewModel: JoinedProgressViewModelFlow = hiltViewModel(),
 ) {
     val viewState: JoinedProgressContract.State by viewModel.state.collectAsState()
-
     Surface(modifier = modifier) {
-        when (val progress = viewState.seekState) {
-            is JoinedProgressContract.SeekViewState.Recorder -> {
-                BuildPreview(progress.data)
+        Column() {
+            viewState.fileName?.let { fileName ->
+                Text(
+                    modifier = Modifier.padding(start = 4.dp),
+                    text = fileName,
+                    style = MaterialTheme.typography.titleSmall
+                )
             }
-            is JoinedProgressContract.SeekViewState.Player -> {
-                BuildSeek(modifier = Modifier, progress = progress.data) {
-                    viewModel.onEvent(it)
+
+
+            Box() {
+                when (val progress = viewState.seekState) {
+                    is JoinedProgressContract.SeekViewState.Recorder -> {
+                        BuildPreview(progress.data, modifier = Modifier.fillMaxSize())
+                    }
+                    is JoinedProgressContract.SeekViewState.Player -> {
+                        BuildSeek(
+                            progress = progress.data
+                        ) {
+                            viewModel.onEvent(it)
+                        }
+                    }
+                    JoinedProgressContract.SeekViewState.Hidden -> {
+                        BuildRecordMessage()
+                    }
+                    JoinedProgressContract.SeekViewState.Intermediate -> {
+                        /* no render */
+                    }
                 }
             }
-            JoinedProgressContract.SeekViewState.Hidden -> {
-                BuildRecordMessage(modifier)
-            }
-            JoinedProgressContract.SeekViewState.Intermediate -> {
-                /* no render */
-            }
         }
-        viewState.fileName?.let { fileName -> Text(text = fileName, style = MaterialTheme.typography.titleSmall) }
     }
 }
 

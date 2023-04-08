@@ -33,10 +33,10 @@ class AmplitudaWaveformScanner @Inject constructor(
         val multiplier = 1 + data.size / maxSize
         val res = data
             .windowed(multiplier, multiplier, true)
-            .map { list -> list.maxOrNull()?.times(2) ?: 0 }
+            .map { list -> list.maxOrNull()?.times(3) ?: 0 }
             .toMutableList()
 
-        return Wavetable(res.map { it.toByte() }.toByteArray())
+        return Wavetable(res.map { it.coerceAtMost(Byte.MAX_VALUE.toInt()).toByte() }.toByteArray())
     }
 
     private fun createAmplituda(): Amplituda {

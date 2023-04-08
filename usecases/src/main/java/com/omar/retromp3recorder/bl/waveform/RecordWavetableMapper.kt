@@ -14,10 +14,11 @@ class RecordWavetableMapper @Inject constructor(
     fun flow(): Flow<Byte> {
         return recorder.recorderFlow()
             .map { bytes ->
-                bytes
-                    .map { item -> item.toInt().absoluteValue }
+                val res = bytes
+                    .map { item -> item.toInt().absoluteValue * 3 / 2 }
                     .max()
                     .toInt()
+                res.coerceAtMost(Byte.MAX_VALUE.toInt())
                     .toByte()
             }
             .combine(recorder.stateFlow())

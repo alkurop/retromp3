@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.app.screens.search.layout
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -112,11 +111,10 @@ private fun ItemComposable2(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(4.dp))
             //bottom row
             Row {
                 //created text
-                Row(Modifier.weight(3f)) {
+                Row(Modifier.weight(3f).padding(top = 4.dp)) {
                     Text(
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurface,
@@ -137,8 +135,7 @@ private fun ItemComposable2(
                     itemFile.wavetable?.let { wavetable ->
                         WavetableCompose(
                             modifier = Modifier
-                                .height(40.dp)
-                                .background(MaterialTheme.colorScheme.surface)
+                                .height(44.dp)
                                 .fillMaxWidth(),
                             data = WavetableComposeData(wavetable)
                         )

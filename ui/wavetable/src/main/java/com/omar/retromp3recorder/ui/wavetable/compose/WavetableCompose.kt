@@ -26,7 +26,7 @@ fun WavetableCompose(
     data: WavetableComposeData,
     modifier: Modifier = Modifier
 ) {
-    Canvas(modifier = modifier.padding(vertical = 8.dp)) {
+    Canvas(modifier = modifier) {
         val dataPointsTop = getDataPoints(size, data.wavetable.bytes)
         val dataPointsBottom = getDataPoints(size, data.wavetable.bytes, true)
         drawDataPoints(dataPointsTop)
