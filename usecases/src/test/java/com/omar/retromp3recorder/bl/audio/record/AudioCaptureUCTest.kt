@@ -68,9 +68,9 @@ class AudioCaptureUCTest {
         tested.execute(audioSource)
 
         coVerifySequence {
-            mp3VoiceRecorder.recordWithProps(any())
             incrementFileNameUC.execute()
             wakeLockUsecase.execute()
+            mp3VoiceRecorder.recordWithProps(any())
         }
     }
 }
