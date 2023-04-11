@@ -10,7 +10,7 @@ import com.omar.retromp3recorder.bl.crop.GenerateFileNameUC
 import com.omar.retromp3recorder.bl.files.CanSaveAsNameUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi

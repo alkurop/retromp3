@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.data.mock.MockCropRequestFactory
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
 import com.omar.retromp3recorder.data.mock.MockTagsFactory
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao

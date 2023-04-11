@@ -15,7 +15,6 @@ interface Mp3VoiceRecorder {
 
     fun recordWithProps(props: RecorderProps)
     fun stopRecord()
-    fun isRecording(): Boolean
 
     enum class SampleRate(val value: Int) {
         _48000(48000), _44100(44100), _22050(22050), _11025(11025), _8000(8000);

@@ -7,7 +7,7 @@ import com.android.billingclient.api.BillingClient.ConnectionState.*
 import com.android.billingclient.api.InAppMessageParams
 import com.android.billingclient.api.InAppMessageResult
 import com.android.billingclient.api.Purchase
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.flow.Flow

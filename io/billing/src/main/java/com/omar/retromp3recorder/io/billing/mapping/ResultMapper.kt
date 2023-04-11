@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.io.billing.mapping
 
 import com.android.billingclient.api.*
 import com.omar.retromp3recorder.domain.PurchaseData
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.billing.BillingError
 import com.omar.retromp3recorder.io.billing.connection.PurchaseUpdateData
 import timber.log.Timber

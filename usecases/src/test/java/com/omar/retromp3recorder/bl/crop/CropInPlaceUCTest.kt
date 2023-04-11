@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.bl.crop
 import com.omar.retromp3recorder.bl.actions.CropWithProductUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import io.mockk.coEvery
 import io.mockk.mockk

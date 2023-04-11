@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.io.billing.connection
 import android.app.Activity
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.ConnectionState.*
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi

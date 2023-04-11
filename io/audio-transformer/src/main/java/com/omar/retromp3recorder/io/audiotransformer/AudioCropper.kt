@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.io.audiotransformer
 import com.arthenica.mobileffmpeg.Config
 import com.arthenica.mobileffmpeg.FFmpeg
 import com.omar.retromp3recorder.domain.CropRequest
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.utils.platform.FileLister
 import timber.log.Timber
 import java.io.File

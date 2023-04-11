@@ -4,7 +4,7 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.domain.PurchaseData
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.billing.BillingError
 import timber.log.Timber
 

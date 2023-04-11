@@ -3,8 +3,8 @@ package com.omar.retromp3recorder.bl.actions
 import com.omar.retromp3recorder.bl.waveform.WaveformScannerSuspend
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.domain.NewNameSuggestion
-import com.omar.retromp3recorder.domain.mapError
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.mapError
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity

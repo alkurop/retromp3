@@ -115,8 +115,6 @@ class Mp3VoiceRecorderImpl @Inject internal constructor(
             .disposedBy(compositeDisposable)
     }
 
-    override fun isRecording(): Boolean = state.blockingFirst() == Mp3VoiceRecorder.State.Recording
-
     override fun stopRecord() {
         compositeDisposable.clear()
         state.onNext(Mp3VoiceRecorder.State.Idle)

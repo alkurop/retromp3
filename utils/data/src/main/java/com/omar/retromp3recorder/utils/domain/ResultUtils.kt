@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.domain
+package com.omar.retromp3recorder.utils.domain
 
 
 fun <T> Throwable.toResult(): Result<T> = Result.failure(this)
@@ -25,4 +25,10 @@ suspend fun <Prev, Next> Result<Prev>.chainSuspend(action: suspend (Prev) -> Res
     } else {
         this.exceptionOrNull()!!.toResult()
     }
+}
+
+fun <First, Second> Result<First>.combineWith(second: Result<Second>): Result<Pair<First, Second>> {
+    return if (this.isFailure) Result.failure(this.exceptionOrNull()!!)
+    else if (second.isFailure) Result.failure(second.exceptionOrNull()!!)
+    else (this.getOrNull()!! to second.getOrNull()!!).toResult()
 }

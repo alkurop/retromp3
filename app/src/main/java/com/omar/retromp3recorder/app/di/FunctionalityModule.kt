@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.di
 
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
-import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorderImpl
+import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorderLame
 import com.omar.retromp3recorder.share.Sharer
 import com.omar.retromp3recorder.share.SharerImpl
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
@@ -19,7 +19,7 @@ internal interface FunctionalityModule {
 
     @Singleton
     @Binds
-    fun provideVoiceRecorderBase(instance: Mp3VoiceRecorderImpl): Mp3VoiceRecorder
+    fun provideVoiceRecorderBase(instance: Mp3VoiceRecorderLame): Mp3VoiceRecorder
 
     @Singleton
     @Binds

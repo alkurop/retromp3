@@ -1,8 +1,8 @@
 package com.omar.retromp3recorder.bl.billing.actions
 
 import com.omar.retromp3recorder.domain.ProductId
-import com.omar.retromp3recorder.domain.chain
-import com.omar.retromp3recorder.domain.chainSuspend
+import com.omar.retromp3recorder.utils.domain.chain
+import com.omar.retromp3recorder.utils.domain.chainSuspend
 import com.omar.retromp3recorder.io.billing.Billing
 import com.omar.retromp3recorder.io.billing.mapping.findPurchase
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper

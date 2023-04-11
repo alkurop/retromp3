@@ -5,7 +5,7 @@ import android.content.Context
 import com.android.billingclient.api.*
 import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.domain.PurchaseData
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.billing.connection.BillingConnection
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.toAcknowledgeParams

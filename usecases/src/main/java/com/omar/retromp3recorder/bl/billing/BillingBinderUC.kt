@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.bl.billing
 
 import com.omar.retromp3recorder.domain.BillingRequest
 import com.omar.retromp3recorder.domain.BillingResponse
-import com.omar.retromp3recorder.domain.toResult
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.storage.repo.global.BillingRequestEventBus
 import com.omar.retromp3recorder.storage.repo.global.BillingResultEventBus
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper

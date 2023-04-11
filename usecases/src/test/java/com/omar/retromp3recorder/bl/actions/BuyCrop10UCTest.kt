@@ -4,6 +4,7 @@ import com.omar.retromp3recorder.bl.billing.BillingBinderUC
 import com.omar.retromp3recorder.bl.billing.count.IncreaseProductCount
 import com.omar.retromp3recorder.domain.*
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.toResult
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
