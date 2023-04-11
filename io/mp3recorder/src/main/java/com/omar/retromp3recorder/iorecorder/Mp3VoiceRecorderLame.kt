@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 
 class Mp3VoiceRecorderLame @Inject internal constructor(
-    private val jobWrapper: ScopeJobWrapper,
+    private val scopeJobWrapper: ScopeJobWrapper
 ) : Mp3VoiceRecorder {
 
     private val events = MutableSharedFlow<Mp3VoiceRecorder.Event>(
@@ -45,9 +45,9 @@ class Mp3VoiceRecorderLame @Inject internal constructor(
         val sampleRate = props.prefs.sampleRate.value
         val bitRate = props.prefs.bitRate.value
         val minBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, encoding)
-
-        jobWrapper.cancel()
-        jobWrapper.launch {
+        scopeJobWrapper.cancel()
+        scopeJobWrapper.launch {
+            state.emit(Mp3VoiceRecorder.State.Recording)
             val audioSource = props.audioSourcePref
             val audioRecord = when {
                 audioSource is Mp3VoiceRecorder.AudioSource.Output && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ->
@@ -73,7 +73,6 @@ class Mp3VoiceRecorderLame @Inject internal constructor(
                 }
                 .combineWith(createOutputFile(props.filepath))
                 .chainSuspend {
-                    state.emit(Mp3VoiceRecorder.State.Recording)
                     record(it.second, it.first, sampleRate)
                 }
 

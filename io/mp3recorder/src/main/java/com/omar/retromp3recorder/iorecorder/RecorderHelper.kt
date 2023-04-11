@@ -67,14 +67,13 @@ internal fun createMp3Buffer(buffer: ShortArray): ByteArray {
 internal fun createOutputFile(filePath: String): Result<File> {
     val outFile = File(filePath)
     if (outFile.exists()) {
-        throw Error("wtf?")
+        outFile.delete()
     }
     val fileWasCreated = outFile.createNewFile()
     return if (!fileWasCreated) {
-        throw Error("wtf?")
-
         Result.failure(IOException("File $filePath was not created"))
-    } else
+    } else {
         Result.success(outFile)
+    }
 }
 

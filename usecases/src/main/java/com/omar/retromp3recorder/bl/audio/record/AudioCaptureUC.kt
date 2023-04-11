@@ -17,15 +17,14 @@ class AudioCaptureUC @Inject constructor(
     private val getNewFileNameUC: GetNewFileNameUC,
     private val voiceRecorder: Mp3VoiceRecorder,
     private val wakeLockUsecase: WakeLockUsecase
-
 ) {
     suspend fun execute(audioSource: Mp3VoiceRecorder.AudioSource) {
         val filePath = getNewFileNameUC.execute()
         val prefs = recorderPrefsRepo.first()
         val props = Mp3VoiceRecorder.RecorderProps(filePath, prefs, audioSource)
         currentFileRepo.emit(Optional(props.filepath.toFutureFileWrapper()))
-        voiceRecorder.recordWithProps(props)
         incrementFileNameUC.execute()
         wakeLockUsecase.execute()
+        voiceRecorder.recordWithProps(props)
     }
 }
