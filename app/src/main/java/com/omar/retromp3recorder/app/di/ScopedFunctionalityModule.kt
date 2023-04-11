@@ -1,11 +1,10 @@
 package com.omar.retromp3recorder.app.di
 
 import com.omar.retromp3recorder.audioplayer.AudioPlayer
-import com.omar.retromp3recorder.audioplayer.AudioPlayerExoImpl
+import com.omar.retromp3recorder.audioplayer.AudioPlayerExo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -14,5 +13,5 @@ import javax.inject.Singleton
 internal interface ScopedFunctionalityModule {
     @Singleton
     @Binds
-    fun provideAudioPlayer(clazz: AudioPlayerExoImpl): AudioPlayer
+    fun provideAudioPlayer(clazz: AudioPlayerExo): AudioPlayer
 }
