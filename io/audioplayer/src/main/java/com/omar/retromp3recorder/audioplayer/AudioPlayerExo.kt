@@ -134,7 +134,6 @@ class AudioPlayerExo @Inject constructor(
                 mainThreadJobWrapper.launch {
                     val position = mediaPlayer.currentPosition
                     val duration = (options.rangeMillis.length)
-                    println(position)
                     progress.tryEmit(AudioPlayer.Output.Progress(position, duration, false))
                 }
             }

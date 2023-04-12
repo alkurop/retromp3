@@ -41,10 +41,10 @@ fun RangeBarLayout(
         }
 
         Surface(
-            modifier
+            modifier = modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-
+                .wrapContentHeight(),
+            color = MaterialTheme.colorScheme.surfaceVariant
         ) {
             RangeSlider(
                 modifier = Modifier.padding(horizontal = 8.dp),
@@ -56,27 +56,23 @@ fun RangeBarLayout(
                     thumbColor = MaterialTheme.colorScheme.tertiary,
                 )
             )
+            Divider(
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+            )
             Row(
                 Modifier
-                    .padding(top = 45.dp)
+                    .padding(top = 40.dp)
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .clickable {
-                        viewModel.onEvent(RangeBarView.Input.Enable)
-                    }
+                    .clickable { viewModel.onEvent(RangeBarView.Input.Enable) }
                     .padding(horizontal = 8.dp)
                     .padding(bottom = 4.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = visibleState.fromToMillis.from.toDisplayCompose(),
-                    style = MaterialTheme.typography.labelSmall
-                )
-                Text(text = rangeText, style = MaterialTheme.typography.labelSmall)
-                Text(
-                    text = visibleState.fromToMillis.to.toDisplayCompose(),
-                    style = MaterialTheme.typography.labelSmall
-                )
+                Text(text = visibleState.fromToMillis.from.toDisplayCompose())
+                Text(text = rangeText)
+                Text(text = visibleState.fromToMillis.to.toDisplayCompose())
             }
         }
     }

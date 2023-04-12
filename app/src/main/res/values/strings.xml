@@ -73,7 +73,9 @@
     <string name="stop">Stop</string>
     <string name="record">Record</string>
     <string name="share">Share</string>
-    <string name="range_enabled">Player range: %1$s</string>
-    <string name="speed_enabled">Player speed: %1$s</string>
+    <string name="range_enabled">Range: %1$s</string>
+    <string name="speed_enabled">Speed: %1$s</string>
+    <string name="max_speed">3x</string>
+    <string name="min_speed">0.3x</string>
 
 </resources>

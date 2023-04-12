@@ -18,9 +18,8 @@ class SpeedBarStateMapper @Inject constructor(
         ) { progress, controls ->
             when (progress) {
                 is JoinedProgress.PlayerProgressShown -> {
-                    val range = progress.progress.range
-                    if (range.settings.isVisible) {
-                        val duration = progress.progress.duration
+                    val isVisible = controls.speedSettings.isVisible
+                    if (isVisible) {
                         SpeedBarContract.State.Visible(controls.speedSettings)
                     } else {
                         SpeedBarContract.State.Hidden

@@ -44,6 +44,7 @@ private val darkColorTheme = darkColorScheme(
     tertiary = Color(0xFFFF6F00),
     background = Color(0xff121212),
     surface = Color(0xff202020),
+    surfaceVariant = Color(0xff404040),
     error = Color.White,
     onPrimary = Color.White,
     onSecondary = Color.White,

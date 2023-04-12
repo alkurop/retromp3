@@ -25,6 +25,7 @@ import com.omar.retromp3recorder.app.screens.home.components.joined_progress.Joi
 import com.omar.retromp3recorder.app.screens.home.components.log.LogLayout
 import com.omar.retromp3recorder.app.screens.home.components.menu.MenuView
 import com.omar.retromp3recorder.app.screens.home.components.rangebar.RangeBarLayout
+import com.omar.retromp3recorder.app.screens.home.components.speedbar.SpeedBarLayout
 import com.omar.retromp3recorder.app.screens.home.components.visualizer.VisualizerLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -113,6 +114,10 @@ private fun TrackLayout(
 
         )
         RangeBarLayout(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+        )
+        SpeedBarLayout(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
         )
