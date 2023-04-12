@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.audioplayer
 
 import com.github.alkurop.stringerbell.Stringer
 import com.omar.retromp3recorder.domain.FromToMillis
+import com.omar.retromp3recorder.domain.PlayerControls
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterIsInstance
 
@@ -13,16 +14,17 @@ interface AudioPlayer {
 
     fun onInput(input: Input)
 
-    sealed class Input {
-        data class Start(val options: PlayerStartOptions) : Input()
-        object Stop : Input()
-        object SeekPause : Input()
+    sealed interface Input {
+        data class Start(val options: PlayerStartOptions) : Input
+        object Stop : Input
+        object SeekPause : Input
+        data class ChangeControls(val controls: PlayerControls) : Input
     }
 
-    sealed class Output {
-        data class Progress(val position: Long, val duration: Long, val end: Boolean) : Output()
+    sealed interface Output {
+        data class Progress(val position: Long, val duration: Long, val end: Boolean) : Output
 
-        sealed class Event : Output() {
+        sealed class Event : Output {
             data class Message(val message: Stringer) : Event()
             data class Error(val error: Stringer) : Event()
             data class AudioSessionId constructor(val playerId: Int) : Event()
@@ -41,7 +43,7 @@ data class PlayerStartOptions(
     val rangeMillis: FromToMillis,
     val length: Long,
     val relativeSeekPosition: Long,
-    val filePath: String
+    val filePath: String,
 )
 
 fun AudioPlayer.eventsFlow(): Flow<AudioPlayer.Output.Event> = this.flow().filterIsInstance()

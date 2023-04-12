@@ -17,6 +17,7 @@ X means can't be done (please provide explanation)
 - add dependency diagram
 - main interactor tests
 - billing views tests
+- player should listen to controls
 
 
 ### Features:
