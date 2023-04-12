@@ -26,7 +26,7 @@ fun SpeedBarLayout(
         }
         val active = visibleState.speed.isEnabled
         val rangeStateText = stringResource(if (active) R.string.on else R.string.off)
-        val rangeText = stringResource(R.string.speed_enabled, "${rangeStateText} ${rangeState}x")
+        val rangeText = stringResource(R.string.speed_enabled, "$rangeStateText ${rangeState}x")
 
         val sendRangeUpdate: (Float) -> Unit = {
             rangeState = it.roundTo(1)
@@ -42,7 +42,7 @@ fun SpeedBarLayout(
             Slider(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 value = rangeState,
-                valueRange = 0.3f..3f,
+                valueRange = 0.2f..4f,
                 onValueChange = sendRangeUpdate,
                 steps = 10,
                 colors = SliderDefaults.colors(

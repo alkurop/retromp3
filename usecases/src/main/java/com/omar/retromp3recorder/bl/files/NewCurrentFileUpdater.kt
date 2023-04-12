@@ -1,7 +1,6 @@
 package com.omar.retromp3recorder.bl.files
 
 import com.github.alkurop.ghostinshell.Shell
-import com.omar.retromp3recorder.bl.enablers.DeactivatePlayerControlsUC
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.storage.repo.local.PlayerProgressRepo
@@ -17,7 +16,6 @@ class NewCurrentFileUpdater @Inject constructor(
     private val hasPlayableFileMapper: HasPlayableFileMapper,
     private val playerProgressRepo: PlayerProgressRepo,
     private val rangeBarResetBus: RangeBarResetBus,
-    private val deactivatePlayerControlsUC: DeactivatePlayerControlsUC,
     private val jobWrapper: ScopeJobWrapper
 ) {
     suspend fun execute() {
@@ -39,7 +37,6 @@ class NewCurrentFileUpdater @Inject constructor(
 
                     playerProgressRepo.emit(updatedProgress)
                     rangeBarResetBus.emit(Shell(0))
-                    deactivatePlayerControlsUC.execute()
                 }
         }
     }

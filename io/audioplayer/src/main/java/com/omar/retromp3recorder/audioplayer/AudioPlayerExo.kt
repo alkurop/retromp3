@@ -42,7 +42,6 @@ class AudioPlayerExo @Inject constructor(
     override fun stateFlow(): Flow<AudioPlayer.State> = state
 
     override fun onInput(input: AudioPlayer.Input) {
-        jobWrapper.cancel()
         mainThreadJobWrapper.launch {
             when (input) {
                 is AudioPlayer.Input.SeekPause -> {
