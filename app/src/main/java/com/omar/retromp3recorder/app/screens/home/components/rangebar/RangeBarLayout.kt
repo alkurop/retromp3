@@ -16,8 +16,8 @@ import com.omar.retromp3recorder.domain.PlayerRange
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RangeBarLayout(
-    viewModel: RangeBarViewModelFlow = hiltViewModel(),
-    modifier: Modifier
+    modifier: Modifier = Modifier,
+    viewModel: RangeBarViewModel = hiltViewModel(),
 ) {
 
     val state by viewModel.state.collectAsState()

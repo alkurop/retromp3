@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import javax.inject.Inject
 
-class RangeBarInteractorFlow @Inject constructor(
-    private val rangeStateMapper: RangeBarStateMapperFlow,
+class RangeBarInteractor @Inject constructor(
+    private val rangeStateMapper: RangeBarStateMapper,
     private val updatePlayerRangeUC: UpdatePlayerRangeUC,
     private val rangeEnableRangeUC: ActivateRangeUC,
     dispatcher: CoroutineDispatcher,

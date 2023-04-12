@@ -17,16 +17,16 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RangeSettingsBarInteractorFlowTest {
-    private val rangeStateMapper = mockk<RangeBarStateMapperFlow>(relaxed = true)
+    private val rangeStateMapper = mockk<RangeBarStateMapper>(relaxed = true)
     private val updatePlayerRangeUC = mockk<UpdatePlayerRangeUC>(relaxed = true)
     private val rangeEnableRangeUC = mockk<ActivateRangeUC>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
 
-    private lateinit var tested: RangeBarInteractorFlow
+    private lateinit var tested: RangeBarInteractor
 
     @Before
     fun setUp() {
-        tested = RangeBarInteractorFlow(
+        tested = RangeBarInteractor(
             rangeStateMapper, updatePlayerRangeUC, rangeEnableRangeUC, dispatcher
         )
     }

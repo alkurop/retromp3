@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RangeBarViewModelFlow @Inject constructor(
-    interactor: RangeBarInteractorFlow
+class RangeBarViewModel @Inject constructor(
+    interactor: RangeBarInteractor
 ) : ViewModel() {
     val state: StateFlow<RangeBarView.State>
     private val inputFlow = MutableSharedFlow<RangeBarView.Input>()

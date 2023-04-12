@@ -19,12 +19,12 @@ import org.junit.Test
 class RangeSettingsBarStateMapperFlowTest {
     private val joinedProgressMapper = mockk<JoinedProgressMapper>()
     private lateinit var rangeBarResetBus: RangeBarResetBus
-    private lateinit var tested: RangeBarStateMapperFlow
+    private lateinit var tested: RangeBarStateMapper
 
     @Before
     fun setUp() {
         rangeBarResetBus = RangeBarResetBus()
-        tested = RangeBarStateMapperFlow(
+        tested = RangeBarStateMapper(
             joinedProgressRepo = joinedProgressMapper,
             rangeBarResetBus
         )

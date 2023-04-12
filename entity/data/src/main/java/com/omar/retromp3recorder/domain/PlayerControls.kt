@@ -16,6 +16,7 @@ data class PlayerControls(
     data class ReverseSettings(val isEnabled: Boolean = false)
     data class SpeedSettings(
         val isEnabled: Boolean = false,
+        val isVisible: Boolean = false,
         val speed: Float = 1f
     )
 }

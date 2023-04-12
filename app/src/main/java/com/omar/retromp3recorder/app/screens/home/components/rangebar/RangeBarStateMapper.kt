@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
-class RangeBarStateMapperFlow @Inject constructor(
+class RangeBarStateMapper @Inject constructor(
     private val joinedProgressRepo: JoinedProgressMapper,
     private val rangeBarResetBus: RangeBarResetBus,
 ) {

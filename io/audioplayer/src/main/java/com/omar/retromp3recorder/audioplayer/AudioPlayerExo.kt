@@ -35,7 +35,7 @@ class AudioPlayerExo @Inject constructor(
     private lateinit var controls: PlayerControls
 
     override fun flow(): Flow<AudioPlayer.Output> = merge(
-        progress.mapWithOptions(options),
+        progress.mapWithOptions { options },
         events
     )
 

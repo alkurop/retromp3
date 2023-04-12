@@ -20,7 +20,6 @@ enum class AudioEnabler : MenuEnabler {
 }
 
 enum class VisibilityEnabler : MenuEnabler {
-    //todo
     PlaybackSpeed,
     RangeBar,
 }

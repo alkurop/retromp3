@@ -74,5 +74,6 @@
     <string name="record">Record</string>
     <string name="share">Share</string>
     <string name="range_enabled">Player range: %1$s</string>
+    <string name="speed_enabled">Player speed: %1$s</string>
 
 </resources>
