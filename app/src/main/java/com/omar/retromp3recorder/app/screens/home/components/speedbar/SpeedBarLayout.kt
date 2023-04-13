@@ -2,13 +2,17 @@ package com.omar.retromp3recorder.app.screens.home.components.speedbar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.app.screens.home.components.Component
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -33,11 +37,8 @@ fun SpeedBarLayout(
             viewModel.onEvent(SpeedBarContract.Input.SpeedSet(it))
         }
 
-        Surface(
+        Component(
             modifier = modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            color = MaterialTheme.colorScheme.surfaceVariant
         ) {
             Slider(
                 modifier = Modifier.padding(horizontal = 8.dp),
@@ -48,10 +49,6 @@ fun SpeedBarLayout(
                 colors = SliderDefaults.colors(
                     thumbColor = MaterialTheme.colorScheme.tertiary,
                 )
-            )
-            Divider(
-                thickness = 1.dp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
             )
             Row(
                 Modifier

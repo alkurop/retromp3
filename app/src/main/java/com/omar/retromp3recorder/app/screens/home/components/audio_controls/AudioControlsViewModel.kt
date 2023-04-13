@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AudioControlsViewModelFlow @Inject constructor(
+class AudioControlsViewModel @Inject constructor(
     interactor: AudioControlsInteractorFlow
 ) : ViewModel() {
     val state: StateFlow<AudioControlsView.State>

@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.home.components.speech
+package com.omar.retromp3recorder.app.screens.home.components.language
 
 import androidx.annotation.StringRes
 import com.omar.retromp3recorder.app.R

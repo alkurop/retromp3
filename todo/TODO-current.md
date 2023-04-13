@@ -25,6 +25,8 @@ X means can't be done (please provide explanation)
 - repeat
 - render speed
 - render rewind
+- show hide bars with animation
+- show hide visualizer when doing speech recognition
 
 #### Speech recognition
 - menu

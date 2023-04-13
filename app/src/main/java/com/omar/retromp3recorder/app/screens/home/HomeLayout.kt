@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
@@ -22,6 +24,7 @@ import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.nav.AppDestination
 import com.omar.retromp3recorder.app.screens.home.components.audio_controls.compose.AudioControlsLayout
 import com.omar.retromp3recorder.app.screens.home.components.log.LogLayout
+import com.omar.retromp3recorder.app.screens.home.components.language.LanguageLayout
 import com.omar.retromp3recorder.app.screens.home.components.track.TrackLayout
 import com.omar.retromp3recorder.app.screens.home.components.visualizer.VisualizerLayout
 
@@ -67,6 +70,7 @@ fun HomeLayout(
         Column(
             Modifier
                 .weight(1f)
+                .verticalScroll(rememberScrollState())
         ) {
             VisualizerLayout(
                 modifier = Modifier
@@ -77,6 +81,7 @@ fun HomeLayout(
             TrackLayout(
                 onOpenDestination = onOpenDestination
             )
+            LanguageLayout(Modifier.padding(horizontal = 16.dp))
         }
         Column {
             AudioControlsLayout(
@@ -84,6 +89,7 @@ fun HomeLayout(
                     .padding(
                         horizontal = 12.dp,
                     )
+                    .padding(top = 8.dp)
                     .height(54.dp)
 
             )

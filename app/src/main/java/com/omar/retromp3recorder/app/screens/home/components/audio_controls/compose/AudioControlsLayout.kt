@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.omar.retromp3recorder.app.screens.home.components.audio_controls.AudioControlsView
-import com.omar.retromp3recorder.app.screens.home.components.audio_controls.AudioControlsViewModelFlow
+import com.omar.retromp3recorder.app.screens.home.components.audio_controls.AudioControlsViewModel
 import com.omar.retromp3recorder.app.utils.TimeDisplay.toDisplayCompose
 import com.omar.retromp3recorder.ui.statebutton.rememberCombinedButtonState
 
@@ -26,7 +26,7 @@ import com.omar.retromp3recorder.ui.statebutton.rememberCombinedButtonState
 @Composable
 fun AudioControlsLayout(
     modifier: Modifier,
-    viewModel: AudioControlsViewModelFlow = hiltViewModel()
+    viewModel: AudioControlsViewModel = hiltViewModel()
 ) {
     val state: AudioControlsView.State by viewModel.state.collectAsState()
     val buttonSize = 54.dp
