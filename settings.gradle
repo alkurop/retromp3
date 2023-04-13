@@ -24,6 +24,7 @@ include ':io:mp3recorder'
 include ':io:audio-transformer'
 include ':io:share'
 include ':io:billing'
+include ':io:speech-recognition'
 include ':io'
 
 include ':data:storage'

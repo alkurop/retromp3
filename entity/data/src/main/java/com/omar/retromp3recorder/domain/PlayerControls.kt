@@ -4,7 +4,8 @@ data class PlayerControls(
     val loopSettings: LoopSettings = LoopSettings(),
     val rangeSettings: RangeSettings = RangeSettings(),
     val reverseSettings: ReverseSettings = ReverseSettings(),
-    val speedSettings: SpeedSettings = SpeedSettings()
+    val speedSettings: SpeedSettings = SpeedSettings(),
+    val speechSettings: SpeechSettings = SpeechSettings(),
 ) {
 
     data class RangeSettings(
@@ -18,5 +19,11 @@ data class PlayerControls(
         val isEnabled: Boolean = false,
         val isVisible: Boolean = false,
         val speed: Float = 1f
+    )
+
+    data class SpeechSettings(
+        val isEnabled: Boolean = false,
+        val isVisible: Boolean = false,
+        val language: SpeechRecognitionLanguage? = null
     )
 }

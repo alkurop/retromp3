@@ -21,11 +21,23 @@ X means can't be done (please provide explanation)
 
 
 ### Features:
-
-- loading screen
+- V loading screen
 - repeat
 - render speed
 - render rewind
+
+#### Speech recognition
+- menu
+- model links
+- download model
+- recognition with logs
+- recognition list
+- save result to db
+- timestamps
+- crop with timestamps - start, end
+- replay with scroll
+- add item to list
+- copy all
 
 mvp
 - audio effects

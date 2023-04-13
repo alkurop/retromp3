@@ -45,6 +45,7 @@
     <string name="menu_loop">Loop</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_rename">Rename</string>
+    <string name="menu_speech">Language</string>
     <string name="menu_range">Range</string>
     <string name="menu_reverse">Rev</string>
     <string name="menu_bark_speed">Speed</string>
@@ -77,5 +78,29 @@
     <string name="speed_enabled">Speed: %1$s</string>
     <string name="max_speed">3x</string>
     <string name="min_speed">0.3x</string>
+
+    <!--    Speech recognition-->
+    <string name="lang_english">English</string>
+    <string name="lang_indian_english">Indian English</string>
+    <string name="lang_russian">Russian</string>
+    <string name="lang_french">French</string>
+    <string name="lang_chinese">Chinese</string>
+    <string name="lang_german">German</string>
+    <string name="lang_spanish">Spanish</string>
+    <string name="lang_portuguese">Portuguese</string>
+    <string name="lang_turkish">Turkish</string>
+    <string name="lang_vietnamese">Vietnamese</string>
+    <string name="lang_italian">Italian</string>
+    <string name="lang_dutch">Dutch</string>
+    <string name="lang_catalan">Catalan</string>
+    <string name="lang_farsi">Farsi</string>
+    <string name="lang_ukrainian">Ukrainian</string>
+    <string name="lang_kazakh">Kazakh</string>
+    <string name="lang_japanese">Japanese</string>
+    <string name="lang_hindi">Hindi</string>
+    <string name="lang_czeck">Czeck</string>
+    <string name="lang_polish">Polish</string>
+    <string name="lang_uzbek">Uzbek</string>
+    <string name="lang_korean">Korean</string>
 
 </resources>

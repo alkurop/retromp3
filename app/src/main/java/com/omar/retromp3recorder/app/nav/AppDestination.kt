@@ -37,6 +37,11 @@ sealed interface AppDestination {
         override val route: String = "delete_popup"
         override val type: DestinationType = DestinationType.Popup
     }
+
+    object SpeechRecognitionPopup : AppDestination {
+        override val route: String = "speech_recognition_popup"
+        override val type: DestinationType = DestinationType.Popup
+    }
 //endregion
 
 

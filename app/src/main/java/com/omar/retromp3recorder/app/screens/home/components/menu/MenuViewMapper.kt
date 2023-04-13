@@ -31,6 +31,7 @@ fun AudioEnabler.getTitleRes(): Int = when (this) {
 fun VisibilityEnabler.getTitleRes(): Int = when (this) {
     VisibilityEnabler.RangeBar -> R.string.menu_range
     VisibilityEnabler.PlaybackSpeed -> R.string.menu_bark_speed
+    VisibilityEnabler.SpeechRecognition -> R.string.menu_speech
 }
 
 

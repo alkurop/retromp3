@@ -1,0 +1,19 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+apply from: "$scripts.android_library"
+
+android {
+    namespace "${applicationId}.io.speech"
+}
+
+dependencies {
+    implementation project(':utils')
+    implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"
+    implementation 'com.github.alkurop:LameMp3RecorderModule:0.5'
+    implementation "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"
+}

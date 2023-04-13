@@ -6,7 +6,7 @@ enum class MenuPopup : MenuItem {
     Crop,
     Search,
     Delete,
-    Rename
+    Rename,
 }
 
 sealed interface MenuEnabler : MenuItem
@@ -20,6 +20,7 @@ enum class AudioEnabler : MenuEnabler {
 }
 
 enum class VisibilityEnabler : MenuEnabler {
+    SpeechRecognition,
     PlaybackSpeed,
     RangeBar,
 }
@@ -39,7 +40,8 @@ private val order: List<MenuItem> = listOf(
     AudioEnabler.Reverse,
     AudioEnabler.Loop,
 
-    VisibilityEnabler.PlaybackSpeed
+    VisibilityEnabler.PlaybackSpeed,
+    VisibilityEnabler.SpeechRecognition,
 )
 
 
