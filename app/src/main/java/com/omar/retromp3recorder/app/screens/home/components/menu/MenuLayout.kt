@@ -12,7 +12,7 @@ import com.omar.retromp3recorder.domain.MenuPopup
 
 
 @Composable
-fun MenuView(
+fun MenuLayout(
     onOpenDestination: (AppDestination) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MenuViewModelFlow = hiltViewModel(),

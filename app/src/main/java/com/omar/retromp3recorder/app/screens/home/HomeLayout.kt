@@ -21,11 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.nav.AppDestination
 import com.omar.retromp3recorder.app.screens.home.components.audio_controls.compose.AudioControlsLayout
-import com.omar.retromp3recorder.app.screens.home.components.joined_progress.JoinedProgressLayout
 import com.omar.retromp3recorder.app.screens.home.components.log.LogLayout
-import com.omar.retromp3recorder.app.screens.home.components.menu.MenuView
-import com.omar.retromp3recorder.app.screens.home.components.rangebar.RangeBarLayout
-import com.omar.retromp3recorder.app.screens.home.components.speedbar.SpeedBarLayout
+import com.omar.retromp3recorder.app.screens.home.components.track.TrackLayout
 import com.omar.retromp3recorder.app.screens.home.components.visualizer.VisualizerLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -97,30 +94,5 @@ fun HomeLayout(
                     .padding(horizontal = 8.dp)
             )
         }
-    }
-}
-
-@Composable
-private fun TrackLayout(
-    onOpenDestination: (AppDestination) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier.fillMaxWidth()) {
-        JoinedProgressLayout(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(120.dp)
-                .padding(horizontal = 16.dp)
-
-        )
-        RangeBarLayout(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-        )
-        SpeedBarLayout(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-        )
-        MenuView(onOpenDestination)
     }
 }

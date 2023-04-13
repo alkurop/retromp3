@@ -7,11 +7,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.omar.retromp3recorder.app.RetroTheme
 import com.omar.retromp3recorder.app.billing.BillingInteractor
 import com.omar.retromp3recorder.app.nav.AppNavHost
+import com.omar.retromp3recorder.app.screens.landing.LandingScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,6 +26,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
+    // Billing goes outside of the ViewModel, because it uses Activity component
     @Inject
     lateinit var billing: BillingInteractor
 
@@ -36,8 +42,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             RetroTheme {
+                var showLandingScreen by remember { mutableStateOf(true) }
                 val navController = rememberAnimatedNavController()
-                AppNavHost(navController = navController)
+
+                if (showLandingScreen) {
+                    LandingScreen(onLoaded = { showLandingScreen = false })
+                } else {
+                    AppNavHost(navController = navController)
+                }
             }
         }
     }
