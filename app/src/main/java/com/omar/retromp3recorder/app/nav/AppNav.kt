@@ -11,6 +11,7 @@ import com.omar.retromp3recorder.app.screens.home.HomeLayout
 import com.omar.retromp3recorder.app.screens.home.components.menu.popups.crop.CropPopupLayout
 import com.omar.retromp3recorder.app.screens.home.components.menu.popups.delete.DeletePopupLayout
 import com.omar.retromp3recorder.app.screens.home.components.menu.popups.rename.RenamePopupLayout
+import com.omar.retromp3recorder.app.screens.home.components.menu.popups.speech.SpeechPopupLayout
 import com.omar.retromp3recorder.app.screens.search.layout.SearchScreenLayout
 import com.omar.retromp3recorder.app.screens.settings.SettingsLayout
 
@@ -87,8 +88,10 @@ fun AppNavHost(
         dialog(AppDestination.DeletePopup.route) {
             DeletePopupLayout(onDismiss = { navController.popBackStack() })
         }
-        dialog(AppDestination.SpeechRecognitionPopup.route){
-
+        dialog(AppDestination.SpeechRecognitionPopup.route) {
+            SpeechPopupLayout {
+                navController.popBackStack()
+            }
         }
     }
 }

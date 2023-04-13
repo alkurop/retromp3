@@ -16,17 +16,17 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class DeleteFileInteractorFlowTest {
+class DeleteFileInteractorTest {
 
     private val deleteCurrentFileUC = mockk<DeleteCurrentFileUC>(relaxed = true)
     private lateinit var currentFileRepo: CurrentFileRepo
     private val dispatcher = UnconfinedTestDispatcher()
-    private lateinit var tested: DeleteFileInteractorFlow
+    private lateinit var tested: DeleteFileInteractor
 
     @Before
     fun setUp() {
         currentFileRepo = CurrentFileRepo()
-        tested = DeleteFileInteractorFlow(deleteCurrentFileUC, currentFileRepo, dispatcher)
+        tested = DeleteFileInteractor(deleteCurrentFileUC, currentFileRepo, dispatcher)
     }
 
     @Test

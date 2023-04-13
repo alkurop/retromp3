@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.screens.home.components.menu.popups.speech
 
 import androidx.compose.runtime.Immutable
-import com.omar.retromp3recorder.domain.LanguageState
+import com.omar.retromp3recorder.domain.LanguageAvailability
 import com.omar.retromp3recorder.domain.RecognitionLanguage
 
 interface SpeechPopupContract {
@@ -13,10 +13,8 @@ interface SpeechPopupContract {
 
     @Immutable
     data class State(
-        val languages: List<Pair<RecognitionLanguage, LanguageState>> = emptyList()
+        val languages: List<LanguageAvailability> = emptyList()
     )
-
-
 }
 
 

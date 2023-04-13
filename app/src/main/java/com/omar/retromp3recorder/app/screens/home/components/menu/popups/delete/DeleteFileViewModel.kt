@@ -12,8 +12,8 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class DeleteFileViewModelFlow @Inject constructor(
-    interactor: DeleteFileInteractorFlow
+class DeleteFileViewModel @Inject constructor(
+    interactor: DeleteFileInteractor
 ) : ViewModel() {
 
     val state: StateFlow<DeleteFileContract.State>

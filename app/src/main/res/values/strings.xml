@@ -55,10 +55,12 @@
     <string name="popup_title_crop">Crop file</string>
     <string name="popup_title_rename">Rename file</string>
     <string name="popup_title_delete">Delete file</string>
+    <string name="popup_title_language">Download recognition language</string>
     <string name="popup_label_filename">File name</string>
     <string name="popup_button_crop_in_place">In place</string>
     <string name="popup_button_crop_outside">Outside</string>
     <string name="yes">Yes</string>
+    <string name="popup_close">Close</string>
 
     <!--    Toast-->
     <string name="toast_crop_success">Crop success</string>

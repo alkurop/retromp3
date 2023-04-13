@@ -13,7 +13,10 @@ import com.omar.retromp3recorder.app.screens.home.components.menu.views.PopupCom
 import com.omar.retromp3recorder.app.utils.toFileName
 
 @Composable
-fun DeletePopupLayout(viewModel: DeleteFileViewModelFlow = hiltViewModel(), onDismiss: () -> Unit) {
+fun DeletePopupLayout(
+    viewModel: DeleteFileViewModel = hiltViewModel(),
+    onDismiss: () -> Unit
+) {
     val state by viewModel.state.collectAsState()
     if (state.shouldDismiss) {
         SideEffect {

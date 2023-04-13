@@ -1,5 +1,6 @@
 package com.omar.retromp3recorder.app.screens.home.components.menu.views
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -27,10 +29,13 @@ import com.omar.retromp3recorder.app.R
 @Composable
 fun PopupComposable(
     title: String,
-    buttonList: List<PopupButtonData>,
     content: @Composable () -> Unit,
     onDismiss: () -> Unit,
     isLoading: Boolean = false,
+    buttonList: List<PopupButtonData> = emptyList(),
+    maxHeight:Dp = 170.dp,
+    contentPaddingValues: PaddingValues = PaddingValues(16.dp),
+    @StringRes dismissButtonRes: Int = R.string.popup_cancel
 ) {
     Dialog(onDismissRequest = {
         onDismiss.invoke()
@@ -44,18 +49,15 @@ fun PopupComposable(
         ) {
             ConstraintLayout(
                 Modifier
-                    .heightIn(min = 170.dp)
+                    .heightIn(min = maxHeight)
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(vertical = 16.dp)
             ) {
                 val (titleView, contentView, buttonsContainer, progress) = createRefs()
                 Text(text = title,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
-                        .padding(
-                            bottom = 16.dp,
-                            start = 8.dp
-                        )
+                        .padding(horizontal = 16.dp)
                         .constrainAs(titleView) {
                             width = Dimension.fillToConstraints
                             height = Dimension.wrapContent
@@ -64,9 +66,10 @@ fun PopupComposable(
                             top.linkTo((parent.top))
                         })
                 Box(modifier = Modifier
-                    .padding(8.dp)
+                    .padding(paddingValues = contentPaddingValues)
                     .constrainAs(contentView) {
                         width = Dimension.fillToConstraints
+                        height = Dimension.preferredWrapContent
                         top.linkTo(titleView.bottom)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
@@ -93,7 +96,7 @@ fun PopupComposable(
                         )
                     }
                     PopupButton(
-                        text = stringResource(id = R.string.popup_cancel),
+                        text = stringResource(id = dismissButtonRes),
                         isEnabled = isLoading.not(),
                         onClick = onDismiss,
                         color = colorResource(

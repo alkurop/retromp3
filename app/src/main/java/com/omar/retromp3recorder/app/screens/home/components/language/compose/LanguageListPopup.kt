@@ -40,6 +40,7 @@ fun LanguageListPopup(
         Popup(
             alignment = Alignment.CenterStart,
             onDismissRequest = { state.switch() },
+
         ) {
             LazyColumn(
                 Modifier
@@ -47,9 +48,7 @@ fun LanguageListPopup(
                     .width(200.dp)
                     .heightIn(max = 150.dp),
                 state = listState,
-
-                ) {
-
+            ) {
                 items(languages.size, { languages[it] }) {
                     val language = languages[it]
                     Column(

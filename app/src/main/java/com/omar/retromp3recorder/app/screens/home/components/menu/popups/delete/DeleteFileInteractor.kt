@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class DeleteFileInteractorFlow @Inject constructor(
+class DeleteFileInteractor @Inject constructor(
     private val deleteCurrentFileUC: DeleteCurrentFileUC,
     private val currentFileRepo: CurrentFileRepo,
     dispatcher: CoroutineDispatcher
