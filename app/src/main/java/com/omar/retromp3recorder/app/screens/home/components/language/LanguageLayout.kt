@@ -1,7 +1,10 @@
 package com.omar.retromp3recorder.app.screens.home.components.language
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,13 +17,22 @@ import com.omar.retromp3recorder.app.screens.home.components.rememberComponentSt
 @Composable
 fun LanguageLayout(
     modifier: Modifier = Modifier,
-    viewModel: LanguageViewModel = hiltViewModel()
+    viewModel: LanguageViewModel = hiltViewModel(),
+    openLanguagePopup: () -> Unit = {}
 ) {
     val visibility = rememberComponentState(isVisible = false)
     val viewState by viewModel.state.collectAsState()
     visibility.isVisible = viewState.isVisible
 
     Component(modifier, visibility) {
-        Box(modifier = Modifier.height(400.dp))
+        Box(modifier = Modifier.height(400.dp)) {
+            Column {
+                Text(text = "Is recognition Enabled")
+                Text(text = "Is translation Enabled")
+                Button(openLanguagePopup) {
+                    Text(text = "Select language")
+                }
+            }
+        }
     }
 }

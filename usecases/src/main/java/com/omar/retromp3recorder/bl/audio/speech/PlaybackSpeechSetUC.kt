@@ -1,13 +1,13 @@
 package com.omar.retromp3recorder.bl.audio.speech
 
-import com.omar.retromp3recorder.domain.SpeechRecognitionLanguage
+import com.omar.retromp3recorder.domain.VoskRecognitionLanguage
 import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
 import javax.inject.Inject
 
 class PlaybackSpeechSetLanguageUC @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo
 ) {
-    suspend fun execute(language: SpeechRecognitionLanguage) {
+    suspend fun execute(language: VoskRecognitionLanguage) {
         val currentSettings = playerControlsRepo.first()
         val speechSettings = currentSettings.speechSettings.copy(language = language)
         playerControlsRepo.emit(currentSettings.copy(speechSettings = speechSettings))
