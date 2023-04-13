@@ -23,6 +23,9 @@ X means can't be done (please provide explanation)
 ### Features:
 
 - loading screen
+- repeat
+- render speed
+- render rewind
 
 mvp
 - audio effects
