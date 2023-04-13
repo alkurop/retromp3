@@ -15,7 +15,7 @@ sealed class LoadingState<T> {
     /**
      * Data request is in progress
      */
-    class Loading<T> : LoadingState<T>()
+    data class Loading<T>(val progress: Int = 0) : LoadingState<T>()
 
     /**
      * Data request is success with data [data]

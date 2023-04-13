@@ -7,16 +7,14 @@ plugins {
 apply from: "$scripts.android_library"
 
 android {
-    namespace "${applicationId}.io.speech"
+    namespace "${applicationId}.io.downloader"
 }
 
 dependencies {
     implementation project(':utils')
-    implementation project(':entity')
-    implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     kapt "com.google.dagger:hilt-compiler:$versions.hilt"
 
-    implementation "net.java.dev.jna:jna:$versions.jna"
-    implementation "com.alphacephei:vosk-android:$versions.vosk"
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+
 }

@@ -24,6 +24,7 @@ ext {
             ghostinshell           : '0.1',
             hilt                   : '2.44.2',
             hilt_compose           : '1.0.0',
+            jna                    : "5.13.0@aar",
             junit                  : '4.13.2',
             junitKtx               : '1.1.3',
             kotlin                 : '1.8.0',
@@ -36,6 +37,7 @@ ext {
             paging                 : '3.1.1',
             picasso                : '2.8',
             rangeBar               : '2.0.8',
+            retrofit               : "2.9.0",
             recyclerView           : '1.2.1',
             room                   : "2.5.0",
             rxCoroutines           : '1.3.6',
@@ -46,5 +48,6 @@ ext {
             timber                 : '5.0.1',
             truth                  : '1.1.2',
             turbine                : "0.12.1",
+            vosk                   : "0.3.47@aar",
     ]
 }
