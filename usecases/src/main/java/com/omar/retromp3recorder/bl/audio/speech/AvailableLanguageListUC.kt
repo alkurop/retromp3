@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.audio.speech
 
 import com.omar.retromp3recorder.io.language.LanguageLister
-import com.omar.retromp3recorder.storage.repo.local.LanguageRecognitionRepo
+import com.omar.retromp3recorder.storage.repo.global.LanguageRecognitionRepo
 import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

@@ -1,9 +1,9 @@
 package com.omar.retromp3recorder.io.language
 
-import com.omar.retromp3recorder.domain.VoskRecognitionLanguage
-import com.omar.retromp3recorder.domain.VoskRecognitionLanguage.*
+import com.omar.retromp3recorder.domain.RecognitionLanguage
+import com.omar.retromp3recorder.domain.RecognitionLanguage.*
 
-fun VoskRecognitionLanguage.getUrl():String {
+fun RecognitionLanguage.getUrl():String {
     return when (this) {
         English -> "https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip"
         IndianEnglish -> "https://alphacephei.com/vosk/models/vosk-model-small-en-in-0.4.zip"
@@ -31,4 +31,4 @@ fun VoskRecognitionLanguage.getUrl():String {
 
 }
 
-fun VoskRecognitionLanguage.getFilename(): String = this.getUrl().split("/")[0]
+fun RecognitionLanguage.getFilename(): String = this.getUrl().split("/")[0]

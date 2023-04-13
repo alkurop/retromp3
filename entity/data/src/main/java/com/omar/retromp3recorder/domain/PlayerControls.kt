@@ -24,6 +24,6 @@ data class PlayerControls(
     data class SpeechSettings(
         val isEnabled: Boolean = false,
         val isVisible: Boolean = false,
-        val language: VoskRecognitionLanguage? = null
+        val language: RecognitionLanguage? = null
     )
 }

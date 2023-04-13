@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.app.screens.home.components.language
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
+import com.omar.retromp3recorder.domain.RecognitionLanguage
 
 object LanguageContract {
     sealed interface Input {}
@@ -8,6 +9,10 @@ object LanguageContract {
         data class Visibility(val isVisible: Boolean) : Output
     }
 
-    @Stable
-    data class State(val isVisible: Boolean = false)
+    @Immutable
+    data class State(
+        val isVisible: Boolean = false,
+        val selectedLanguage: RecognitionLanguage? = null,
+        val availableLanguages: List<RecognitionLanguage> = emptyList()
+    )
 }

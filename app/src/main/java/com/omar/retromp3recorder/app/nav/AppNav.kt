@@ -87,6 +87,9 @@ fun AppNavHost(
         dialog(AppDestination.DeletePopup.route) {
             DeletePopupLayout(onDismiss = { navController.popBackStack() })
         }
+        dialog(AppDestination.SpeechRecognitionPopup.route){
+
+        }
     }
 }
 

@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Component(
     modifier: Modifier = Modifier,
-    state: ComponentState = rememberComponentState(isVisible = true),
+    state: VisibilityState = rememberVisibilityState(),
     view: @Composable () -> Unit,
 ) {
     AnimatedVisibility(
@@ -39,7 +39,7 @@ fun Component(
 }
 
 @Composable
-private fun ComponentDivider() {
+  fun ComponentDivider() {
     Divider(
         thickness = 1.dp,
         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
@@ -47,11 +47,14 @@ private fun ComponentDivider() {
 }
 
 @Stable
-class ComponentState(isVisible: Boolean) {
+class VisibilityState(isVisible: Boolean) {
     var isVisible by mutableStateOf(isVisible)
+    fun switch() {
+        isVisible = !isVisible
+    }
 
     companion object {
-        val Saver: Saver<ComponentState, Any> = listSaver(
+        val Saver: Saver<VisibilityState, Any> = listSaver(
             save = {
                 listOf(
                     it.isVisible
@@ -59,14 +62,14 @@ class ComponentState(isVisible: Boolean) {
             },
             restore = {
                 val isVisible = it[0]
-                ComponentState(isVisible)
+                VisibilityState(isVisible)
             })
     }
 }
 
 @Composable
-fun rememberComponentState(isVisible: Boolean): ComponentState =
-    rememberSaveable(saver = ComponentState.Saver) {
-        ComponentState(isVisible)
+fun rememberVisibilityState(isVisible: Boolean = false): VisibilityState =
+    rememberSaveable(saver = VisibilityState.Saver) {
+        VisibilityState(isVisible)
     }
 

@@ -3,7 +3,6 @@ package com.omar.retromp3recorder.storage.repo.local
 import com.github.alkurop.ghostinshell.Shell
 import com.omar.retromp3recorder.domain.FileWrapper
 import com.omar.retromp3recorder.domain.PlayerControls
-import com.omar.retromp3recorder.domain.VoskRecognitionLanguage
 import com.omar.retromp3recorder.utils.domain.Optional
 import com.omar.retromp3recorder.utils.domain.repo.StateFlowRepo
 import javax.inject.Inject
@@ -21,6 +20,4 @@ class RangeBarResetBus @Inject constructor() :
 class PlayerControlsRepo @Inject constructor() :
     StateFlowRepo<PlayerControls>(PlayerControls())
 
-@Singleton
-class LanguageRecognitionRepo @Inject constructor() :
-    StateFlowRepo<List<VoskRecognitionLanguage>>(emptyList())
+
