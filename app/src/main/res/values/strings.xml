@@ -104,6 +104,10 @@
     <string name="lang_polish">Polish</string>
     <string name="lang_uzbek">Uzbek</string>
     <string name="lang_korean">Korean</string>
+
     <string name="popup_add_language">Add language</string>
+    <string name="language_download">Download</string>
+    <string name="language_delete">Delete</string>
+    <string name="language_cancel_download">Cancel</string>
 
 </resources>

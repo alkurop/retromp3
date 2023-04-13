@@ -8,6 +8,6 @@ import javax.inject.Inject
 internal class VoskLanguageLister @Inject constructor() : LanguageLister {
     override suspend fun listAvailableRecognitionLanguages(): List<LanguageAvailability> {
         return RecognitionLanguage.values()
-            .map { LanguageAvailability(it, LanguageState.Available) }
+            .map { LanguageAvailability(it, LanguageState.ToDownload) }
     }
 }

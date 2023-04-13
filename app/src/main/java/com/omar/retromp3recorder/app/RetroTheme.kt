@@ -1,17 +1,19 @@
 package com.omar.retromp3recorder.app
 
 import android.app.Activity
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Typography
-import androidx.compose.material3.darkColorScheme
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 private val Typography = Typography(
@@ -38,8 +40,12 @@ private val Typography = Typography(
     ),
 )
 
+private val RetroShapes = Shapes(
+    medium = RoundedCornerShape(4.dp),
+)
+
 private val darkColorTheme = darkColorScheme(
-    primary = Color.White,
+    primary = Color(0xff121212),
     secondary = Color(0xff00ff00),
     tertiary = Color(0xFFFF6F00),
     background = Color(0xff121212),
@@ -65,6 +71,31 @@ fun RetroTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content
+        content = content,
+        shapes = RetroShapes
     )
+}
+
+@Composable
+fun RetroButtonDark(onClick: () -> Unit, content: @Composable () -> Unit) {
+    Button(
+        shape = MaterialTheme.shapes.medium,
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+        onClick = onClick,
+    ) { content() }
+}
+
+@Composable
+fun RetroButtonLight(onClick: () -> Unit, content: @Composable () -> Unit) {
+    Button(
+        shape = MaterialTheme.shapes.medium,
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+        onClick = onClick,
+    ) { content() }
+}
+
+@Composable
+fun RetroProgressIndicator(modifier: Modifier = Modifier) {
+    CircularProgressIndicator(modifier, color = MaterialTheme.colorScheme.onPrimary)
 }

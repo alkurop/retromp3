@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.omar.retromp3recorder.app.RetroProgressIndicator
 import com.omar.retromp3recorder.app.R
 
 @Composable
@@ -105,7 +105,7 @@ fun PopupComposable(
                     )
                 }
                 if (isLoading) {
-                    CircularProgressIndicator(
+                    RetroProgressIndicator(
                         Modifier
                             .size(50.dp)
                             .constrainAs(progress) {

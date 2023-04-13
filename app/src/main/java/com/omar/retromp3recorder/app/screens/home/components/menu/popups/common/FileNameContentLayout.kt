@@ -33,7 +33,7 @@ fun FileNameContentLayout(
     OutlinedTextField(
         modifier = Modifier
             .padding(top = 16.dp, bottom = 24.dp),
-        textStyle = TextStyle(color = MaterialTheme.colorScheme.primary),
+        textStyle = TextStyle(color = MaterialTheme.colorScheme.onPrimary),
         value = state.text,
         isError = isError,
         label = { Text(text = label) },

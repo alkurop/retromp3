@@ -95,7 +95,7 @@ fun SearchToolbar(
                         fontSize = 16.sp,
                     ),
 
-                    cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                    cursorBrush = SolidColor(MaterialTheme.colorScheme.onPrimary),
                     onValueChange = onQueryChange,
                     modifier = Modifier
                         .onFocusChanged { isFocused = it.isFocused }

@@ -1,14 +1,14 @@
 package com.omar.retromp3recorder.app.screens.home.components.language.compose
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.omar.retromp3recorder.app.RetroButtonDark
 import com.omar.retromp3recorder.app.screens.home.components.Component
 import com.omar.retromp3recorder.app.screens.home.components.language.LanguageContract
 import com.omar.retromp3recorder.app.screens.home.components.language.LanguageViewModel
@@ -37,12 +37,10 @@ fun LanguageLayout(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = "disabled")
             }
-            Button(
-                { popupVisibility.switch() },
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background)
+            RetroButtonDark(
+                onClick = { popupVisibility.switch() },
             ) {
                 Text(text = "Select language")
-
             }
             LanguageListPopup(
                 state = popupVisibility,

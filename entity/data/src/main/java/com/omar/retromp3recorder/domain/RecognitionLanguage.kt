@@ -7,7 +7,7 @@ enum class RecognitionLanguage {
 
 
 enum class LanguageState {
-    Available, Usable, Downloading
+    ToDownload, Available, Loading
 }
 
 data class LanguageAvailability(
