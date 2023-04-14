@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.domain.BillingResponse
 import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.storage.repo.global.BillingRequestEventBus
 import com.omar.retromp3recorder.storage.repo.global.BillingResultEventBus
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class BillingBinderUC @Inject constructor(
     private val billingRequestEventBus: BillingRequestEventBus,
     private val billingResultEventBus: BillingResultEventBus,
-    private val jobWrapper: ScopeJobWrapper
+    private val jobWrapper: AudioCoroutineContext
 ) {
     suspend fun <T : BillingResponse> execute(request: BillingRequest): Result<T> {
         billingRequestEventBus.emit(request)

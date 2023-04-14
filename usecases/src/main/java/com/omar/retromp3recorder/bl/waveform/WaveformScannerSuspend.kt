@@ -2,13 +2,13 @@ package com.omar.retromp3recorder.bl.waveform
 
 import com.omar.retromp3recorder.bl.waveform.WavetableSummer.Companion.MAX_WAVEFORM_SIZE_SECONDS
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.platform.AmplitudaWaveformScanner
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class WaveformScannerSuspend @Inject constructor(
-    private val jobWrapper: ScopeJobWrapper,
+    private val jobWrapper: AudioCoroutineContext,
     private val amplitudaDealer: AmplitudaWaveformScanner,
 ) {
     suspend fun execute(

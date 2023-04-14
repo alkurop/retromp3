@@ -6,7 +6,6 @@ import com.omar.retromp3recorder.app.screens.home.components.menu.popups.delete.
 import com.omar.retromp3recorder.app.utils.stateInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,16 +15,11 @@ class DeleteFileViewModel @Inject constructor(
     interactor: DeleteFileInteractor
 ) : ViewModel() {
 
-    val state: StateFlow<DeleteFileContract.State>
-
     private val inputFlow = MutableSharedFlow<DeleteFileContract.Input>()
 
-
-    init {
-        state = interactor.processIO(inputFlow)
-            .mapToState()
-            .stateInViewModel(this, DeleteFileContract.State())
-    }
+    val state = interactor.processIO(inputFlow, viewModelScope)
+        .mapToState()
+        .stateInViewModel(this, DeleteFileContract.State())
 
     fun emit(event: DeleteFileContract.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

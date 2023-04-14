@@ -8,7 +8,7 @@ import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.platform.FileLister
 import com.omar.retromp3recorder.utils.platform.Mp3TagsEditor
 import kotlinx.coroutines.withContext
@@ -22,11 +22,11 @@ class CropUC @Inject constructor(
     private val fileLister: FileLister,
     private val mp3TagsEditor: Mp3TagsEditor,
     private val waveformScanner: WaveformScannerSuspend,
-    private val scopeJobWrapper: ScopeJobWrapper
+    private val audioCoroutineContext: AudioCoroutineContext
 ) {
     suspend fun execute(nameSuggestion: NewNameSuggestion): Result<ExistingFileWrapper> {
 
-        return withContext(scopeJobWrapper.coroutineContext) {
+        return withContext(audioCoroutineContext.coroutineContext) {
             val request = gatherCropRequestUC.execute(nameSuggestion)
             val cropResponse = audioCropper.crop(request)
             if (cropResponse.isSuccess.not()) {

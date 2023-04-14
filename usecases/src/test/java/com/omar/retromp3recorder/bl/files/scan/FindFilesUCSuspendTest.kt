@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.bl.files.scan
 
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.platform.DirPathProvider
 import com.omar.retromp3recorder.utils.platform.FileEmptyChecker
 import com.omar.retromp3recorder.utils.platform.FileLister
@@ -30,7 +30,7 @@ class FindFilesUCSuspendTest {
     @MockK(relaxed = true)
     private lateinit var fileLister: FileLister
 
-    private val scopeJobWrapper = ScopeJobWrapper(UnconfinedTestDispatcher())
+    private val audioCoroutineContext = AudioCoroutineContext(UnconfinedTestDispatcher())
 
     @InjectMockKs
     private lateinit var tested: FindFilesUCSuspend

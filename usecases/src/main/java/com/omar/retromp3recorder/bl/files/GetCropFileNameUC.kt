@@ -2,14 +2,14 @@ package com.omar.retromp3recorder.bl.files
 
 import com.omar.retromp3recorder.domain.NewNameSuggestion
 import com.omar.retromp3recorder.utils.platform.DirPathProvider
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
 class GetCropFileNameUC @Inject constructor(
     private val dirPathProvider: DirPathProvider,
-    private val jobWrapper: ScopeJobWrapper
+    private val jobWrapper: AudioCoroutineContext
 )  {
     suspend fun execute(originalFileName: String): NewNameSuggestion {
         jobWrapper.cancelAndJoin()

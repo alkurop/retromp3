@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.bl.files.scan
 
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.platform.DirPathProvider
 import com.omar.retromp3recorder.utils.platform.FileEmptyChecker
 import com.omar.retromp3recorder.utils.platform.FileLister
@@ -12,11 +12,11 @@ class FindFilesUCSuspend @Inject constructor(
     private val fileEmptyChecker: FileEmptyChecker,
     private val dirPathProvider: DirPathProvider,
     private val fileLister: FileLister,
-    private val scopeJobWrapper: ScopeJobWrapper
+    private val audioCoroutineContext: AudioCoroutineContext
 ) {
     suspend fun execute(): List<ExistingFileWrapper> {
-        scopeJobWrapper.cancelAndJoin()
-        return withContext(scopeJobWrapper.coroutineContext) {
+        audioCoroutineContext.cancelAndJoin()
+        return withContext(audioCoroutineContext.coroutineContext) {
             fileLister.listAudioFiles(dirPathProvider.fileDirs)
                 .filter {
                     val isEmpty = fileEmptyChecker.isFileEmpty(it.path)

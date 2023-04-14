@@ -19,7 +19,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            interactor.processIO(inputFlow)
+            interactor.processIO(inputFlow, viewModelScope)
                 .mapToState()
                 .collect { _state.value = it }
         }

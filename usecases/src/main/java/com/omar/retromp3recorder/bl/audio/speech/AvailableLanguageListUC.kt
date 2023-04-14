@@ -2,14 +2,14 @@ package com.omar.retromp3recorder.bl.audio.speech
 
 import com.omar.retromp3recorder.io.language.LanguageLister
 import com.omar.retromp3recorder.storage.repo.global.LanguageRecognitionRepo
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AvailableLanguageListUC @Inject constructor(
     private val repo: LanguageRecognitionRepo,
     private val languageLister: LanguageLister,
-    private val jobWrapper: ScopeJobWrapper
+    private val jobWrapper: AudioCoroutineContext
 ) {
     suspend fun execute() {
         val languages =

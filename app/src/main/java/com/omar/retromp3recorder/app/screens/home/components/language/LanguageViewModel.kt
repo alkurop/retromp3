@@ -13,13 +13,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LanguageViewModel @Inject constructor(
-  interactor: LanguageInteractor
+    interactor: LanguageInteractor
 ) : ViewModel() {
     val state: StateFlow<LanguageContract.State>
     private val inputFlow = MutableSharedFlow<LanguageContract.Input>()
 
     init {
-        state = interactor.processIO(inputFlow)
+        state = interactor.processIO(inputFlow, viewModelScope)
             .mapOutputToStateFlow()
             .stateInViewModel(this, LanguageContract.State())
     }

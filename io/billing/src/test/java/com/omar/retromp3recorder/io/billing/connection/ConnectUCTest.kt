@@ -1,6 +1,6 @@
 package com.omar.retromp3recorder.io.billing.connection
 
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -13,7 +13,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ConnectUCTest {
-    private val jobWrapper = ScopeJobWrapper(UnconfinedTestDispatcher())
+    private val jobWrapper = AudioCoroutineContext(UnconfinedTestDispatcher())
     private val tested = ConnectUC(jobWrapper)
     private val connection = mockk<BillingConnection>(relaxed = true)
 

@@ -24,7 +24,7 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            interactor.processIO()
+            interactor.processIO(parentScope = viewModelScope)
                 .mapToState()
                 .collect { _state.value = it }
         }

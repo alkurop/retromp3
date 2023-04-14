@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.bl.billing.count.ShouldConsumeProductUC
 import com.omar.retromp3recorder.domain.BillingResponse
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.utils.domain.toResult
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -23,7 +23,7 @@ class CropWithProductUCTest {
     private val billingBinderUC = mockk<BillingBinderUC>()
     private val decrementProductCountUC = mockk<DecrementProductCountUC>()
     private val shouldConsumeProductUC = mockk<ShouldConsumeProductUC>()
-    private val jobWrapper = ScopeJobWrapper(UnconfinedTestDispatcher())
+    private val jobWrapper = AudioCoroutineContext(UnconfinedTestDispatcher())
 
     private lateinit var tested: CropWithProductUC
 

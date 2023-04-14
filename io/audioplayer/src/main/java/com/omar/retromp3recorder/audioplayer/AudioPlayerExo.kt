@@ -7,7 +7,7 @@ import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.Player.STATE_ENDED
 import com.omar.retromp3recorder.domain.PlayerControls
 import com.omar.retromp3recorder.io.audioplayer.R
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.domain.repo.PublishSubjectRepo
 import com.omar.retromp3recorder.utils.platform.tickerFlow
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,8 +20,8 @@ import javax.inject.Named
 
 class AudioPlayerExo @Inject constructor(
     @ApplicationContext val context: Context,
-    private val jobWrapper: ScopeJobWrapper,
-    @Named("main") private val mainThreadJobWrapper: ScopeJobWrapper
+    private val jobWrapper: AudioCoroutineContext,
+    @Named("main") private val mainThreadJobWrapper: AudioCoroutineContext
 ) : AudioPlayer {
     private val events = PublishSubjectRepo<AudioPlayer.Output.Event>(1)
     private val state = MutableStateFlow(AudioPlayer.State.Idle)

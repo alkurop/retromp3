@@ -3,13 +3,13 @@ package com.omar.retromp3recorder.bl.database
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DbUpdaterUCSuspend @Inject constructor(
     private val appDatabase: AppDatabase,
-    private val jobWrapper: ScopeJobWrapper
+    private val jobWrapper: AudioCoroutineContext
 ) {
     fun execute(update: List<ExistingFileWrapper>) {
         if (update.isNotEmpty()) {

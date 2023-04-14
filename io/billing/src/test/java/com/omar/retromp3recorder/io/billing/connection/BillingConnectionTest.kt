@@ -4,7 +4,7 @@ import android.app.Activity
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.ConnectionState.*
 import com.omar.retromp3recorder.utils.domain.toResult
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -17,7 +17,7 @@ import org.junit.Test
 class BillingConnectionTest {
 
     private val activity = mockk<Activity>(relaxed = true)
-    private val scopeJobWrapper = ScopeJobWrapper(UnconfinedTestDispatcher())
+    private val audioCoroutineContext = AudioCoroutineContext(UnconfinedTestDispatcher())
     private val connectUC = mockk<ConnectUC>()
     private val billingConnectionListener = mockk<BillingConnectionListener>(relaxed = true)
     private val billingClientProvider = mockk<BillingClientProvider>()
@@ -32,7 +32,7 @@ class BillingConnectionTest {
         every { billingClientBuilder.build() } returns billingClient
         tested = BillingConnection(
             activity,
-            scopeJobWrapper,
+            audioCoroutineContext,
             connectUC,
             billingClientProvider,
             billingConnectionListener

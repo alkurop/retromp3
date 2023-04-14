@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.utils.domain.chain
 import com.omar.retromp3recorder.utils.domain.chainSuspend
 import com.omar.retromp3recorder.io.billing.Billing
 import com.omar.retromp3recorder.io.billing.mapping.findPurchase
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -13,10 +13,10 @@ import javax.inject.Inject
 class ConsumeProductUC @Inject constructor(
     private val billing: Billing,
     private val listUC: ListPurchasesUC,
-    private val scopeJobWrapper: ScopeJobWrapper
+    private val audioCoroutineContext: AudioCoroutineContext
 ) {
     suspend fun execute(productId: ProductId): Result<Unit> {
-        return withContext(scopeJobWrapper.coroutineContext) {
+        return withContext(audioCoroutineContext.coroutineContext) {
             Timber.d("BILLING Product trying to consume $productId")
             listUC.execute()
                 .chain { it.findPurchase(productId) }

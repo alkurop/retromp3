@@ -7,7 +7,7 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlin.coroutines.CoroutineContext
 
 
-class ScopeJobWrapper(
+class AudioCoroutineContext(
     private val dispatcher: CoroutineDispatcher
 ) : CoroutineScope {
     private var job = Job()

@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.bl.waveform
 
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockWaveformFactory
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.platform.AmplitudaWaveformScanner
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -16,7 +16,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AmplitudaWaveformScannerSuspendTest {
-    private val jobWrapper = ScopeJobWrapper(UnconfinedTestDispatcher())
+    private val jobWrapper = AudioCoroutineContext(UnconfinedTestDispatcher())
     private val waveformScanner = mockk<AmplitudaWaveformScanner>()
     private lateinit var tested: WaveformScannerSuspend
 

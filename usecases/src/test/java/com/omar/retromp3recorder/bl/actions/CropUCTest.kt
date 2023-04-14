@@ -9,7 +9,7 @@ import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.platform.FileLister
 import com.omar.retromp3recorder.utils.platform.Mp3TagsEditor
 import io.mockk.*
@@ -53,7 +53,7 @@ class CropUCTest {
             fileLister,
             mp3TagsEditor,
             waveformScanner,
-            ScopeJobWrapper(UnconfinedTestDispatcher())
+            AudioCoroutineContext(UnconfinedTestDispatcher())
         )
     }
 

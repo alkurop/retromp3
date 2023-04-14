@@ -12,10 +12,10 @@ class BuyProductUC @Inject constructor(
     private val billing: Billing,
     private val listProducts: ListAvailableProductsUC,
     private val listPurchasesUC: ListPurchasesUC,
-    private val scopeJobWrapper: ScopeJobWrapper
+    private val audioCoroutineContext: AudioCoroutineContext
 ) {
     suspend fun execute(productId: ProductId): Result<PurchaseData> {
-        return withContext(scopeJobWrapper.coroutineContext) {
+        return withContext(audioCoroutineContext.coroutineContext) {
             Timber.d("BILLING Product trying to buy $productId")
 
             // find existing purchases first

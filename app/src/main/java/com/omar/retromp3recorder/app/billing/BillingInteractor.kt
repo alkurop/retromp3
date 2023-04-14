@@ -12,8 +12,9 @@ import com.omar.retromp3recorder.io.billing.Billing
 import com.omar.retromp3recorder.storage.repo.global.BillingRequestEventBus
 import com.omar.retromp3recorder.storage.repo.global.BillingResultEventBus
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.collect
@@ -26,18 +27,18 @@ class BillingInteractor @Inject constructor(
     private val consumeProductUC: ConsumeProductUC,
     private val billing: Billing,
     private val buyProductUC: BuyProductUC,
-    private val scopeJobWrapper: ScopeJobWrapper,
+    private val audioCoroutineContext: AudioCoroutineContext,
     private val toastRepo: ToastRepo,
     dispatcher: CoroutineDispatcher
 ) : Interactor<BillingRequest, Unit>(dispatcher) {
-    suspend fun setup() {
-        processIO(billingRequestEventBus.flow()).collect()
+    suspend fun setup(parentScope: CoroutineScope) {
+        processIO(billingRequestEventBus.flow(), parentScope).collect()
     }
 
     override fun listRepos(): List<Flow<Unit>> = emptyList()
 
     override suspend fun FlowCollector<Unit>.launchUseCase(input: BillingRequest) {
-        scopeJobWrapper.launch {
+        audioCoroutineContext.launch {
             executeBillingRequest {
                 when (input) {
                     BillingRequest.CropProductBuyRequest ->

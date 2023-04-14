@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.omar.retromp3recorder.app.utils.stateInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,15 +13,10 @@ class SpeechPopupViewModel @Inject constructor(
     interactor: SpeechPopupInteractor
 ) : ViewModel() {
 
-    val state: StateFlow<SpeechPopupContract.State>
-
     private val inputFlow = MutableSharedFlow<SpeechPopupContract.Input>()
 
-
-    init {
-        state = interactor.processIO(inputFlow)
-            .stateInViewModel(this, SpeechPopupContract.State())
-    }
+    val state = interactor.processIO(inputFlow, viewModelScope)
+        .stateInViewModel(this, SpeechPopupContract.State())
 
     fun emit(event: SpeechPopupContract.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.io.billing.connection
 
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
@@ -11,10 +11,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class ConnectUC @Inject constructor(
-    private val scopeJobWrapper: ScopeJobWrapper
+    private val audioCoroutineContext: AudioCoroutineContext
 ) {
     suspend fun execute(connection: BillingConnection): Result<Unit> {
-        return withContext(scopeJobWrapper.coroutineContext) {
+        return withContext(audioCoroutineContext.coroutineContext) {
             val flow = channelFlow {
                 var job: Job? = null
                 job = launch {

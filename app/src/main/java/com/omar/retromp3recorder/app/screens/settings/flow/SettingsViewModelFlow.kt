@@ -4,32 +4,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.omar.retromp3recorder.app.screens.settings.SettingsContract
 import com.omar.retromp3recorder.app.screens.settings.SettingsViewOutputMapper.mapOutputToStateFlow
+import com.omar.retromp3recorder.app.utils.stateInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModelFlow @Inject constructor(
-    private val interactor: SettingsFlowInteractor
+    interactor: SettingsFlowInteractor
 ) : ViewModel() {
-    private val _state = MutableStateFlow(SettingsContract.State())
-    val state = _state.asStateFlow()
 
     private val inputFlow = MutableSharedFlow<SettingsContract.Input>()
 
-    init {
-        viewModelScope.launch {
-            interactor.processIO(inputFlow)
-                .mapOutputToStateFlow()
-                .distinctUntilChanged()
-                .collect { _state.value = it }
+    val state = interactor.processIO(inputFlow, viewModelScope)
+        .mapOutputToStateFlow()
+        .distinctUntilChanged()
+        .stateInViewModel(this, SettingsContract.State())
 
-        }
-    }
 
     fun onEvent(event: SettingsContract.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

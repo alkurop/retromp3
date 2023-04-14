@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorderLame
 import com.omar.retromp3recorder.share.Sharer
 import com.omar.retromp3recorder.share.SharerImpl
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.platform.MediaProjectionUnsubscriber
 import dagger.Binds
 import dagger.Module
@@ -32,8 +32,8 @@ internal interface FunctionalityModule {
 class FunctionalityProvidesModule {
 
     @Provides
-    fun provideProjectionUnsubscriber(scopeJobWrapper: ScopeJobWrapper): MediaProjectionUnsubscriber {
-        return MediaProjectionUnsubscriber(scopeJobWrapper)
+    fun provideProjectionUnsubscriber(audioCoroutineContext: AudioCoroutineContext): MediaProjectionUnsubscriber {
+        return MediaProjectionUnsubscriber(audioCoroutineContext)
     }
 
 }

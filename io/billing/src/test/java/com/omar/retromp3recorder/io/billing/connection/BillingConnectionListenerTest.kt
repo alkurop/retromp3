@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +16,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class BillingConnectionListenerTest {
-    private val jobWrapper = ScopeJobWrapper(UnconfinedTestDispatcher())
+    private val jobWrapper = AudioCoroutineContext(UnconfinedTestDispatcher())
     private lateinit var tested: BillingConnectionListener
     private val result = mockk<BillingResult>()
 

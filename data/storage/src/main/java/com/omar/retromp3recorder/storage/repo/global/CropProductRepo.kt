@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.storage.repo.global
 
 import android.content.SharedPreferences
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.domain.repo.StateFlowRepo
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -10,11 +10,11 @@ import javax.inject.Singleton
 
 @Singleton
 class CropProductRepo @Inject constructor(
-    private val scopeJobWrapper: ScopeJobWrapper,
+    private val audioCoroutineContext: AudioCoroutineContext,
     private val sharedPreferences: SharedPreferences
 ) : StateFlowRepo<Int>(0) {
     init {
-        scopeJobWrapper.launch {
+        audioCoroutineContext.launch {
             val currentCropValue = sharedPreferences.getInt(
                 KEY_CROP_COUNTER,
                 INITIAL_CROP_OFFERING
@@ -24,7 +24,7 @@ class CropProductRepo @Inject constructor(
     }
 
     override suspend fun emit(input: Int) {
-        scopeJobWrapper.launch {
+        audioCoroutineContext.launch {
             val currentValue = sharedPreferences.getInt(
                 KEY_CROP_COUNTER,
                 INITIAL_CROP_OFFERING
@@ -44,7 +44,7 @@ class CropProductRepo @Inject constructor(
     }
 
     suspend fun isTrial(): Boolean {
-        return withContext(scopeJobWrapper.coroutineContext) {
+        return withContext(audioCoroutineContext.coroutineContext) {
             sharedPreferences.getBoolean(KEY_CROP_COUNTER_TRIAL, true)
         }
     }

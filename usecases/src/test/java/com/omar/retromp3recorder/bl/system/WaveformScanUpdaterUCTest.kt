@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.bl.database.DbUpdaterUCSuspend
 import com.omar.retromp3recorder.bl.waveform.WaveformScannerSuspend
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockWaveformFactory
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
@@ -25,7 +25,7 @@ class WaveformScanUpdaterUCTest {
     @MockK(relaxed = true)
     private lateinit var waveformScanner: WaveformScannerSuspend
 
-    private val scopeJobWrapper = ScopeJobWrapper(UnconfinedTestDispatcher())
+    private val audioCoroutineContext = AudioCoroutineContext(UnconfinedTestDispatcher())
 
     @InjectMockKs
     private lateinit var tested: WaveformScanUpdaterUC

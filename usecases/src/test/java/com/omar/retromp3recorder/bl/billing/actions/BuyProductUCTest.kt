@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.domain.PurchaseData
 import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.billing.Billing
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -21,12 +21,12 @@ class BuyProductUCTest {
     private val billing = mockk<Billing>()
     private val listProductUC = mockk<ListAvailableProductsUC>()
     private val listPurchasesUC = mockk<ListPurchasesUC>()
-    private val scopeJobWrapper = ScopeJobWrapper(UnconfinedTestDispatcher())
+    private val audioCoroutineContext = AudioCoroutineContext(UnconfinedTestDispatcher())
     private lateinit var tested: BuyProductUC
 
     @Before
     fun setup() {
-        tested = BuyProductUC(billing, listProductUC, listPurchasesUC, scopeJobWrapper)
+        tested = BuyProductUC(billing, listProductUC, listPurchasesUC, audioCoroutineContext)
     }
 
     @Test

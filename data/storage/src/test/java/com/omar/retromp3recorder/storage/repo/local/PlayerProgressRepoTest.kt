@@ -5,7 +5,7 @@ import com.omar.retromp3recorder.data.mock.MockPlayerProgressFactory
 import com.omar.retromp3recorder.domain.PlayerControls
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,14 +25,14 @@ class PlayerProgressRepoTest {
     private val progressMapper = mockk<PlayerProgressMapperFlow>()
     private val dispatcher = UnconfinedTestDispatcher()
 
-    private val jobScopeJobWrapper = ScopeJobWrapper(dispatcher)
+    private val jobAudioCoroutineContext = AudioCoroutineContext(dispatcher)
 
     @Before
     fun setUp() {
         playerProgressFlow = MutableSharedFlow(replay = 1)
         every { progressMapper.flow() } returns playerProgressFlow
         playerControlsRepo = PlayerControlsRepo()
-        tested = PlayerProgressRepo(playerControlsRepo, progressMapper, jobScopeJobWrapper)
+        tested = PlayerProgressRepo(playerControlsRepo, progressMapper, jobAudioCoroutineContext)
     }
 
     @Test

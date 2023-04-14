@@ -1,5 +1,7 @@
 package com.omar.retromp3recorder.app.utils
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
@@ -11,15 +13,15 @@ import kotlinx.coroutines.flow.map
 /**
  * Utility method to cache a [PagingData] in [CoroutineScope]
  *
- * @param scope - Scope where the [PagingData] will be cached
+ * @param viewModel - ViewModel with CoroutineScope where the [PagingData] will be cached
  * @param T - type of data
  */
-fun <T : Any> LoadingState<Flow<PagingData<T>>>.cacheInViewModel(scope: CoroutineScope): LoadingState<Flow<PagingData<T>>> {
+fun <T : Any> LoadingState<Flow<PagingData<T>>>.cacheInViewModel(viewModel: ViewModel): LoadingState<Flow<PagingData<T>>> {
     return when (this) {
         is LoadingState.Success -> {
             LoadingState.Success(this.data.run {
                 // cache paging items in view model scope
-                this.cachedIn(scope)
+                this.cachedIn(viewModel.viewModelScope)
             })
         }
         else -> this

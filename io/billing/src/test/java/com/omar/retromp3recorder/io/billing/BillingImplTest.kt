@@ -7,7 +7,7 @@ import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.domain.PurchaseData
 import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.billing.connection.BillingConnection
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -24,14 +24,14 @@ import org.junit.Test
 class BillingImplTest {
 
     private val connection = mockk<BillingConnection>()
-    private val scopeJobWrapper = ScopeJobWrapper(UnconfinedTestDispatcher())
+    private val audioCoroutineContext = AudioCoroutineContext(UnconfinedTestDispatcher())
     private val activity = mockk<Activity>(relaxed = true)
 
     private lateinit var tested: BillingImpl
 
     @Before
     fun setup() {
-        tested = BillingImpl(connection, scopeJobWrapper, activity)
+        tested = BillingImpl(connection, audioCoroutineContext, activity)
     }
 
     @Test

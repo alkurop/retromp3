@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.bl.billing.BillingBinderUC
 import com.omar.retromp3recorder.bl.billing.count.DecrementProductCountUC
 import com.omar.retromp3recorder.bl.billing.count.ShouldConsumeProductUC
 import com.omar.retromp3recorder.domain.*
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class CropWithProductUC @Inject constructor(
     private val billingBinderUC: BillingBinderUC,
     private val decrementProductCountUC: DecrementProductCountUC,
     private val shouldConsumeProductUC: ShouldConsumeProductUC,
-    private val jobWrapper: ScopeJobWrapper
+    private val jobWrapper: AudioCoroutineContext
 ) {
     suspend fun execute(nameSuggestion: NewNameSuggestion): Result<ExistingFileWrapper> {
         val cropResult = cropUC.execute(nameSuggestion)

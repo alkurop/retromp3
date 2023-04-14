@@ -14,7 +14,7 @@ import javax.inject.Inject
 class LogViewModelFlow @Inject constructor(
     interactor: LogInteractorFlow
 ) : ViewModel() {
-    val state: StateFlow<LogView.State> = interactor.processIO(flowOf())
+    val state: StateFlow<LogView.State> = interactor.processIO(flowOf(), viewModelScope)
         .mapOutputToState()
         .stateIn(viewModelScope, SharingStarted.Lazily, LogView.State())
 }

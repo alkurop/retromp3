@@ -16,7 +16,7 @@ import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toProductListRe
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toPurchasesListResult
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toResult
 import com.omar.retromp3recorder.io.billing.mapping.toDomainModel
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 internal class BillingImpl @Inject constructor(
     private val connection: BillingConnection,
-    private val scopeJobWrapper: ScopeJobWrapper,
+    private val audioCoroutineContext: AudioCoroutineContext,
     @ActivityContext private val context: Context,
 ) : Billing {
 
@@ -66,7 +66,7 @@ internal class BillingImpl @Inject constructor(
         return requestItem?.let { productDetails ->
             executeOnConnection {
                 launchBillingFlow(activity, productDetails.toBillingFlowParams())
-                withContext(scopeJobWrapper.coroutineContext) {
+                withContext(audioCoroutineContext.coroutineContext) {
                     connection.purchaseFlow.first().toResult().also { result ->
                         Timber.d("BILLING Purchase result after billing flow init $result")
                     }

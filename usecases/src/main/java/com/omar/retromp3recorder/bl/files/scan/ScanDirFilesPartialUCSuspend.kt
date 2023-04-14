@@ -7,7 +7,7 @@ import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import com.omar.retromp3recorder.storage.db.toFileWrapper
 import com.omar.retromp3recorder.storage.db.withTransaction
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.domain.toOptional
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class ScanDirFilesPartialUCSuspend @Inject constructor(
     private val getPagingItemsDatabaseUC: GetPagingItemsDatabaseUCFlow,
     private val waveformScanUpdaterUC: WaveformScanUpdaterUC,
     private val collector: FileUpdatePayloadCollectorUC,
-    private val jobWrapper: ScopeJobWrapper
+    private val jobWrapper: AudioCoroutineContext
 ) {
     suspend fun execute() {
         jobWrapper.launch {

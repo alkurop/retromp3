@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.utils.platform
 
 import android.content.Context
 import android.os.Environment
-import com.omar.retromp3recorder.utils.domain.ScopeJobWrapper
+import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class DirPathProvider @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val jobWrapper: ScopeJobWrapper,
+    private val jobWrapper: AudioCoroutineContext,
 ) {
     fun providerDirPath(): String {
         return fileDirs.first { File(it).exists() }

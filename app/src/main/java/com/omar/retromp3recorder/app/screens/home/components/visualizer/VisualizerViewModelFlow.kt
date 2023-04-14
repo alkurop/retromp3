@@ -1,17 +1,17 @@
 package com.omar.retromp3recorder.app.screens.home.components.visualizer
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.omar.retromp3recorder.app.screens.home.components.visualizer.VisualizerOutputMapper.mapOutputToStateFlow
 import com.omar.retromp3recorder.app.utils.stateInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class VisualizerViewModelFlow @Inject constructor(
     interactor: VisualizerInteractorFlow
 ) : ViewModel() {
-    val state: StateFlow<VisualizerView.State> = interactor.processIO()
+    val state = interactor.processIO(parentScope = viewModelScope)
         .mapOutputToStateFlow()
         .stateInViewModel(this, VisualizerView.State())
 }
