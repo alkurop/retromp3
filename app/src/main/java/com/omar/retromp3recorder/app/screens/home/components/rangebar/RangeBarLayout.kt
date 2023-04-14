@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.screens.home.components.Component
+import com.omar.retromp3recorder.app.screens.home.components.rememberVisibilityState
 import com.omar.retromp3recorder.app.utils.TimeDisplay.toDisplayCompose
 import com.omar.retromp3recorder.domain.PlayerRange
 
@@ -20,28 +21,28 @@ fun RangeBarLayout(
     modifier: Modifier = Modifier,
     viewModel: RangeBarViewModel = hiltViewModel(),
 ) {
-
     val state by viewModel.state.collectAsState()
-    if (state is RangeBarView.State.Visible) {
-        val visibleState = state as RangeBarView.State.Visible
-        val range = visibleState.range
-        var rangeState by remember {
-            mutableStateOf(range.toViewRange())
-        }
-        val active = visibleState.isActive
-        val rangeStateText = stringResource(if (active) R.string.on else R.string.off)
-        val rangeText = stringResource(R.string.range_enabled, rangeStateText)
+    val visibilityState = rememberVisibilityState()
+    visibilityState.isVisible = state.isVisible
+    Component(modifier, visibilityState) {
+        val barContent = state.barContent
+        if (barContent != null) {
+            val range = barContent.range
+            var rangeState by remember {
+                mutableStateOf(range.toViewRange())
+            }
+            val active = barContent.isActive
+            val rangeStateText = stringResource(if (active) R.string.on else R.string.off)
+            val rangeText = stringResource(R.string.range_enabled, rangeStateText)
 
-        val sendRangeUpdate: (ClosedFloatingPointRange<Float>) -> Unit = {
-            rangeState = it
-            viewModel.onEvent(
-                RangeBarView.Input.RangeSet(
-                    range.copyWithUpdate(it)
+            val sendRangeUpdate: (ClosedFloatingPointRange<Float>) -> Unit = {
+                rangeState = it
+                viewModel.onEvent(
+                    RangeBarContract.Input.RangeSet(
+                        range.copyWithUpdate(it)
+                    )
                 )
-            )
-        }
-
-        Component(modifier) {
+            }
             RangeSlider(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 value = rangeState,
@@ -57,14 +58,14 @@ fun RangeBarLayout(
                     .padding(top = 40.dp)
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .clickable { viewModel.onEvent(RangeBarView.Input.Enable) }
+                    .clickable { viewModel.onEvent(RangeBarContract.Input.Enable) }
                     .padding(horizontal = 8.dp)
                     .padding(bottom = 4.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = visibleState.fromToMillis.from.toDisplayCompose())
+                Text(text = barContent.fromToMillis.from.toDisplayCompose())
                 Text(text = rangeText)
-                Text(text = visibleState.fromToMillis.to.toDisplayCompose())
+                Text(text = barContent.fromToMillis.to.toDisplayCompose())
             }
         }
     }

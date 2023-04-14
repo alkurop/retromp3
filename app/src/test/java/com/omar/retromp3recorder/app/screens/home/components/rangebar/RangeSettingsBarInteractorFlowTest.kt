@@ -18,7 +18,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RangeSettingsBarInteractorFlowTest {
-    private val rangeStateMapper = mockk<RangeBarStateMapper>(relaxed = true)
+    private val rangeStateMapper = mockk<RangeBarContentMapper>(relaxed = true)
     private val updatePlayerRangeUC = mockk<UpdatePlayerRangeUC>(relaxed = true)
     private val rangeEnableRangeUC = mockk<ActivateRangeUC>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
@@ -34,7 +34,7 @@ class RangeSettingsBarInteractorFlowTest {
 
     @Test
     fun `on RangeSet input update rangeUpdate UC executed`() = runTest {
-        val event = RangeBarView.Input.RangeSet(MockPlayerProgressFactory.giveRange())
+        val event = RangeBarContract.Input.RangeSet(MockPlayerProgressFactory.giveRange())
         tested.processIO(DifferedCoroutineScope(dispatcher),flowOf(event)).test { cancelAndIgnoreRemainingEvents() }
 
         coVerify { updatePlayerRangeUC.execute(event.range) }
@@ -43,7 +43,7 @@ class RangeSettingsBarInteractorFlowTest {
 
     @Test
     fun `on Enable input update rangeEnable UC executed`() = runTest {
-        val event = RangeBarView.Input.Enable
+        val event = RangeBarContract.Input.Enable
         tested.processIO(DifferedCoroutineScope(dispatcher),flowOf(event)).test { cancelAndIgnoreRemainingEvents() }
 
         coVerify(exactly = 0) { updatePlayerRangeUC.execute(any()) }
@@ -52,7 +52,7 @@ class RangeSettingsBarInteractorFlowTest {
 
     @Test
     fun `listen range state mapper`() = runTest {
-        val event = mockk<RangeBarView.State>()
+        val event = mockk<RangeBarContract.State>()
         coEvery { rangeStateMapper.flow() } returns flowOf(event)
         tested.processIO(DifferedCoroutineScope(dispatcher),flowOf()).test {
             val item = awaitItem()

@@ -15,16 +15,16 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SpeedBarStateMapperTest {
+class SpeedBarVisibilityMapperTest {
 
     private val joinedProgressMapper: JoinedProgressMapper = mockk()
     private lateinit var playerControlsRepo: PlayerControlsRepo
-    private lateinit var tested: SpeedBarStateMapper
+    private lateinit var tested: SpeedBarVisibilityMapper
 
     @Before
     fun setup() {
         playerControlsRepo = PlayerControlsRepo()
-        tested = SpeedBarStateMapper(joinedProgressMapper, playerControlsRepo)
+        tested = SpeedBarVisibilityMapper(joinedProgressMapper, playerControlsRepo)
     }
 
     @Test

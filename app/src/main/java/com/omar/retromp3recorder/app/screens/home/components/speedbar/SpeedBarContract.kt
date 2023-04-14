@@ -9,12 +9,15 @@ object SpeedBarContract {
         object Enable : Input()
     }
 
-    sealed class State {
-        object Hidden : State()
 
-        @Immutable
-        data class Visible(
-            val speed: PlayerControls.SpeedSettings,
-        ) : State()
+    sealed interface Output {
+        data class Visibility(val isVisible: Boolean) : Output
+        data class SpeedDataUpdate(val speed: PlayerControls.SpeedSettings) : Output
     }
+
+    @Immutable
+    data class State(
+        val speedData: PlayerControls.SpeedSettings? = null,
+        val isVisible: Boolean = false
+    )
 }

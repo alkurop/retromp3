@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.screens.home.components.Component
+import com.omar.retromp3recorder.app.screens.home.components.rememberVisibilityState
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -23,23 +24,27 @@ fun SpeedBarLayout(
 ) {
 
     val state by viewModel.state.collectAsState()
-    if (state is SpeedBarContract.State.Visible) {
-        val visibleState = state as SpeedBarContract.State.Visible
-        var rangeState by remember {
-            mutableStateOf(visibleState.speed.speed.roundTo(1))
-        }
-        val active = visibleState.speed.isEnabled
-        val rangeStateText = stringResource(if (active) R.string.on else R.string.off)
-        val rangeText = stringResource(R.string.speed_enabled, "$rangeStateText ${rangeState}x")
+    val visibilityState = rememberVisibilityState()
 
-        val sendRangeUpdate: (Float) -> Unit = {
-            rangeState = it.roundTo(1)
-            viewModel.onEvent(SpeedBarContract.Input.SpeedSet(it))
-        }
+    visibilityState.isVisible = state.isVisible
+    Component(
+        state = visibilityState,
+        modifier = modifier
+    ) {
+        val speedData = state.speedData
+        if (speedData != null) {
+            var rangeState by remember {
+                mutableStateOf(speedData.speed.roundTo(1))
+            }
+            val active = speedData.isEnabled
+            val rangeStateText = stringResource(if (active) R.string.on else R.string.off)
+            val rangeText = stringResource(R.string.speed_enabled, "$rangeStateText ${rangeState}x")
 
-        Component(
-            modifier = modifier
-        ) {
+            val sendRangeUpdate: (Float) -> Unit = {
+                rangeState = it.roundTo(1)
+                viewModel.onEvent(SpeedBarContract.Input.SpeedSet(it))
+            }
+
             Slider(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 value = rangeState,
@@ -50,16 +55,14 @@ fun SpeedBarLayout(
                     thumbColor = MaterialTheme.colorScheme.tertiary,
                 )
             )
-            Row(
-                Modifier
-                    .padding(top = 40.dp)
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .clickable { viewModel.onEvent(SpeedBarContract.Input.Enable) }
-                    .padding(horizontal = 8.dp)
-                    .padding(bottom = 4.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
+            Row(Modifier
+                .padding(top = 40.dp)
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .clickable { viewModel.onEvent(SpeedBarContract.Input.Enable) }
+                .padding(horizontal = 8.dp)
+                .padding(bottom = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = stringResource(id = R.string.min_speed))
                 Text(text = rangeText)
                 Text(text = stringResource(id = R.string.max_speed))

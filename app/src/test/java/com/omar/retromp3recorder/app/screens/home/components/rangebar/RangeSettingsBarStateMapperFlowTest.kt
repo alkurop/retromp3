@@ -19,12 +19,12 @@ import org.junit.Test
 class RangeSettingsBarStateMapperFlowTest {
     private val joinedProgressMapper = mockk<JoinedProgressMapper>()
     private lateinit var rangeBarResetBus: RangeBarResetBus
-    private lateinit var tested: RangeBarStateMapper
+    private lateinit var tested: RangeBarContentMapper
 
     @Before
     fun setUp() {
         rangeBarResetBus = RangeBarResetBus()
-        tested = RangeBarStateMapper(
+        tested = RangeBarContentMapper(
             joinedProgressRepo = joinedProgressMapper,
             rangeBarResetBus
         )
@@ -41,7 +41,7 @@ class RangeSettingsBarStateMapperFlowTest {
         )
         tested.flow().test {
             val item = awaitItem()
-            assert(item is RangeBarView.State.Hidden)
+            assert(item is RangeBarContract.State.Hidden)
         }
     }
 
@@ -58,7 +58,7 @@ class RangeSettingsBarStateMapperFlowTest {
         )
         tested.flow().test {
             val item = awaitItem()
-            assert(item is RangeBarView.State.Visible)
+            assert(item is RangeBarContract.State.Visible)
         }
     }
 
@@ -69,7 +69,7 @@ class RangeSettingsBarStateMapperFlowTest {
         )
         tested.flow().test {
             val item = awaitItem()
-            assert(item is RangeBarView.State.Hidden)
+            assert(item is RangeBarContract.State.Hidden)
         }
     }
 
@@ -80,7 +80,7 @@ class RangeSettingsBarStateMapperFlowTest {
         )
         tested.flow().test {
             val item = awaitItem()
-            assert(item is RangeBarView.State.Hidden)
+            assert(item is RangeBarContract.State.Hidden)
         }
     }
 
@@ -91,7 +91,7 @@ class RangeSettingsBarStateMapperFlowTest {
         )
         tested.flow().test {
             val item = awaitItem()
-            assert(item is RangeBarView.State.Hidden)
+            assert(item is RangeBarContract.State.Hidden)
         }
     }
 
@@ -110,7 +110,7 @@ class RangeSettingsBarStateMapperFlowTest {
             )
         )
         tested.flow().test {
-            val item = awaitItem() as RangeBarView.State.Visible
+            val item = awaitItem() as RangeBarContract.State.Visible
             assertEquals(resetCount, item.reset.ghost)
         }
 

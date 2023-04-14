@@ -45,7 +45,7 @@ private val RetroShapes = Shapes(
 )
 
 private val darkColorTheme = darkColorScheme(
-    primary = Color(0xff121212),
+    primary = Color.White,
     secondary = Color(0xff00ff00),
     tertiary = Color(0xFFFF6F00),
     background = Color(0xff121212),

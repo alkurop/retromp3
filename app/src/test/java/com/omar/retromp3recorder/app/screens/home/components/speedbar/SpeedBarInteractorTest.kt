@@ -18,7 +18,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SpeedBarInteractorTest {
-    private val speedBarStateMapper: SpeedBarStateMapper = mockk()
+    private val speedBarVisibilityMapper: SpeedBarVisibilityMapper = mockk()
     private val playbackSpeedSetUC: PlaybackSpeedSetUC = mockk()
     private val setSpeedEnabled: PlaybackSpeedEnabledUC = mockk()
     private lateinit var tested: SpeedBarInteractor
@@ -26,14 +26,14 @@ class SpeedBarInteractorTest {
     @Before
     fun setup() {
         tested = SpeedBarInteractor(
-            speedBarStateMapper, playbackSpeedSetUC, setSpeedEnabled, UnconfinedTestDispatcher()
+            speedBarVisibilityMapper, playbackSpeedSetUC, setSpeedEnabled, UnconfinedTestDispatcher()
         )
     }
 
     @Test
     fun `speed bar state mapper listened`() = runTest {
         val value = mockk<SpeedBarContract.State.Visible>()
-        every { speedBarStateMapper.flow() } returns flowOf(value)
+        every { speedBarVisibilityMapper.flow() } returns flowOf(value)
         tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()), emptyFlow()).test {
             val item = awaitItem()
             assertEquals(value, item)
@@ -43,7 +43,7 @@ class SpeedBarInteractorTest {
 
     @Test
     fun `on SpeedSet input set speed executed`() = runTest {
-        every { speedBarStateMapper.flow() } returns emptyFlow()
+        every { speedBarVisibilityMapper.flow() } returns emptyFlow()
         val value = SpeedBarContract.Input.SpeedSet(2f)
         tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()), flowOf(value)).test {
             cancelAndIgnoreRemainingEvents()
@@ -55,7 +55,7 @@ class SpeedBarInteractorTest {
 
     @Test
     fun `on SpeedEnable input enable speed executed`() = runTest {
-        every { speedBarStateMapper.flow() } returns emptyFlow()
+        every { speedBarVisibilityMapper.flow() } returns emptyFlow()
         tested.processIO(
             DifferedCoroutineScope(UnconfinedTestDispatcher()),
             flowOf(SpeedBarContract.Input.Enable)
