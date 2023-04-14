@@ -20,7 +20,7 @@ abstract class Interactor<Input, Output>(private val dispatcher: CoroutineDispat
 
     private fun Flow<Input>.processInputs(): Flow<Output> {
         return this.flatMapMerge { event ->
-            callbackFlow {
+            flow {
                 parentScope.launch(dispatcher) {
                     launchUseCase(event)
                 }

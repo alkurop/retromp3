@@ -123,7 +123,7 @@ class CropInteractorTest {
                 )
             )
         ).test {
-            skipItems(2)
+            skipItems(3)
             val awaitItem = awaitItem()
             assertEquals(CropContract.Output.Loading, awaitItem)
             val awaitItem1 = awaitItem()
