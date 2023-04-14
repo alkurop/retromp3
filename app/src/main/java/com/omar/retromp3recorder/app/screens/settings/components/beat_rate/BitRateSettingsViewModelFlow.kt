@@ -16,8 +16,7 @@ class BitRateSettingsViewModelFlow @Inject constructor(
 
     private val inputFlow = MutableSharedFlow<Mp3VoiceRecorder.BitRate>()
 
-    val state = interactor.processIO(inputFlow, viewModelScope)
-        .stateInViewModel(this, Mp3VoiceRecorder.BitRate.values()[0])
+    val state = interactor.processIO(viewModelScope, inputFlow)        .stateInViewModel(this, Mp3VoiceRecorder.BitRate.values()[0])
 
     fun onEvent(event: Mp3VoiceRecorder.BitRate) {
         viewModelScope.launch { inputFlow.emit(event) }

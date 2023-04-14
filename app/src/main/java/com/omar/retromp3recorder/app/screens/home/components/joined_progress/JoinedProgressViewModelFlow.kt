@@ -6,7 +6,6 @@ import com.omar.retromp3recorder.app.screens.home.components.joined_progress.Joi
 import com.omar.retromp3recorder.app.utils.stateInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,14 +14,11 @@ class JoinedProgressViewModelFlow @Inject constructor(
     interactor: JoinedProgressInteractorFlow
 ) : ViewModel() {
 
-    val state: StateFlow<JoinedProgressContract.State>
     private val inputFlow = MutableSharedFlow<JoinedProgressContract.In>()
 
-    init {
-        state = interactor.processIO(inputFlow, viewModelScope)
-            .mapOutputToStateFlow()
-            .stateInViewModel(this, JoinedProgressContract.State())
-    }
+    val state = interactor.processIO(viewModelScope, inputFlow)
+        .mapOutputToStateFlow()
+        .stateInViewModel(this, JoinedProgressContract.State())
 
     fun onEvent(event: JoinedProgressContract.In) {
         viewModelScope.launch { inputFlow.emit(event) }

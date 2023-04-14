@@ -8,7 +8,7 @@ import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
 import com.omar.retromp3recorder.utils.platform.shellUnwrap
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -34,7 +34,7 @@ class HomeViewInteractor @Inject constructor(
     }
 
     override suspend
-    fun FlowCollector<HomeViewContract.Output>.launchUseCase(input: HomeViewContract.Input) {
+    fun ProducerScope<HomeViewContract.Output>.launchUseCase(input: HomeViewContract.Input) {
         when (input) {
             is HomeViewContract.Input.MediaProjectionUpdated -> {
                 updateMediaProjectionUC.execute(input.mediaProjection)

@@ -7,6 +7,7 @@ import com.omar.retromp3recorder.domain.FeatureFlag
 import com.omar.retromp3recorder.domain.FeatureFlagSetting
 import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -39,7 +40,7 @@ class SettingsFlowInteractorTest {
                 FeatureFlag.LogView,
                 FeatureFlagSetting(true)
             )
-        interactor.processIO(flowOf(event)).test {
+        interactor.processIO(DifferedCoroutineScope(dispatcher),  flowOf(event)).test {
             expectNoEvents()
         }
 
@@ -54,7 +55,7 @@ class SettingsFlowInteractorTest {
                 FeatureFlagSetting(true)
             )
         repo.emit(FeatureFlagsCollection(mapOf(event.flag to event.setting)))
-        interactor.processIO(flowOf()).test {
+        interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
             val item = awaitItem() as SettingsContract.Output.FlagsCollectionUpdate
             assertEquals(
                 event.setting,

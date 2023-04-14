@@ -7,7 +7,10 @@ import com.omar.retromp3recorder.storage.db.DatabasePagingProvider
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.toLoadingState
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.channels.ProducerScope
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class SelectorInteractorFlow @Inject constructor(
@@ -32,11 +35,11 @@ class SelectorInteractorFlow @Inject constructor(
         )
     }
 
-    override suspend fun FlowCollector<SelectorContract.Output>.launchUseCase(input: SelectorContract.Input) {
+    override suspend fun ProducerScope<SelectorContract.Output>.launchUseCase(input: SelectorContract.Input) {
         when (input) {
             is SelectorContract.Input.ItemSelected -> setCurrentFileUC.execute(input.item)
             is SelectorContract.Input.SetQuery -> {
-                emit(
+                trySendBlocking(
                     SelectorContract.Output.CurrentFlow(
                         pagingProvider.createFlow(input.query).toLoadingState()
                     )

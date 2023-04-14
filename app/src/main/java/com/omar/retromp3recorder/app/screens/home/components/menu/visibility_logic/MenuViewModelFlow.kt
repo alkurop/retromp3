@@ -16,8 +16,7 @@ class MenuViewModelFlow @Inject constructor(
 
     private val inputFlow = MutableSharedFlow<MenuContract.Input>()
 
-    val state = interactor.processIO(inputFlow, viewModelScope)
-        .stateInViewModel(this, MenuContract.State())
+    val state = interactor.processIO(viewModelScope, inputFlow)        .stateInViewModel(this, MenuContract.State())
 
     fun onEvent(event: MenuContract.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

@@ -6,7 +6,6 @@ import com.omar.retromp3recorder.app.screens.home.components.audio_controls.Audi
 import com.omar.retromp3recorder.app.utils.stateInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,14 +13,11 @@ import javax.inject.Inject
 class AudioControlsViewModel @Inject constructor(
     interactor: AudioControlsInteractorFlow
 ) : ViewModel() {
-    val state: StateFlow<AudioControlsView.State>
     private val inputFlow = MutableSharedFlow<AudioControlsView.Input>()
 
-    init {
-        state = interactor.processIO(inputFlow, viewModelScope)
-            .mapOutputToStateFlow()
-            .stateInViewModel(this, AudioControlsView.State())
-    }
+    val state = interactor.processIO(viewModelScope, inputFlow)
+        .mapOutputToStateFlow()
+        .stateInViewModel(this, AudioControlsView.State())
 
     fun onEvent(event: AudioControlsView.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

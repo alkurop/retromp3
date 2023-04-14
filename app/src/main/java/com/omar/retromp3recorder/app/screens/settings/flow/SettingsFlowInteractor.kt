@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.bl.settings.FeatureMapSaveUC
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class SettingsFlowInteractor @Inject constructor(
         )
     }
 
-    override suspend fun FlowCollector<SettingsContract.Output>.launchUseCase(input: SettingsContract.Input) {
+    override suspend fun ProducerScope<SettingsContract.Output>.launchUseCase(input: SettingsContract.Input) {
         when (input) {
             is SettingsContract.Input.FlagSettingChanged ->
                 featureMapSaveUC.execute(input.flag, input.setting)

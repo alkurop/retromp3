@@ -3,6 +3,7 @@ package com.omar.retromp3recorder.app.screens.home.components.speedbar
 import app.cash.turbine.test
 import com.omar.retromp3recorder.bl.audio.effects.PlaybackSpeedEnabledUC
 import com.omar.retromp3recorder.bl.audio.effects.PlaybackSpeedSetUC
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
@@ -33,7 +34,7 @@ class SpeedBarInteractorTest {
     fun `speed bar state mapper listened`() = runTest {
         val value = mockk<SpeedBarContract.State.Visible>()
         every { speedBarStateMapper.flow() } returns flowOf(value)
-        tested.processIO(emptyFlow()).test {
+        tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()), emptyFlow()).test {
             val item = awaitItem()
             assertEquals(value, item)
             awaitComplete()
@@ -44,7 +45,7 @@ class SpeedBarInteractorTest {
     fun `on SpeedSet input set speed executed`() = runTest {
         every { speedBarStateMapper.flow() } returns emptyFlow()
         val value = SpeedBarContract.Input.SpeedSet(2f)
-        tested.processIO(flowOf(value)).test {
+        tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()), flowOf(value)).test {
             cancelAndIgnoreRemainingEvents()
         }
 
@@ -55,7 +56,10 @@ class SpeedBarInteractorTest {
     @Test
     fun `on SpeedEnable input enable speed executed`() = runTest {
         every { speedBarStateMapper.flow() } returns emptyFlow()
-        tested.processIO(flowOf(SpeedBarContract.Input.Enable)).test {
+        tested.processIO(
+            DifferedCoroutineScope(UnconfinedTestDispatcher()),
+            flowOf(SpeedBarContract.Input.Enable)
+        ).test {
             cancelAndIgnoreRemainingEvents()
         }
 

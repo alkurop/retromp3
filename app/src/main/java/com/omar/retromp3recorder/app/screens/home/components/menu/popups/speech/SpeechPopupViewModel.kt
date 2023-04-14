@@ -15,8 +15,7 @@ class SpeechPopupViewModel @Inject constructor(
 
     private val inputFlow = MutableSharedFlow<SpeechPopupContract.Input>()
 
-    val state = interactor.processIO(inputFlow, viewModelScope)
-        .stateInViewModel(this, SpeechPopupContract.State())
+    val state = interactor.processIO(viewModelScope, inputFlow)        .stateInViewModel(this, SpeechPopupContract.State())
 
     fun emit(event: SpeechPopupContract.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

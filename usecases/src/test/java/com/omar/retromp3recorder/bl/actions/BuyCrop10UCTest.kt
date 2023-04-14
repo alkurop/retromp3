@@ -16,7 +16,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class BuyCrop10UCTest {
     private val billingBinderUC = mockk<BillingBinderUC>()
-    private val increaseProductCount = mockk<IncreaseProductCount>()
+    private val increaseProductCount = mockk<IncreaseProductCount>(relaxed = true)
 
     private lateinit var tested: BuyCrop10UC
 

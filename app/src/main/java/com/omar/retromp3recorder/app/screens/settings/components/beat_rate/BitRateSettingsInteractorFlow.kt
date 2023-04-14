@@ -6,7 +6,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ class BitRateSettingsInteractorFlow @Inject constructor(
         return listOf(recorderPrefsRepo.flow().map { it.bitRate })
     }
 
-    override suspend fun FlowCollector<Mp3VoiceRecorder.BitRate>.launchUseCase(input: Mp3VoiceRecorder.BitRate) {
+    override suspend fun ProducerScope<Mp3VoiceRecorder.BitRate>.launchUseCase(input: Mp3VoiceRecorder.BitRate) {
         changeBitrateUC.execute(input)
     }
 }

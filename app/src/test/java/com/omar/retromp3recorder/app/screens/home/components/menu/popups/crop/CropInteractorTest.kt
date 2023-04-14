@@ -12,6 +12,7 @@ import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
 import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -55,7 +56,7 @@ class CropInteractorTest {
     @Test
     fun `when has no purchase on start, emit dismiss and execute buy`() = runTest {
         coEvery { hasCropPurchaseUC.execute() } returns false
-        tested.processIO().test {
+        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
             val item1 = awaitItem()
             assertEquals(CropContract.Output.Dismiss, item1)
             cancelAndConsumeRemainingEvents()
@@ -67,7 +68,7 @@ class CropInteractorTest {
     @Test
     fun `on start name suggestion is generated, cropping allowed`() = runTest {
         coEvery { hasCropPurchaseUC.execute() } returns true
-        tested.processIO().test {
+        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
             val item1 = awaitItem()
             assertEquals(CropContract.Output.Show, item1)
 
@@ -93,6 +94,7 @@ class CropInteractorTest {
         every { canSaveAs.execute(any()) } returns expected
 
         tested.processIO(
+            DifferedCoroutineScope(dispatcher),
             flowOf(
                 CropContract.Input.CheckCanCrop(
                     MockSuggestionFactory.giveTestSuggestion()
@@ -114,15 +116,18 @@ class CropInteractorTest {
         coEvery { cropInPlaceUC.execute(any()) } returns Result.failure(Error("Expected"))
 
         tested.processIO(
+            DifferedCoroutineScope(dispatcher),
             flowOf(
                 CropContract.Input.CropInPlace(
                     MockSuggestionFactory.giveTestSuggestion()
                 )
             )
         ).test {
-            skipItems(3)
-            assert(awaitItem() is CropContract.Output.Loading)
-            assert(awaitItem() is CropContract.Output.Dismiss)
+            skipItems(2)
+            val awaitItem = awaitItem()
+            assertEquals(CropContract.Output.Loading, awaitItem)
+            val awaitItem1 = awaitItem()
+            assertEquals(CropContract.Output.Dismiss, awaitItem1)
         }
     }
 
@@ -134,6 +139,7 @@ class CropInteractorTest {
             .toResult()
 
         tested.processIO(
+            DifferedCoroutineScope(dispatcher),
             flowOf(
                 CropContract.Input.CropInPlace(
                     MockSuggestionFactory.giveTestSuggestion()
@@ -156,6 +162,7 @@ class CropInteractorTest {
             .toResult()
 
         tested.processIO(
+            DifferedCoroutineScope(dispatcher),
             flowOf(
                 CropContract.Input.CropOutside(
                     MockSuggestionFactory.giveTestSuggestion()

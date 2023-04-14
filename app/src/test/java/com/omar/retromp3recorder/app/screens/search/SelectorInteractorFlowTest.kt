@@ -5,6 +5,7 @@ import com.omar.retromp3recorder.bl.files.SetCurrentFileUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.storage.db.DatabasePagingProvider
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.every
 import io.mockk.mockk
@@ -38,7 +39,7 @@ class SelectorInteractorFlowTest {
     @Test
     fun `listen to paging provider`() = runTest {
         currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
-        tested.processIO(flowOf(SelectorContract.Input.ItemSelected(file)))
+        tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()),flowOf(SelectorContract.Input.ItemSelected(file)))
             .test {
                 skipItems(1)
                 val item = awaitItem()

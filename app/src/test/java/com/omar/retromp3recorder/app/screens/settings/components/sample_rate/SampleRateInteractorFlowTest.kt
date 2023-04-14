@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.omar.retromp3recorder.bl.settings.ChangeSampleRateUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -33,7 +34,7 @@ class SampleRateInteractorFlowTest {
     fun `on input usecase executed`() = runTest {
         val event = Mp3VoiceRecorder.SampleRate._44100
 
-        interactor.processIO(flowOf(event)).test {
+        interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf(event)).test {
             cancelAndConsumeRemainingEvents()
         }
 
@@ -54,7 +55,7 @@ class SampleRateInteractorFlowTest {
             settings
         )
 
-        interactor.processIO(flowOf()).test {
+        interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
             val item = awaitItem()
             assertEquals(event, item)
         }

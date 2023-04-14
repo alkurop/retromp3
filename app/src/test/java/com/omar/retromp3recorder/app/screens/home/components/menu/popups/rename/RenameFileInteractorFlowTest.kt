@@ -5,6 +5,7 @@ import com.omar.retromp3recorder.bl.files.CanRenameNameUC
 import com.omar.retromp3recorder.bl.files.RenameFileUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -34,7 +35,7 @@ class RenameFileInteractorFlowTest {
     @Test
     fun `when current file is not existing the crash`() = runTest {
         currentFileRepo.emit(MockFileFactory.giveFutureFile().toOptional())
-        tested.processIO(flowOf())
+        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf())
             .test {
                 val error = awaitError()
                 assert(error is IllegalArgumentException)
@@ -45,7 +46,10 @@ class RenameFileInteractorFlowTest {
     fun `can rename input triggers usecase and emits result`() = runTest {
         currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
         val newName = "test"
-        tested.processIO(flowOf(RenameFileContract.Input.CheckCanRename(newName)))
+        tested.processIO(
+            DifferedCoroutineScope(dispatcher),
+            flowOf(RenameFileContract.Input.CheckCanRename(newName))
+        )
             .test {
                 // skip file event
                 skipItems(1)
@@ -60,7 +64,10 @@ class RenameFileInteractorFlowTest {
     fun `rename input triggers usecase and emits dismiss`() = runTest {
         currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
         val newName = "test"
-        tested.processIO(flowOf(RenameFileContract.Input.Rename(newName)))
+        tested.processIO(
+            DifferedCoroutineScope(dispatcher),
+            flowOf(RenameFileContract.Input.Rename(newName))
+        )
             .test {
                 // skip file event
                 skipItems(1)
@@ -75,7 +82,7 @@ class RenameFileInteractorFlowTest {
     fun `listens to current file repo`() = runTest {
         val expected = MockFileFactory.giveExistingFile()
         currentFileRepo.emit(expected.toOptional())
-        tested.processIO(flowOf())
+        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf())
             .test {
                 val result = (awaitItem() as? RenameFileContract.Output.CurrentFile)?.fileWrapper
                 assertEquals(result, expected)

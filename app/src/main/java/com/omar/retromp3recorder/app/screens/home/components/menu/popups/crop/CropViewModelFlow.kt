@@ -6,7 +6,6 @@ import com.omar.retromp3recorder.app.screens.home.components.menu.popups.crop.Cr
 import com.omar.retromp3recorder.app.utils.stateInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,14 +14,11 @@ class CropViewModelFlow @Inject constructor(
     interactor: CropInteractor
 ) : ViewModel() {
 
-    val state: StateFlow<CropContract.State>
     private val inputFlow = MutableSharedFlow<CropContract.Input>()
 
-    init {
-        state = interactor.processIO(inputFlow, viewModelScope)
-            .mapToState()
-            .stateInViewModel(this, CropContract.State())
-    }
+    val state = interactor.processIO(viewModelScope, inputFlow)
+        .mapToState()
+        .stateInViewModel(this, CropContract.State())
 
     fun emit(event: CropContract.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

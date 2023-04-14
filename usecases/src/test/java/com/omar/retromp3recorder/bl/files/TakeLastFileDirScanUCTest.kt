@@ -7,7 +7,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -16,9 +15,8 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class TakeLastFileDirScanUCTest {
     private lateinit var currentFileRepo: CurrentFileRepo
-    private val scanDirFilesPartialUC: ScanDirFilesPartialUCSuspend = mockk()
+    private val scanDirFilesPartialUC: ScanDirFilesPartialUCSuspend = mockk(relaxed = true)
     private val takeLastFileFastUC: TakeLastFileDbItemUC = mockk()
-    private val dispatcher = UnconfinedTestDispatcher()
     private lateinit var tested: TakeLastFileDirScanUC
 
     @Before

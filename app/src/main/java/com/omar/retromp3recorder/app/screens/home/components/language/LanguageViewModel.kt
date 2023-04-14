@@ -6,7 +6,6 @@ import com.omar.retromp3recorder.app.utils.stateInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,14 +14,11 @@ import javax.inject.Inject
 class LanguageViewModel @Inject constructor(
     interactor: LanguageInteractor
 ) : ViewModel() {
-    val state: StateFlow<LanguageContract.State>
     private val inputFlow = MutableSharedFlow<LanguageContract.Input>()
 
-    init {
-        state = interactor.processIO(inputFlow, viewModelScope)
-            .mapOutputToStateFlow()
-            .stateInViewModel(this, LanguageContract.State())
-    }
+    val state = interactor.processIO(viewModelScope, inputFlow)
+        .mapOutputToStateFlow()
+        .stateInViewModel(this, LanguageContract.State())
 
     fun onEvent(event: LanguageContract.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

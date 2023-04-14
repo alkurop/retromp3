@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.omar.retromp3recorder.bl.audio.record.PlayerIdMapper
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
 import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,7 +32,7 @@ class VisualizerInteractorFlowTest {
         val state = AudioState.Playing
         every { audioStateMapper.flow() } returns flowOf(state)
 
-        tested.processIO().test {
+        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
             val item = awaitItem() as VisualizerView.Output.AudioStateChanged
             assertEquals(state, item.state)
             cancelAndConsumeRemainingEvents()
@@ -43,7 +44,7 @@ class VisualizerInteractorFlowTest {
         val playerId = 10
         every { playerIdMapper.flow() } returns flowOf(playerId)
 
-        tested.processIO().test {
+        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
             val item = awaitItem() as VisualizerView.Output.PlayerIdOutput
             assertEquals(playerId, item.playerId)
             awaitComplete()

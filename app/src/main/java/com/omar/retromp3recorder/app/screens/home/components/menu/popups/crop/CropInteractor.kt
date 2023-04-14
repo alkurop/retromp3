@@ -13,7 +13,12 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.channels.ProducerScope
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CropInteractor @Inject constructor(
@@ -57,19 +62,19 @@ class CropInteractor @Inject constructor(
         )
     }
 
-    override suspend fun FlowCollector<CropContract.Output>.launchUseCase(input: CropContract.Input) {
+    override suspend fun ProducerScope<CropContract.Output>.launchUseCase(input: CropContract.Input) {
         when (input) {
             is CropContract.Input.CheckCanCrop -> {
                 val canRename = canSaveAs.execute(input.nameSuggestion.path)
-                emit(CropContract.Output.IsActionEnabled(canRename))
+                trySendBlocking(CropContract.Output.IsActionEnabled(canRename))
             }
             is CropContract.Input.CropInPlace -> {
-                emit(CropContract.Output.Loading)
+                trySendBlocking(CropContract.Output.Loading)
                 val result = cropInPlaceUC.execute(input.nameSuggestion)
                 emitOnCropResult(result)
             }
             is CropContract.Input.CropOutside -> {
-                emit(CropContract.Output.Loading)
+                trySendBlocking(CropContract.Output.Loading)
                 val result = cropOutsideUC.execute(input.nameSuggestion)
                 emitOnCropResult(result)
             }

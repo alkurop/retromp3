@@ -3,6 +3,7 @@ package com.omar.retromp3recorder.app.screens.home.components.log
 import app.cash.turbine.test
 import com.omar.retromp3recorder.domain.platform.LogEvent
 import com.omar.retromp3recorder.bl.system.LogMapper
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +28,7 @@ class LogInteractorFlowTest {
     @Test
     fun `listen log mapper error events SENDS error output`() = runTest {
         every { mapper.flow() } returns flowOf(LogEvent.Error(mockk()))
-        tested.processIO().test {
+        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
             val item = awaitItem()
             awaitComplete()
             assert(item is LogView.Output.ErrorLogOutput)
@@ -37,7 +38,7 @@ class LogInteractorFlowTest {
     @Test
     fun `listen log mapper message events SENDS message output`() = runTest {
         every { mapper.flow() } returns flowOf(LogEvent.Message(mockk()))
-        tested.processIO().test {
+        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
             val item = awaitItem()
             awaitComplete()
             assert(item is LogView.Output.MessageLogOutput)

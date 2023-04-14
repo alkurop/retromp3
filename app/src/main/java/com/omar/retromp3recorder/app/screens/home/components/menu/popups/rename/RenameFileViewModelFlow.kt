@@ -16,8 +16,7 @@ class RenameFileViewModelFlow @Inject constructor(
 
     private val inputFlow = MutableSharedFlow<RenameFileContract.Input>()
 
-    val state = interactor.processIO(inputFlow, viewModelScope)
-        .mapToState()
+    val state = interactor.processIO(viewModelScope, inputFlow)        .mapToState()
         .stateInViewModel(this, RenameFileContract.State())
 
     fun onEvent(event: RenameFileContract.Input) {

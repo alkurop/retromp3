@@ -1,13 +1,14 @@
 package com.omar.retromp3recorder.app
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.*
 
 @OptIn(FlowPreview::class)
 abstract class Interactor<Input, Output>(private val dispatcher: CoroutineDispatcher) {
     private lateinit var parentScope: CoroutineScope
 
-    fun processIO(upstream: Flow<Input> = flowOf(), parentScope: CoroutineScope): Flow<Output> {
+    fun processIO(parentScope: CoroutineScope, upstream: Flow<Input> = flowOf()): Flow<Output> {
         this.parentScope = parentScope
 
         return listOf(
@@ -22,7 +23,7 @@ abstract class Interactor<Input, Output>(private val dispatcher: CoroutineDispat
 
     private fun Flow<Input>.processInputs(): Flow<Output> {
         return this.flatMapMerge { event ->
-            flow {
+            channelFlow {
                 parentScope.launch {
                     launchUseCase(event)
                 }
@@ -30,7 +31,7 @@ abstract class Interactor<Input, Output>(private val dispatcher: CoroutineDispat
         }
     }
 
-    protected abstract suspend fun FlowCollector<Output>.launchUseCase(input: Input)
+    protected abstract suspend fun ProducerScope<Output>.launchUseCase(input: Input)
 
 
     private fun listenToRepos(): Flow<Output> {

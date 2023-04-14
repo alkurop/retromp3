@@ -17,8 +17,7 @@ class DeleteFileViewModel @Inject constructor(
 
     private val inputFlow = MutableSharedFlow<DeleteFileContract.Input>()
 
-    val state = interactor.processIO(inputFlow, viewModelScope)
-        .mapToState()
+    val state = interactor.processIO(viewModelScope, inputFlow)        .mapToState()
         .stateInViewModel(this, DeleteFileContract.State())
 
     fun emit(event: DeleteFileContract.Input) {

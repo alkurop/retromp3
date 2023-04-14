@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.omar.retromp3recorder.app.utils.stateInViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,13 +12,10 @@ import javax.inject.Inject
 class RangeBarViewModel @Inject constructor(
     interactor: RangeBarInteractor
 ) : ViewModel() {
-    val state: StateFlow<RangeBarView.State>
     private val inputFlow = MutableSharedFlow<RangeBarView.Input>()
 
-    init {
-        state = interactor.processIO(inputFlow, viewModelScope)
-            .stateInViewModel(this, RangeBarView.State.Hidden)
-    }
+    val state = interactor.processIO(viewModelScope, inputFlow)
+        .stateInViewModel(this, RangeBarView.State.Hidden)
 
     fun onEvent(event: RangeBarView.Input) {
         viewModelScope.launch {

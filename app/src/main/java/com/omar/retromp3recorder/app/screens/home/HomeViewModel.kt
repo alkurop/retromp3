@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.app.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.omar.retromp3recorder.app.utils.stateInViewModel
 import com.omar.retromp3recorder.domain.FeatureFlag
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -10,20 +11,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val interactor: HomeViewInteractor
-) :ViewModel(){
-    private val _state = MutableStateFlow(HomeViewContract.State())
-    val state = _state.asStateFlow()
+    interactor: HomeViewInteractor
+) : ViewModel() {
 
     private val inputFlow = MutableSharedFlow<HomeViewContract.Input>()
 
-    init {
-        viewModelScope.launch {
-            interactor.processIO(inputFlow, viewModelScope)
-                .mapToState()
-                .collect { _state.value = it }
-        }
-    }
+    val state = interactor.processIO(viewModelScope, inputFlow)
+        .mapToState()
+        .stateInViewModel(this, HomeViewContract.State())
 
     fun emit(event: HomeViewContract.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

@@ -42,7 +42,7 @@ class MenuStateExcavatorFlow @Inject constructor(
 }
 
 private fun Flow<PlayerControls>.toMenuItems(file: Optional<out FileWrapper>): Flow<List<MenuContract.Item>> {
-    return this.map { (_, range, _, speed, speech) ->
+    return this.map { (_, range, _, speed, _) ->
         listOfNotNull(
             MenuContract.Item.Enable(
                 VisibilityEnabler.RangeBar,

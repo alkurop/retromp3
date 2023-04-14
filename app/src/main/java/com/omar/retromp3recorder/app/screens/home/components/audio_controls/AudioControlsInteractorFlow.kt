@@ -13,7 +13,7 @@ import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -45,7 +45,7 @@ class AudioControlsInteractorFlow @Inject constructor(
         )
     }
 
-    override suspend fun FlowCollector<AudioControlsView.Output>.launchUseCase(input: AudioControlsView.Input) {
+    override suspend fun ProducerScope<AudioControlsView.Output>.launchUseCase(input: AudioControlsView.Input) {
         when (input) {
             AudioControlsView.Input.Play -> startPlaybackUC.execute()
             AudioControlsView.Input.Record -> startRecordUC.execute()

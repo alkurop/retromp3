@@ -10,6 +10,7 @@ import com.omar.retromp3recorder.domain.FeatureFlagsCollection
 import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.storage.repo.global.FeatureFlagRepo
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -64,7 +65,7 @@ class HomeViewInteractorTest {
                 )
             )
         )
-        tested.processIO(flowOf()).test {
+        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
             val item = awaitItem() as? HomeViewContract.Output.SettingsUpdated
             val logFlag =
                 item?.featureFlagsCollection?.featuresMap?.get(FeatureFlag.LogView)?.isEnabled
@@ -80,7 +81,7 @@ class HomeViewInteractorTest {
     fun `listens to media projection repo`() = runTest {
         val request = 234
         mediaProjectionStateRepo.emit(MediaProjectionState(request = Shell(request)))
-        tested.processIO(flowOf()).test {
+        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
             val item = awaitItem() as HomeViewContract.Output.RequestScreenCapture
             assertEquals(request, item.shouldRequest.ghost)
         }
@@ -89,7 +90,10 @@ class HomeViewInteractorTest {
     @Test
     fun `input projection executes usecase`() = runTest {
         val mediaProjection = mockk<MediaProjection>()
-        tested.processIO(flowOf(HomeViewContract.Input.MediaProjectionUpdated(mediaProjection)))
+        tested.processIO(
+            DifferedCoroutineScope(dispatcher),
+            flowOf(HomeViewContract.Input.MediaProjectionUpdated(mediaProjection))
+        )
             .test { }
         coVerify { usecase.execute(mediaProjection) }
     }

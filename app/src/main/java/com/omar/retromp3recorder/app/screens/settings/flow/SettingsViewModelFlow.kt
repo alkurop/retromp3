@@ -18,8 +18,7 @@ class SettingsViewModelFlow @Inject constructor(
 
     private val inputFlow = MutableSharedFlow<SettingsContract.Input>()
 
-    val state = interactor.processIO(inputFlow, viewModelScope)
-        .mapOutputToStateFlow()
+    val state = interactor.processIO(viewModelScope, inputFlow)        .mapOutputToStateFlow()
         .distinctUntilChanged()
         .stateInViewModel(this, SettingsContract.State())
 

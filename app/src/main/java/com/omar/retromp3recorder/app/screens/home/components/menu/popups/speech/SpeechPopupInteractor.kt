@@ -7,7 +7,7 @@ import com.omar.retromp3recorder.bl.audio.speech.DownloadLanguageUC
 import com.omar.retromp3recorder.storage.repo.global.LanguageRecognitionRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class SpeechPopupInteractor @Inject constructor(
         return listOf(languageRecognitionRepo.flow().map { SpeechPopupContract.State(it) })
     }
 
-    override suspend fun FlowCollector<SpeechPopupContract.State>.launchUseCase(input: SpeechPopupContract.Input) {
+    override suspend fun ProducerScope<SpeechPopupContract.State>.launchUseCase(input: SpeechPopupContract.Input) {
        when(input){
            is SpeechPopupContract.Input.DownloadLanguage -> downloadLanguageUC.execute(input.language)
            is SpeechPopupContract.Input.CancelDownload -> cancelDownloadLanguageUC.execute(input.language)

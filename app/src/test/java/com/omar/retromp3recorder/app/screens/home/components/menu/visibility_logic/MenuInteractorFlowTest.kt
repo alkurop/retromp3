@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.omar.retromp3recorder.app.screens.home.components.menu.MenuContract
 import com.omar.retromp3recorder.bl.enablers.EnablersSwitcher
 import com.omar.retromp3recorder.domain.AudioEnabler
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -32,7 +33,7 @@ class MenuInteractorFlowTest {
     @Test
     fun `Enable input executes switcher usecase`() = runTest {
         val event = MenuContract.Input.Enable(AudioEnabler.Reverse, true)
-        tested.processIO(flowOf(event)).test {
+        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(event)).test {
             cancelAndIgnoreRemainingEvents()
         }
 
@@ -43,7 +44,7 @@ class MenuInteractorFlowTest {
     fun `listens to menu excavator`() = runTest {
         val state = mockk<MenuContract.State>()
         coEvery { excavator.flow() } returns flowOf(state)
-        tested.processIO(flowOf()).test {
+        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
             val item = awaitItem()
             assertEquals(state, item)
             cancelAndIgnoreRemainingEvents()

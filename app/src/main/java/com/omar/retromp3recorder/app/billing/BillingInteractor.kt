@@ -15,7 +15,7 @@ import com.omar.retromp3recorder.storage.repo.global.ToastRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -29,12 +29,12 @@ class BillingInteractor @Inject constructor(
     dispatcher: CoroutineDispatcher
 ) : Interactor<BillingRequest, Unit>(dispatcher) {
     suspend fun setup(parentScope: CoroutineScope) {
-        processIO(billingRequestEventBus.flow(), parentScope).collect()
+        processIO(parentScope, billingRequestEventBus.flow()).collect()
     }
 
     override fun listRepos(): List<Flow<Unit>> = emptyList()
 
-    override suspend fun FlowCollector<Unit>.launchUseCase(input: BillingRequest) {
+    override suspend fun ProducerScope<Unit>.launchUseCase(input: BillingRequest) {
             executeBillingRequest {
                 when (input) {
                     BillingRequest.CropProductBuyRequest ->

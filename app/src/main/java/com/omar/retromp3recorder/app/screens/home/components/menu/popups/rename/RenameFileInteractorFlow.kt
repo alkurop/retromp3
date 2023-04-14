@@ -7,7 +7,8 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.channels.ProducerScope
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -32,7 +33,7 @@ class RenameFileInteractorFlow @Inject constructor(
         )
     }
 
-    override suspend fun FlowCollector<RenameFileContract.Output>.launchUseCase(input: RenameFileContract.Input) {
+    override suspend fun ProducerScope<RenameFileContract.Output>.launchUseCase(input: RenameFileContract.Input) {
         when (input) {
             is RenameFileContract.Input.Rename -> {
                 renameFileUC.execute(input.newName)
@@ -42,7 +43,7 @@ class RenameFileInteractorFlow @Inject constructor(
                 val canRename = canRenameNameUC.execute(
                     input.newName,
                 )
-                emit(RenameFileContract.Output.OkButtonState(canRename, input.newName))
+                trySendBlocking(RenameFileContract.Output.OkButtonState(canRename, input.newName))
             }
         }
     }

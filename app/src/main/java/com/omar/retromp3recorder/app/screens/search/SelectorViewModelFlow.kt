@@ -17,8 +17,7 @@ class SelectorViewModelFlow @Inject constructor(
 ) : ViewModel() {
     private val inputFlow = MutableSharedFlow<SelectorContract.Input>()
 
-    val state = interactor.processIO(inputFlow, viewModelScope)
-        .mapToState()
+    val state = interactor.processIO(viewModelScope, inputFlow)        .mapToState()
         .map {
             val flow = it.flow.cacheInViewModel(this)
             it.copy(flow = flow)
