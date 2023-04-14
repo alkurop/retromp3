@@ -24,7 +24,7 @@ fun LogLayout(
     val messages = state.messages
 
     LazyColumn(modifier, state = listState) {
-        items(messages.size, { messages[it] }) { index ->
+        items(messages.size, { it }) { index ->
             when (val item = messages[index]) {
                 is LogView.Output.ErrorLogOutput -> {
                     ErrorLog(data = item)
