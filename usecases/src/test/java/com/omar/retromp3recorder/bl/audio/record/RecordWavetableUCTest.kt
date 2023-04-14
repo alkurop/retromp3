@@ -6,7 +6,6 @@ import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -17,7 +16,6 @@ class RecordWavetableUCTest {
     private val saveRecordingWithWavetableUC =
         mockk<SaveRecordingWithWavetableUC>(relaxed = true)
     private lateinit var currentFileRepo: CurrentFileRepo
-    private val dispatcher = UnconfinedTestDispatcher()
 
     lateinit var tested: RecordWavetableUC
 
@@ -27,8 +25,7 @@ class RecordWavetableUCTest {
         tested = RecordWavetableUC(
             saveRecordingWithWavetableUC,
             collectWavetableUC,
-            currentFileRepo,
-            dispatcher
+            currentFileRepo
         )
     }
 

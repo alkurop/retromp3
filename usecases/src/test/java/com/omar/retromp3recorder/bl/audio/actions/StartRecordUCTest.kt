@@ -5,9 +5,11 @@ import com.omar.retromp3recorder.bl.audio.record.RecordMediaUC
 import com.omar.retromp3recorder.bl.audio.record.RecordMicUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -24,7 +26,8 @@ class StartRecordUCTest {
     fun setUp() {
         recorderPrefsRepo = RecorderPrefsRepo()
         tested = StartRecordUC(
-            recorderPrefsRepo, recordMediaUC, recordMicUC
+            recorderPrefsRepo, recordMediaUC, recordMicUC,
+            DifferedCoroutineScope(UnconfinedTestDispatcher())
         )
     }
 

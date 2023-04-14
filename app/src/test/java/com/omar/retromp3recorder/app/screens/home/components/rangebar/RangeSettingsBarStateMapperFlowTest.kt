@@ -31,71 +31,6 @@ class RangeSettingsBarStateMapperFlowTest {
     }
 
     @Test
-    fun `WHEN range active not THEN state hidden`() = runTest {
-        val progress = MockPlayerProgressFactory.givePlayerProgress()
-        every { joinedProgressMapper.flow() } returns flowOf(
-            JoinedProgress.PlayerProgressShown(
-                progress,
-                null
-            )
-        )
-        tested.flow().test {
-            val item = awaitItem()
-            assert(item is RangeBarContract.State.Hidden)
-        }
-    }
-
-    @Test
-    fun `WHEN range active Audio State PlayerProgressShown THEN state visible`() = runTest {
-        val progress = MockPlayerProgressFactory.givePlayerProgress(
-            MockPlayerProgressFactory.giveRange(isVisible = true)
-        )
-        every { joinedProgressMapper.flow() } returns flowOf(
-            JoinedProgress.PlayerProgressShown(
-                progress,
-                null
-            )
-        )
-        tested.flow().test {
-            val item = awaitItem()
-            assert(item is RangeBarContract.State.Visible)
-        }
-    }
-
-    @Test
-    fun `WHEN range active Audio State RecorderProgressShown THEN state hidden`() = runTest {
-        every { joinedProgressMapper.flow() } returns flowOf(
-            JoinedProgress.RecorderProgressShown(0, mockk())
-        )
-        tested.flow().test {
-            val item = awaitItem()
-            assert(item is RangeBarContract.State.Hidden)
-        }
-    }
-
-    @Test
-    fun `WHEN range active Audio State Intermediate THEN state hidden`() = runTest {
-        every { joinedProgressMapper.flow() } returns flowOf(
-            JoinedProgress.Intermediate
-        )
-        tested.flow().test {
-            val item = awaitItem()
-            assert(item is RangeBarContract.State.Hidden)
-        }
-    }
-
-    @Test
-    fun `WHEN range active Audio State Hidden THEN state hidden`() = runTest {
-        every { joinedProgressMapper.flow() } returns flowOf(
-            JoinedProgress.Hidden
-        )
-        tested.flow().test {
-            val item = awaitItem()
-            assert(item is RangeBarContract.State.Hidden)
-        }
-    }
-
-    @Test
     fun `WHEN reset active Event resent`() = runTest {
         val progress = MockPlayerProgressFactory.givePlayerProgress(
             MockPlayerProgressFactory.giveRange(isVisible = true)
@@ -110,7 +45,7 @@ class RangeSettingsBarStateMapperFlowTest {
             )
         )
         tested.flow().test {
-            val item = awaitItem() as RangeBarContract.State.Visible
+            val item = awaitItem()
             assertEquals(resetCount, item.reset.ghost)
         }
 

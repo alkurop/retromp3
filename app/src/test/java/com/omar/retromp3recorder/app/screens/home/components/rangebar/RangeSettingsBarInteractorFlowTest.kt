@@ -22,20 +22,22 @@ class RangeSettingsBarInteractorFlowTest {
     private val updatePlayerRangeUC = mockk<UpdatePlayerRangeUC>(relaxed = true)
     private val rangeEnableRangeUC = mockk<ActivateRangeUC>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
+    private val visibilityMapper: RangeBarVisibilityMapper = mockk(relaxed = true)
 
     private lateinit var tested: RangeBarInteractor
 
     @Before
     fun setUp() {
         tested = RangeBarInteractor(
-            rangeStateMapper, updatePlayerRangeUC, rangeEnableRangeUC, dispatcher
+            rangeStateMapper, updatePlayerRangeUC, rangeEnableRangeUC, visibilityMapper, dispatcher
         )
     }
 
     @Test
     fun `on RangeSet input update rangeUpdate UC executed`() = runTest {
         val event = RangeBarContract.Input.RangeSet(MockPlayerProgressFactory.giveRange())
-        tested.processIO(DifferedCoroutineScope(dispatcher),flowOf(event)).test { cancelAndIgnoreRemainingEvents() }
+        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(event))
+            .test { cancelAndIgnoreRemainingEvents() }
 
         coVerify { updatePlayerRangeUC.execute(event.range) }
         coVerify(exactly = 0) { rangeEnableRangeUC.execute() }
@@ -44,7 +46,8 @@ class RangeSettingsBarInteractorFlowTest {
     @Test
     fun `on Enable input update rangeEnable UC executed`() = runTest {
         val event = RangeBarContract.Input.Enable
-        tested.processIO(DifferedCoroutineScope(dispatcher),flowOf(event)).test { cancelAndIgnoreRemainingEvents() }
+        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(event))
+            .test { cancelAndIgnoreRemainingEvents() }
 
         coVerify(exactly = 0) { updatePlayerRangeUC.execute(any()) }
         coVerify(exactly = 1) { rangeEnableRangeUC.execute() }
@@ -52,11 +55,11 @@ class RangeSettingsBarInteractorFlowTest {
 
     @Test
     fun `listen range state mapper`() = runTest {
-        val event = mockk<RangeBarContract.State>()
+        val event = mockk<RangeBarContract.BarContent>()
         coEvery { rangeStateMapper.flow() } returns flowOf(event)
-        tested.processIO(DifferedCoroutineScope(dispatcher),flowOf()).test {
-            val item = awaitItem()
-            assertEquals(item, event)
+        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
+            val item = awaitItem() as? RangeBarContract.Output.BarContentUpdate
+            assertEquals(event, item?.barContent)
             cancelAndIgnoreRemainingEvents()
         }
     }

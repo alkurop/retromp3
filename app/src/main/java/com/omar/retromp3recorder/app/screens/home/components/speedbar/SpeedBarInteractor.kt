@@ -17,7 +17,6 @@ class SpeedBarInteractor @Inject constructor(
     dispatcher: CoroutineDispatcher,
 ) : Interactor<SpeedBarContract.Input, SpeedBarContract.Output>(dispatcher) {
 
-
     override fun listRepos(): List<Flow<SpeedBarContract.Output>> {
         return listOf(
             playerControlsRepo.flow()

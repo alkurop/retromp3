@@ -3,6 +3,8 @@ package com.omar.retromp3recorder.app.screens.home.components.speedbar
 import app.cash.turbine.test
 import com.omar.retromp3recorder.bl.audio.effects.PlaybackSpeedEnabledUC
 import com.omar.retromp3recorder.bl.audio.effects.PlaybackSpeedSetUC
+import com.omar.retromp3recorder.domain.PlayerControls
+import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
 import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.coVerify
 import io.mockk.every
@@ -21,23 +23,45 @@ class SpeedBarInteractorTest {
     private val speedBarVisibilityMapper: SpeedBarVisibilityMapper = mockk()
     private val playbackSpeedSetUC: PlaybackSpeedSetUC = mockk()
     private val setSpeedEnabled: PlaybackSpeedEnabledUC = mockk()
+    private lateinit var playerControlsRepo: PlayerControlsRepo
     private lateinit var tested: SpeedBarInteractor
 
     @Before
     fun setup() {
+        playerControlsRepo = PlayerControlsRepo()
         tested = SpeedBarInteractor(
-            speedBarVisibilityMapper, playbackSpeedSetUC, setSpeedEnabled, UnconfinedTestDispatcher()
+            speedBarVisibilityMapper,
+            playbackSpeedSetUC,
+            setSpeedEnabled,
+            playerControlsRepo,
+            UnconfinedTestDispatcher()
         )
     }
 
     @Test
-    fun `speed bar state mapper listened`() = runTest {
-        val value = mockk<SpeedBarContract.State.Visible>()
-        every { speedBarVisibilityMapper.flow() } returns flowOf(value)
+    fun `speed bar visibility state mapper listened`() = runTest {
+        val value = SpeedBarContract.Output.Visibility(isVisible = true)
+
+        every { speedBarVisibilityMapper.flow() } returns flowOf(true)
+
+        tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()), emptyFlow()).test {
+            skipItems(1)
+            val item = awaitItem()
+            assertEquals(value, item)
+        }
+    }
+
+    @Test
+    fun `speed bar player controls listened`() = runTest {
+        val speedSettings = PlayerControls.SpeedSettings(isVisible = true)
+        val value = SpeedBarContract.Output.SpeedDataUpdate(speedSettings)
+        playerControlsRepo.emit(PlayerControls(speedSettings = speedSettings))
+
+        every { speedBarVisibilityMapper.flow() } returns flowOf(true)
         tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()), emptyFlow()).test {
             val item = awaitItem()
             assertEquals(value, item)
-            awaitComplete()
+            cancelAndConsumeRemainingEvents()
         }
     }
 
