@@ -7,7 +7,7 @@ V means completed
 X means can't be done (please provide explanation)
 
 ### Bugs:
-
+- seek bar update only on up, send view updates on scroll
  
 ### Refactoring:
 

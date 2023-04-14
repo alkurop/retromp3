@@ -20,7 +20,6 @@ data class WavetableComposeData(
     val wavetable: Wavetable
 )
 
-
 @Composable
 fun WavetableCompose(
     data: WavetableComposeData,

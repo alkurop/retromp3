@@ -26,6 +26,18 @@ sealed class SeekEvent {
     object SeekFinished : SeekEvent()
 }
 
+@Stable
+class SeekBarState(initialData: SeekBarData) {
+    val data by mutableStateOf(initialData)
+}
+
+@Composable
+fun rememberSeekBarState(initialData: SeekBarData): SeekBarState {
+    return remember {
+        SeekBarState(initialData)
+    }
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SeekBarCompose(
@@ -91,7 +103,6 @@ private fun ProgressBar(
 
         val rangeXStart = size.width.div(range.max.toFloat()).times(range.from)
         val rangeXEnd = size.width.div(range.max.toFloat()).times(range.to)
-
 
         if (range.isEnabled) {
             val currentWidth = current.div(max.toFloat()) * size.width

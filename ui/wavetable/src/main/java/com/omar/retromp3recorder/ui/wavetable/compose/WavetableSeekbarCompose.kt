@@ -14,7 +14,6 @@ data class WaveSeekData(
     val wavetable: Wavetable?,
 )
 
-
 @Composable
 fun WavetableSeekbarCompose(
     data: WaveSeekData,
@@ -28,6 +27,7 @@ fun WavetableSeekbarCompose(
                 data = WavetableComposeData(it)
             )
         }
+
         SeekBarCompose(
             modifier = Modifier.fillMaxSize(),
             onEvent = onEvent,

@@ -55,6 +55,7 @@ class BillingInteractor @Inject constructor(
         }
     }
 
-    private suspend fun executeBillingRequest(action: suspend () -> Result<BillingResponse>) =
+    private suspend fun executeBillingRequest(action: suspend () -> Result<BillingResponse>) {
         billingResultEventBus.emit(action())
+    }
 }

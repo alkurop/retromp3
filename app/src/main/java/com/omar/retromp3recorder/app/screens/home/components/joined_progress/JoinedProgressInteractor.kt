@@ -16,13 +16,13 @@ class JoinedProgressInteractor @Inject constructor(
     private val audioSeekProgressUC: AudioSeekProgressUC,
     private val audioSeekPauseUC: AudioSeekPauseUC,
     private val audioSeekFinishUC: AudioSeekFinishUC,
-    private val joinedProgressRepo: JoinedProgressMapper,
+    private val joinedProgressMapper: JoinedProgressMapper,
     dispatcher: CoroutineDispatcher,
 ) : Interactor<JoinedProgressContract.In, JoinedProgressContract.Output>(dispatcher) {
 
     override fun listRepos(): List<Flow<JoinedProgressContract.Output>> {
         return listOf(
-            joinedProgressRepo.flow().map {
+            joinedProgressMapper.flow().map {
                 JoinedProgressContract.Output.JoinedProgressChanged(it)
             },
             currentFileRepo.flow().map { file ->
