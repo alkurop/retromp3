@@ -3,7 +3,6 @@ package com.omar.retromp3recorder.bl.files
 import com.omar.retromp3recorder.bl.files.scan.ScanDirFilesPartialUCSuspend
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -20,7 +19,6 @@ class TakeLastFileDirScanUCTest {
     private val scanDirFilesPartialUC: ScanDirFilesPartialUCSuspend = mockk()
     private val takeLastFileFastUC: TakeLastFileDbItemUC = mockk()
     private val dispatcher = UnconfinedTestDispatcher()
-    private val audioCoroutineContext = AudioCoroutineContext(dispatcher)
     private lateinit var tested: TakeLastFileDirScanUC
 
     @Before
@@ -29,8 +27,7 @@ class TakeLastFileDirScanUCTest {
         tested = TakeLastFileDirScanUC(
             currentFileRepo,
             scanDirFilesPartialUC,
-            takeLastFileFastUC,
-            audioCoroutineContext
+            takeLastFileFastUC
         )
     }
 

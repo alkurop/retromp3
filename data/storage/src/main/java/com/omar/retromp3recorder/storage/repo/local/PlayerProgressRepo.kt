@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.PlayerRange
 import com.omar.retromp3recorder.utils.domain.repo.ReducerRepo
 import com.omar.retromp3recorder.utils.domain.Optional
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.toOptional
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class PlayerProgressRepo @Inject constructor(
     private val playerControlsRepo: PlayerControlsRepo,
     private val progressMapper: PlayerProgressMapperFlow,
-    jobWrapper: AudioCoroutineContext
+    jobWrapper: DifferedCoroutineScope
 ) : ReducerRepo<PlayerProgressRepo.In, Optional<PlayerProgress>>(
     init = Optional.empty(),
     reducer = reducer

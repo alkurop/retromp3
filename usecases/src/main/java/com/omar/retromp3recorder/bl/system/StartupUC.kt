@@ -4,8 +4,7 @@ import com.omar.retromp3recorder.bl.audio.speech.AvailableLanguageListUC
 import com.omar.retromp3recorder.bl.files.TakeLastFileDirScanUC
 import com.omar.retromp3recorder.bl.settings.FeatureMapLoadUC
 import com.omar.retromp3recorder.bl.settings.LoadRecorderSettingsUC
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
-import kotlinx.coroutines.withContext
+import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import javax.inject.Inject
 
 class StartupUC @Inject constructor(
@@ -13,10 +12,11 @@ class StartupUC @Inject constructor(
     private val loadRecorderSettingsUC: LoadRecorderSettingsUC,
     private val availableLanguageListUC: AvailableLanguageListUC,
     private val featureMapLoadUC: FeatureMapLoadUC,
-    private val jobWrapper: AudioCoroutineContext
+    private val currentFileRepo: CurrentFileRepo,
 ) {
     suspend fun execute() {
-        withContext(jobWrapper.coroutineContext) {
+        val value = currentFileRepo.first().value
+        if (value == null) {
             takeLastFileWithScanDirScanUC.execute()
             loadRecorderSettingsUC.execute()
             featureMapLoadUC.execute()

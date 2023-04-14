@@ -2,7 +2,7 @@ package com.omar.retromp3recorder.storage.repo.global
 
 import com.omar.retromp3recorder.domain.platform.MediaProjectionState
 import com.omar.retromp3recorder.utils.domain.Optional
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.repo.StateFlowRepo
 import com.omar.retromp3recorder.utils.platform.MediaProjectionUnsubscriber
 import kotlinx.coroutines.flow.Flow
@@ -13,13 +13,13 @@ import javax.inject.Singleton
 @Singleton
 class MediaProjectionStateRepo @Inject constructor(
     private val unsubscriber: MediaProjectionUnsubscriber,
-    private val audioCoroutineContext: AudioCoroutineContext,
+    private val differedCoroutineScope: DifferedCoroutineScope,
 ) : StateFlowRepo<MediaProjectionState>(MediaProjectionState()) {
     // open for  mockk to mock
     open override suspend fun emit(input: MediaProjectionState) {
         input.mediaProjection.value?.let {
             unsubscriber.onNewProjection(it) {
-                audioCoroutineContext.launch {
+                differedCoroutineScope.launch {
                     super.emit(input.copy(mediaProjection = Optional.empty()))
                 }
             }

@@ -2,9 +2,7 @@ package com.omar.retromp3recorder.bl.files
 
 import com.omar.retromp3recorder.bl.files.scan.ScanDirFilesPartialUCSuspend
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.domain.toOptional
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -20,16 +18,13 @@ class TakeLastFileDirScanUC @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
     private val scanDirFilesPartialUC: ScanDirFilesPartialUCSuspend,
     private val takeLastFileFastUC: TakeLastFileDbItemUC,
-    private val audioCoroutineContext: AudioCoroutineContext
 ) {
     suspend fun execute() {
-        audioCoroutineContext.launch {
-            val databaseFile = takeLastFileFastUC.execute()
-            if (databaseFile != null) {
-                currentFileRepo.emit(databaseFile.toOptional())
-            }
-            scanDirFilesPartialUC.execute()
+        val databaseFile = takeLastFileFastUC.execute()
+        if (databaseFile != null) {
+            currentFileRepo.emit(databaseFile.toOptional())
         }
+        scanDirFilesPartialUC.execute()
     }
 }
 

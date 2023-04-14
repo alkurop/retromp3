@@ -12,13 +12,11 @@ import com.omar.retromp3recorder.io.billing.Billing
 import com.omar.retromp3recorder.storage.repo.global.BillingRequestEventBus
 import com.omar.retromp3recorder.storage.repo.global.BillingResultEventBus
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class BillingInteractor @Inject constructor(
@@ -27,7 +25,6 @@ class BillingInteractor @Inject constructor(
     private val consumeProductUC: ConsumeProductUC,
     private val billing: Billing,
     private val buyProductUC: BuyProductUC,
-    private val audioCoroutineContext: AudioCoroutineContext,
     private val toastRepo: ToastRepo,
     dispatcher: CoroutineDispatcher
 ) : Interactor<BillingRequest, Unit>(dispatcher) {
@@ -38,7 +35,6 @@ class BillingInteractor @Inject constructor(
     override fun listRepos(): List<Flow<Unit>> = emptyList()
 
     override suspend fun FlowCollector<Unit>.launchUseCase(input: BillingRequest) {
-        audioCoroutineContext.launch {
             executeBillingRequest {
                 when (input) {
                     BillingRequest.CropProductBuyRequest ->
@@ -57,7 +53,6 @@ class BillingInteractor @Inject constructor(
                         ProductId.CROP_10
                     ).map { BillingResponse.CropProductConsumeResponse(it) }
                 }
-            }
         }
     }
 

@@ -5,16 +5,14 @@ import com.omar.retromp3recorder.data.mock.MockCropRequestFactory
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
 import com.omar.retromp3recorder.data.mock.MockTagsFactory
-import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.audiotransformer.AudioCropper
 import com.omar.retromp3recorder.storage.db.AppDatabase
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.utils.platform.FileLister
 import com.omar.retromp3recorder.utils.platform.Mp3TagsEditor
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -52,8 +50,7 @@ class CropUCTest {
             gatherCropRequestUC,
             fileLister,
             mp3TagsEditor,
-            waveformScanner,
-            AudioCoroutineContext(UnconfinedTestDispatcher())
+            waveformScanner
         )
     }
 

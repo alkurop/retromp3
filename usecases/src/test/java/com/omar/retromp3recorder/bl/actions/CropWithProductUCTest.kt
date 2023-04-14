@@ -6,12 +6,10 @@ import com.omar.retromp3recorder.bl.billing.count.ShouldConsumeProductUC
 import com.omar.retromp3recorder.domain.BillingResponse
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.utils.domain.toResult
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -23,7 +21,6 @@ class CropWithProductUCTest {
     private val billingBinderUC = mockk<BillingBinderUC>()
     private val decrementProductCountUC = mockk<DecrementProductCountUC>()
     private val shouldConsumeProductUC = mockk<ShouldConsumeProductUC>()
-    private val jobWrapper = AudioCoroutineContext(UnconfinedTestDispatcher())
 
     private lateinit var tested: CropWithProductUC
 
@@ -33,8 +30,7 @@ class CropWithProductUCTest {
             cropUC,
             billingBinderUC,
             decrementProductCountUC,
-            shouldConsumeProductUC,
-            jobWrapper
+            shouldConsumeProductUC
         )
     }
 

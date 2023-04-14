@@ -2,13 +2,11 @@ package com.omar.retromp3recorder.bl.waveform
 
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockWaveformFactory
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import com.omar.retromp3recorder.utils.platform.AmplitudaWaveformScanner
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -16,14 +14,12 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AmplitudaWaveformScannerSuspendTest {
-    private val jobWrapper = AudioCoroutineContext(UnconfinedTestDispatcher())
     private val waveformScanner = mockk<AmplitudaWaveformScanner>()
     private lateinit var tested: WaveformScannerSuspend
 
     @Before
     fun setup() {
-        tested = WaveformScannerSuspend(jobWrapper, waveformScanner)
-
+        tested = WaveformScannerSuspend(waveformScanner)
     }
 
     @Test(expected = IllegalArgumentException::class)

@@ -7,7 +7,7 @@ import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.Player.STATE_ENDED
 import com.omar.retromp3recorder.domain.PlayerControls
 import com.omar.retromp3recorder.io.audioplayer.R
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.repo.PublishSubjectRepo
 import com.omar.retromp3recorder.utils.platform.tickerFlow
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,8 +20,8 @@ import javax.inject.Named
 
 class AudioPlayerExo @Inject constructor(
     @ApplicationContext val context: Context,
-    private val jobWrapper: AudioCoroutineContext,
-    @Named("main") private val mainThreadJobWrapper: AudioCoroutineContext
+    private val coroutineContext: DifferedCoroutineScope,
+    @Named("main") private val mainThreadJobWrapper: DifferedCoroutineScope
 ) : AudioPlayer {
     private val events = PublishSubjectRepo<AudioPlayer.Output.Event>(1)
     private val state = MutableStateFlow(AudioPlayer.State.Idle)
@@ -120,15 +120,15 @@ class AudioPlayerExo @Inject constructor(
     }
 
     private fun stopMedia() {
-        jobWrapper.cancel()
+        coroutineContext.cancel()
         mediaPlayer.stop()
         state.tryEmit(AudioPlayer.State.Idle)
         events.tryEmit(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_stopped_playing)))
     }
 
     private fun initProgressUpdate() {
-        jobWrapper.cancel()
-        jobWrapper.launch {
+        coroutineContext.cancel()
+        coroutineContext.launch {
             tickerFlow(10).collect {
                 mainThreadJobWrapper.launch {
                     val position = mediaPlayer.currentPosition

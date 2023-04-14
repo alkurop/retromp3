@@ -5,15 +5,13 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.ProductDetails
 import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.domain.PurchaseData
-import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.billing.connection.BillingConnection
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.toResult
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -24,14 +22,13 @@ import org.junit.Test
 class BillingImplTest {
 
     private val connection = mockk<BillingConnection>()
-    private val audioCoroutineContext = AudioCoroutineContext(UnconfinedTestDispatcher())
     private val activity = mockk<Activity>(relaxed = true)
 
     private lateinit var tested: BillingImpl
 
     @Before
     fun setup() {
-        tested = BillingImpl(connection, audioCoroutineContext, activity)
+        tested = BillingImpl(connection, activity)
     }
 
     @Test

@@ -3,14 +3,12 @@ package com.omar.retromp3recorder.bl.billing.actions
 import com.omar.retromp3recorder.data.mock.MockProductData
 import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.domain.PurchaseData
-import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.billing.Billing
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.toResult
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -20,13 +18,12 @@ import org.junit.Test
 class ConsumeProductUCTest {
     private val billing = mockk<Billing>()
     private val listUC = mockk<ListPurchasesUC>()
-    private val audioCoroutineContext = AudioCoroutineContext(UnconfinedTestDispatcher())
 
     private lateinit var tested: ConsumeProductUC
 
     @Before
     fun setup() {
-        tested = ConsumeProductUC(billing, listUC, audioCoroutineContext)
+        tested = ConsumeProductUC(billing, listUC)
     }
 
     @Test

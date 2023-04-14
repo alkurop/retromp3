@@ -8,16 +8,13 @@ import com.android.billingclient.api.InAppMessageParams
 import com.android.billingclient.api.InAppMessageResult
 import com.android.billingclient.api.Purchase
 import com.omar.retromp3recorder.utils.domain.toResult
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
 internal class BillingConnection @Inject constructor(
     @ActivityContext private val context: Context,
-    private val audioCoroutineContext: AudioCoroutineContext,
     private val connectUC: ConnectUC,
     private val billingClientProvider: BillingClientProvider,
     private val billingConnectionListener: BillingConnectionListener
@@ -31,16 +28,16 @@ internal class BillingConnection @Inject constructor(
     fun updatePurchaseList(resultList: List<Purchase>) =
         billingConnectionListener.updatePurchaseCache(resultList.toResult())
 
-    suspend fun <T> executeWithConnection(action: suspend BillingClient.() -> Result<T>): Result<T> =
-        withContext(audioCoroutineContext.coroutineContext) {
-            if (billingClient.isReady.not()) {
-                val connectionResult = connectUC.execute(this@BillingConnection)
-                if (connectionResult.isFailure) {
-                    return@withContext Result.failure(connectionResult.exceptionOrNull()!!)
-                }
+    suspend fun <T> executeWithConnection(action: suspend BillingClient.() -> Result<T>): Result<T> {
+        if (billingClient.isReady.not()) {
+            val connectionResult = connectUC.execute(this@BillingConnection)
+            if (connectionResult.isFailure) {
+                return Result.failure(connectionResult.exceptionOrNull()!!)
             }
-            execute { action() }
         }
+        return execute { action() }
+    }
+
 
     suspend fun subscribeToMessages(
         params: InAppMessageParams,

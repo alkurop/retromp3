@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.app.di
 
 import com.omar.retromp3recorder.utils.domain.Constants
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
 import dagger.Module
 import dagger.Provides
@@ -42,12 +42,12 @@ class AndroidModule {
 
     @Named("main")
     @Provides
-    fun provideMainThreadScopeJobWrapper(@Named("main") dispatcher: CoroutineDispatcher): AudioCoroutineContext =
-        AudioCoroutineContext(dispatcher)
+    fun provideMainThreadScopeJobWrapper(@Named("main") dispatcher: CoroutineDispatcher): DifferedCoroutineScope =
+        DifferedCoroutineScope(dispatcher)
 
 
     @Provides
-    fun provideScopeJobWrapper(dispatcher: CoroutineDispatcher): AudioCoroutineContext =
-        AudioCoroutineContext(dispatcher)
+    fun provideScopeJobWrapper(dispatcher: CoroutineDispatcher): DifferedCoroutineScope =
+        DifferedCoroutineScope(dispatcher)
 
 }

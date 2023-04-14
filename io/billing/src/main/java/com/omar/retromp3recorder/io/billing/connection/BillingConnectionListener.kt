@@ -3,7 +3,7 @@ package com.omar.retromp3recorder.io.billing.connection
 import com.android.billingclient.api.*
 import com.omar.retromp3recorder.io.billing.BillingError
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.ifNotFailed
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicReference
 import javax.inject.Inject
 
 internal class BillingConnectionListener @Inject constructor(
-    private val jobWrapper: AudioCoroutineContext
+    private val jobWrapper: DifferedCoroutineScope
 ) : BillingClientStateListener, PurchasesUpdatedListener {
 
     private val _connectionState =

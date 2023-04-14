@@ -1,7 +1,7 @@
 package com.omar.retromp3recorder.storage.repo.global
 
 import android.content.SharedPreferences
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.repo.StateFlowRepo
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -10,11 +10,11 @@ import javax.inject.Singleton
 
 @Singleton
 class CropProductRepo @Inject constructor(
-    private val audioCoroutineContext: AudioCoroutineContext,
+    private val differedCoroutineScope: DifferedCoroutineScope,
     private val sharedPreferences: SharedPreferences
 ) : StateFlowRepo<Int>(0) {
     init {
-        audioCoroutineContext.launch {
+        differedCoroutineScope.launch {
             val currentCropValue = sharedPreferences.getInt(
                 KEY_CROP_COUNTER,
                 INITIAL_CROP_OFFERING
@@ -24,27 +24,25 @@ class CropProductRepo @Inject constructor(
     }
 
     override suspend fun emit(input: Int) {
-        audioCoroutineContext.launch {
-            val currentValue = sharedPreferences.getInt(
-                KEY_CROP_COUNTER,
-                INITIAL_CROP_OFFERING
-            )
-            sharedPreferences.edit().putInt(
-                KEY_CROP_COUNTER,
-                input
+        val currentValue = sharedPreferences.getInt(
+            KEY_CROP_COUNTER,
+            INITIAL_CROP_OFFERING
+        )
+        sharedPreferences.edit().putInt(
+            KEY_CROP_COUNTER,
+            input
+        ).apply()
+        if (currentValue == 0) {
+            sharedPreferences.edit().putBoolean(
+                KEY_CROP_COUNTER_TRIAL,
+                false
             ).apply()
-            if (currentValue == 0) {
-                sharedPreferences.edit().putBoolean(
-                    KEY_CROP_COUNTER_TRIAL,
-                    false
-                ).apply()
-            }
         }
         super.emit(input)
     }
 
     suspend fun isTrial(): Boolean {
-        return withContext(audioCoroutineContext.coroutineContext) {
+        return withContext(differedCoroutineScope.coroutineContext) {
             sharedPreferences.getBoolean(KEY_CROP_COUNTER_TRIAL, true)
         }
     }

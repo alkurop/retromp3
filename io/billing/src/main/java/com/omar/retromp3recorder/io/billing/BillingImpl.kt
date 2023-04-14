@@ -5,7 +5,6 @@ import android.content.Context
 import com.android.billingclient.api.*
 import com.omar.retromp3recorder.domain.ProductId
 import com.omar.retromp3recorder.domain.PurchaseData
-import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.io.billing.connection.BillingConnection
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper
 import com.omar.retromp3recorder.io.billing.mapping.RequestMapper.toAcknowledgeParams
@@ -16,17 +15,15 @@ import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toProductListRe
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toPurchasesListResult
 import com.omar.retromp3recorder.io.billing.mapping.ResultMapper.toResult
 import com.omar.retromp3recorder.io.billing.mapping.toDomainModel
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.toResult
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicReference
 import javax.inject.Inject
 
 internal class BillingImpl @Inject constructor(
     private val connection: BillingConnection,
-    private val audioCoroutineContext: AudioCoroutineContext,
     @ActivityContext private val context: Context,
 ) : Billing {
 
@@ -66,10 +63,8 @@ internal class BillingImpl @Inject constructor(
         return requestItem?.let { productDetails ->
             executeOnConnection {
                 launchBillingFlow(activity, productDetails.toBillingFlowParams())
-                withContext(audioCoroutineContext.coroutineContext) {
-                    connection.purchaseFlow.first().toResult().also { result ->
-                        Timber.d("BILLING Purchase result after billing flow init $result")
-                    }
+                connection.purchaseFlow.first().toResult().also { result ->
+                    Timber.d("BILLING Purchase result after billing flow init $result")
                 }
             }
         } ?: Result.failure(

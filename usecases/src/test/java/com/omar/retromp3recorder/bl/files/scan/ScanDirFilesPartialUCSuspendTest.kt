@@ -9,7 +9,7 @@ import com.omar.retromp3recorder.storage.db.FileDbEntity
 import com.omar.retromp3recorder.storage.db.FileDbEntityDao
 import com.omar.retromp3recorder.storage.db.toDatabaseEntity
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -43,7 +43,7 @@ class ScanDirFilesPartialUCSuspendTest {
     @MockK
     private lateinit var collector: FileUpdatePayloadCollectorUC
 
-    private var jobWrapper = AudioCoroutineContext(UnconfinedTestDispatcher())
+    private var jobWrapper = DifferedCoroutineScope(UnconfinedTestDispatcher())
 
     @InjectMockKs
     private lateinit var tested: ScanDirFilesPartialUCSuspend

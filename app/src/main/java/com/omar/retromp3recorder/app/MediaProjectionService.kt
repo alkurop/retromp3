@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import com.omar.retromp3recorder.app.WakelockService.Companion.WAKELOCK_SERVICE_CHANNEL
 import com.omar.retromp3recorder.app.main.MainActivity
 import com.omar.retromp3recorder.storage.repo.global.MediaProjectionStateRepo
-import com.omar.retromp3recorder.utils.domain.AudioCoroutineContext
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ class MediaProjectionService : Service() {
     lateinit var mediaProjectionRepo: MediaProjectionStateRepo
 
     @Inject
-    lateinit var audioCoroutineContext: AudioCoroutineContext
+    lateinit var differedCoroutineScope: DifferedCoroutineScope
 
     private val notificationManager: NotificationManager by lazy {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -45,11 +45,11 @@ class MediaProjectionService : Service() {
     }
 
     override fun onDestroy() {
-        audioCoroutineContext.cancel()
+        differedCoroutineScope.cancel()
     }
 
     private fun observeStopBus() {
-        audioCoroutineContext.launch {
+        differedCoroutineScope.launch {
             mediaProjectionRepo.flow().collect { item ->
                 val shouldStop = item.stop.ghost != null
                 if(shouldStop) {
