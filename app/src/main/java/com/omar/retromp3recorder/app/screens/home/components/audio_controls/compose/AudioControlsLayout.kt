@@ -77,7 +77,9 @@ fun AudioControlsLayout(
                     onClick = {
                         permissionsState.launchPermissionRequest()
                     },
-                    Modifier.size(buttonSize).padding(0.dp)
+                    Modifier
+                        .size(buttonSize)
+                        .padding(0.dp)
                 )
                 StopButton(
                     state = stopButtonState,

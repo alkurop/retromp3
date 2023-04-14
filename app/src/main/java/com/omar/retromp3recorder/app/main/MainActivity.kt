@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        requestPermissions(arrayOf("android.permission.POST_NOTIFICATIONS"), 7)
         setContent {
             RetroTheme {
                 var showLandingScreen by remember { mutableStateOf(true) }
