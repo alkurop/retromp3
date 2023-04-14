@@ -22,13 +22,19 @@ data class SeekBarData(
 
 sealed class SeekEvent {
     object SeekStarted : SeekEvent()
-    data class Seeking(val progress: Long, val max: Long) : SeekEvent()
-    object SeekFinished : SeekEvent()
+    data class SeekingFinished(val progress: Long, val max: Long) : SeekEvent()
 }
 
 @Stable
 class SeekBarState(initialData: SeekBarData) {
-    val data by mutableStateOf(initialData)
+    var data by mutableStateOf(initialData)
+    var isSeekeing by mutableStateOf(false)
+    var update by mutableStateOf(0L)
+
+    fun onUpdate(update: Long) {
+        this.update = update
+        data = data.copy(progress = data.progress.copy(progress = update))
+    }
 }
 
 @Composable
@@ -41,28 +47,41 @@ fun rememberSeekBarState(initialData: SeekBarData): SeekBarState {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SeekBarCompose(
-    data: SeekBarData,
+    state: SeekBarState,
     onEvent: (SeekEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var width by remember { mutableStateOf(0) }
-    val k by remember { derivedStateOf { data.progress.duration.div(width.toFloat()) } }
+    val k by remember { derivedStateOf { state.data.progress.duration.div(width.toFloat()) } }
 
-    val sendPauseEvent: () -> Unit = remember(onEvent) { { onEvent(SeekEvent.SeekStarted) } }
-    val sendUpdateEvent: (Long) -> Unit = remember(onEvent) {
-        { update -> onEvent(SeekEvent.Seeking(update, data.progress.duration)) }
+    val sendPauseEvent: () -> Unit = remember(onEvent) {
+        {
+            onEvent(SeekEvent.SeekStarted)
+            state.isSeekeing = true
+        }
     }
-    val sendResumeEvent: () -> Unit = remember(onEvent) { { onEvent(SeekEvent.SeekFinished) } }
+    val sendUpdateEvent: (Long) -> Unit = remember(onEvent) {
+        { update ->
+            state.onUpdate(update)
+
+        }
+    }
+    val sendResumeEvent: () -> Unit = remember(onEvent) {
+        {
+            onEvent(SeekEvent.SeekingFinished(state.update, state.data.progress.duration))
+            state.isSeekeing = false
+        }
+    }
     val pointerModifier = modifier
         .pointerInteropFilter { event: MotionEvent ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     sendPauseEvent()
-                    val currentProgress = event.toUpdateEvent(data.progress, k)
+                    val currentProgress = event.toUpdateEvent(state.data.progress, k)
                     sendUpdateEvent(currentProgress)
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    val currentProgress = event.toUpdateEvent(data.progress, k)
+                    val currentProgress = event.toUpdateEvent(state.data.progress, k)
                     sendUpdateEvent(currentProgress)
                 }
                 MotionEvent.ACTION_UP -> sendResumeEvent()
@@ -70,7 +89,7 @@ fun SeekBarCompose(
             true
         }
         .onSizeChanged { width = it.width }
-    ProgressBar(modifier = pointerModifier, data = data)
+    ProgressBar(modifier = pointerModifier, data = state.data)
 }
 
 fun MotionEvent.toUpdateEvent(progress: PlayerProgress, k: Float): Long {

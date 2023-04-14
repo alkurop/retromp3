@@ -10,7 +10,6 @@ object JoinedProgressContract {
     sealed class In {
         data class SeekToPosition(val position: Long) : In()
         object SeekingStarted : In()
-        object SeekingFinished : In()
     }
 
     sealed class Output {

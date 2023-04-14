@@ -37,12 +37,10 @@ class JoinedProgressInteractor @Inject constructor(
         when (input) {
             is JoinedProgressContract.In.SeekToPosition -> {
                 audioSeekProgressUC.execute(input.position)
+                audioSeekFinishUC.execute()
             }
             is JoinedProgressContract.In.SeekingStarted -> {
                 audioSeekPauseUC.execute()
-            }
-            is JoinedProgressContract.In.SeekingFinished -> {
-                audioSeekFinishUC.execute()
             }
         }
     }

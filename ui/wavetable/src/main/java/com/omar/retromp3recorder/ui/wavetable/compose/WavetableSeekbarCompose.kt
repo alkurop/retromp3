@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.domain.Wavetable
@@ -20,6 +21,8 @@ fun WavetableSeekbarCompose(
     onEvent: (SeekEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val state = rememberSeekBarState(initialData = SeekBarData(progress = data.progress))
+
     Box(modifier = modifier) {
         data.wavetable?.let {
             WavetableCompose(
@@ -27,11 +30,16 @@ fun WavetableSeekbarCompose(
                 data = WavetableComposeData(it)
             )
         }
-
         SeekBarCompose(
             modifier = Modifier.fillMaxSize(),
             onEvent = onEvent,
-            data = SeekBarData(progress = data.progress)
+            state = state
         )
+
+    }
+    SideEffect {
+        if (state.isSeekeing.not()) {
+            state.data = SeekBarData(progress = data.progress)
+        }
     }
 }

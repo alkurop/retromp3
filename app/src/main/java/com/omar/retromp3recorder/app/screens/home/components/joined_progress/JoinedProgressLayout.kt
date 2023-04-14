@@ -108,9 +108,8 @@ private fun BuildRecordMessage(
 }
 
 private fun SeekEvent.mapToEvent(): JoinedProgressContract.In = when (this) {
-    is SeekEvent.Seeking -> JoinedProgressContract.In.SeekToPosition(
+    is SeekEvent.SeekingFinished -> JoinedProgressContract.In.SeekToPosition(
         this.progress
     )
     is SeekEvent.SeekStarted -> JoinedProgressContract.In.SeekingStarted
-    is SeekEvent.SeekFinished -> JoinedProgressContract.In.SeekingFinished
 }

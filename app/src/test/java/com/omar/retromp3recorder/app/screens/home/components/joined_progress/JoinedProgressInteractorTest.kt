@@ -76,7 +76,7 @@ class JoinedProgressInteractorTest {
 
         coVerify(exactly = 1) { audioSeekProgressUC.execute(event.position) }
         coVerify(exactly = 0) { audioSeekPauseUC.execute() }
-        coVerify(exactly = 0) { audioSeekFinishUC.execute() }
+        coVerify(exactly = 1) { audioSeekFinishUC.execute() }
     }
 
     @Test
@@ -92,16 +92,5 @@ class JoinedProgressInteractorTest {
         coVerify(exactly = 0) { audioSeekFinishUC.execute() }
     }
 
-    @Test
-    fun `SeekingFinished input execute seek finish uc`() = runTest {
-        tested.processIO(
-            DifferedCoroutineScope(dispatcher),
-            flowOf(JoinedProgressContract.In.SeekingFinished)
-        )
-            .test { cancelAndIgnoreRemainingEvents() }
 
-        coVerify(exactly = 0) { audioSeekProgressUC.execute(any()) }
-        coVerify(exactly = 0) { audioSeekPauseUC.execute() }
-        coVerify(exactly = 1) { audioSeekFinishUC.execute() }
-    }
 }
