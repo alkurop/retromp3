@@ -10,10 +10,9 @@ abstract class Interactor<Input, Output>(private val dispatcher: CoroutineDispat
     fun processIO(parentScope: CoroutineScope, upstream: Flow<Input> = flowOf()): Flow<Output> {
         this.parentScope = parentScope
 
-        return listOf(
-            listenToRepos(),
-            upstream.processInputs(),
-        ).merge().flowOn(dispatcher)
+        return (listRepos() + upstream.processInputs())
+            .merge()
+            .flowOn(dispatcher)
     }
 
     protected abstract fun listRepos(): List<Flow<Output>>
