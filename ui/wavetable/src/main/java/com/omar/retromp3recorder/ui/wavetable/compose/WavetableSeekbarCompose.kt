@@ -31,7 +31,7 @@ fun WavetableSeekbarCompose(
         SeekBarCompose(
             modifier = Modifier.fillMaxSize(),
             onEvent = onEvent,
-            data=  SeekBarData(progress = data.progress)
+            data = SeekBarData(progress = data.progress)
         )
     }
 }

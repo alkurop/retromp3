@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,6 +26,13 @@ fun JoinedProgressLayout(
     viewModel: JoinedProgressViewModel = hiltViewModel(),
 ) {
     val viewState: JoinedProgressContract.State by viewModel.state.collectAsState()
+
+    val onEvent: (JoinedProgressContract.In) -> Unit = remember {
+        {
+            viewModel.onEvent(it)
+        }
+    }
+
     Surface(modifier = modifier) {
         Column() {
             viewState.fileName?.let { fileName ->
@@ -43,10 +51,8 @@ fun JoinedProgressLayout(
                     }
                     is JoinedProgressContract.SeekViewState.Player -> {
                         BuildSeek(
-                            progress = progress.data
-                        ) {
-                            viewModel.onEvent(it)
-                        }
+                            progress = progress.data, callback = onEvent
+                        )
                     }
                     JoinedProgressContract.SeekViewState.Hidden -> {
                         BuildRecordMessage()

@@ -13,6 +13,7 @@ import com.omar.retromp3recorder.utils.platform.tickerFlow
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Named
@@ -20,7 +21,7 @@ import javax.inject.Named
 
 class AudioPlayerExo @Inject constructor(
     @ApplicationContext val context: Context,
-    private val coroutineContext: DifferedCoroutineScope,
+    private val jobContext: DifferedCoroutineScope,
     @Named("main") private val mainThreadJobWrapper: DifferedCoroutineScope
 ) : AudioPlayer {
     private val events = PublishSubjectRepo<AudioPlayer.Output.Event>(1)
@@ -43,8 +44,10 @@ class AudioPlayerExo @Inject constructor(
 
     override fun onInput(input: AudioPlayer.Input) {
         mainThreadJobWrapper.launch {
+            Timber.d(TAG + input)
             when (input) {
                 is AudioPlayer.Input.SeekPause -> {
+                    jobContext.cancel()
                     mediaPlayer.stop()
                     events.emit(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_seek_pause)))
                     state.emit(AudioPlayer.State.PausedToSeek)
@@ -52,6 +55,7 @@ class AudioPlayerExo @Inject constructor(
 
                 is AudioPlayer.Input.Stop -> stopMedia()
                 is AudioPlayer.Input.Start -> {
+                    jobContext.cancel()
                     setupMediaPlayer(input.options)
                     initProgressUpdate()
                 }
@@ -97,7 +101,9 @@ class AudioPlayerExo @Inject constructor(
                 override fun onPlaybackStateChanged(state: Int) {
                     if (state == STATE_ENDED) {
                         val length = options.rangeMillis.length
-                        progress.tryEmit(AudioPlayer.Output.Progress(length, length, true))
+                        mainThreadJobWrapper.launch {
+                            progress.emit(AudioPlayer.Output.Progress(length, length, true))
+                        }
                         stopMedia()
                     }
                 }
@@ -120,15 +126,15 @@ class AudioPlayerExo @Inject constructor(
     }
 
     private fun stopMedia() {
-        coroutineContext.cancel()
+        jobContext.cancel()
         mediaPlayer.stop()
         state.tryEmit(AudioPlayer.State.Idle)
         events.tryEmit(AudioPlayer.Output.Event.Message(Stringer(R.string.aplr_stopped_playing)))
     }
 
     private fun initProgressUpdate() {
-        coroutineContext.cancel()
-        coroutineContext.launch {
+        jobContext.cancel()
+        jobContext.launch {
             tickerFlow(10).collect {
                 mainThreadJobWrapper.launch {
                     val position = mediaPlayer.currentPosition
@@ -137,5 +143,9 @@ class AudioPlayerExo @Inject constructor(
                 }
             }
         }
+    }
+
+    private companion object {
+        const val TAG = "AudioPlayerExo: "
     }
 }
