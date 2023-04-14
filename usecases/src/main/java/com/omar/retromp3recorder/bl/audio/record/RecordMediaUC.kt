@@ -11,7 +11,7 @@ class RecordMediaUC @Inject constructor(
     private val projectionRepo: MediaProjectionStateRepo,
     private val micCaptureCompletableCreator: AudioCaptureUC,
     private val requestMediaProjectionUC: RequestMediaProjectionUC,
-    private val wavetableUC: RecordWavetableUC
+    private val wavetableUC: RecordWavetableUC,
 ) {
     suspend fun execute(source: Int) {
         serviceDealer.startMediaProjectionService()
