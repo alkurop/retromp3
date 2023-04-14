@@ -1,9 +1,9 @@
 package com.omar.retromp3recorder.app.screens.home.components.visualizer
 
 import app.cash.turbine.test
-import com.omar.retromp3recorder.bl.audio.record.PlayerIdMapper
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
 import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
+import com.omar.retromp3recorder.bl.audio.record.PlayerIdMapper
 import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.every
 import io.mockk.mockk
@@ -16,15 +16,15 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class VisualizerInteractorFlowTest {
+class VisualizerInteractorTest {
     private val playerIdMapper = mockk<PlayerIdMapper>(relaxed = true)
     private val audioStateMapper = mockk<AudioStateMapper>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
-    private lateinit var tested: VisualizerInteractorFlow
+    private lateinit var tested: VisualizerInteractor
 
     @Before
     fun setUp() {
-        tested = VisualizerInteractorFlow(playerIdMapper, audioStateMapper, dispatcher)
+        tested = VisualizerInteractor(playerIdMapper, audioStateMapper, dispatcher)
     }
 
     @Test

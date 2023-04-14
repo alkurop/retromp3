@@ -16,7 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun LogLayout(
     modifier: Modifier = Modifier,
-    viewModel: LogViewModelFlow = hiltViewModel()
+    viewModel: LogViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 

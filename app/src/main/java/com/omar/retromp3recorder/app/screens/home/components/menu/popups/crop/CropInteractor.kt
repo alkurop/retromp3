@@ -11,14 +11,10 @@ import com.omar.retromp3recorder.bl.crop.GenerateFileNameUC
 import com.omar.retromp3recorder.bl.files.CanSaveAsNameUC
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
+import com.omar.retromp3recorder.utils.domain.repo.PublishSubjectRepo
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.channels.ProducerScope
-import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CropInteractor @Inject constructor(
@@ -32,9 +28,7 @@ class CropInteractor @Inject constructor(
     dispatcher: CoroutineDispatcher
 ) : Interactor<CropContract.Input, CropContract.Output>(dispatcher) {
 
-    private val dismissBus = MutableSharedFlow<Boolean>(
-        onBufferOverflow = BufferOverflow.DROP_OLDEST, extraBufferCapacity = 1
-    )
+    private val outputBus = PublishSubjectRepo<CropContract.Output>()
 
     private suspend fun emitOnCropResult(result: Result<ExistingFileWrapper>) {
         val toast = Stringer(
@@ -42,11 +36,12 @@ class CropInteractor @Inject constructor(
             else R.string.toast_crop_success
         )
         toastRepo.emit(toast)
-        dismissBus.emit(true)
+        outputBus.emit(CropContract.Output.Dismiss)
     }
 
     override fun listRepos(): List<Flow<CropContract.Output>> {
         return listOf(
+            outputBus,
             flow {
                 val hasCropPurchase = hasCropPurchaseUC.execute()
                 if (!hasCropPurchase) {
@@ -58,23 +53,22 @@ class CropInteractor @Inject constructor(
                     emit(CropContract.Output.IsActionEnabled(true))
                 }
             },
-            dismissBus.map { CropContract.Output.Dismiss }
         )
     }
 
-    override suspend fun ProducerScope<CropContract.Output>.launchUseCase(input: CropContract.Input) {
+   override suspend fun launchUseCase(input: CropContract.Input) {
         when (input) {
             is CropContract.Input.CheckCanCrop -> {
                 val canRename = canSaveAs.execute(input.nameSuggestion.path)
-                trySendBlocking(CropContract.Output.IsActionEnabled(canRename))
+                outputBus.emit(CropContract.Output.IsActionEnabled(canRename))
             }
             is CropContract.Input.CropInPlace -> {
-                trySendBlocking(CropContract.Output.Loading)
+                outputBus.emit(CropContract.Output.Loading)
                 val result = cropInPlaceUC.execute(input.nameSuggestion)
                 emitOnCropResult(result)
             }
             is CropContract.Input.CropOutside -> {
-                trySendBlocking(CropContract.Output.Loading)
+                outputBus.emit(CropContract.Output.Loading)
                 val result = cropOutsideUC.execute(input.nameSuggestion)
                 emitOnCropResult(result)
             }

@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.settings.components.audio_source
+package com.omar.retromp3recorder.app.screens.settings.components.beat_rate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,16 +10,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AudioSourceViewModelFlow @Inject constructor(
-    interactor: AudioSourceInteractorFlow
+class BitRateSettingsViewModel @Inject constructor(
+    interactor: BitRateSettingsInteractor
 ) : ViewModel() {
 
-    private val inputFlow = MutableSharedFlow<Mp3VoiceRecorder.AudioSourcePref>()
+    private val inputFlow = MutableSharedFlow<Mp3VoiceRecorder.BitRate>()
 
-    val state = interactor.processIO(viewModelScope, inputFlow)        .stateInViewModel(this, Mp3VoiceRecorder.AudioSourcePref.values()[0])
+    val state = interactor.processIO(viewModelScope, inputFlow)        .stateInViewModel(this, Mp3VoiceRecorder.BitRate.values()[0])
 
-
-    fun onEvent(event: Mp3VoiceRecorder.AudioSourcePref) {
+    fun onEvent(event: Mp3VoiceRecorder.BitRate) {
         viewModelScope.launch { inputFlow.emit(event) }
     }
 }

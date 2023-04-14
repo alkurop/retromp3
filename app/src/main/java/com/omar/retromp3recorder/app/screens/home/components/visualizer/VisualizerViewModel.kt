@@ -8,8 +8,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class VisualizerViewModelFlow @Inject constructor(
-    interactor: VisualizerInteractorFlow
+class VisualizerViewModel @Inject constructor(
+    interactor: VisualizerInteractor
 ) : ViewModel() {
     val state = interactor.processIO(parentScope = viewModelScope)
         .mapOutputToStateFlow()

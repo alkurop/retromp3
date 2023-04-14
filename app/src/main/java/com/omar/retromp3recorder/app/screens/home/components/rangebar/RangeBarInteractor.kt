@@ -5,7 +5,6 @@ import com.omar.retromp3recorder.bl.audio.actions.UpdatePlayerRangeUC
 import com.omar.retromp3recorder.bl.settings.ActivateRangeUC
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.channels.ProducerScope
 import javax.inject.Inject
 
 class RangeBarInteractor @Inject constructor(
@@ -20,7 +19,7 @@ class RangeBarInteractor @Inject constructor(
         return listOf(rangeStateMapper.flow())
     }
 
-    override suspend fun ProducerScope<RangeBarView.State>.launchUseCase(input: RangeBarView.Input) {
+   override suspend fun launchUseCase(input: RangeBarView.Input) {
         when (input) {
             is RangeBarView.Input.RangeSet -> {
                 updatePlayerRangeUC.execute(input.range)

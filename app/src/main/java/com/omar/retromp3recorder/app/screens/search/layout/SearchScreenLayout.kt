@@ -12,7 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.RetroTheme
 import com.omar.retromp3recorder.app.screens.search.SelectorContract
-import com.omar.retromp3recorder.app.screens.search.SelectorViewModelFlow
+import com.omar.retromp3recorder.app.screens.search.SelectorViewModel
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.utils.domain.LoadingState
 import com.test.android.assignment.ui.searchbar.SearchBarLayout
@@ -21,7 +21,7 @@ import com.test.android.assignment.ui.searchbar.rememberSearchBarInputState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreenLayout(
-    viewModel: SelectorViewModelFlow = hiltViewModel(),
+    viewModel: SelectorViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()

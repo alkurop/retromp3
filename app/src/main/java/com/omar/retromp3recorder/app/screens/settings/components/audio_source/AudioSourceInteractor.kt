@@ -6,11 +6,10 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class AudioSourceInteractorFlow @Inject constructor(
+class AudioSourceInteractor @Inject constructor(
     private val changeAudioSourceUC: ChangeAudioSourceUC,
     private val repo: RecorderPrefsRepo,
     dispatcher: CoroutineDispatcher
@@ -22,7 +21,7 @@ class AudioSourceInteractorFlow @Inject constructor(
         )
     }
 
-    override suspend fun ProducerScope<Mp3VoiceRecorder.AudioSourcePref>.launchUseCase(input: Mp3VoiceRecorder.AudioSourcePref) {
+   override suspend fun launchUseCase(input: Mp3VoiceRecorder.AudioSourcePref) {
         changeAudioSourceUC.execute(input)
     }
 

@@ -17,7 +17,7 @@ import timber.log.Timber
 @Composable
 fun VisualizerLayout(
     modifier: Modifier = Modifier,
-    viewModel: VisualizerViewModelFlow = hiltViewModel()
+    viewModel: VisualizerViewModel = hiltViewModel()
 ) {
     val state: VisualizerView.State by viewModel.state.collectAsState()
     var visualizer: Visualizer? = null

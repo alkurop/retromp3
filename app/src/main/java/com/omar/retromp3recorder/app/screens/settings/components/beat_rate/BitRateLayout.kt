@@ -15,7 +15,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 @Composable
 fun BitRateLayout(
     modifier: Modifier = Modifier,
-    viewModel: BitRateSettingsViewModelFlow = hiltViewModel(),
+    viewModel: BitRateSettingsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
     val title = stringResource(id = R.string.bit_rate)

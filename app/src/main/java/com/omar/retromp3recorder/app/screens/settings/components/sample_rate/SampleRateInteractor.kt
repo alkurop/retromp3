@@ -5,12 +5,11 @@ import com.omar.retromp3recorder.bl.settings.ChangeSampleRateUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class SampleRateInteractorFlow @Inject constructor(
+class SampleRateInteractor @Inject constructor(
     private val changeSampleRateUC: ChangeSampleRateUC,
     private val recorderPrefsRepo: RecorderPrefsRepo,
     dispatcher: CoroutineDispatcher,
@@ -20,7 +19,7 @@ class SampleRateInteractorFlow @Inject constructor(
         return listOf(recorderPrefsRepo.flow().map { it.sampleRate })
     }
 
-    override suspend fun ProducerScope<Mp3VoiceRecorder.SampleRate>.launchUseCase(input: Mp3VoiceRecorder.SampleRate) {
+   override suspend fun launchUseCase(input: Mp3VoiceRecorder.SampleRate) {
         changeSampleRateUC.execute(input)
     }
 }

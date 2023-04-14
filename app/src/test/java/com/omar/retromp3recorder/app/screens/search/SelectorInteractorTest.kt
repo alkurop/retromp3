@@ -19,19 +19,19 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SelectorInteractorFlowTest {
+class SelectorInteractorTest {
     private lateinit var currentFileRepo: CurrentFileRepo
     private val pagingProvider = mockk<DatabasePagingProvider>()
     private val setCurrentFileUC = mockk<SetCurrentFileUC>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
-    private lateinit var tested: SelectorInteractorFlow
+    private lateinit var tested: SelectorInteractor
     private val file = MockFileFactory.giveExistingFile()
 
     @Before
     fun setUp() {
         every { pagingProvider.createFlow(any()) } returns emptyFlow()
         currentFileRepo = CurrentFileRepo()
-        tested = SelectorInteractorFlow(
+        tested = SelectorInteractor(
             currentFileRepo, pagingProvider, setCurrentFileUC, dispatcher
         )
     }

@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class LogViewModelFlow @Inject constructor(
-    interactor: LogInteractorFlow
+class LogViewModel @Inject constructor(
+    interactor: LogInteractor
 ) : ViewModel() {
     val state = interactor.processIO(viewModelScope, flowOf())
         .mapOutputToState()

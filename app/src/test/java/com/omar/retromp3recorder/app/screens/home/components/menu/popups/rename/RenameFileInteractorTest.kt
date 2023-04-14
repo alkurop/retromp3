@@ -18,18 +18,18 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class RenameFileInteractorFlowTest {
+class RenameFileInteractorTest {
     private val canRenameNameUC = mockk<CanRenameNameUC>(relaxed = true)
     private lateinit var currentFileRepo: CurrentFileRepo
     private val renameFileUC = mockk<RenameFileUC>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
-    private lateinit var tested: RenameFileInteractorFlow
+    private lateinit var tested: RenameFileInteractor
 
     @Before
     fun setUp() {
         currentFileRepo = CurrentFileRepo()
         tested =
-            RenameFileInteractorFlow(canRenameNameUC, currentFileRepo, renameFileUC, dispatcher)
+            RenameFileInteractor(canRenameNameUC, currentFileRepo, renameFileUC, dispatcher)
     }
 
     @Test

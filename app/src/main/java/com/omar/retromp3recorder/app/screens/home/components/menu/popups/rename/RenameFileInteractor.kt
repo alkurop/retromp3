@@ -5,25 +5,23 @@ import com.omar.retromp3recorder.bl.files.CanRenameNameUC
 import com.omar.retromp3recorder.bl.files.RenameFileUC
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
+import com.omar.retromp3recorder.utils.domain.repo.PublishSubjectRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.channels.ProducerScope
-import kotlinx.coroutines.channels.trySendBlocking
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class RenameFileInteractorFlow @Inject constructor(
+class RenameFileInteractor @Inject constructor(
     private val canRenameNameUC: CanRenameNameUC,
     private val currentFileRepo: CurrentFileRepo,
     private val renameFileUC: RenameFileUC,
     dispatcher: CoroutineDispatcher
 ) : Interactor<RenameFileContract.Input, RenameFileContract.Output>(dispatcher) {
-    private val shouldDismiss = MutableSharedFlow<Boolean>()
+    private val outputBus = PublishSubjectRepo<RenameFileContract.Output>()
 
     override fun listRepos(): List<Flow<RenameFileContract.Output>> {
         return listOf(
-            shouldDismiss.map { RenameFileContract.Output.Dismiss },
+            outputBus,
             currentFileRepo.flow()
                 .map {
                     RenameFileContract.Output.CurrentFile(requireNotNull(it.value as? ExistingFileWrapper) {
@@ -33,17 +31,17 @@ class RenameFileInteractorFlow @Inject constructor(
         )
     }
 
-    override suspend fun ProducerScope<RenameFileContract.Output>.launchUseCase(input: RenameFileContract.Input) {
+    override suspend fun launchUseCase(input: RenameFileContract.Input) {
         when (input) {
             is RenameFileContract.Input.Rename -> {
                 renameFileUC.execute(input.newName)
-                shouldDismiss.emit(true)
+                outputBus.emit(RenameFileContract.Output.Dismiss)
             }
             is RenameFileContract.Input.CheckCanRename -> {
                 val canRename = canRenameNameUC.execute(
                     input.newName,
                 )
-                trySendBlocking(RenameFileContract.Output.OkButtonState(canRename, input.newName))
+                outputBus.emit(RenameFileContract.Output.OkButtonState(canRename, input.newName))
             }
         }
     }

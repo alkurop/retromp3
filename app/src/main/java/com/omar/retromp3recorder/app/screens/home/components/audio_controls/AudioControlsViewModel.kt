@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AudioControlsViewModel @Inject constructor(
-    interactor: AudioControlsInteractorFlow
+    interactor: AudioControlsInteractor
 ) : ViewModel() {
     private val inputFlow = MutableSharedFlow<AudioControlsView.Input>()
 

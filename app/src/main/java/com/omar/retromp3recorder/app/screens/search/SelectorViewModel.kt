@@ -12,12 +12,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SelectorViewModelFlow @Inject constructor(
-    interactor: SelectorInteractorFlow
+class SelectorViewModel @Inject constructor(
+    interactor: SelectorInteractor
 ) : ViewModel() {
     private val inputFlow = MutableSharedFlow<SelectorContract.Input>()
 
-    val state = interactor.processIO(viewModelScope, inputFlow)        .mapToState()
+    val state = interactor.processIO(viewModelScope, inputFlow)
+        .mapToState()
         .map {
             val flow = it.flow.cacheInViewModel(this)
             it.copy(flow = flow)

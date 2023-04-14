@@ -8,11 +8,10 @@ import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class JoinedProgressInteractorFlow @Inject constructor(
+class JoinedProgressInteractor @Inject constructor(
     private val currentFileRepo: CurrentFileRepo,
     private val audioSeekProgressUC: AudioSeekProgressUC,
     private val audioSeekPauseUC: AudioSeekPauseUC,
@@ -34,7 +33,7 @@ class JoinedProgressInteractorFlow @Inject constructor(
         )
     }
 
-    override suspend fun ProducerScope<JoinedProgressContract.Output>.launchUseCase(input: JoinedProgressContract.In) {
+   override suspend fun launchUseCase(input: JoinedProgressContract.In) {
         when (input) {
             is JoinedProgressContract.In.SeekToPosition -> {
                 audioSeekProgressUC.execute(input.position)

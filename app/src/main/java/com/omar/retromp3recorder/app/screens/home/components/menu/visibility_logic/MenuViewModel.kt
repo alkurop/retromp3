@@ -10,13 +10,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MenuViewModelFlow @Inject constructor(
-    interactor: MenuInteractorFlow
+class MenuViewModel @Inject constructor(
+    interactor: MenuInteractor
 ) : ViewModel() {
 
     private val inputFlow = MutableSharedFlow<MenuContract.Input>()
 
-    val state = interactor.processIO(viewModelScope, inputFlow)        .stateInViewModel(this, MenuContract.State())
+    val state = interactor.processIO(viewModelScope, inputFlow)
+        .stateInViewModel(this, MenuContract.State())
 
     fun onEvent(event: MenuContract.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

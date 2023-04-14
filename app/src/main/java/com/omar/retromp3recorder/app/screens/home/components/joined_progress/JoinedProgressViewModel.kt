@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class JoinedProgressViewModelFlow @Inject constructor(
-    interactor: JoinedProgressInteractorFlow
+class JoinedProgressViewModel @Inject constructor(
+    interactor: JoinedProgressInteractor
 ) : ViewModel() {
 
     private val inputFlow = MutableSharedFlow<JoinedProgressContract.In>()

@@ -17,17 +17,17 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MenuInteractorFlowTest {
+class MenuInteractorTest {
 
     private val excavator = mockk<MenuStateExcavatorFlow>(relaxed = true)
     private val enabler = mockk<EnablersSwitcher>(relaxed = true)
     private val dispatcher = UnconfinedTestDispatcher()
 
-    private lateinit var tested: MenuInteractorFlow
+    private lateinit var tested: MenuInteractor
 
     @Before
     fun setUp() {
-        tested = MenuInteractorFlow(excavator, enabler, dispatcher)
+        tested = MenuInteractor(excavator, enabler, dispatcher)
     }
 
     @Test

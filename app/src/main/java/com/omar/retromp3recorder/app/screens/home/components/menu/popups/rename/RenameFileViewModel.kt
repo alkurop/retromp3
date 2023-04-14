@@ -10,13 +10,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RenameFileViewModelFlow @Inject constructor(
-    interactor: RenameFileInteractorFlow
+class RenameFileViewModel @Inject constructor(
+    interactor: RenameFileInteractor
 ) : ViewModel() {
 
     private val inputFlow = MutableSharedFlow<RenameFileContract.Input>()
 
-    val state = interactor.processIO(viewModelScope, inputFlow)        .mapToState()
+    val state = interactor.processIO(viewModelScope, inputFlow)
+        .mapToState()
         .stateInViewModel(this, RenameFileContract.State())
 
     fun onEvent(event: RenameFileContract.Input) {

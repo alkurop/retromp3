@@ -15,14 +15,14 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class LogInteractorFlowTest {
+class LogInteractorTest {
     private val dispatcher = UnconfinedTestDispatcher()
     private val mapper = mockk<LogMapper>()
-    private lateinit var tested: LogInteractorFlow
+    private lateinit var tested: LogInteractor
 
     @Before
     fun setUp() {
-        tested = LogInteractorFlow(mapper, dispatcher)
+        tested = LogInteractor(mapper, dispatcher)
     }
 
     @Test

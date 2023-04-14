@@ -1,7 +1,7 @@
-package com.omar.retromp3recorder.app.screens.settings.components.audio_source
+package com.omar.retromp3recorder.app.screens.settings.components.sample_rate
 
 import app.cash.turbine.test
-import com.omar.retromp3recorder.bl.settings.ChangeAudioSourceUC
+import com.omar.retromp3recorder.bl.settings.ChangeSampleRateUC
 import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 import com.omar.retromp3recorder.storage.repo.global.RecorderPrefsRepo
 import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
@@ -17,26 +17,25 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class AudioSourceInteractorFlowTest {
-    @OptIn(ExperimentalCoroutinesApi::class)
+class SampleRateInteractorTest {
     private val dispatcher = UnconfinedTestDispatcher()
-    private val usecase = mockk<ChangeAudioSourceUC>()
+    private val usecase = mockk<ChangeSampleRateUC>()
     private lateinit var repo: RecorderPrefsRepo
-    private lateinit var interactor: AudioSourceInteractorFlow
+    private lateinit var interactor: SampleRateInteractor
 
     @Before
     fun setUp() {
         repo = RecorderPrefsRepo()
         coEvery { usecase.execute(any()) } returns Unit
-        interactor = AudioSourceInteractorFlow(usecase, repo, dispatcher)
+        interactor = SampleRateInteractor(usecase, repo, dispatcher)
     }
 
     @Test
     fun `on input usecase executed`() = runTest {
-        val event = Mp3VoiceRecorder.AudioSourcePref.Media
+        val event = Mp3VoiceRecorder.SampleRate._44100
 
         interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf(event)).test {
-            cancelAndIgnoreRemainingEvents()
+            cancelAndConsumeRemainingEvents()
         }
 
         coVerify { usecase.execute(event) }
@@ -44,13 +43,14 @@ class AudioSourceInteractorFlowTest {
 
     @Test
     fun `repo listened`() = runTest {
-        val event = Mp3VoiceRecorder.AudioSourcePref.Media
+        val event = Mp3VoiceRecorder.SampleRate._11025
 
         val settings = Mp3VoiceRecorder.RecorderPrefs(
-            Mp3VoiceRecorder.SampleRate._44100,
+            event,
             Mp3VoiceRecorder.BitRate._128,
-            event
+            Mp3VoiceRecorder.AudioSourcePref.Mic
         )
+
         repo.emit(
             settings
         )
@@ -58,7 +58,6 @@ class AudioSourceInteractorFlowTest {
         interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
             val item = awaitItem()
             assertEquals(event, item)
-
         }
     }
 }

@@ -15,7 +15,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 @Composable
 fun SampleRateLayout(
     modifier: Modifier = Modifier,
-    viewModel: SampleRateViewModelFlow = hiltViewModel(),
+    viewModel: SampleRateViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
     val title = stringResource(id = R.string.sample_rate)

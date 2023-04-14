@@ -5,12 +5,11 @@ import com.omar.retromp3recorder.bl.system.LogMapper
 import com.omar.retromp3recorder.domain.platform.LogEvent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class LogInteractorFlow @Inject constructor(
+class LogInteractor @Inject constructor(
     private val logMapper: LogMapper,
     dispatcher: CoroutineDispatcher
 ) : Interactor<LogView.Input, LogView.Output>(dispatcher) {
@@ -26,7 +25,7 @@ class LogInteractorFlow @Inject constructor(
         )
     }
 
-    override suspend fun ProducerScope<LogView.Output>.launchUseCase(input: LogView.Input) {
+   override suspend fun launchUseCase(input: LogView.Input) {
         //noop
     }
 }

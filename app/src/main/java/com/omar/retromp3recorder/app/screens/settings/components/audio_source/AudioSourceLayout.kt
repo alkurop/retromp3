@@ -15,7 +15,7 @@ import com.omar.retromp3recorder.iorecorder.Mp3VoiceRecorder
 @Composable
 fun AudioSourceLayout(
     modifier: Modifier = Modifier,
-    viewModel: AudioSourceViewModelFlow = hiltViewModel(),
+    viewModel: AudioSourceViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
     val title = stringResource(id = R.string.audio_source)

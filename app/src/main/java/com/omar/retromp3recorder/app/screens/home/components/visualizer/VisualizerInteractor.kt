@@ -1,15 +1,14 @@
 package com.omar.retromp3recorder.app.screens.home.components.visualizer
 
 import com.omar.retromp3recorder.app.Interactor
-import com.omar.retromp3recorder.bl.audio.record.PlayerIdMapper
 import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
+import com.omar.retromp3recorder.bl.audio.record.PlayerIdMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class VisualizerInteractorFlow @Inject constructor(
+class VisualizerInteractor @Inject constructor(
     private val playerIdMapper: PlayerIdMapper,
     private val audioStateMapper: AudioStateMapper,
     dispatcher: CoroutineDispatcher,
@@ -22,7 +21,7 @@ class VisualizerInteractorFlow @Inject constructor(
                 .map { playerId -> VisualizerView.Output.PlayerIdOutput(playerId) })
     }
 
-    override suspend fun ProducerScope<VisualizerView.Output>.launchUseCase(input: Unit) {
+   override suspend fun launchUseCase(input: Unit) {
         // noop
     }
 }

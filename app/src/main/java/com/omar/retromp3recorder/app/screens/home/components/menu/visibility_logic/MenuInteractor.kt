@@ -5,10 +5,9 @@ import com.omar.retromp3recorder.app.screens.home.components.menu.MenuContract
 import com.omar.retromp3recorder.bl.enablers.EnablersSwitcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.channels.ProducerScope
 import javax.inject.Inject
 
-class MenuInteractorFlow @Inject constructor(
+class MenuInteractor @Inject constructor(
     private val menuStateExcavator: MenuStateExcavatorFlow,
     private val enablersSwitcher: EnablersSwitcher,
     dispatcher: CoroutineDispatcher,
@@ -18,7 +17,7 @@ class MenuInteractorFlow @Inject constructor(
         return listOf(menuStateExcavator.flow())
     }
 
-    override suspend fun ProducerScope<MenuContract.State>.launchUseCase(input: MenuContract.Input) {
+   override suspend fun launchUseCase(input: MenuContract.Input) {
         when (input) {
             is MenuContract.Input.Enable -> {
                 enablersSwitcher.execute(input.enabler, input.isEnabled)

@@ -22,7 +22,7 @@ import com.omar.retromp3recorder.ui.wavetable.compose.*
 @Composable
 fun JoinedProgressLayout(
     modifier: Modifier = Modifier,
-    viewModel: JoinedProgressViewModelFlow = hiltViewModel(),
+    viewModel: JoinedProgressViewModel = hiltViewModel(),
 ) {
     val viewState: JoinedProgressContract.State by viewModel.state.collectAsState()
     Surface(modifier = modifier) {

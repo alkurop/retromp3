@@ -5,7 +5,6 @@ import com.omar.retromp3recorder.bl.audio.effects.PlaybackSpeedEnabledUC
 import com.omar.retromp3recorder.bl.audio.effects.PlaybackSpeedSetUC
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.channels.ProducerScope
 import javax.inject.Inject
 
 class SpeedBarInteractor @Inject constructor(
@@ -20,7 +19,7 @@ class SpeedBarInteractor @Inject constructor(
         return listOf(speedBarStateMapper.flow())
     }
 
-    override suspend fun ProducerScope<SpeedBarContract.State>.launchUseCase(input: SpeedBarContract.Input) {
+   override suspend fun launchUseCase(input: SpeedBarContract.Input) {
         when (input) {
             is SpeedBarContract.Input.SpeedSet -> {
                 playbackSpeedSetUC.execute(input.speed)

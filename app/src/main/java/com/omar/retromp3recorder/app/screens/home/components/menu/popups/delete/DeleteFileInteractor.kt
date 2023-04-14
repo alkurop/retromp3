@@ -6,7 +6,6 @@ import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -29,7 +28,7 @@ class DeleteFileInteractor @Inject constructor(
         )
     }
 
-    override suspend fun ProducerScope<DeleteFileContract.Output>.launchUseCase(input: DeleteFileContract.Input) {
+   override suspend fun launchUseCase(input: DeleteFileContract.Input) {
         when (input) {
             is DeleteFileContract.Input.DeleteFile -> {
                 deleteCurrentFileUC.execute()

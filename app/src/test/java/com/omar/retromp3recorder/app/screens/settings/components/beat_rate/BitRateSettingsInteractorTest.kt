@@ -17,17 +17,17 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class BitRateSettingsInteractorFlowTest {
+class BitRateSettingsInteractorTest {
     private val dispatcher = UnconfinedTestDispatcher()
     private val usecase = mockk<ChangeBitrateUC>()
     private lateinit var repo: RecorderPrefsRepo
-    private lateinit var interactor: BitRateSettingsInteractorFlow
+    private lateinit var interactor: BitRateSettingsInteractor
 
     @Before
     fun setUp() {
         repo = RecorderPrefsRepo()
         coEvery { usecase.execute(any()) } returns Unit
-        interactor = BitRateSettingsInteractorFlow(usecase, repo, dispatcher)
+        interactor = BitRateSettingsInteractor(usecase, repo, dispatcher)
     }
 
     @Test

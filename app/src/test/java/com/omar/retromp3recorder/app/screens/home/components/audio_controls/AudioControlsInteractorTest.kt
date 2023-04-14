@@ -27,7 +27,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class AudioControlsInteractorFlowTest {
+class AudioControlsInteractorTest {
 
     private val playButtonStateMapper: PlayButtonStateFlow = mockk()
     private val joinedProgressMapper: JoinedProgressMapper = mockk()
@@ -43,7 +43,7 @@ class AudioControlsInteractorFlowTest {
 
     private val dispatcher = UnconfinedTestDispatcher()
 
-    private lateinit var tested: AudioControlsInteractorFlow
+    private lateinit var tested: AudioControlsInteractor
 
     @Before
     fun setUp() {
@@ -54,7 +54,7 @@ class AudioControlsInteractorFlowTest {
         every { shareButtonStateMapper.flow() } returns emptyFlow()
         every { stopButtonStateMapper.flow() } returns emptyFlow()
 
-        tested = AudioControlsInteractorFlow(
+        tested = AudioControlsInteractor(
             playButtonStateMapper,
             joinedProgressMapper,
             recordButtonStateMapper,

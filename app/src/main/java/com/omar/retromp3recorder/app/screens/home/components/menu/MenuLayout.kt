@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.nav.AppDestination
 import com.omar.retromp3recorder.app.screens.home.components.menu.views.layout.MenuLayout
-import com.omar.retromp3recorder.app.screens.home.components.menu.visibility_logic.MenuViewModelFlow
+import com.omar.retromp3recorder.app.screens.home.components.menu.visibility_logic.MenuViewModel
 import com.omar.retromp3recorder.domain.MenuPopup
 
 
@@ -15,7 +15,7 @@ import com.omar.retromp3recorder.domain.MenuPopup
 fun MenuLayout(
     onOpenDestination: (AppDestination) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MenuViewModelFlow = hiltViewModel(),
+    viewModel: MenuViewModel = hiltViewModel(),
 ) {
     val state: MenuContract.State by viewModel.state.collectAsState()
     MenuLayout(

@@ -15,7 +15,7 @@ import com.omar.retromp3recorder.app.utils.toFileName
 
 @Composable
 fun RenamePopupLayout(
-    viewModel: RenameFileViewModelFlow = hiltViewModel(),
+    viewModel: RenameFileViewModel = hiltViewModel(),
     onDismiss: () -> Unit
 ) {
     val state by viewModel.state.collectAsState(initial = RenameFileContract.State())
