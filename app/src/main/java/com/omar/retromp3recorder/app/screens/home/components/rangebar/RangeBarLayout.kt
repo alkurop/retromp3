@@ -28,7 +28,7 @@ fun RangeBarLayout(
         val barContent = state.barContent
         if (barContent != null) {
             val range = barContent.range
-            var rangeState by remember {
+            var rangeState by remember(barContent.range) {
                 mutableStateOf(range.toViewRange())
             }
             val active = barContent.isActive
