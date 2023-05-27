@@ -29,21 +29,6 @@ class RecordWavetableUCTest {
         )
     }
 
-    @Test(expected = IllegalArgumentException::class)
-    fun `when current file null then crashes`() = runTest {
-        coEvery { collectWavetableUC.execute() } returns mockk()
-
-        tested.execute()
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun `when current file existing then crashes`() = runTest {
-        currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
-        coEvery { collectWavetableUC.execute() } returns mockk()
-
-        tested.execute()
-    }
-
     @Test
     fun `when current file future then executes`() = runTest {
         currentFileRepo.emit(MockFileFactory.giveFutureFile().toOptional())

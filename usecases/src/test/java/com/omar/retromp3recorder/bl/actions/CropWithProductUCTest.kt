@@ -5,11 +5,13 @@ import com.omar.retromp3recorder.bl.billing.count.DecrementProductCountUC
 import com.omar.retromp3recorder.bl.billing.count.ShouldConsumeProductUC
 import com.omar.retromp3recorder.domain.BillingResponse
 import com.omar.retromp3recorder.domain.ExistingFileWrapper
+import com.omar.retromp3recorder.io.billing.di.BillingCoroutineScope
 import com.omar.retromp3recorder.utils.domain.toResult
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -23,6 +25,7 @@ class CropWithProductUCTest {
     private val shouldConsumeProductUC = mockk<ShouldConsumeProductUC>()
 
     private lateinit var tested: CropWithProductUC
+    private val billingCoroutineScope= BillingCoroutineScope(UnconfinedTestDispatcher())
 
     @Before
     fun setup() {
@@ -30,7 +33,8 @@ class CropWithProductUCTest {
             cropUC,
             billingBinderUC,
             decrementProductCountUC,
-            shouldConsumeProductUC
+            shouldConsumeProductUC,
+            billingCoroutineScope
         )
     }
 
