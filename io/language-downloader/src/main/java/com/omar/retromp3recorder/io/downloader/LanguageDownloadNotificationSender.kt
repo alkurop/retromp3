@@ -4,7 +4,7 @@ import com.omar.retromp3recorder.domain.RecognitionLanguage
 
 
 interface LanguageDownloadNotificationSender {
-    fun sendNotification(status: LanguageDownloadStatus)
+    suspend fun sendNotification(status: LanguageDownloadStatus)
 }
 
 sealed interface LanguageDownloadStatus {
@@ -17,3 +17,4 @@ sealed interface LanguageDownloadStatus {
     data class FinishedWithError(override val language: RecognitionLanguage, val cause: Throwable) :
         LanguageDownloadStatus
 }
+

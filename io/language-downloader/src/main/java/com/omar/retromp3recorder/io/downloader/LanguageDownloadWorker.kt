@@ -15,10 +15,11 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import java.io.File
 
 
 @HiltWorker
-class DownloadWorker @AssistedInject constructor(
+class LanguageDownloadWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted private val workerParams: WorkerParameters,
     private val fileDownloadNotificationSender: LanguageDownloadNotificationSender,
@@ -35,7 +36,6 @@ class DownloadWorker @AssistedInject constructor(
         }
 
         val language = RecognitionLanguage.values()[languageCode]
-
         val url = language.getUrl()
         val fileName = language.getFilename()
         val path = dirPathProvider.provideModelDirPath()
@@ -47,6 +47,7 @@ class DownloadWorker @AssistedInject constructor(
             when (next) {
                 is LoadingState.Failed -> {
                     LanguageDownloadStatus.FinishedWithError(language, next.cause)
+                    runCatching { File(destination).delete() }
                     return Result.failure(workDataOf(FAILURE_CAUSE to next.cause.toString()))
                 }
                 is LoadingState.Loading -> {

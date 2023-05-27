@@ -6,8 +6,10 @@ enum class RecognitionLanguage {
 }
 
 
-enum class LanguageState {
-    ToDownload, Available, Loading
+sealed interface LanguageState {
+    object ToDownload : LanguageState
+    object Available : LanguageState
+    data class Loading(val percent: Int) : LanguageState
 }
 
 data class LanguageAvailability(

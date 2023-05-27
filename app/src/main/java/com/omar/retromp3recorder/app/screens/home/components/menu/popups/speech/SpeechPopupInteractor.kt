@@ -4,14 +4,14 @@ import com.omar.retromp3recorder.app.Interactor
 import com.omar.retromp3recorder.bl.audio.speech.CancelDownloadLanguageUC
 import com.omar.retromp3recorder.bl.audio.speech.DeleteLanguageUC
 import com.omar.retromp3recorder.bl.audio.speech.DownloadLanguageUC
-import com.omar.retromp3recorder.storage.repo.global.LanguageRecognitionRepo
+import com.omar.retromp3recorder.storage.repo.global.LanguageAvailabilityRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class SpeechPopupInteractor @Inject constructor(
-    private val languageRecognitionRepo: LanguageRecognitionRepo,
+    private val languageRecognitionRepo: LanguageAvailabilityRepo,
     private val downloadLanguageUC:DownloadLanguageUC,
     private val deleteLanguageUC: DeleteLanguageUC,
     private val cancelDownloadLanguageUC: CancelDownloadLanguageUC,
