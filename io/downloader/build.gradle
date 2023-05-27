@@ -13,8 +13,13 @@ android {
 dependencies {
     implementation project(':utils')
     implementation "com.google.dagger:hilt-android:$versions.hilt"
-    kapt "com.google.dagger:hilt-compiler:$versions.hilt"
 
+    // worker manager
+    implementation "androidx.hilt:hilt-work:$versions.hilt_work"
+    implementation "androidx.hilt:hilt-common:$versions.hilt_commmon"
+    implementation "androidx.work:work-runtime-ktx:$versions.work"
+
+    kapt "com.google.dagger:hilt-compiler:$versions.hilt"
     implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
 
 }
