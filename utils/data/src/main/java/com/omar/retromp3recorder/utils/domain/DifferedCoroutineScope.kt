@@ -6,7 +6,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlin.coroutines.CoroutineContext
 
-class DifferedCoroutineScope(
+open class DifferedCoroutineScope(
     private val dispatcher: CoroutineDispatcher
 ) : CoroutineScope {
     private var job = Job()
