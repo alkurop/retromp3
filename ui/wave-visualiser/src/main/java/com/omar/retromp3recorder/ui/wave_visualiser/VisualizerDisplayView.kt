@@ -8,7 +8,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
-import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class VisualizerDisplayView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -16,7 +16,7 @@ class VisualizerDisplayView @JvmOverloads constructor(
     private var points: FloatArray = FloatArray(0)
     private val rect = Rect()
     private val mForePaint = Paint()
-    private val bytesBus = BehaviorSubject.create<ByteArray>()
+    private val inputFlow = MutableStateFlow(fillByteArray())
 
     init {
         mForePaint.strokeWidth = 1f
@@ -25,7 +25,7 @@ class VisualizerDisplayView @JvmOverloads constructor(
     }
 
     fun updateVisualizer(bytes: ByteArray) {
-        bytesBus.onNext(bytes)
+        inputFlow.tryEmit(bytes)
         invalidate()
     }
 
@@ -33,11 +33,7 @@ class VisualizerDisplayView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        val mBytes = if (bytesBus.hasValue().not()) {
-            fillByteArray()
-        } else {
-            bytesBus.blockingFirst()
-        }
+        val mBytes = inputFlow.value
         if (points.size != mBytes.size * 4) {
             points = FloatArray(mBytes.size * 4)
         }

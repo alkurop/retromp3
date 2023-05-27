@@ -14,7 +14,6 @@ dependencies {
     implementation project(":entity")
     implementation project(':utils:data')
 
-    implementation "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"
     api "com.jakewharton.timber:timber:$versions.timber"
     api "com.github.lincollincol:amplituda:$versions.amplituda"
 

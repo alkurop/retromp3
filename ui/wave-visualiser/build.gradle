@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
 }
 apply from: "$scripts.android_library"
 
@@ -9,6 +9,6 @@ android {
 }
 
 dependencies {
-    implementation "androidx.core:core-ktx:$versions.coreKtx"
-    implementation "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"
+    implementation "androidx.appcompat:appcompat:$versions.support"
+    implementation project(':utils')
 }

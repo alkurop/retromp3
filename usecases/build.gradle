@@ -12,7 +12,6 @@ apply from: "$scripts.test_dependency"
 
 dependencies {
     implementation "androidx.appcompat:appcompat:$versions.support"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"
 
     implementation project(':utils')
     testImplementation project(':data:mock')

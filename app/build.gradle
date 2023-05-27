@@ -67,7 +67,6 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest"
 
     implementation "androidx.compose.ui:ui"
-    implementation "androidx.compose.runtime:runtime-rxjava3"
     implementation "androidx.compose.material3:material3"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.lifecycle"
@@ -76,8 +75,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.composeViewModel"
     implementation "androidx.constraintlayout:constraintlayout-compose:$versions.composeConstraint"
     implementation "com.google.android.material:material:$versions.material"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$versions.rxCoroutines"
-    implementation "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"
 
     //hilt
     implementation "com.google.dagger:hilt-android:$versions.hilt"
