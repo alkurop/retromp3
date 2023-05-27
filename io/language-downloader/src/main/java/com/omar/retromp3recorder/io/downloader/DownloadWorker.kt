@@ -1,0 +1,76 @@
+package com.omar.retromp3recorder.io.downloader
+
+import android.content.Context
+import androidx.hilt.work.HiltWorker
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
+import androidx.work.workDataOf
+import com.omar.retromp3recorder.domain.RecognitionLanguage
+import com.omar.retromp3recorder.io.language.getFilename
+import com.omar.retromp3recorder.io.language.getUrl
+import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
+import com.omar.retromp3recorder.utils.domain.LoadingState
+import com.omar.retromp3recorder.utils.platform.DirPathProvider
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
+
+
+@HiltWorker
+class DownloadWorker @AssistedInject constructor(
+    @Assisted private val appContext: Context,
+    @Assisted private val workerParams: WorkerParameters,
+    private val fileDownloadNotificationSender: LanguageDownloadNotificationSender,
+    private val fileDownloader: FileDownloader,
+    private val differedCoroutineScope: DifferedCoroutineScope,
+    private val dirPathProvider: DirPathProvider,
+) : CoroutineWorker(appContext, workerParams) {
+
+    override suspend fun doWork(): Result {
+        val languageCode = inputData.getInt(LANGUAGE_CODE, NOT_FOUND)
+
+        if (languageCode == NOT_FOUND) {
+            return Result.failure()
+        }
+
+        val language = RecognitionLanguage.values()[languageCode]
+
+        val url = language.getUrl()
+        val fileName = language.getFilename()
+        val path = dirPathProvider.provideModelDirPath()
+        val destination = "$path/$fileName"
+
+        val flow = fileDownloader.downloadLargeFile(url, destination)
+        do {
+            val next = withContext(differedCoroutineScope.coroutineContext) { flow.first() }
+            when (next) {
+                is LoadingState.Failed -> {
+                    LanguageDownloadStatus.FinishedWithError(language, next.cause)
+                    return Result.failure(workDataOf(FAILURE_CAUSE to next.cause.toString()))
+                }
+                is LoadingState.Loading -> {
+                    fileDownloadNotificationSender.sendNotification(
+                        LanguageDownloadStatus.Progress(language, next.progress)
+                    )
+                }
+                is LoadingState.Success -> {
+                    fileDownloadNotificationSender.sendNotification(
+                        LanguageDownloadStatus.FinishedSuccess(language)
+                    )
+                    return Result.success(workDataOf(LANGUAGE_CODE to languageCode))
+                }
+            }
+        } while (next is LoadingState.Loading)
+
+        return Result.failure(workDataOf(FAILURE_CAUSE to "Something went wrong in the download mechanism"))
+    }
+
+    companion object {
+        const val LANGUAGE_CODE = "LANGUAGE_CODE"
+        const val FAILURE_CAUSE = "FAILURE_CAUSE"
+        private const val NOT_FOUND = -1
+    }
+}
+
+

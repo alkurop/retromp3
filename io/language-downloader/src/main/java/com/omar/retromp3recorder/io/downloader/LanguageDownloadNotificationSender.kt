@@ -1,0 +1,19 @@
+package com.omar.retromp3recorder.io.downloader
+
+import com.omar.retromp3recorder.domain.RecognitionLanguage
+
+
+interface LanguageDownloadNotificationSender {
+    fun sendNotification(status: LanguageDownloadStatus)
+}
+
+sealed interface LanguageDownloadStatus {
+    val language: RecognitionLanguage
+
+    data class Progress(override val language: RecognitionLanguage, val percent: Int) :
+        LanguageDownloadStatus
+
+    data class FinishedSuccess(override val language: RecognitionLanguage) : LanguageDownloadStatus
+    data class FinishedWithError(override val language: RecognitionLanguage, val cause: Throwable) :
+        LanguageDownloadStatus
+}

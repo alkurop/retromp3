@@ -26,6 +26,7 @@ include ':io:share'
 include ':io:billing'
 include ':io:speech-recognition'
 include ':io:downloader'
+include ':io:language-downloader'
 include ':io'
 
 include ':data:storage'
