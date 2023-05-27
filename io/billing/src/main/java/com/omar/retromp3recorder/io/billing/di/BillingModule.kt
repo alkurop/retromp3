@@ -36,4 +36,5 @@ internal class BillingProviderModule{
 
 }
 
+// Should not cancel billing jobs in case view disappeared
 class BillingCoroutineScope @Inject constructor(dispatcher: CoroutineDispatcher) : DifferedCoroutineScope(dispatcher)
