@@ -1,7 +1,9 @@
 package com.omar.retromp3recorder.app.di
 
+import com.omar.retromp3recorder.app.notification.AndroidLanguageDownloadNotificationSender
 import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.ServiceDealer
+import com.omar.retromp3recorder.utils.platform.LanguageDownloadNotificationSender
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,4 +38,10 @@ class AndroidModule {
         DifferedCoroutineScope(dispatcher)
 
 
+    @Provides
+    fun provideDownloadNotificationSender(instance: AndroidLanguageDownloadNotificationSender): LanguageDownloadNotificationSender =
+        instance
+
+
 }
+
