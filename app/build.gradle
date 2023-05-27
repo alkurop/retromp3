@@ -16,8 +16,8 @@ android {
         applicationId "${rootProject.ext.applicationId}.app"
         testApplicationId "${rootProject.ext.applicationId}.app.test"
 
-        versionCode 402
-        versionName "4.02"
+        versionCode 403
+        versionName "4.03"
         signingConfig signingConfigs.debug
     }
 
