@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.app.RetroButtonLight
+import com.omar.retromp3recorder.app.RetroButtonDark
 import com.omar.retromp3recorder.app.RetroProgressIndicator
 import com.omar.retromp3recorder.app.screens.home.components.ComponentDivider
 import com.omar.retromp3recorder.app.screens.home.components.language.getDisplayNameRes
@@ -113,7 +113,7 @@ private fun LoadingLanguage(
                 .align(CenterVertically))
         RetroProgressIndicator(Modifier.size(28.dp).align(CenterVertically))
         Spacer(modifier = Modifier.width(16.dp))
-        RetroButtonLight(onClick = { onCancelLoad.invoke(language) }) {
+        RetroButtonDark(onClick = { onCancelLoad.invoke(language) }) {
             Text(text = stringResource(R.string.language_cancel_download))
         }
     }
@@ -130,7 +130,7 @@ private fun AvailableLanguage(
             Modifier
                 .weight(1f)
                 .align(CenterVertically))
-        RetroButtonLight(onClick = { onDelete(language) }) {
+        RetroButtonDark(onClick = { onDelete(language) }) {
             Text(text = stringResource(R.string.language_delete))
         }
     }
@@ -147,7 +147,7 @@ private fun DownloadLanguage(
             Modifier
                 .weight(1f)
                 .align(CenterVertically))
-        RetroButtonLight(onClick = { onDownload.invoke(language) }) {
+        RetroButtonDark(onClick = { onDownload.invoke(language) }) {
             Text(text = stringResource(R.string.language_download))
         }
     }

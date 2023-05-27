@@ -78,18 +78,8 @@ fun RetroTheme(content: @Composable () -> Unit) {
 
 @Composable
 fun RetroButtonDark(onClick: () -> Unit, content: @Composable () -> Unit) {
-    Button(
+    OutlinedButton(
         shape = MaterialTheme.shapes.medium,
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-        onClick = onClick,
-    ) { content() }
-}
-
-@Composable
-fun RetroButtonLight(onClick: () -> Unit, content: @Composable () -> Unit) {
-    Button(
-        shape = MaterialTheme.shapes.medium,
-        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
         onClick = onClick,
     ) { content() }
