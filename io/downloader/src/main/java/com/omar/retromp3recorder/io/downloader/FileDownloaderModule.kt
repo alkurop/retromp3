@@ -25,7 +25,7 @@ internal class NetworkModule {
     fun provideRetrofit(): Retrofit {
         val client: OkHttpClient = OkHttpClient.Builder().build()
         return Retrofit.Builder()
-            .baseUrl("no_bas_url")
+            .baseUrl("https://google.com")
             .client(client)
             .build()
     }

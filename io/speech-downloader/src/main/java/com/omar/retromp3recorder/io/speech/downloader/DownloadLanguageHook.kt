@@ -1,23 +1,27 @@
 package com.omar.retromp3recorder.io.speech.downloader
 
-import androidx.work.*
+import android.content.Context
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.omar.retromp3recorder.domain.RecognitionLanguage
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class DownloadLanguageHook @Inject constructor(
-    private val workManager: WorkManager
-
+    @ApplicationContext private val context: Context
 ) {
     fun execute(recognitionLanguage: RecognitionLanguage) {
         val uniqueWorkName = recognitionLanguage.uniqueWorkName()
 
-        val work = OneTimeWorkRequestBuilder<LanguageDownloadWorker>()
+        val work = OneTimeWorkRequest.Builder(LanguageDownloadWorker::class.java)
             .setInputData(workDataOf(LanguageDownloadWorker.LANGUAGE_CODE to recognitionLanguage.ordinal))
             .addTag(LanguageDownloadWorker.WORKER_NAME)
             .addTag(uniqueWorkName)
             .build()
 
-        workManager
+        WorkManager.getInstance(context)
             .enqueueUniqueWork(uniqueWorkName, ExistingWorkPolicy.KEEP, work)
     }
 }

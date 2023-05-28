@@ -1,18 +1,20 @@
 package com.omar.retromp3recorder.io.speech.downloader
 
+import android.content.Context
 import androidx.work.WorkManager
 import com.omar.retromp3recorder.domain.LanguageState
 import com.omar.retromp3recorder.domain.RecognitionLanguage
 import com.omar.retromp3recorder.io.speech.downloader.LanguageDownloadWorker.Companion.PROGRESS
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 class CheckLanguagesInDownload @Inject constructor(
-    private val workManager: WorkManager
+    @ApplicationContext private val context: Context
 ) {
     suspend fun execute(): List<Pair<RecognitionLanguage, LanguageState.Loading>> {
         return coroutineScope {
-            val currentJobs = workManager
+            val currentJobs = WorkManager.getInstance(context)
                 .getWorkInfosByTag(LanguageDownloadWorker.WORKER_NAME)
                 .runCatching {
                     get()

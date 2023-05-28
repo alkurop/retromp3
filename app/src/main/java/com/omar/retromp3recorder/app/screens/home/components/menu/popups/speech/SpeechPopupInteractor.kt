@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class SpeechPopupInteractor @Inject constructor(
     private val languageRecognitionRepo: LanguageAvailabilityRepo,
-    private val downloadLanguageUC:DownloadLanguageUC,
+    private val downloadLanguageUC: DownloadLanguageUC,
     private val deleteLanguageUC: DeleteLanguageUC,
     private val cancelDownloadLanguageUC: CancelDownloadLanguageUC,
     dispatcher: CoroutineDispatcher
@@ -22,11 +22,13 @@ class SpeechPopupInteractor @Inject constructor(
         return listOf(languageRecognitionRepo.flow().map { SpeechPopupContract.State(it) })
     }
 
-   override suspend fun launchUseCase(input: SpeechPopupContract.Input) {
-       when(input){
-           is SpeechPopupContract.Input.DownloadLanguage -> downloadLanguageUC.execute(input.language)
-           is SpeechPopupContract.Input.CancelDownload -> cancelDownloadLanguageUC.execute(input.language)
-           is SpeechPopupContract.Input.DeleteLanguage -> deleteLanguageUC.execute(input.language)
-       }
+    override suspend fun launchUseCase(input: SpeechPopupContract.Input) {
+        when (input) {
+            is SpeechPopupContract.Input.DownloadLanguage -> {
+                downloadLanguageUC.execute(input.language)
+            }
+            is SpeechPopupContract.Input.CancelDownload -> cancelDownloadLanguageUC.execute(input.language)
+            is SpeechPopupContract.Input.DeleteLanguage -> deleteLanguageUC.execute(input.language)
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.omar.retromp3recorder.app
 
 import android.app.Application
+import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -14,8 +15,11 @@ class App : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+// other stuff
+
     override fun getWorkManagerConfiguration() =
         Configuration.Builder()
+            .setMinimumLoggingLevel(Log.VERBOSE)
             .setWorkerFactory(workerFactory)
             .build()
 

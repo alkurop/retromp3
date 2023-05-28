@@ -48,6 +48,7 @@ ext {
             hilt_work              : '1.0.0',
             hilt_compose           : '1.0.0',
             hilt_commmon           : '1.0.0',
+            hilt_compiler           : '1.0.0',
 
             //networking
             retrofit               : "2.9.0",

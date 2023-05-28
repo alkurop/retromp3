@@ -9,13 +9,11 @@ import com.omar.retromp3recorder.domain.RecognitionLanguage
 import com.omar.retromp3recorder.io.downloader.FileDownloader
 import com.omar.retromp3recorder.io.language.getFilename
 import com.omar.retromp3recorder.io.language.getUrl
-import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.LoadingState
 import com.omar.retromp3recorder.utils.platform.DirPathProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withContext
 import java.io.File
 
 
@@ -25,7 +23,6 @@ class LanguageDownloadWorker @AssistedInject constructor(
     @Assisted private val workerParams: WorkerParameters,
     private val fileDownloadNotificationSender: LanguageDownloadNotificationSender,
     private val fileDownloader: FileDownloader,
-    private val differedCoroutineScope: DifferedCoroutineScope,
     private val dirPathProvider: DirPathProvider,
 ) : CoroutineWorker(appContext, workerParams) {
 
@@ -44,7 +41,7 @@ class LanguageDownloadWorker @AssistedInject constructor(
 
         val flow = fileDownloader.downloadLargeFile(url, destination)
         do {
-            val next = withContext(differedCoroutineScope.coroutineContext) { flow.first() }
+            val next = flow.first()
             when (next) {
                 is LoadingState.Failed -> {
                     LanguageDownloadStatus.FinishedWithError(language, next.cause)
