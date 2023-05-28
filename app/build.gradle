@@ -80,6 +80,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation "androidx.hilt:hilt-navigation-compose:$versions.hilt_compose"
     kapt "com.google.dagger:hilt-compiler:$versions.hilt"
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
 
     // worker manager
     implementation "androidx.hilt:hilt-work:$versions.hilt_work"
