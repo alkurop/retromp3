@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.io.downloader
+package com.omar.retromp3recorder.io.speech.downloader
 
 import com.omar.retromp3recorder.domain.RecognitionLanguage
 

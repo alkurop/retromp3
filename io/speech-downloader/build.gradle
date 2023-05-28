@@ -7,20 +7,21 @@ plugins {
 apply from: "$scripts.android_library"
 
 android {
-    namespace "${applicationId}.io.language-downloader"
+    namespace "${applicationId}.io.speech.downloader"
 }
 
 dependencies {
     implementation project(':io:downloader')
     implementation project(':io:speech-recognition')
+    implementation project(':utils')
+    implementation project(':entity:data')
+
     implementation "com.google.dagger:hilt-android:$versions.hilt"
 
     // worker manager
     implementation "androidx.hilt:hilt-work:$versions.hilt_work"
     implementation "androidx.hilt:hilt-common:$versions.hilt_commmon"
     implementation "androidx.work:work-runtime-ktx:$versions.work"
-    implementation project(':utils')
-    implementation project(path: ':entity:data')
 
     kapt "com.google.dagger:hilt-compiler:$versions.hilt"
 

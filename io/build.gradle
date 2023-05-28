@@ -17,5 +17,5 @@ dependencies {
     api project(':io:billing')
     api project(':io:speech-recognition')
     api project(':io:downloader')
-    api project(':io:language-downloader')
+    api project(':io:speech-downloader')
 }

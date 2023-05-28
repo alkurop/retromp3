@@ -11,8 +11,8 @@ import androidx.core.app.NotificationManagerCompat
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.domain.LanguageAvailability
 import com.omar.retromp3recorder.domain.LanguageState
-import com.omar.retromp3recorder.io.downloader.LanguageDownloadNotificationSender
-import com.omar.retromp3recorder.io.downloader.LanguageDownloadStatus
+import com.omar.retromp3recorder.io.speech.downloader.LanguageDownloadNotificationSender
+import com.omar.retromp3recorder.io.speech.downloader.LanguageDownloadStatus
 import com.omar.retromp3recorder.io.language.getFilename
 import com.omar.retromp3recorder.storage.repo.global.LanguageAvailabilityRepo
 import dagger.hilt.android.qualifiers.ApplicationContext

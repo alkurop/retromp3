@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.io.downloader
+package com.omar.retromp3recorder.io.speech.downloader
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.omar.retromp3recorder.domain.RecognitionLanguage
+import com.omar.retromp3recorder.io.downloader.FileDownloader
 import com.omar.retromp3recorder.io.language.getFilename
 import com.omar.retromp3recorder.io.language.getUrl
 import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
@@ -54,6 +55,7 @@ class LanguageDownloadWorker @AssistedInject constructor(
                     fileDownloadNotificationSender.sendNotification(
                         LanguageDownloadStatus.Progress(language, next.progress)
                     )
+                    setProgress(workDataOf(PROGRESS to next.progress))
                 }
                 is LoadingState.Success -> {
                     fileDownloadNotificationSender.sendNotification(
@@ -68,8 +70,10 @@ class LanguageDownloadWorker @AssistedInject constructor(
     }
 
     companion object {
+        const val WORKER_NAME = "LanguageDownloadWorker"
         const val LANGUAGE_CODE = "LANGUAGE_CODE"
         const val FAILURE_CAUSE = "FAILURE_CAUSE"
+        const val PROGRESS = "PROGRESS"
         private const val NOT_FOUND = -1
     }
 }

@@ -72,7 +72,7 @@ fun SpeechPopupLayout(
                             .fillMaxWidth()
                     ) {
                         Row() {
-                            when (item.state) {
+                            when (val loadingState = item.state) {
                                 LanguageState.ToDownload -> DownloadLanguage(
                                     Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                                     language = item.language,
@@ -83,10 +83,11 @@ fun SpeechPopupLayout(
                                     language = item.language,
                                     onDelete = deleteFunction
                                 )
-                                LanguageState.Loading -> LoadingLanguage(
+                                is LanguageState.Loading -> LoadingLanguage(
                                     Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                                     language = item.language,
-                                    onCancelLoad = cancelFunction
+                                    onCancelLoad = cancelFunction,
+                                    progress = "${loadingState.percent}%"
                                 )
                             }
                         }
@@ -104,15 +105,23 @@ fun SpeechPopupLayout(
 private fun LoadingLanguage(
     modifier: Modifier = Modifier,
     language: RecognitionLanguage,
+    progress: String,
     onCancelLoad: (RecognitionLanguage) -> Unit
 ) {
     Row(modifier) {
-        LanguageDisplay(language = language,
+        LanguageDisplay(
+            language = language,
             Modifier
                 .weight(1f)
-                .align(CenterVertically))
-        RetroProgressIndicator(Modifier.size(28.dp).align(CenterVertically))
+                .align(CenterVertically)
+        )
+        RetroProgressIndicator(
+            Modifier
+                .size(28.dp)
+                .align(CenterVertically)
+        )
         Spacer(modifier = Modifier.width(16.dp))
+        Text(text = progress)
         RetroButtonDark(onClick = { onCancelLoad.invoke(language) }) {
             Text(text = stringResource(R.string.language_cancel_download))
         }
@@ -126,10 +135,12 @@ private fun AvailableLanguage(
     onDelete: (RecognitionLanguage) -> Unit
 ) {
     Row(modifier) {
-        LanguageDisplay(language = language,
+        LanguageDisplay(
+            language = language,
             Modifier
                 .weight(1f)
-                .align(CenterVertically))
+                .align(CenterVertically)
+        )
         RetroButtonDark(onClick = { onDelete(language) }) {
             Text(text = stringResource(R.string.language_delete))
         }
@@ -143,10 +154,12 @@ private fun DownloadLanguage(
     onDownload: (RecognitionLanguage) -> Unit
 ) {
     Row(modifier) {
-        LanguageDisplay(language = language,
+        LanguageDisplay(
+            language = language,
             Modifier
                 .weight(1f)
-                .align(CenterVertically))
+                .align(CenterVertically)
+        )
         RetroButtonDark(onClick = { onDownload.invoke(language) }) {
             Text(text = stringResource(R.string.language_download))
         }
