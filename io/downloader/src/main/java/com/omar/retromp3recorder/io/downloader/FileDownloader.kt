@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface FileDownloader {
-    fun downloadLargeFile(sourcePath: String, destinationPath: String): Flow<LoadingState<File>>
+  suspend  fun downloadLargeFile(sourcePath: String, destinationPath: String): Flow<LoadingState<File>>
 }

@@ -8,5 +8,5 @@ import retrofit2.http.Url
 interface FileApi {
     @Streaming
     @GET
-    fun getFile(@Url url: String): ResponseBody
+    suspend fun getFile(@Url url: String): ResponseBody
 }

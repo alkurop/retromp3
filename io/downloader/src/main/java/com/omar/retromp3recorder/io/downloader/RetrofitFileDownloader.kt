@@ -10,7 +10,7 @@ import javax.inject.Inject
 internal class RetrofitFileDownloader @Inject constructor(
     private val fileApi: FileApi,
 ) : FileDownloader {
-    override fun downloadLargeFile(
+    override suspend fun downloadLargeFile(
         sourcePath: String,
         destinationPath: String
     ): Flow<LoadingState<File>> {
