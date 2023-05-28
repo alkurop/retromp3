@@ -35,33 +35,38 @@ class AndroidLanguageDownloadNotificationSender @Inject constructor(
             return
         }
         val notificationId = status.language.getFilename().hashCode()
+        when (status) {
+            is LanguageDownloadStatus.FinishedSuccess -> {
+                NotificationManagerCompat.from(context).cancel(notificationId)
+            }
+            is LanguageDownloadStatus.FinishedWithError -> {
+                NotificationManagerCompat.from(context).cancel(notificationId)
+            }
+            is LanguageDownloadStatus.Progress -> {
+                val name = "VERBOSE_NOTIFICATION_CHANNEL_NAME"
+                val description = "VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION"
+                val importance = NotificationManager.IMPORTANCE_HIGH
 
-        if (status is LanguageDownloadStatus.FinishedSuccess) {
-            NotificationManagerCompat.from(context).cancel(notificationId)
-        } else {
-            val name = "VERBOSE_NOTIFICATION_CHANNEL_NAME"
-            val description = "VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION"
-            val importance = NotificationManager.IMPORTANCE_HIGH
+                val channel = NotificationChannel(FILE_DOWNLOAD_CHANNEL_ID, name, importance)
+                channel.description = description
 
-            val channel = NotificationChannel(FILE_DOWNLOAD_CHANNEL_ID, name, importance)
-            channel.description = description
+                // Add the channel
+                val notificationManager =
+                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
 
-            // Add the channel
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+                notificationManager?.createNotificationChannel(channel)
 
-            notificationManager?.createNotificationChannel(channel)
+                // Create the notification
+                val builder = NotificationCompat.Builder(context, FILE_DOWNLOAD_CHANNEL_ID)
+                    .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                    .setContentTitle("NOTIFICATION_TITLE")
+                    .setContentText("${status.percent} %")
+                    .setSilent(true)
+                    .setOngoing(true)
+                    .setOnlyAlertOnce(true)
 
-            // Create the notification
-            val builder = NotificationCompat.Builder(context, FILE_DOWNLOAD_CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                .setContentTitle("NOTIFICATION_TITLE")
-                .setContentText("message")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setVibrate(LongArray(0))
-
-            NotificationManagerCompat.from(context).notify(notificationId, builder.build())
-            // Show the notification
+                NotificationManagerCompat.from(context).notify(notificationId, builder.build())
+            }
         }
     }
 }

@@ -13,8 +13,11 @@ import com.omar.retromp3recorder.utils.domain.LoadingState
 import com.omar.retromp3recorder.utils.platform.DirPathProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.concurrent.CountDownLatch
 
 
 @HiltWorker
@@ -40,13 +43,16 @@ class LanguageDownloadWorker @AssistedInject constructor(
         val destination = "$path/$fileName"
 
         val flow = fileDownloader.downloadLargeFile(url, destination)
-        do {
-            val next = flow.first()
+        val latch = CountDownLatch(1)
+        var result =
+            Result.failure(workDataOf(FAILURE_CAUSE to "Something went wrong in the download mechanism"))
+        flow.collect { next ->
             when (next) {
                 is LoadingState.Failed -> {
                     LanguageDownloadStatus.FinishedWithError(language, next.cause)
                     runCatching { File(destination).delete() }
-                    return Result.failure(workDataOf(FAILURE_CAUSE to next.cause.toString()))
+                    latch.countDown()
+                    result = Result.failure(workDataOf(FAILURE_CAUSE to next.cause.toString()))
                 }
                 is LoadingState.Loading -> {
                     fileDownloadNotificationSender.sendNotification(
@@ -58,12 +64,19 @@ class LanguageDownloadWorker @AssistedInject constructor(
                     fileDownloadNotificationSender.sendNotification(
                         LanguageDownloadStatus.FinishedSuccess(language)
                     )
-                    return Result.success(workDataOf(LANGUAGE_CODE to languageCode))
+                    latch.countDown()
+                    result = Result.success(workDataOf(LANGUAGE_CODE to languageCode))
                 }
             }
-        } while (next is LoadingState.Loading)
 
-        return Result.failure(workDataOf(FAILURE_CAUSE to "Something went wrong in the download mechanism"))
+
+        }
+
+
+        withContext(Dispatchers.IO) {
+            latch.await()
+        }
+        return result
     }
 
     companion object {
