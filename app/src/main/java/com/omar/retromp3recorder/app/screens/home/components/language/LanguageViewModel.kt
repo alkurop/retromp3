@@ -30,6 +30,7 @@ private fun Flow<LanguageContract.Output>.mapOutputToStateFlow(): Flow<LanguageC
     return this.scan(LanguageContract.State()) { oldState, output ->
         when (output) {
             is LanguageContract.Output.Visibility -> oldState.copy(isVisible = output.isVisible)
+            is LanguageContract.Output.Availability->oldState.copy(availableLanguages = output.availableLanguages)
         }
     }
 }

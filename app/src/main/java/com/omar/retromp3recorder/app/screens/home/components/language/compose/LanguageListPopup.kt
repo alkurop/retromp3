@@ -45,7 +45,6 @@ fun LanguageListPopup(
         Popup(
             alignment = Alignment.CenterStart,
             onDismissRequest = { state.switch() },
-
         ) {
             LazyColumn(
                 Modifier
