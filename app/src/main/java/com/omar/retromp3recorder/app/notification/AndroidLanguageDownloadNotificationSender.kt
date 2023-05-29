@@ -75,6 +75,7 @@ class AndroidLanguageDownloadNotificationSender @Inject constructor(
             .setSilent(true)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
+            .setGroup(FILE_DOWNLOAD_CHANNEL_ID)
         notificationManager.notify(notificationId, builder.build())
     }
 }

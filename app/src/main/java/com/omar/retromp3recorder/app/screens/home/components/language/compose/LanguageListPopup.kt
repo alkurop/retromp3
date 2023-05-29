@@ -17,6 +17,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.omar.retromp3recorder.app.R
@@ -50,7 +51,7 @@ fun LanguageListPopup(
                 Modifier
                     .background(MaterialTheme.colorScheme.surface)
                     .width(200.dp)
-                    .heightIn(max = 150.dp),
+                    .heightIn(max = 500.dp),
                 state = listState,
             ) {
                 items(languages.size, { languages[it] }) {
@@ -59,9 +60,10 @@ fun LanguageListPopup(
                         Modifier
                             .fillMaxWidth()
                             .clickable { onLanguageSelected(language); state.switch() }
-                            .padding(16.dp)
+                            .padding(8.dp)
                     ) {
                         Text(text = stringResource(id = language.getDisplayNameRes()))
+                        Spacer(modifier = Modifier.heightIn(12.dp))
                         ComponentDivider()
                     }
                 }
@@ -70,7 +72,8 @@ fun LanguageListPopup(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable { onAddLanguage(); state.switch() }
-                            .padding(16.dp),
+                            .padding(8.dp),
+                        fontWeight = FontWeight.Bold,
                         text = stringResource(R.string.popup_add_language)
                     )
                 }
