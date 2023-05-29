@@ -13,8 +13,7 @@ import com.omar.retromp3recorder.utils.domain.LoadingState
 import com.omar.retromp3recorder.utils.platform.DirPathProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.coroutineScope
 import java.io.File
 import java.util.concurrent.CountDownLatch
 
@@ -43,8 +42,9 @@ class LanguageDownloadWorker @AssistedInject constructor(
 
         val flow = fileDownloader.downloadLargeFile(url, destination)
         val latch = CountDownLatch(1)
-        var result =
-            Result.failure(workDataOf(FAILURE_CAUSE to "Something went wrong in the download mechanism"))
+
+        lateinit var result: Result
+
         flow.collect { next ->
             when (next) {
                 is LoadingState.Failed -> {
@@ -69,12 +69,9 @@ class LanguageDownloadWorker @AssistedInject constructor(
                     result = Result.success(workDataOf(LANGUAGE_CODE to languageCode))
                 }
             }
-
-
         }
 
-
-        withContext(Dispatchers.IO) {
+        coroutineScope {
             latch.await()
         }
         return result

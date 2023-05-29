@@ -2,6 +2,7 @@ package com.omar.retromp3recorder.io.downloader
 
 import com.omar.retromp3recorder.utils.domain.LoadingState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import okhttp3.ResponseBody
@@ -18,7 +19,7 @@ internal class RetrofitFileDownloader @Inject constructor(
         return fileApi.runCatching {
             getFile(sourcePath)
                 .saveFileFlow(destinationPath)
-        }.getOrElse { flowOf(LoadingState.Failed(it)) }
+        }.getOrElse { flowOf(LoadingState.Failed(it)) }.distinctUntilChanged()
     }
 
     @Suppress("UNUSED") // provided for example
