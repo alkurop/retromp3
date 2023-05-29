@@ -84,7 +84,13 @@ fun SpeechPopupLayout(
                                     language = item.language,
                                     onDelete = deleteFunction
                                 )
-                                is LanguageState.Loading -> LoadingLanguage(
+                                is LanguageState.Installing -> LoadingLanguage(
+                                    Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                                    language = item.language,
+                                    onCancelLoad = cancelFunction,
+                                    progress = "${loadingState.percent}%"
+                                )
+                                is LanguageState.DownLoading -> LoadingLanguage(
                                     Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                                     language = item.language,
                                     onCancelLoad = cancelFunction,

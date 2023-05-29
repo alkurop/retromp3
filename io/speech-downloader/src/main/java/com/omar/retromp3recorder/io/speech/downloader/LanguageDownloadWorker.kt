@@ -57,7 +57,7 @@ class LanguageDownloadWorker @AssistedInject constructor(
                 }
                 is LoadingState.Loading -> {
                     fileDownloadNotificationSender.sendNotification(
-                        LanguageDownloadStatus.Progress(language, next.progress)
+                        LanguageDownloadStatus.LoadingProgress(language, next.progress)
                     )
                     setProgress(workDataOf(PROGRESS to next.progress))
                 }

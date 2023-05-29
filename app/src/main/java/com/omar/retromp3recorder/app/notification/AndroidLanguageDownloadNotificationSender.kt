@@ -24,6 +24,8 @@ class AndroidLanguageDownloadNotificationSender @Inject constructor(
     @ApplicationContext private val context: Context,
     private val languageAvailabilityRepo: LanguageAvailabilityRepo
 ) : LanguageDownloadNotificationSender {
+    private val notificationManager: NotificationManager
+        get() = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     override suspend fun sendNotification(status: LanguageDownloadStatus) {
         languageAvailabilityRepo.updateItem(status.toAvailabilityStatus())
@@ -35,18 +37,26 @@ class AndroidLanguageDownloadNotificationSender @Inject constructor(
 
         val notificationId = status.language.getFilename().hashCode()
         when (status) {
-            is LanguageDownloadStatus.FinishedSuccess -> {
-                NotificationManagerCompat.from(context).cancel(notificationId)
-            }
+            is LanguageDownloadStatus.FinishedSuccess,
+            is LanguageDownloadStatus.FinishedWithError -> notificationManager
+                .cancel(notificationId)
 
-            is LanguageDownloadStatus.FinishedWithError -> {
-                NotificationManagerCompat.from(context).cancel(notificationId)
-            }
-
-            is LanguageDownloadStatus.Progress -> {
+            is LanguageDownloadStatus.LoadingProgress -> {
                 val title = context.getString(R.string.language_download_notification_loading_title)
                 val text = context.getString(
                     R.string.language_download_notification_loading_text,
+                    context.getString(status.language.getDisplayNameRes()),
+                    status.percent
+                )
+                showNotification(title, text, notificationId)
+            }
+
+
+            is LanguageDownloadStatus.InstallingProgress -> {
+                val title =
+                    context.getString(R.string.language_download_notification_installing_title)
+                val text = context.getString(
+                    R.string.language_download_notification_installing_text,
                     context.getString(status.language.getDisplayNameRes()),
                     status.percent
                 )
@@ -60,20 +70,14 @@ class AndroidLanguageDownloadNotificationSender @Inject constructor(
         val channelName = context.getString(R.string.language_download_notification_title)
         val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel(FILE_DOWNLOAD_CHANNEL_ID, channelName, importance)
-
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
-
-        notificationManager?.createNotificationChannel(channel)
-
+        notificationManager.createNotificationChannel(channel)
         val builder = NotificationCompat.Builder(context, FILE_DOWNLOAD_CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher_foreground).setContentTitle(title)
             .setContentText(text)
             .setSilent(true)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
-
-        notificationManager?.notify(notificationId, builder.build())
+        notificationManager.notify(notificationId, builder.build())
     }
 }
 
@@ -83,5 +87,6 @@ private const val FILE_DOWNLOAD_CHANNEL_ID = "FILE_DOWNLOAD_CHANNEL_ID"
 private fun LanguageDownloadStatus.toAvailabilityStatus(): LanguageAvailability = when (this) {
     is LanguageDownloadStatus.FinishedSuccess -> LanguageState.Available
     is LanguageDownloadStatus.FinishedWithError -> LanguageState.ToDownload(true)
-    is LanguageDownloadStatus.Progress -> LanguageState.Loading(this.percent)
+    is LanguageDownloadStatus.LoadingProgress -> LanguageState.DownLoading(this.percent)
+    is LanguageDownloadStatus.InstallingProgress -> LanguageState.Installing(this.percent)
 }.let { LanguageAvailability(this.language, it) }

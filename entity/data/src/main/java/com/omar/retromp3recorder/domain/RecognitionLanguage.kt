@@ -9,7 +9,8 @@ enum class RecognitionLanguage {
 sealed interface LanguageState {
     data class ToDownload(val isFailed: Boolean) : LanguageState
     object Available : LanguageState
-    data class Loading(val percent: Int) : LanguageState
+    data class DownLoading(val percent: Int) : LanguageState
+    data class Installing(val percent: Int) : LanguageState
 }
 
 data class LanguageAvailability(

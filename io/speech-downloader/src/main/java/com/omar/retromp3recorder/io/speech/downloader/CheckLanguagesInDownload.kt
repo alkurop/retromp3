@@ -12,7 +12,7 @@ import javax.inject.Inject
 class CheckLanguagesInDownload @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    suspend fun execute(): List<Pair<RecognitionLanguage, LanguageState.Loading>> {
+    suspend fun execute(): List<Pair<RecognitionLanguage, LanguageState.DownLoading>> {
         return coroutineScope {
             val currentJobs = WorkManager.getInstance(context)
                 .getWorkInfosByTag(LanguageDownloadWorker.WORKER_NAME)
@@ -25,7 +25,7 @@ class CheckLanguagesInDownload @Inject constructor(
             RecognitionLanguage.values()
                 .mapNotNull { language ->
                     (currentJobs.firstOrNull { it.tags.contains(language.uniqueWorkName()) }?.progress
-                        ?.getInt(PROGRESS, 0)?.let { language to LanguageState.Loading(it) })
+                        ?.getInt(PROGRESS, 0)?.let { language to LanguageState.DownLoading(it) })
                 }
         }
     }
