@@ -14,7 +14,6 @@ import com.omar.retromp3recorder.utils.platform.DirPathProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.concurrent.CountDownLatch
@@ -49,7 +48,9 @@ class LanguageDownloadWorker @AssistedInject constructor(
         flow.collect { next ->
             when (next) {
                 is LoadingState.Failed -> {
-                    LanguageDownloadStatus.FinishedWithError(language, next.cause)
+                    fileDownloadNotificationSender.sendNotification(
+                        LanguageDownloadStatus.FinishedWithError(language, next.cause)
+                    )
                     runCatching { File(destination).delete() }
                     latch.countDown()
                     result = Result.failure(workDataOf(FAILURE_CAUSE to next.cause.toString()))
