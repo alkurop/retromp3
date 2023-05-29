@@ -31,4 +31,4 @@ fun RecognitionLanguage.getUrl():String {
 
 }
 
-fun RecognitionLanguage.getFilename(): String = this.getUrl().split("/")[0]
+fun RecognitionLanguage.getFilename(): String = this.getUrl().split("/").last()
