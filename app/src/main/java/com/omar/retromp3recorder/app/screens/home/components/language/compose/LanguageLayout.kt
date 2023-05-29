@@ -2,9 +2,7 @@ package com.omar.retromp3recorder.app.screens.home.components.language.compose
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -15,6 +13,7 @@ import com.omar.retromp3recorder.app.screens.home.components.language.LanguageCo
 import com.omar.retromp3recorder.app.screens.home.components.language.LanguageViewModel
 import com.omar.retromp3recorder.app.screens.home.components.rememberVisibilityState
 import com.omar.retromp3recorder.app.R
+import com.omar.retromp3recorder.domain.RecognitionLanguage
 
 @Composable
 fun LanguageLayout(
@@ -25,7 +24,14 @@ fun LanguageLayout(
     val visibility = rememberVisibilityState(isVisible = false)
     val popupVisibility = rememberVisibilityState(isVisible = false)
     val viewState by viewModel.state.collectAsState()
+
     visibility.isVisible = viewState.isVisible
+
+    val onLanguageSelected: (RecognitionLanguage) -> Unit = remember {
+        {
+            viewModel.onEvent(LanguageContract.Input.SelectLanguage(it))
+        }
+    }
 
     Component(modifier, visibility) {
         Column(Modifier.padding(8.dp)) {
@@ -41,7 +47,7 @@ fun LanguageLayout(
                 state = popupVisibility,
                 contentData = viewState.toPopupContent(),
                 onAddLanguage = openLanguagePopup,
-                onLanguageSelected = {}
+                onLanguageSelected = onLanguageSelected
             )
         }
     }

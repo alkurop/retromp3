@@ -24,6 +24,8 @@ class LanguageInteractor @Inject constructor(
     }
 
     override suspend fun launchUseCase(input: LanguageContract.Input) {
-//        TODO("Not yet implemented")
+        when(input){
+            is LanguageContract.Input.SelectLanguage -> TODO()
+        }
     }
 }

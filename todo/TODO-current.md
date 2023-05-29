@@ -31,9 +31,9 @@ X means can't be done (please provide explanation)
 - increase playback volume
 
 #### Speech recognition
-- menu
-- model links
-- download model
+- V menu
+- V model links
+- V download model
 - recognition with logs
 - recognition list
 - save result to db
