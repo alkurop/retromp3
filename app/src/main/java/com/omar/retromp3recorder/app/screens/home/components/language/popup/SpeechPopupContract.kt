@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.home.components.menu.popups.speech
+package com.omar.retromp3recorder.app.screens.home.components.language.popup
 
 import androidx.compose.runtime.Immutable
 import com.omar.retromp3recorder.domain.LanguageAvailability

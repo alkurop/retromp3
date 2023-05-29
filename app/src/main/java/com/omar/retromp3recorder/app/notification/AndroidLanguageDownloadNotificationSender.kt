@@ -11,9 +11,9 @@ import androidx.core.app.NotificationManagerCompat
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.domain.LanguageAvailability
 import com.omar.retromp3recorder.domain.LanguageState
+import com.omar.retromp3recorder.io.language.getFilename
 import com.omar.retromp3recorder.io.speech.downloader.LanguageDownloadNotificationSender
 import com.omar.retromp3recorder.io.speech.downloader.LanguageDownloadStatus
-import com.omar.retromp3recorder.io.language.getFilename
 import com.omar.retromp3recorder.storage.repo.global.LanguageAvailabilityRepo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -76,6 +76,6 @@ private const val FILE_DOWNLOAD_CHANNEL_ID = "FILE_DOWNLOAD_CHANNEL_ID"
 
 private fun LanguageDownloadStatus.toAvailabilityStatus(): LanguageAvailability = when (this) {
     is LanguageDownloadStatus.FinishedSuccess -> LanguageState.Available
-    is LanguageDownloadStatus.FinishedWithError -> LanguageState.ToDownload
+    is LanguageDownloadStatus.FinishedWithError -> LanguageState.ToDownload(true)
     is LanguageDownloadStatus.Progress -> LanguageState.Loading(this.percent)
 }.let { LanguageAvailability(this.language, it) }

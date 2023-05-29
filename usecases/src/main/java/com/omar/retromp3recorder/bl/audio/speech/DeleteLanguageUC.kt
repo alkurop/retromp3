@@ -17,6 +17,6 @@ class DeleteLanguageUC @Inject constructor(
         val name = recognitionLanguage.getFilename()
         val path = dirPathProvider.provideModelDirPath()
         File("$path/$name").runCatching { delete() }
-        repo.updateItem(LanguageAvailability(recognitionLanguage, LanguageState.ToDownload))
+        repo.updateItem(LanguageAvailability(recognitionLanguage, LanguageState.ToDownload(false)))
     }
 }

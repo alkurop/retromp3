@@ -14,10 +14,12 @@ class AvailableLanguageListUC @Inject constructor(
     suspend fun execute() {
         val languages = languageLister.listAvailableRecognitionLanguages()
         val inDownload = checkDownloadStatusHook.execute()
-        val result = languages.filter { item ->
-            inDownload.map { it.first }.contains(item.language).not()
-        }
+        val result = languages
+            .filter { item ->
+                inDownload.map { it.first }.contains(item.language).not()
+            }
             .plus(inDownload.map { LanguageAvailability(it.first, it.second) })
+            .sortedBy { it.language }
         repo.emit(result)
     }
 }

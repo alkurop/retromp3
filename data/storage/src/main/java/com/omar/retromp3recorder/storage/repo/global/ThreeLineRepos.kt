@@ -40,8 +40,12 @@ class BillingResultEventBus @Inject constructor() : PublishSubjectRepo<Result<Bi
 @Singleton
 class LanguageAvailabilityRepo @Inject constructor() :
     StateFlowRepo<List<LanguageAvailability>>(emptyList()) {
+
     suspend fun updateItem(languageAvailability: LanguageAvailability) {
-        this.first().filter { it.language != languageAvailability.language }
-            .plus(languageAvailability).let { emit(it) }
+        this.first()
+            .filter { it.language != languageAvailability.language }
+            .plus(languageAvailability)
+            .sortedBy { it.language }
+            .let { emit(it) }
     }
 }

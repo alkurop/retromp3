@@ -22,7 +22,7 @@ internal class VoskLanguageLister @Inject constructor(
                 if (available) {
                     LanguageAvailability(item, LanguageState.Available)
                 } else {
-                    LanguageAvailability(item, LanguageState.ToDownload)
+                    LanguageAvailability(item, LanguageState.ToDownload(false))
                 }
             }
     }

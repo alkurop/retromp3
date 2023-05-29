@@ -12,7 +12,7 @@ class DownloadLanguageUC @Inject constructor(
 ) {
     suspend fun execute(language: RecognitionLanguage) {
         val currentState = repo.first().first { it.language == language }.state
-        if (currentState == LanguageState.ToDownload) {
+        if (currentState is LanguageState.ToDownload) {
             downloadLanguageHook.execute(language)
         }
     }

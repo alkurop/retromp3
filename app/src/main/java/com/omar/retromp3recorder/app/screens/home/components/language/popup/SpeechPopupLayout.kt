@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.home.components.menu.popups.speech
+package com.omar.retromp3recorder.app.screens.home.components.language.popup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -73,10 +73,11 @@ fun SpeechPopupLayout(
                     ) {
                         Row() {
                             when (val loadingState = item.state) {
-                                LanguageState.ToDownload -> DownloadLanguage(
+                                is LanguageState.ToDownload -> DownloadLanguage(
                                     Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                                     language = item.language,
-                                    onDownload = downloadFunction
+                                    onDownload = downloadFunction,
+                                    isFailed = loadingState.isFailed
                                 )
                                 LanguageState.Available -> AvailableLanguage(
                                     Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -151,6 +152,7 @@ private fun AvailableLanguage(
 private fun DownloadLanguage(
     modifier: Modifier = Modifier,
     language: RecognitionLanguage,
+    isFailed: Boolean,
     onDownload: (RecognitionLanguage) -> Unit
 ) {
     Row(modifier) {
@@ -160,6 +162,9 @@ private fun DownloadLanguage(
                 .weight(1f)
                 .align(CenterVertically)
         )
+        if (isFailed) {
+            Text(text = "Failed")
+        }
         RetroButtonDark(onClick = { onDownload.invoke(language) }) {
             Text(text = stringResource(R.string.language_download))
         }
