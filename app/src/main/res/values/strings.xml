@@ -80,7 +80,7 @@
     <string name="max_speed">3x</string>
     <string name="min_speed">0.3x</string>
 
-    <!--    Speech recognition-->
+    <!--    Speech recognition languages-->
     <string name="lang_english">English</string>
     <string name="lang_indian_english">Indian English</string>
     <string name="lang_russian">Russian</string>
@@ -104,11 +104,20 @@
     <string name="lang_uzbek">Uzbek</string>
     <string name="lang_korean">Korean</string>
 
+    <!--    Speech recognition layout-->
+    <string name="language_recognition">Recognition:</string>
+    <string name="language_disabled">Disabled</string>
+    <string name="language_enabled">Enabled</string>
+    <string name="language_select">Select language</string>
+
     <!--    Speech recognition popup-->
     <string name="popup_add_language">Add language</string>
     <string name="language_download">Download</string>
     <string name="language_delete">Delete</string>
     <string name="language_cancel_download">Cancel</string>
+    <string name="language_loading">Loading</string>
+    <string name="language_installing">Installing</string>
+    <string name="language_failed">Failed</string>
 
     <!-- Speech recognition notification   -->
     <string name="language_download_notification_title">Download language model</string>

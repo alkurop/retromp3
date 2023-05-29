@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.RetroButtonDark
@@ -13,6 +14,7 @@ import com.omar.retromp3recorder.app.screens.home.components.Component
 import com.omar.retromp3recorder.app.screens.home.components.language.LanguageContract
 import com.omar.retromp3recorder.app.screens.home.components.language.LanguageViewModel
 import com.omar.retromp3recorder.app.screens.home.components.rememberVisibilityState
+import com.omar.retromp3recorder.app.R
 
 @Composable
 fun LanguageLayout(
@@ -28,20 +30,13 @@ fun LanguageLayout(
     Component(modifier, visibility) {
         Column(Modifier.padding(8.dp)) {
             Row {
-                Text(text = "Recognition:")
+                Text(text = stringResource(id = R.string.language_recognition))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "disabled")
-            }
-            Row {
-                Text(text = "Translation:")
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "disabled")
+                Text(text = stringResource(id = R.string.language_disabled))
             }
             RetroButtonDark(
                 onClick = { popupVisibility.switch() },
-            ) {
-                Text(text = "Select language")
-            }
+            ) { Text(text = stringResource(id = R.string.language_select)) }
             LanguageListPopup(
                 state = popupVisibility,
                 contentData = viewState.toPopupContent(),

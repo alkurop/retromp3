@@ -127,8 +127,11 @@ private fun LoadingLanguage(
                 .align(CenterVertically)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Text(text = "Loading")
-        Text(text = progress)
+        Text(
+            text = stringResource(id = R.string.language_loading),
+            modifier = Modifier.align(CenterVertically)
+        )
+        Text(text = progress, modifier = Modifier.align(CenterVertically))
         RetroButtonDark(onClick = { onCancelLoad.invoke(language) }) {
             Text(text = stringResource(R.string.language_cancel_download))
         }
@@ -154,7 +157,10 @@ private fun InstallingLanguage(
                 .align(CenterVertically)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Text(text = "Installing")
+        Text(
+            text = stringResource(id = R.string.language_installing),
+            modifier = Modifier.align(CenterVertically)
+        )
         RetroButtonDark(onClick = { onCancelLoad.invoke(language) }) {
             Text(text = stringResource(R.string.language_cancel_download))
         }
@@ -195,7 +201,10 @@ private fun DownloadLanguage(
                 .align(CenterVertically)
         )
         if (isFailed) {
-            Text(text = "Failed")
+            Text(
+                text = stringResource(R.string.language_failed),
+                modifier = Modifier.align(CenterVertically)
+            )
         }
         RetroButtonDark(onClick = { onDownload.invoke(language) }) {
             Text(text = stringResource(R.string.language_download))
