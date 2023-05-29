@@ -1,12 +1,13 @@
 package com.omar.retromp3recorder.io.downloader
 
 import com.omar.retromp3recorder.utils.domain.LoadingState
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.util.zip.ZipFile
 import javax.inject.Inject
 
@@ -15,38 +16,42 @@ internal class AndroidFileUnZipper @Inject constructor() : FileUnZipper {
         filePath: String,
         destination: String
     ): Flow<LoadingState<File>> {
-        return flow {
-            emit(LoadingState.Loading(0))
+        return flow<LoadingState<File>> {
+            emit(LoadingState.Loading())
             runCatching {
-                val destinationDir = File(destination)
-                if (destinationDir.exists().not()) {
-                    destinationDir.mkdir()
-                }
-                val input = ZipFile(filePath)
-                val entries = input.entries()
+                lateinit var fileName: String
+                ZipFile(filePath).use { zip ->
+                    fileName = zip.name
+                    val sequence = zip.entries().asSequence()
+                    sequence.forEach { entry ->
+                        zip.getInputStream(entry).use { input ->
+                            val entryPath = "$destination/${entry.name}"
 
-                val total = input.size()
-                var count = 0
-
-                fun percent(count: Int, total: Int): Int = (count * 100 / total)
-
-                while (entries.hasMoreElements()) {
-                    val entry = entries.nextElement()
-                    if (entry.isDirectory) {
-                        File(destination, entry.name)
-                    } else {
-                        BufferedOutputStream(FileOutputStream(File(destination, entry.name)))
-                            .use { output ->
-                                input.getInputStream(entry).use { data ->
-                                    output.write(data.readBytes())
-                                }
+                            if (!entry.isDirectory) {
+                                // if the entry is a file, extracts it
+                                extractFile(input, entryPath)
+                            } else {
+                                // if the entry is a directory, make the directory
+                                val dir = File(entryPath)
+                                dir.mkdir()
                             }
-                        count++
-                        emit(LoadingState.Loading(percent(count, total)))
+                        }
                     }
                 }
-                emit(LoadingState.Success(destinationDir))
+                emit(LoadingState.Success(File(destination, fileName)))
             }.exceptionOrNull()?.let { emit(LoadingState.Failed(it)) }
-        }
+        }.distinctUntilChanged()
     }
 }
+
+private fun extractFile(inputStream: InputStream, destFilePath: String) {
+    val bos = BufferedOutputStream(FileOutputStream(destFilePath))
+    val bytesIn = ByteArray(BUFFER_SIZE)
+    var read: Int
+    while (inputStream.read(bytesIn).also { read = it } != -1) {
+        bos.write(bytesIn, 0, read)
+    }
+    bos.close()
+}
+
+private const val BUFFER_SIZE: Int = 4096

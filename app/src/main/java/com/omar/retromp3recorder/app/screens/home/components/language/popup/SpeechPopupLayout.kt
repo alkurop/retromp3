@@ -84,17 +84,16 @@ fun SpeechPopupLayout(
                                     language = item.language,
                                     onDelete = deleteFunction
                                 )
-                                is LanguageState.Installing -> LoadingLanguage(
-                                    Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                                    language = item.language,
-                                    onCancelLoad = cancelFunction,
-                                    progress = "${loadingState.percent}%"
-                                )
                                 is LanguageState.DownLoading -> LoadingLanguage(
                                     Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                                     language = item.language,
                                     onCancelLoad = cancelFunction,
                                     progress = "${loadingState.percent}%"
+                                )
+                                is LanguageState.Installing -> InstallingLanguage(
+                                    Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                                    language = item.language,
+                                    onCancelLoad = cancelFunction,
                                 )
                             }
                         }
@@ -128,7 +127,34 @@ private fun LoadingLanguage(
                 .align(CenterVertically)
         )
         Spacer(modifier = Modifier.width(16.dp))
+        Text(text = "Loading")
         Text(text = progress)
+        RetroButtonDark(onClick = { onCancelLoad.invoke(language) }) {
+            Text(text = stringResource(R.string.language_cancel_download))
+        }
+    }
+}
+
+@Composable
+private fun InstallingLanguage(
+    modifier: Modifier = Modifier,
+    language: RecognitionLanguage,
+    onCancelLoad: (RecognitionLanguage) -> Unit
+) {
+    Row(modifier) {
+        LanguageDisplay(
+            language = language,
+            Modifier
+                .weight(1f)
+                .align(CenterVertically)
+        )
+        RetroProgressIndicator(
+            Modifier
+                .size(28.dp)
+                .align(CenterVertically)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(text = "Installing")
         RetroButtonDark(onClick = { onCancelLoad.invoke(language) }) {
             Text(text = stringResource(R.string.language_cancel_download))
         }

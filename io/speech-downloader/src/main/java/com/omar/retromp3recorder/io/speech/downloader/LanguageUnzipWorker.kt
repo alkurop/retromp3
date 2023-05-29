@@ -13,7 +13,9 @@ import com.omar.retromp3recorder.utils.domain.LoadingState
 import com.omar.retromp3recorder.utils.platform.DirPathProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.flowOn
 import java.io.File
 import java.util.concurrent.CountDownLatch
 
@@ -25,6 +27,8 @@ class LanguageUnzipWorker @AssistedInject constructor(
     private val fileDownloadNotificationSender: LanguageDownloadNotificationSender,
     private val fileUnZipper: FileUnZipper,
     private val dirPathProvider: DirPathProvider,
+    private val dispatcher: CoroutineDispatcher
+
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -35,18 +39,15 @@ class LanguageUnzipWorker @AssistedInject constructor(
         }
 
         val language = RecognitionLanguage.values()[languageCode]
-
         val path = dirPathProvider.provideModelDirPath()
-
         val origin = "$path/${language.getFilename()}"
         val destination = "$path/${language.getModelDir()}"
-
-        val flow = fileUnZipper.unzipFlow(origin, destination)
+        val flow = fileUnZipper.unzipFlow(origin, path)
         val latch = CountDownLatch(1)
 
         lateinit var result: Result
         coroutineScope {
-            flow.collect { next ->
+            flow.flowOn(dispatcher).collect { next ->
                 when (next) {
                     is LoadingState.Failed -> {
                         fileDownloadNotificationSender.sendNotification(

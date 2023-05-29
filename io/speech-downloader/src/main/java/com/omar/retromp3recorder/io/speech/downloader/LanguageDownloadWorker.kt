@@ -13,8 +13,9 @@ import com.omar.retromp3recorder.utils.domain.LoadingState
 import com.omar.retromp3recorder.utils.platform.DirPathProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flowOn
 import java.io.File
 import java.util.concurrent.CountDownLatch
 
@@ -26,6 +27,7 @@ class LanguageDownloadWorker @AssistedInject constructor(
     private val fileDownloadNotificationSender: LanguageDownloadNotificationSender,
     private val fileDownloader: FileDownloader,
     private val dirPathProvider: DirPathProvider,
+    private val dispatcher: CoroutineDispatcher
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -46,7 +48,7 @@ class LanguageDownloadWorker @AssistedInject constructor(
 
         lateinit var result: Result
         coroutineScope {
-            flow.collect { next ->
+            flow.flowOn(dispatcher).collect { next ->
                 when (next) {
                     is LoadingState.Failed -> {
                         fileDownloadNotificationSender.sendNotification(

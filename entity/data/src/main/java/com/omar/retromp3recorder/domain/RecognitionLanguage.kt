@@ -10,7 +10,7 @@ sealed interface LanguageState {
     data class ToDownload(val isFailed: Boolean) : LanguageState
     object Available : LanguageState
     data class DownLoading(val percent: Int) : LanguageState
-    data class Installing(val percent: Int) : LanguageState
+    object Installing : LanguageState
 }
 
 data class LanguageAvailability(

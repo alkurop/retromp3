@@ -102,12 +102,8 @@ class MediaProjectionService : Service() {
 
     private fun createNotificationChannel() {
         val name = getString(R.string.channel_name)
-        val descriptionText = getString(R.string.channel_description)
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(WAKELOCK_SERVICE_CHANNEL, name, importance).apply {
-            description = descriptionText
-        }
-
+        val channel = NotificationChannel(WAKELOCK_SERVICE_CHANNEL, name, importance)
         notificationManager.createNotificationChannel(channel)
     }
 }

@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.screens.home.components.language.getDisplayNameRes
 import com.omar.retromp3recorder.domain.LanguageAvailability
@@ -68,11 +67,12 @@ class AndroidLanguageDownloadNotificationSender @Inject constructor(
     @SuppressLint("MissingPermission")
     private fun showNotification(title: String, text: String, notificationId: Int) {
         val channelName = context.getString(R.string.language_download_notification_title)
-        val importance = NotificationManager.IMPORTANCE_HIGH
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(FILE_DOWNLOAD_CHANNEL_ID, channelName, importance)
         notificationManager.createNotificationChannel(channel)
         val builder = NotificationCompat.Builder(context, FILE_DOWNLOAD_CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher_foreground).setContentTitle(title)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle(title)
             .setContentText(text)
             .setSilent(true)
             .setOngoing(true)
@@ -88,5 +88,5 @@ private fun LanguageDownloadStatus.toAvailabilityStatus(): LanguageAvailability 
     is LanguageDownloadStatus.FinishedSuccess -> LanguageState.Available
     is LanguageDownloadStatus.FinishedWithError -> LanguageState.ToDownload(true)
     is LanguageDownloadStatus.LoadingProgress -> LanguageState.DownLoading(this.percent)
-    is LanguageDownloadStatus.InstallingProgress -> LanguageState.Installing(this.percent)
+    is LanguageDownloadStatus.InstallingProgress -> LanguageState.Installing
 }.let { LanguageAvailability(this.language, it) }
