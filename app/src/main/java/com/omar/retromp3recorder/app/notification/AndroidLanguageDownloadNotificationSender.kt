@@ -56,8 +56,6 @@ class AndroidLanguageDownloadNotificationSender @Inject constructor(
                     context.getString(R.string.language_download_notification_installing_title)
                 val text = context.getString(
                     R.string.language_download_notification_installing_text,
-                    context.getString(status.language.getDisplayNameRes()),
-                    status.percent
                 )
                 showNotification(title, text, notificationId)
             }

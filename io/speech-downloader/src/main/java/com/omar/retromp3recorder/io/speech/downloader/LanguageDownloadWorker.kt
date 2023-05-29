@@ -70,7 +70,6 @@ class LanguageDownloadWorker @AssistedInject constructor(
                     }
                 }
             }
-
         }
         latch.await()
         return result
