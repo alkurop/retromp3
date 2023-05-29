@@ -15,14 +15,23 @@ class DownloadLanguageHook @Inject constructor(
     fun execute(recognitionLanguage: RecognitionLanguage) {
         val uniqueWorkName = recognitionLanguage.uniqueWorkName()
 
-        val work = OneTimeWorkRequest.Builder(LanguageDownloadWorker::class.java)
+        val downloadWork = OneTimeWorkRequest.Builder(LanguageDownloadWorker::class.java)
             .setInputData(workDataOf(LanguageDownloadWorker.LANGUAGE_CODE to recognitionLanguage.ordinal))
             .addTag(LanguageDownloadWorker.WORKER_NAME)
             .addTag(uniqueWorkName)
             .build()
 
+        val unzipWork = OneTimeWorkRequest.Builder(LanguageUnzipWorker::class.java)
+            .setInputData(workDataOf(LanguageUnzipWorker.LANGUAGE_CODE to recognitionLanguage.ordinal))
+            .addTag(LanguageUnzipWorker.WORKER_NAME)
+            .addTag(uniqueWorkName)
+            .build()
+
         WorkManager.getInstance(context)
-            .enqueueUniqueWork(uniqueWorkName, ExistingWorkPolicy.KEEP, work)
+            .beginUniqueWork(uniqueWorkName, ExistingWorkPolicy.KEEP, downloadWork)
+            .then(unzipWork)
+            .enqueue()
+
     }
 }
 

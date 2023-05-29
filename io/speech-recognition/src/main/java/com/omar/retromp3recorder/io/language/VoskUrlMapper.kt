@@ -32,3 +32,5 @@ fun RecognitionLanguage.getUrl():String {
 }
 
 fun RecognitionLanguage.getFilename(): String = this.getUrl().split("/").last()
+
+fun RecognitionLanguage.getModelDir(): String = this.getFilename().split(".zip").first()

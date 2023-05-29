@@ -14,7 +14,7 @@ internal class VoskLanguageLister @Inject constructor(
     override suspend fun listAvailableRecognitionLanguages(): List<LanguageAvailability> {
         val languages = RecognitionLanguage.values()
         val modelPath = dirPathProvider.provideModelDirPath()
-        return languages.map { item -> item to "$modelPath/${item.getFilename()}" }
+        return languages.map { item -> item to "$modelPath/${item.getModelDir()}" }
             .map { (item, path) ->
                 val available = File(path).runCatching {
                     this.exists()

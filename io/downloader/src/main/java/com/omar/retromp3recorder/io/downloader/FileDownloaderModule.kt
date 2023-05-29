@@ -15,7 +15,10 @@ import javax.net.ssl.*
 @InstallIn(SingletonComponent::class)
 internal interface FileDownloaderModule {
     @Binds
-    fun bind(instance: RetrofitFileDownloader): FileDownloader
+    fun bindDownloader(instance: RetrofitFileDownloader): FileDownloader
+
+    @Binds
+    fun bindUnzipper(instance: AndroidFileUnZipper): FileUnZipper
 }
 
 @Module
