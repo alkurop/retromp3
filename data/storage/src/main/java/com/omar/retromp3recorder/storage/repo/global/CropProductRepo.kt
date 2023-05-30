@@ -3,12 +3,12 @@ package com.omar.retromp3recorder.storage.repo.global
 import android.content.SharedPreferences
 import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.repo.StateFlowRepo
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@ViewModelScoped
 class CropProductRepo @Inject constructor(
     private val differedCoroutineScope: DifferedCoroutineScope,
     private val sharedPreferences: SharedPreferences
