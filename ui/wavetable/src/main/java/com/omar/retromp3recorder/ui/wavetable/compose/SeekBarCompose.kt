@@ -86,11 +86,11 @@ fun SeekBarCompose(
                     sendUpdateEvent(currentProgress)
                 }
 
-
                 MotionEvent.ACTION_MOVE -> {
                     val currentProgress = event.toUpdateEvent(state.data.progress, state.k)
                     sendUpdateEvent(currentProgress)
                 }
+
                 MotionEvent.ACTION_UP -> sendResumeEvent()
             }
             true
@@ -106,11 +106,12 @@ fun MotionEvent.toUpdateEvent(progress: PlayerProgress, k: Float): Long {
     val shouldLimitToRange = range.isEnabled
     val min = if (shouldLimitToRange) fromRange else 0
     val max = if (shouldLimitToRange) toRange else progress.duration
-    return if (progress.duration > Int.MAX_VALUE) {
+    val result = if (progress.duration > Int.MAX_VALUE) {
         k.div(1000).times(this.x).toLong().times(100).coerceIn(min, max)
     } else {
         k.times(this.x).toLong().coerceIn(min, max)
     }
+    return if (result == max) min else result
 }
 
 @Composable
