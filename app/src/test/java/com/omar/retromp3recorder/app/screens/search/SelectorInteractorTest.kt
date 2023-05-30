@@ -5,7 +5,6 @@ import com.omar.retromp3recorder.bl.files.SetCurrentFileUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.storage.db.DatabasePagingProvider
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.every
 import io.mockk.mockk

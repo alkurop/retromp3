@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.omar.retromp3recorder.bl.audio.progress.AudioState
 import com.omar.retromp3recorder.bl.audio.progress.AudioStateMapper
 import com.omar.retromp3recorder.bl.audio.record.PlayerIdMapper
-import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

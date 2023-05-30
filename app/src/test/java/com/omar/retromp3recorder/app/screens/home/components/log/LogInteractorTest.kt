@@ -1,9 +1,8 @@
 package com.omar.retromp3recorder.app.screens.home.components.log
 
 import app.cash.turbine.test
-import com.omar.retromp3recorder.domain.platform.LogEvent
 import com.omar.retromp3recorder.bl.system.LogMapper
-import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
+import com.omar.retromp3recorder.domain.platform.LogEvent
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

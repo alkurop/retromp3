@@ -13,7 +13,6 @@ import com.omar.retromp3recorder.bl.system.ShareUC
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.domain.PlayerProgress
 import com.omar.retromp3recorder.ui.statebutton.InteractiveButtonState
-import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk

@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.omar.retromp3recorder.bl.audio.actions.UpdatePlayerRangeUC
 import com.omar.retromp3recorder.bl.settings.ActivateRangeUC
 import com.omar.retromp3recorder.data.mock.MockPlayerProgressFactory
-import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
