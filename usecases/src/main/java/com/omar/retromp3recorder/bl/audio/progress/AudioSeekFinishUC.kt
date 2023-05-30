@@ -12,10 +12,8 @@ class AudioSeekFinishUC @Inject constructor(
     suspend fun execute() {
         when (audioPlayer.stateFlow().first()) {
             AudioPlayer.State.Playing,
+            AudioPlayer.State.Idle,
             AudioPlayer.State.PausedToSeek -> startPlaybackUC.execute()
-            AudioPlayer.State.Idle -> {
-                //do nothing
-            }
         }
     }
 }
