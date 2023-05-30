@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
-        lifecycleScope.launch { billing.setup(lifecycleScope) }
+        lifecycleScope.launch { billing.setup() }
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 this@MainActivity.renderView(state)

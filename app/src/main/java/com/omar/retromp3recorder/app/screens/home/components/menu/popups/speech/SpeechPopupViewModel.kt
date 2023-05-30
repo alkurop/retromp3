@@ -1,4 +1,4 @@
-package com.omar.retromp3recorder.app.screens.home.components.menu.popups.speech
+package com.omar.retromp3recorder.app.screens.home.components.language.popup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +15,8 @@ class SpeechPopupViewModel @Inject constructor(
 
     private val inputFlow = MutableSharedFlow<SpeechPopupContract.Input>()
 
-    val state = interactor.processIO(viewModelScope, inputFlow)        .stateInViewModel(this, SpeechPopupContract.State())
+    val state = interactor.processIO(inputFlow)
+        .stateInViewModel(this, SpeechPopupContract.State())
 
     fun emit(event: SpeechPopupContract.Input) {
         viewModelScope.launch { inputFlow.emit(event) }

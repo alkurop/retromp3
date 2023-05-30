@@ -16,7 +16,7 @@ class SampleRateViewModel @Inject constructor(
 
     private val inputFlow = MutableSharedFlow<Mp3VoiceRecorder.SampleRate>()
 
-    val state = interactor.processIO(viewModelScope, inputFlow)
+    val state = interactor.processIO(inputFlow)
         .stateInViewModel(this, Mp3VoiceRecorder.SampleRate.values()[0])
 
     fun onEvent(event: Mp3VoiceRecorder.SampleRate) {

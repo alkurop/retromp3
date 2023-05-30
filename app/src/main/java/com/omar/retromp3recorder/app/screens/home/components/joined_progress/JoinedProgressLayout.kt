@@ -17,7 +17,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
-import com.omar.retromp3recorder.ui.wavetable.compose.*
+import com.omar.retromp3recorder.ui.wavetable.compose.SeekEvent
+import com.omar.retromp3recorder.ui.wavetable.compose.WaveSeekData
+import com.omar.retromp3recorder.ui.wavetable.compose.WavetableCompose
+import com.omar.retromp3recorder.ui.wavetable.compose.WavetableComposeData
+import com.omar.retromp3recorder.ui.wavetable.compose.WavetableSeekbarCompose
 
 
 @Composable

@@ -16,7 +16,7 @@ class JoinedProgressViewModel @Inject constructor(
 
     private val inputFlow = MutableSharedFlow<JoinedProgressContract.In>()
 
-    val state = interactor.processIO(viewModelScope, inputFlow)
+    val state = interactor.processIO(inputFlow)
         .mapOutputToStateFlow()
         .stateInViewModel(this, JoinedProgressContract.State())
 

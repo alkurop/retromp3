@@ -13,7 +13,6 @@ import com.omar.retromp3recorder.storage.repo.global.BillingRequestEventBus
 import com.omar.retromp3recorder.storage.repo.global.BillingResultEventBus
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
@@ -27,8 +26,8 @@ class BillingInteractor @Inject constructor(
     private val toastRepo: ToastRepo,
     dispatcher: CoroutineDispatcher
 ) : Interactor<BillingRequest, Unit>(dispatcher) {
-    suspend fun setup(parentScope: CoroutineScope) {
-        processIO(parentScope, billingRequestEventBus.flow()).collect()
+    suspend fun setup() {
+        processIO(billingRequestEventBus.flow()).collect()
     }
 
     override fun listRepos(): List<Flow<Unit>> = emptyList()

@@ -13,7 +13,7 @@ import javax.inject.Inject
 class LogViewModel @Inject constructor(
     interactor: LogInteractor
 ) : ViewModel() {
-    val state = interactor.processIO(viewModelScope, flowOf())
+    val state = interactor.processIO(flowOf())
         .mapOutputToState()
         .stateIn(viewModelScope, SharingStarted.Lazily, LogView.State())
 }

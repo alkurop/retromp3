@@ -5,10 +5,8 @@ import kotlinx.coroutines.flow.*
 
 @OptIn(FlowPreview::class)
 abstract class Interactor<Input, Output>(private val dispatcher: CoroutineDispatcher) {
-    private lateinit var parentScope: CoroutineScope
 
-    fun processIO(parentScope: CoroutineScope, upstream: Flow<Input> = flowOf()): Flow<Output> {
-        this.parentScope = parentScope
+    fun processIO(upstream: Flow<Input> = flowOf()): Flow<Output> {
 
         return (listRepos() + upstream.processInputs())
             .merge()
@@ -20,7 +18,7 @@ abstract class Interactor<Input, Output>(private val dispatcher: CoroutineDispat
     private fun Flow<Input>.processInputs(): Flow<Output> {
         return this.flatMapMerge { event ->
             flow {
-                parentScope.launch(dispatcher) {
+               withContext(dispatcher) {
                     launchUseCase(event)
                 }
             }

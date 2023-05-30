@@ -16,7 +16,7 @@ class LanguageViewModel @Inject constructor(
 ) : ViewModel() {
     private val inputFlow = MutableSharedFlow<LanguageContract.Input>()
 
-    val state = interactor.processIO(viewModelScope, inputFlow)
+    val state = interactor.processIO(inputFlow)
         .mapOutputToStateFlow()
         .stateInViewModel(this, LanguageContract.State())
 

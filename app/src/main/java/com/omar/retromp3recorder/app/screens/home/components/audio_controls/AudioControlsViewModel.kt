@@ -15,7 +15,7 @@ class AudioControlsViewModel @Inject constructor(
 ) : ViewModel() {
     private val inputFlow = MutableSharedFlow<AudioControlsView.Input>()
 
-    val state = interactor.processIO(viewModelScope, inputFlow)
+    val state = interactor.processIO(inputFlow)
         .mapOutputToStateFlow()
         .stateInViewModel(this, AudioControlsView.State())
 

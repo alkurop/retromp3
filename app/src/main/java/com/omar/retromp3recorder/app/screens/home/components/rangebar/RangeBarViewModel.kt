@@ -17,7 +17,7 @@ class RangeBarViewModel @Inject constructor(
     private val inputFlow = MutableSharedFlow<RangeBarContract.Input>()
 
     val state = interactor
-        .processIO(viewModelScope, inputFlow)
+        .processIO(inputFlow)
         .mapToState()
         .stateInViewModel(this, RangeBarContract.State())
 

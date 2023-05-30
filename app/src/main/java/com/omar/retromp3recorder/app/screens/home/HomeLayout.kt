@@ -23,8 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.R
 import com.omar.retromp3recorder.app.nav.AppDestination
 import com.omar.retromp3recorder.app.screens.home.components.audio_controls.compose.AudioControlsLayout
-import com.omar.retromp3recorder.app.screens.home.components.log.LogLayout
 import com.omar.retromp3recorder.app.screens.home.components.language.compose.LanguageLayout
+import com.omar.retromp3recorder.app.screens.home.components.log.LogLayout
 import com.omar.retromp3recorder.app.screens.home.components.track.TrackLayout
 import com.omar.retromp3recorder.app.screens.home.components.visualizer.VisualizerLayout
 
