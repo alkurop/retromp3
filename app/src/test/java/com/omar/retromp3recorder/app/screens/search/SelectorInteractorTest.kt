@@ -66,7 +66,6 @@ class SelectorInteractorTest {
                 val defaultFlow = awaitItem()
                 val expected = awaitItem()
                 assert(expected is SelectorContract.Output.CurrentFlow)
-
             }
     }
 }
