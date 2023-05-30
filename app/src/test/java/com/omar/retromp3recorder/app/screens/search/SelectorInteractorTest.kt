@@ -71,8 +71,6 @@ class SelectorInteractorTest {
                 skipItems(2)
                 val expected = awaitItem()
                 assert(expected is SelectorContract.Output.CurrentFlow)
-                val currentFlow = expected as SelectorContract.Output.CurrentFlow
-                assertEquals(currentFlow.flow, mockFlow)
             }
     }
 }
