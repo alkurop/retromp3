@@ -10,6 +10,7 @@ import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -51,8 +52,13 @@ class SelectorInteractorTest {
     }
 
     @Test
-    fun `on item selected set current file executed`() {
-
+    fun `on item selected set current file executed`() = runTest {
+        val query = "query"
+        tested.processIO(flowOf(SelectorContract.Input.SetQuery(query)))
+            .test {
+                cancelAndIgnoreRemainingEvents()
+            }
+        verify { pagingProvider.createFlow(query) }
     }
 
     @Test
@@ -62,10 +68,11 @@ class SelectorInteractorTest {
 
         tested.processIO(flowOf(SelectorContract.Input.SetQuery("test")))
             .test {
-                val fileSetter = awaitItem()
-                val defaultFlow = awaitItem()
+                skipItems(2)
                 val expected = awaitItem()
                 assert(expected is SelectorContract.Output.CurrentFlow)
+                val currentFlow = expected as SelectorContract.Output.CurrentFlow
+                assertEquals(currentFlow.flow, mockFlow)
             }
     }
 }
