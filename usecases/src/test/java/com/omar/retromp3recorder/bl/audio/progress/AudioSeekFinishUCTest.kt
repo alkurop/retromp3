@@ -38,9 +38,9 @@ class AudioSeekFinishUCTest {
     }
 
     @Test
-    fun `on idle do nothing`() = runTest {
+    fun `on idle executed`() = runTest {
         every { audioPlayer.stateFlow() } returns flowOf(AudioPlayer.State.Idle)
         tested.execute()
-        coVerify(exactly = 0) { startPlaybackUC.execute() }
+        coVerify { startPlaybackUC.execute() }
     }
 }
