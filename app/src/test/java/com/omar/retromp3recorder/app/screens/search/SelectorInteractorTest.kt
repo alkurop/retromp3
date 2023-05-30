@@ -1,14 +1,17 @@
 package com.omar.retromp3recorder.app.screens.search
 
+import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.omar.retromp3recorder.bl.files.SetCurrentFileUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
+import com.omar.retromp3recorder.domain.ExistingFileWrapper
 import com.omar.retromp3recorder.storage.db.DatabasePagingProvider
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
 import com.omar.retromp3recorder.utils.domain.toOptional
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -44,6 +47,26 @@ class SelectorInteractorTest {
                 val item = awaitItem()
                 assert(item is SelectorContract.Output.CurrentFlow)
                 cancelAndConsumeRemainingEvents()
+            }
+    }
+
+    @Test
+    fun `on item selected set current file executed`() {
+
+    }
+
+    @Test
+    fun `on set query new flow emitted`() = runTest {
+        val mockFlow = mockk<Flow<PagingData<ExistingFileWrapper>>>()
+        every { pagingProvider.createFlow(any()) } returns mockFlow
+
+        tested.processIO(flowOf(SelectorContract.Input.SetQuery("test")))
+            .test {
+                val fileSetter = awaitItem()
+                val defaultFlow = awaitItem()
+                val expected = awaitItem()
+                assert(expected is SelectorContract.Output.CurrentFlow)
+
             }
     }
 }
