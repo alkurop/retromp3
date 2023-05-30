@@ -31,6 +31,7 @@ class SelectorInteractor @Inject constructor(
                     )
                 )
             },
+            outputBus.flow()
         )
     }
 
