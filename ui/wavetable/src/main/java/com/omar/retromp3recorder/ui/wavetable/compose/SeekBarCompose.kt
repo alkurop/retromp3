@@ -10,6 +10,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.RequestDisallowInterceptTouchEvent
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.toSize
@@ -30,6 +31,8 @@ class SeekBarState(initialData: SeekBarData) {
     var data by mutableStateOf(initialData)
     var isSeekeing by mutableStateOf(false)
     var update by mutableStateOf(0L)
+    var width by mutableStateOf(0)
+    val k by derivedStateOf { data.progress.duration.div(width.toFloat()) }
 
     fun onUpdate(update: Long) {
         this.update = update
@@ -51,9 +54,6 @@ fun SeekBarCompose(
     onEvent: (SeekEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var width by remember { mutableStateOf(0) }
-    val k by remember { derivedStateOf { state.data.progress.duration.div(width.toFloat()) } }
-
     val sendPauseEvent: () -> Unit = remember(onEvent) {
         {
             onEvent(SeekEvent.SeekStarted)
@@ -63,7 +63,6 @@ fun SeekBarCompose(
     val sendUpdateEvent: (Long) -> Unit = remember(onEvent) {
         { update ->
             state.onUpdate(update)
-
         }
     }
     val sendResumeEvent: () -> Unit = remember(onEvent) {
@@ -72,23 +71,31 @@ fun SeekBarCompose(
             state.isSeekeing = false
         }
     }
+
+    val requestDisallowInterceptTouchEvent = remember { RequestDisallowInterceptTouchEvent() }
+
     val pointerModifier = modifier
-        .pointerInteropFilter { event: MotionEvent ->
+        .pointerInteropFilter(
+            requestDisallowInterceptTouchEvent
+        ) { event: MotionEvent ->
+            requestDisallowInterceptTouchEvent(true)
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     sendPauseEvent()
-                    val currentProgress = event.toUpdateEvent(state.data.progress, k)
+                    val currentProgress = event.toUpdateEvent(state.data.progress, state.k)
                     sendUpdateEvent(currentProgress)
                 }
+
+
                 MotionEvent.ACTION_MOVE -> {
-                    val currentProgress = event.toUpdateEvent(state.data.progress, k)
+                    val currentProgress = event.toUpdateEvent(state.data.progress, state.k)
                     sendUpdateEvent(currentProgress)
                 }
                 MotionEvent.ACTION_UP -> sendResumeEvent()
             }
             true
         }
-        .onSizeChanged { width = it.width }
+        .onSizeChanged { state.width = it.width }
     ProgressBar(modifier = pointerModifier, data = state.data)
 }
 
