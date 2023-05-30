@@ -49,10 +49,16 @@ fun SpeedBarLayout(
             val rangeStateText = stringResource(if (active) R.string.on else R.string.off)
             val rangeText = stringResource(R.string.speed_enabled, "$rangeStateText ${rangeState}x")
 
-            val sendRangeUpdate: (Float) -> Unit = {
-                rangeState = it.roundTo(1)
-                viewModel.onEvent(SpeedBarContract.Input.SpeedSet(it))
+            val sendRangeUpdate: (Float) -> Unit = remember {
+                {
+                    rangeState = it.roundTo(1)
+                    viewModel.onEvent(SpeedBarContract.Input.SpeedSet(it))
+                }
             }
+
+            val sendEnableEvent: () -> Unit = remember { {
+                viewModel.onEvent(SpeedBarContract.Input.Enable)
+            } }
 
             Slider(
                 modifier = Modifier.padding(horizontal = 8.dp),
@@ -68,7 +74,7 @@ fun SpeedBarLayout(
                 .padding(top = 40.dp)
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .clickable { viewModel.onEvent(SpeedBarContract.Input.Enable) }
+                .clickable (onClick = sendEnableEvent)
                 .padding(horizontal = 8.dp)
                 .padding(bottom = 4.dp),
                 horizontalArrangement = Arrangement.SpaceBetween) {

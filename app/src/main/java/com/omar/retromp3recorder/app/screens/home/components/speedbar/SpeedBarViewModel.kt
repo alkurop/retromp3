@@ -16,7 +16,7 @@ class SpeedBarViewModel @Inject constructor(
 ) : ViewModel() {
     private val inputFlow = MutableSharedFlow<SpeedBarContract.Input>()
 
-    val state = interactor.processIO()
+    val state = interactor.processIO(inputFlow)
         .mapToState()
         .stateInViewModel(this, SpeedBarContract.State())
 
