@@ -8,7 +8,6 @@ import com.omar.retromp3recorder.bl.audio.progress.JoinedProgressMapper
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.domain.JoinedProgress
 import com.omar.retromp3recorder.storage.repo.local.CurrentFileRepo
-import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import com.omar.retromp3recorder.utils.domain.Optional
 import io.mockk.coVerify
 import io.mockk.every
@@ -48,7 +47,7 @@ class JoinedProgressInteractorTest {
     fun `listen joined progress repo`() = runTest {
         val state = JoinedProgress.Intermediate
         every { joinedProgressRepo.flow() } returns flowOf(state)
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
+        tested.processIO(flowOf()).test {
             val awaitItem = awaitItem()
             println(awaitItem)
             val output = awaitItem as JoinedProgressContract.Output.JoinedProgressChanged
@@ -61,7 +60,7 @@ class JoinedProgressInteractorTest {
     fun `listen joined currentFileRepo default event`() = runTest {
         val fileWrapper = MockFileFactory.giveExistingFile()
         currentFileRepo.emit(Optional(fileWrapper))
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
+        tested.processIO(flowOf()).test {
             val output = awaitItem() as JoinedProgressContract.Output.CurrentFileChanged
             assertEquals(fileWrapper, output.currentFile)
             cancelAndIgnoreRemainingEvents()
@@ -71,7 +70,7 @@ class JoinedProgressInteractorTest {
     @Test
     fun `SeekToPosition input execute seek progress uc`() = runTest {
         val event = JoinedProgressContract.In.SeekToPosition(9)
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(event))
+        tested.processIO(flowOf(event))
             .test { cancelAndIgnoreRemainingEvents() }
 
         coVerify(exactly = 1) { audioSeekProgressUC.execute(event.position) }
@@ -82,7 +81,6 @@ class JoinedProgressInteractorTest {
     @Test
     fun `SeekingStarted input execute seek started uc`() = runTest {
         tested.processIO(
-            DifferedCoroutineScope(dispatcher),
             flowOf(JoinedProgressContract.In.SeekingStarted)
         )
             .test { cancelAndIgnoreRemainingEvents() }

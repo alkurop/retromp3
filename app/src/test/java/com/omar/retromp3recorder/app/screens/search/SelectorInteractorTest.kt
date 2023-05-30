@@ -39,7 +39,7 @@ class SelectorInteractorTest {
     @Test
     fun `listen to paging provider`() = runTest {
         currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
-        tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()),flowOf(SelectorContract.Input.ItemSelected(file)))
+        tested.processIO(flowOf(SelectorContract.Input.ItemSelected(file)))
             .test {
                 skipItems(1)
                 val item = awaitItem()

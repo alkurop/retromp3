@@ -33,7 +33,7 @@ class MenuInteractorTest {
     @Test
     fun `Enable input executes switcher usecase`() = runTest {
         val event = MenuContract.Input.Enable(AudioEnabler.Reverse, true)
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(event)).test {
+        tested.processIO(flowOf(event)).test {
             cancelAndIgnoreRemainingEvents()
         }
 
@@ -44,7 +44,7 @@ class MenuInteractorTest {
     fun `listens to menu excavator`() = runTest {
         val state = mockk<MenuContract.State>()
         coEvery { excavator.flow() } returns flowOf(state)
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
+        tested.processIO(flowOf()).test {
             val item = awaitItem()
             assertEquals(state, item)
             cancelAndIgnoreRemainingEvents()

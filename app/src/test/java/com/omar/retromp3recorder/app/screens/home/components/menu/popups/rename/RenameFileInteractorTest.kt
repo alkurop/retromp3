@@ -35,7 +35,7 @@ class RenameFileInteractorTest {
     @Test
     fun `when current file is not existing the crash`() = runTest {
         currentFileRepo.emit(MockFileFactory.giveFutureFile().toOptional())
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf())
+        tested.processIO(flowOf())
             .test {
                 val error = awaitError()
                 assert(error is IllegalArgumentException)
@@ -47,7 +47,6 @@ class RenameFileInteractorTest {
         currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
         val newName = "test"
         tested.processIO(
-            DifferedCoroutineScope(dispatcher),
             flowOf(RenameFileContract.Input.CheckCanRename(newName))
         )
             .test {
@@ -65,15 +64,13 @@ class RenameFileInteractorTest {
         currentFileRepo.emit(MockFileFactory.giveExistingFile().toOptional())
         val newName = "test"
         tested.processIO(
-            DifferedCoroutineScope(dispatcher),
             flowOf(RenameFileContract.Input.Rename(newName))
-        )
-            .test {
-                // skip file event
-                skipItems(1)
-                val item = awaitItem()
-                assert(item is RenameFileContract.Output.Dismiss)
-            }
+        ).test {
+            // skip file event
+            skipItems(1)
+            val item = awaitItem()
+            assert(item is RenameFileContract.Output.Dismiss)
+        }
 
         coVerify { renameFileUC.execute(newName) }
     }
@@ -82,7 +79,7 @@ class RenameFileInteractorTest {
     fun `listens to current file repo`() = runTest {
         val expected = MockFileFactory.giveExistingFile()
         currentFileRepo.emit(expected.toOptional())
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf())
+        tested.processIO(flowOf())
             .test {
                 val result = (awaitItem() as? RenameFileContract.Output.CurrentFile)?.fileWrapper
                 assertEquals(result, expected)

@@ -32,7 +32,7 @@ class VisualizerInteractorTest {
         val state = AudioState.Playing
         every { audioStateMapper.flow() } returns flowOf(state)
 
-        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
+        tested.processIO( ).test {
             val item = awaitItem() as VisualizerView.Output.AudioStateChanged
             assertEquals(state, item.state)
             cancelAndConsumeRemainingEvents()
@@ -44,7 +44,7 @@ class VisualizerInteractorTest {
         val playerId = 10
         every { playerIdMapper.flow() } returns flowOf(playerId)
 
-        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
+        tested.processIO( ).test {
             val item = awaitItem() as VisualizerView.Output.PlayerIdOutput
             assertEquals(playerId, item.playerId)
             awaitComplete()

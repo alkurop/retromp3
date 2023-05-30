@@ -75,7 +75,7 @@ class AudioControlsInteractorTest {
 
         every { recorderDurationStateFlow.flow() } returns flowOf(expected)
 
-        tested.processIO(DifferedCoroutineScope(dispatcher), emptyFlow()).test {
+        tested.processIO(emptyFlow()).test {
             val item = awaitItem() as AudioControlsView.Output.RecorderDurationState
             assertEquals(expected, item)
             awaitComplete()
@@ -92,7 +92,7 @@ class AudioControlsInteractorTest {
         every { mockData.progress } returns progressExpected
         every { joinedProgressMapper.flow() } returns flowOf(mockData)
 
-        tested.processIO(DifferedCoroutineScope(dispatcher), emptyFlow()).test {
+        tested.processIO(emptyFlow()).test {
             val item = awaitItem() as AudioControlsView.Output.PlayerProgressState
             assertEquals(expected, item)
             assertEquals(progressExpected, item.state)
@@ -106,7 +106,7 @@ class AudioControlsInteractorTest {
 
         every { playButtonStateMapper.flow() } returns flowOf(expected)
 
-        tested.processIO(DifferedCoroutineScope(dispatcher), emptyFlow()).test {
+        tested.processIO(emptyFlow()).test {
             val item = awaitItem() as AudioControlsView.Output.PlayButtonState
             assertEquals(expected, item.state)
             awaitComplete()
@@ -119,7 +119,7 @@ class AudioControlsInteractorTest {
 
         every { recordButtonStateMapper.flow() } returns flowOf(expected)
 
-        tested.processIO(DifferedCoroutineScope(dispatcher), emptyFlow()).test {
+        tested.processIO(emptyFlow()).test {
             val item = awaitItem() as AudioControlsView.Output.RecordButtonState
             assertEquals(expected, item.state)
             awaitComplete()
@@ -132,7 +132,7 @@ class AudioControlsInteractorTest {
 
         every { shareButtonStateMapper.flow() } returns flowOf(expected)
 
-        tested.processIO(DifferedCoroutineScope(dispatcher), emptyFlow()).test {
+        tested.processIO(emptyFlow()).test {
             val item = awaitItem() as AudioControlsView.Output.ShareButtonState
             assertEquals(expected, item.state)
             awaitComplete()
@@ -145,7 +145,7 @@ class AudioControlsInteractorTest {
 
         every { stopButtonStateMapper.flow() } returns flowOf(expected)
 
-        tested.processIO(DifferedCoroutineScope(dispatcher), emptyFlow()).test {
+        tested.processIO(emptyFlow()).test {
             val item = awaitItem() as AudioControlsView.Output.StopButtonState
             assertEquals(expected, item.state)
             awaitComplete()
@@ -154,7 +154,7 @@ class AudioControlsInteractorTest {
 
     @Test
     fun `play input executes correct usecase`() = runTest {
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(AudioControlsView.Input.Play))
+        tested.processIO(flowOf(AudioControlsView.Input.Play))
             .test {
                 awaitComplete()
             }
@@ -166,7 +166,7 @@ class AudioControlsInteractorTest {
 
     @Test
     fun `record input executes correct usecase`() = runTest {
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(AudioControlsView.Input.Record))
+        tested.processIO(flowOf(AudioControlsView.Input.Record))
             .test {
                 awaitComplete()
             }
@@ -179,7 +179,7 @@ class AudioControlsInteractorTest {
 
     @Test
     fun `stop input executes correct usecase`() = runTest {
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(AudioControlsView.Input.Stop))
+        tested.processIO(flowOf(AudioControlsView.Input.Stop))
             .test {
                 awaitComplete()
             }
@@ -192,7 +192,7 @@ class AudioControlsInteractorTest {
 
     @Test
     fun `share input executes correct usecase`() = runTest {
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(AudioControlsView.Input.Share))
+        tested.processIO(flowOf(AudioControlsView.Input.Share))
             .test {
                 awaitComplete()
             }

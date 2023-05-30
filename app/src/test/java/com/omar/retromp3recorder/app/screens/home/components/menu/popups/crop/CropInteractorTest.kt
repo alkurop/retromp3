@@ -10,9 +10,8 @@ import com.omar.retromp3recorder.bl.crop.GenerateFileNameUC
 import com.omar.retromp3recorder.bl.files.CanSaveAsNameUC
 import com.omar.retromp3recorder.data.mock.MockFileFactory
 import com.omar.retromp3recorder.data.mock.MockSuggestionFactory
-import com.omar.retromp3recorder.utils.domain.toResult
 import com.omar.retromp3recorder.storage.repo.global.ToastRepo
-import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
+import com.omar.retromp3recorder.utils.domain.toResult
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -56,7 +55,7 @@ class CropInteractorTest {
     @Test
     fun `when has no purchase on start, emit dismiss and execute buy`() = runTest {
         coEvery { hasCropPurchaseUC.execute() } returns false
-        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
+        tested.processIO().test {
             val item1 = awaitItem()
             assertEquals(CropContract.Output.Dismiss, item1)
             cancelAndConsumeRemainingEvents()
@@ -68,7 +67,7 @@ class CropInteractorTest {
     @Test
     fun `on start name suggestion is generated, cropping allowed`() = runTest {
         coEvery { hasCropPurchaseUC.execute() } returns true
-        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
+        tested.processIO().test {
             val item1 = awaitItem()
             assertEquals(CropContract.Output.Show, item1)
 
@@ -94,7 +93,6 @@ class CropInteractorTest {
         every { canSaveAs.execute(any()) } returns expected
 
         tested.processIO(
-            DifferedCoroutineScope(dispatcher),
             flowOf(
                 CropContract.Input.CheckCanCrop(
                     MockSuggestionFactory.giveTestSuggestion()
@@ -116,7 +114,6 @@ class CropInteractorTest {
         coEvery { cropInPlaceUC.execute(any()) } returns Result.failure(Error("Expected"))
 
         tested.processIO(
-            DifferedCoroutineScope(dispatcher),
             flowOf(
                 CropContract.Input.CropInPlace(
                     MockSuggestionFactory.giveTestSuggestion()
@@ -139,7 +136,6 @@ class CropInteractorTest {
             .toResult()
 
         tested.processIO(
-            DifferedCoroutineScope(dispatcher),
             flowOf(
                 CropContract.Input.CropInPlace(
                     MockSuggestionFactory.giveTestSuggestion()
@@ -162,7 +158,6 @@ class CropInteractorTest {
             .toResult()
 
         tested.processIO(
-            DifferedCoroutineScope(dispatcher),
             flowOf(
                 CropContract.Input.CropOutside(
                     MockSuggestionFactory.giveTestSuggestion()

@@ -35,7 +35,7 @@ class AudioSourceInteractorTest {
     fun `on input usecase executed`() = runTest {
         val event = Mp3VoiceRecorder.AudioSourcePref.Media
 
-        interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf(event)).test {
+        interactor.processIO(flowOf(event)).test {
             cancelAndIgnoreRemainingEvents()
         }
 
@@ -55,7 +55,7 @@ class AudioSourceInteractorTest {
             settings
         )
 
-        interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
+        interactor.processIO(flowOf()).test {
             val item = awaitItem()
             assertEquals(event, item)
 

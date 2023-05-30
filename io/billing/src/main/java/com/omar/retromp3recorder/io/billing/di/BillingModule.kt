@@ -28,7 +28,7 @@ internal interface BillingModule {
 
 @InstallIn(SingletonComponent::class)
 @Module
-internal class BillingProviderModule{
+internal class BillingProviderModule {
     @Singleton
     @Provides
     fun provideBillingScopeJobWrapper(dispatcher: CoroutineDispatcher): BillingCoroutineScope =
@@ -37,4 +37,5 @@ internal class BillingProviderModule{
 }
 
 // Should not cancel billing jobs in case view disappeared
-class BillingCoroutineScope @Inject constructor(dispatcher: CoroutineDispatcher) : DifferedCoroutineScope(dispatcher)
+class BillingCoroutineScope @Inject constructor(dispatcher: CoroutineDispatcher) :
+    DifferedCoroutineScope(dispatcher)

@@ -36,7 +36,7 @@ class RangeSettingsBarInteractorFlowTest {
     @Test
     fun `on RangeSet input update rangeUpdate UC executed`() = runTest {
         val event = RangeBarContract.Input.RangeSet(MockPlayerProgressFactory.giveRange())
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(event))
+        tested.processIO(flowOf(event))
             .test { cancelAndIgnoreRemainingEvents() }
 
         coVerify { updatePlayerRangeUC.execute(event.range) }
@@ -46,7 +46,7 @@ class RangeSettingsBarInteractorFlowTest {
     @Test
     fun `on Enable input update rangeEnable UC executed`() = runTest {
         val event = RangeBarContract.Input.Enable
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf(event))
+        tested.processIO(flowOf(event))
             .test { cancelAndIgnoreRemainingEvents() }
 
         coVerify(exactly = 0) { updatePlayerRangeUC.execute(any()) }
@@ -57,7 +57,7 @@ class RangeSettingsBarInteractorFlowTest {
     fun `listen range state mapper`() = runTest {
         val event = mockk<RangeBarContract.BarContent>()
         coEvery { rangeStateMapper.flow() } returns flowOf(event)
-        tested.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
+        tested.processIO(flowOf()).test {
             val item = awaitItem() as? RangeBarContract.Output.BarContentUpdate
             assertEquals(event, item?.barContent)
             cancelAndIgnoreRemainingEvents()

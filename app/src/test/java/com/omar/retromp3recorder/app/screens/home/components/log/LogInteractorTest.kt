@@ -28,7 +28,7 @@ class LogInteractorTest {
     @Test
     fun `listen log mapper error events SENDS error output`() = runTest {
         every { mapper.flow() } returns flowOf(LogEvent.Error(mockk()))
-        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
+        tested.processIO( ).test {
             val item = awaitItem()
             awaitComplete()
             assert(item is LogView.Output.ErrorLogOutput)
@@ -38,7 +38,7 @@ class LogInteractorTest {
     @Test
     fun `listen log mapper message events SENDS message output`() = runTest {
         every { mapper.flow() } returns flowOf(LogEvent.Message(mockk()))
-        tested.processIO(DifferedCoroutineScope(dispatcher)).test {
+        tested.processIO( ).test {
             val item = awaitItem()
             awaitComplete()
             assert(item is LogView.Output.MessageLogOutput)

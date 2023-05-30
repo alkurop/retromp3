@@ -40,7 +40,7 @@ class SettingsFlowInteractorTest {
                 FeatureFlag.LogView,
                 FeatureFlagSetting(true)
             )
-        interactor.processIO(DifferedCoroutineScope(dispatcher),  flowOf(event)).test {
+        interactor.processIO( flowOf(event)).test {
             expectNoEvents()
         }
 
@@ -55,7 +55,7 @@ class SettingsFlowInteractorTest {
                 FeatureFlagSetting(true)
             )
         repo.emit(FeatureFlagsCollection(mapOf(event.flag to event.setting)))
-        interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
+        interactor.processIO(flowOf()).test {
             val item = awaitItem() as SettingsContract.Output.FlagsCollectionUpdate
             assertEquals(
                 event.setting,

@@ -34,7 +34,7 @@ class SampleRateInteractorTest {
     fun `on input usecase executed`() = runTest {
         val event = Mp3VoiceRecorder.SampleRate._44100
 
-        interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf(event)).test {
+        interactor.processIO(flowOf(event)).test {
             cancelAndConsumeRemainingEvents()
         }
 
@@ -55,7 +55,7 @@ class SampleRateInteractorTest {
             settings
         )
 
-        interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
+        interactor.processIO(flowOf()).test {
             val item = awaitItem()
             assertEquals(event, item)
         }

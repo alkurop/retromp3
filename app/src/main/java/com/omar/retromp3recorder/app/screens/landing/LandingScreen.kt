@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.retromp3recorder.app.RetroProgressIndicator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun LandingScreen(
@@ -25,7 +27,7 @@ fun LandingScreen(
     }
 
     LaunchedEffect("") {
-        viewModel.load()
+            viewModel.load()
         onLoaded()
     }
 }

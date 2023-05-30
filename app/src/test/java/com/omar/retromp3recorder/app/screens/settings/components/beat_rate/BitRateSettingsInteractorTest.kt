@@ -34,7 +34,7 @@ class BitRateSettingsInteractorTest {
     fun `on input usecase executed`() = runTest {
         val event = Mp3VoiceRecorder.BitRate._160
 
-        interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf(event)).test {
+        interactor.processIO(flowOf(event)).test {
             cancelAndIgnoreRemainingEvents()
         }
 
@@ -55,7 +55,7 @@ class BitRateSettingsInteractorTest {
             settings
         )
 
-        interactor.processIO(DifferedCoroutineScope(dispatcher), flowOf()).test {
+        interactor.processIO(flowOf()).test {
             val item = awaitItem()
             assertEquals(event, item)
         }

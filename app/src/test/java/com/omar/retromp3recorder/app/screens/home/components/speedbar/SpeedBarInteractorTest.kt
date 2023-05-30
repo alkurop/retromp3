@@ -5,7 +5,6 @@ import com.omar.retromp3recorder.bl.audio.effects.PlaybackSpeedEnabledUC
 import com.omar.retromp3recorder.bl.audio.effects.PlaybackSpeedSetUC
 import com.omar.retromp3recorder.domain.PlayerControls
 import com.omar.retromp3recorder.storage.repo.local.PlayerControlsRepo
-import com.omar.retromp3recorder.utils.domain.DifferedCoroutineScope
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
@@ -44,7 +43,7 @@ class SpeedBarInteractorTest {
 
         every { speedBarVisibilityMapper.flow() } returns flowOf(true)
 
-        tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()), emptyFlow()).test {
+        tested.processIO(emptyFlow()).test {
             skipItems(1)
             val item = awaitItem()
             assertEquals(value, item)
@@ -58,7 +57,7 @@ class SpeedBarInteractorTest {
         playerControlsRepo.emit(PlayerControls(speedSettings = speedSettings))
 
         every { speedBarVisibilityMapper.flow() } returns flowOf(true)
-        tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()), emptyFlow()).test {
+        tested.processIO(emptyFlow()).test {
             val item = awaitItem()
             assertEquals(value, item)
             cancelAndConsumeRemainingEvents()
@@ -69,7 +68,7 @@ class SpeedBarInteractorTest {
     fun `on SpeedSet input set speed executed`() = runTest {
         every { speedBarVisibilityMapper.flow() } returns emptyFlow()
         val value = SpeedBarContract.Input.SpeedSet(2f)
-        tested.processIO(DifferedCoroutineScope(UnconfinedTestDispatcher()), flowOf(value)).test {
+        tested.processIO(flowOf(value)).test {
             cancelAndIgnoreRemainingEvents()
         }
 
@@ -81,7 +80,6 @@ class SpeedBarInteractorTest {
     fun `on SpeedEnable input enable speed executed`() = runTest {
         every { speedBarVisibilityMapper.flow() } returns emptyFlow()
         tested.processIO(
-            DifferedCoroutineScope(UnconfinedTestDispatcher()),
             flowOf(SpeedBarContract.Input.Enable)
         ).test {
             cancelAndIgnoreRemainingEvents()
