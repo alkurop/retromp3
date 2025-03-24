@@ -6,7 +6,6 @@ import org.junit.Test
 
 class AvailableLanguageListUCTest {
     @Ignore
-    @Test
     fun stub() = fail()
 
 }

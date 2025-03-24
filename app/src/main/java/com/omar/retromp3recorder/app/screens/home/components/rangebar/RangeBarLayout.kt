@@ -24,6 +24,7 @@ fun RangeBarLayout(
     val state by viewModel.state.collectAsState()
     val visibilityState = rememberVisibilityState()
     visibilityState.isVisible = state.isVisible
+
     Component(modifier, visibilityState) {
         val barContent = state.barContent
         if (barContent != null) {

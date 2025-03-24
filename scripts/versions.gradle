@@ -51,9 +51,9 @@ ext {
             picasso                : '2.8',
 
             // audio editing and playback
-            amplituda              : '2.2.1',
+            amplituda              : '2.3.0',
             exo                    : '2.14.0',
-            ffmpegKit              : '4.4.LTS',
+            ffmpegKit              : '4.4',
             mp3magic               : '0.9.1',
 
             // database

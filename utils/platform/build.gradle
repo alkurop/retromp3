@@ -15,7 +15,7 @@ dependencies {
     implementation project(':utils:data')
 
     api "com.jakewharton.timber:timber:$versions.timber"
-    api "com.github.lincollincol:amplituda:$versions.amplituda"
+    implementation "com.github.lincollincol:amplituda:$versions.amplituda"
 
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     implementation "com.mpatric:mp3agic:$versions.mp3magic"

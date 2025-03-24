@@ -14,5 +14,5 @@ dependencies {
     implementation project(':utils')
     implementation "com.github.alkurop:stringerbell:$versions.stringerbell"
     implementation "com.google.dagger:hilt-android:$versions.hilt"
-    implementation "com.arthenica:mobile-ffmpeg-min:$versions.ffmpegKit"
+    implementation 'com.arthenica:ffmpeg-kit-min:6.0-2.LTS'
 }

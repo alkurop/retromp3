@@ -1,6 +1,9 @@
 package com.omar.retromp3recorder.utils.platform
 
 import android.content.Context
+import com.linc.amplituda.Amplituda
+import com.linc.amplituda.AmplitudaResult
+import com.linc.amplituda.Compress
 import com.omar.retromp3recorder.domain.Wavetable
 import com.omar.retromp3recorder.utils.domain.Optional
 import com.omar.retromp3recorder.utils.domain.toOptional
@@ -9,9 +12,6 @@ import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.first
-import linc.com.amplituda.Amplituda
-import linc.com.amplituda.AmplitudaResult
-import linc.com.amplituda.Compress
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -51,7 +51,7 @@ class AmplitudaWaveformScanner @Inject constructor(
     private fun Amplituda.flow(path: String, takesPerSecond: Int) =
         callbackFlow<Optional<AmplitudaResult<String>>> {
             processAudio(
-                path, Compress.withParams(Compress.PEEK, takesPerSecond)
+                path, Compress.withParams(3, takesPerSecond)
             ).get({ success ->
                 trySendBlocking(success.toOptional()).onFailure { throwable ->
                     Timber.e(throwable)
